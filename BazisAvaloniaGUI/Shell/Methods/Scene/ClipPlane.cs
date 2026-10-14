@@ -167,10 +167,17 @@ namespace BazisAvaloniaGUI.Shell
                     .Select(vbo => vbo != null && vbo.ViewState && vbo.ActiveDrawingObject is Advanced3DClipper ? vbo : null)
                     .ToArray();
 
-                CreateCaptureData(vbos, dataBuffers, tboBuffers, queries);
-                RunTransformFeedback(vbos, tboBuffers, queries);
-                var indices = FetchData(vbos, dataBuffers, queries);
-                RemoveCaptureData(dataBuffers, tboBuffers, queries);
+                List<List<int>> indices;
+                try
+                {
+                    CreateCaptureData(vbos, dataBuffers, tboBuffers, queries);
+                    RunTransformFeedback(vbos, tboBuffers, queries);
+                    indices = FetchData(vbos, dataBuffers, queries);
+                }
+                finally
+                {
+                    RemoveCaptureData(dataBuffers, tboBuffers, queries);
+                }
 
                 // Изменение видимости поднимает ModelView.Changed — применяем его вне кадра отрисовки.
                 Dispatcher.UIThread.Post(() => CreateCaptureElements(sets, indices));
@@ -182,14 +189,14 @@ namespace BazisAvaloniaGUI.Shell
             foreach (var vbo in vbos.Where(vbo => vbo != null))
             {
                 var data = GL.GenBuffer();
+                dataBuffers.Add(data);
                 var dataSize = vbo.CoordLength / 3;
                 GL.BindBuffer(BufferTarget.ArrayBuffer, data);
                 GL.BufferData(BufferTarget.ArrayBuffer, dataSize * sizeof(int), nint.Zero, BufferUsageHint.DynamicCopy);
-                dataBuffers.Add(data);
                 var tbo = GL.GenTransformFeedback();
+                tboBuffers.Add(tbo);
                 GL.BindTransformFeedback(TransformFeedbackTarget.TransformFeedback, tbo);
                 GL.BindBufferBase(BufferRangeTarget.TransformFeedbackBuffer, 0, data);
-                tboBuffers.Add(tbo);
                 queries.Add(GL.GenQuery());
             }
         }
@@ -197,21 +204,33 @@ namespace BazisAvaloniaGUI.Shell
         private static void RunTransformFeedback(VBObject[] vbos, List<int> tboBuffers, List<int> queries)
         {
             GL.Enable(EnableCap.RasterizerDiscard);
-            var index = 0;
-            foreach (var vbo in vbos.Where(vbo => vbo != null))
+            try
             {
-                var last = vbo.ViewMode;
-                vbo.ViewMode = ObjView.Surface;
-                var pObj = (Advanced3DClipper)vbo.ActiveDrawingObject;
-                pObj.QueryId = queries[index];
-                pObj.TBOId = tboBuffers[index];
-                vbo.Load();
-                vbo.ViewMode = last;
-                pObj.QueryId = 0;
-                pObj.TBOId = 0;
-                ++index;
+                var index = 0;
+                foreach (var vbo in vbos.Where(vbo => vbo != null))
+                {
+                    var last = vbo.ViewMode;
+                    var pObj = (Advanced3DClipper)vbo.ActiveDrawingObject;
+                    try
+                    {
+                        vbo.ViewMode = ObjView.Surface;
+                        pObj.QueryId = queries[index];
+                        pObj.TBOId = tboBuffers[index];
+                        vbo.Load();
+                    }
+                    finally
+                    {
+                        vbo.ViewMode = last;
+                        pObj.QueryId = 0;
+                        pObj.TBOId = 0;
+                    }
+                    ++index;
+                }
             }
-            GL.Disable(EnableCap.RasterizerDiscard);
+            finally
+            {
+                GL.Disable(EnableCap.RasterizerDiscard);
+            }
         }
 
         /// <summary>Индексы элементов каждого набора, попавших в сечение (null — набор не участвовал в захвате).</summary>
@@ -262,12 +281,14 @@ namespace BazisAvaloniaGUI.Shell
 
         private static void RemoveCaptureData(List<int> dataBuffers, List<int> tboBuffers, List<int> queries)
         {
-            for (var i = 0; i < dataBuffers.Count; ++i)
-            {
-                GL.DeleteQuery(queries[i]);
-                GL.DeleteTransformFeedback(tboBuffers[i]);
-                GL.DeleteBuffer(dataBuffers[i]);
-            }
+            GL.BindTransformFeedback(TransformFeedbackTarget.TransformFeedback, 0);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            foreach (var query in queries)
+                GL.DeleteQuery(query);
+            foreach (var tbo in tboBuffers)
+                GL.DeleteTransformFeedback(tbo);
+            foreach (var data in dataBuffers)
+                GL.DeleteBuffer(data);
         }
 
         /// <summary>

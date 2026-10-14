@@ -16,7 +16,7 @@ namespace BazisAvaloniaGUI.Player
     /// Avalonia-аналог PlayerControl: пошаговый просмотр условий задачи или кадров результатов во времени.
     /// Кнопка запуска/паузы, кнопка остановки и ползунок текущего шага.
     /// </summary>
-    internal sealed class PlayerControl : UserControl
+    internal sealed class PlayerControl : UserControl, IDisposable
     {
         private readonly DispatcherTimer timer = new();
         private readonly Button btnCheckDinamic;
@@ -24,6 +24,10 @@ namespace BazisAvaloniaGUI.Player
         private readonly Slider colorSlider;
         private readonly TextBlock valueText;
         private readonly Image checkImage;
+        private readonly Bitmap startIcon = LoadIcon("StartCheck");
+        private readonly Bitmap pauseIcon = LoadIcon("Pause");
+        private readonly Bitmap stopIcon = LoadIcon("Stop");
+        private bool disposed;
         private int stopValue = 100;
 
         public bool Cancelation { get; set; } = false;
@@ -66,14 +70,14 @@ namespace BazisAvaloniaGUI.Player
 
         public PlayerControl()
         {
-            checkImage = new Image { Width = 20, Height = 20, Source = LoadIcon("StartCheck") };
+            checkImage = new Image { Width = 20, Height = 20, Source = startIcon };
             btnCheckDinamic = new Button { Name = "btnCheckDinamic", Content = checkImage, Width = 31, Height = 31, Padding = new Thickness(2) };
             btnCheckDinamic.Click += (_, _) => StartChecking_Click();
 
             btnStopCheck = new Button
             {
                 Name = "btnStopCheck",
-                Content = new Image { Width = 20, Height = 20, Source = LoadIcon("Stop") },
+                Content = new Image { Width = 20, Height = 20, Source = stopIcon },
                 Width = 31,
                 Height = 31,
                 Padding = new Thickness(2)
@@ -146,6 +150,7 @@ namespace BazisAvaloniaGUI.Player
 
         private void StartChecking_Click()
         {
+            ObjectDisposedException.ThrowIf(disposed, this);
             if (CheckState == CheckState.pause)
             {
                 CheckState = CheckState.continuation;
@@ -202,6 +207,32 @@ namespace BazisAvaloniaGUI.Player
         }
 
         private void SetCheckButtonState() =>
-            checkImage.Source = LoadIcon(CheckState == CheckState.pause ? "Pause" : "StartCheck");
+            checkImage.Source = CheckState == CheckState.pause ? pauseIcon : startIcon;
+
+        protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+        {
+            timer.Stop();
+            if (!disposed && CheckState == CheckState.pause)
+            {
+                CheckState = CheckState.continuation;
+                SetCheckButtonState();
+            }
+            base.OnDetachedFromVisualTree(e);
+        }
+
+        public void Dispose()
+        {
+            if (disposed)
+                return;
+
+            disposed = true;
+            timer.Stop();
+            timer.Tick -= Timer_Tick;
+            checkImage.Source = null;
+            ((Image)btnStopCheck.Content).Source = null;
+            startIcon.Dispose();
+            pauseIcon.Dispose();
+            stopIcon.Dispose();
+        }
     }
 }

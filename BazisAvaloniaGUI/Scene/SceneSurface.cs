@@ -115,6 +115,23 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
         AddHandler(ContextRequestedEvent, OnContextRequested, RoutingStrategies.Tunnel);
     }
 
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnAttachedToVisualTree(e);
+        if (project != null)
+        {
+            project.Message -= OnProjectMessage;
+            project.Message += OnProjectMessage;
+        }
+    }
+
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        if (project != null)
+            project.Message -= OnProjectMessage;
+        base.OnDetachedFromVisualTree(e);
+    }
+
     /// <summary>Отображение базиса (три оси + сфера в начале координат).</summary>
     public bool DisplayBasis
     {
@@ -506,7 +523,8 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
         if (this.project != null)
             this.project.Message -= OnProjectMessage;
         this.project = project;
-        project.Message += OnProjectMessage;
+        if (VisualRoot != null)
+            project.Message += OnProjectMessage;
         Invoke(scene => presenter.Display(project, scene, fitToScreen: true));
         ProjectShown?.Invoke(project);
     }

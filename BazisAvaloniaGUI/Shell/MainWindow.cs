@@ -111,6 +111,8 @@ namespace BazisAvaloniaGUI.Shell
 
             TabButtonsService = new TabButtonControlService(splitContainer3Panel1);
             TabButtonsService.AddControl(Resources.BaseForm_BaseForm_Load_Navigator, cntrНавигатор);
+            OnProjectLoaded += RefreshDataBasePages;
+            Closed += (_, _) => checkPlayerControl.Dispose();
 
             Opened += (arg1, arg2) => HandleArgs(args);
         }

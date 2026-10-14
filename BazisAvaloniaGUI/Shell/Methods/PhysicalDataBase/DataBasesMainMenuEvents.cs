@@ -54,13 +54,6 @@ namespace BazisAvaloniaGUI.Shell
                     OnChangeMaterials?.Invoke(this, new ChangeMaterialsEventArgs(project.MaterialsDB.Keys.ToArray()));
                 };
 
-                OnProjectLoaded += () =>
-                {
-                    matBasePage.Materials = project.MaterialsDB ?? new MaterialDB.MaterialData.MaterialDBData() { Name = "newMatDataBase.jsf" };
-                    matBasePage.PresentMaterials();
-                    OnChangeMaterials?.Invoke(this, new ChangeMaterialsEventArgs(project?.MaterialsDB?.Keys?.ToArray() ?? Array.Empty<string>()));
-                };
-
                 // Проект может существовать без базы материалов. Например если старт с геометрии.
                 if (project.MaterialsDB == null)
                     console.PrintInfo(Resources.DataBaseMainMenuEvents_OpenMatDB_DBNotLoaded_Message, Color.Red);
@@ -113,13 +106,6 @@ namespace BazisAvaloniaGUI.Shell
                     OnChangeFunctions?.Invoke(this, new ChangeFunctionsEventArgs(project.FunctionsDB.Keys.ToArray()));
                 };
 
-                OnProjectLoaded += () =>
-                {
-                    funBasePage.Functions = project.FunctionsDB ?? new MaterialDB.FunctionData.FunctionDBData() { Name = "newFuncDataBase.jsf" };
-                    funBasePage.PresentFunctions();
-                    OnChangeFunctions?.Invoke(this, new ChangeFunctionsEventArgs(funBasePage.Functions.Keys.ToArray()));
-                };
-
                 // Проект может существовать без базы материалов. Например если старт с геометрии.
                 if (project.FunctionsDB == null)
                     console.PrintInfo(Resources.DataBaseMainMenuEvents_OpenMatDB_DBNotLoaded_Message, Color.Red);
@@ -134,6 +120,25 @@ namespace BazisAvaloniaGUI.Shell
             catch (Exception ex)
             {
                 console.PrintInfo(ex.Message, Color.Red);
+            }
+        }
+
+        private void RefreshDataBasePages()
+        {
+            foreach (var name in TabButtonsService.GetNames().ToArray())
+            {
+                if (TabButtonsService.GetControl(name) is MaterialsDataBasePage materialsPage)
+                {
+                    materialsPage.Materials = project.MaterialsDB ?? new MaterialDB.MaterialData.MaterialDBData() { Name = "newMatDataBase.jsf" };
+                    materialsPage.PresentMaterials();
+                    OnChangeMaterials?.Invoke(this, new ChangeMaterialsEventArgs(project.MaterialsDB?.Keys?.ToArray() ?? Array.Empty<string>()));
+                }
+                else if (TabButtonsService.GetControl(name) is FunctionDataBasePage functionsPage)
+                {
+                    functionsPage.Functions = project.FunctionsDB ?? new MaterialDB.FunctionData.FunctionDBData() { Name = "newFuncDataBase.jsf" };
+                    functionsPage.PresentFunctions();
+                    OnChangeFunctions?.Invoke(this, new ChangeFunctionsEventArgs(functionsPage.Functions.Keys.ToArray()));
+                }
             }
         }
 
