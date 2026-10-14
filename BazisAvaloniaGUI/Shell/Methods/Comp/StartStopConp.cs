@@ -95,9 +95,8 @@ namespace BazisAvaloniaGUI.Shell
 
                 var cmdFile = Path.Combine(WorkingDir, "ComputationData", "computation.tcf");
 
-                var argStr = string.Join(" ", new string[] { cmdFile });
-
-                myProcess.StartInfo.Arguments = argStr;
+                myProcess.StartInfo.ArgumentList.Add(cmdFile);
+                myProcess.StartInfo.WorkingDirectory = WorkingDir;
                 myProcess.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
                 myProcess.Start();
             }
@@ -114,6 +113,12 @@ namespace BazisAvaloniaGUI.Shell
 
             if (runProc.Length != 0)
             {
+                if (!OperatingSystem.IsWindows())
+                {
+                    runProc[0].Kill();
+                    return;
+                }
+
                 var process = new Process();
                 var startInfo = new ProcessStartInfo
                 {

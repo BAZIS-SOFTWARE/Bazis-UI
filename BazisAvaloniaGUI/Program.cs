@@ -41,7 +41,7 @@ internal class Program
         else if (OperatingSystem.IsLinux())
             builder = builder.With(new X11PlatformOptions
             {
-                RenderingMode = [X11RenderingMode.Glx],
+                RenderingMode = [X11RenderingMode.Glx, X11RenderingMode.Egl],
                 GlProfiles = profiles
             });
 
