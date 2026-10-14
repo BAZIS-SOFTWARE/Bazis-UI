@@ -22,5 +22,3 @@
 - `PrintInfo` из фонового потока передаётся в `Dispatcher.UIThread`;
 - путь журнала собирается через `Path.Combine` (сборка также под Linux), ссылка на журнал
   открывается через `Launcher`.
-
-Проверка: `dotnet test BazisAvaloniaGUI.Tests/BazisAvaloniaGUI.Tests.csproj -p:UsedAvaloniaProducts=`.
