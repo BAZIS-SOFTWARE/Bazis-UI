@@ -182,7 +182,7 @@ namespace BazisAvaloniaGUI.Shell
                         await OpenProject(cmds[1]);
                         break;
                     case GenCmd.SaveProject:
-                        project.Save(cmds[1]);
+                        SaveProjectToFile(cmds[1]);
                         break;
                     case GenCmd.CreateGraph:
                         break;

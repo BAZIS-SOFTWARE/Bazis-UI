@@ -169,8 +169,10 @@ internal partial class SceneView : UserControl
     /// <summary>«Вписать в экран»: масштаб и центр камеры по габаритам модели.</summary>
     private void OnFitToScreenClick(object? sender, RoutedEventArgs e) => Surface.FitToScreen();
 
-    /// <summary>«Снимок экрана»: кадр сохраняется в PNG рядом с приложением.</summary>
-    private void OnMakeScreenShotClick(object? sender, RoutedEventArgs e) => Surface.RequestScreenShot();
+    /// <summary>«Снимок экрана»: оболочка выбирает путь сохранения PNG.</summary>
+    public event Action? ScreenShotRequested;
+
+    private void OnMakeScreenShotClick(object? sender, RoutedEventArgs e) => ScreenShotRequested?.Invoke();
 
     /// <summary>«Внутренние объекты»: показать/скрыть внутренние поверхности модели.</summary>
     private void OnShowInsideObjectsClick(object? sender, RoutedEventArgs e) =>

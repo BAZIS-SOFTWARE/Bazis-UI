@@ -44,7 +44,7 @@ namespace BazisAvaloniaGUI.Shell
         {
             get
             {
-                return Path.GetDirectoryName(lblStatus.Text);
+                return Path.GetDirectoryName(projectFilePath ?? lblStatus.Text);
             }
         }
 
@@ -65,6 +65,7 @@ namespace BazisAvaloniaGUI.Shell
         // точки подключения сцены — Shell/Methods/Scene/SceneConnection.cs.
 
         ProjectController project;
+        private string projectFilePath;
         IODataController dataController;
         PreProc.PreProc preProc = new();
         IPresentersCreator presentersCreator = new PresentersCreator();
@@ -256,7 +257,8 @@ namespace BazisAvaloniaGUI.Shell
                 project = new ProjectController();
                 project.CreateProject("newProject.bpf2");
 
-                lblStatus.Text = Path.Combine(folderName, project.Name);
+                projectFilePath = Path.GetFullPath(Path.Combine(folderName, project.Name));
+                lblStatus.Text = projectFilePath;
 
                 var appDirName = AppContext.BaseDirectory;
 
@@ -306,11 +308,13 @@ namespace BazisAvaloniaGUI.Shell
         {
             try
             {
-                var ext = Path.GetExtension(filePath).ToLower();
+                filePath = Path.GetFullPath(filePath);
+                var ext = Path.GetExtension(filePath).ToLowerInvariant();
 
-                if (projFilter.Contains(ext))
+                if (IsProjectFile(filePath))
                 {
                     project = await dataController.OpenProject(filePath);
+                    projectFilePath = filePath;
                 }
 
                 else if (geomFilter.Contains(ext))
@@ -333,9 +337,10 @@ namespace BazisAvaloniaGUI.Shell
                 else
                 {
                     project = await dataController.ImportMesh(filePath);
+                    projectFilePath = null;
                 }
 
-                lblStatus.Text = filePath;
+                lblStatus.Text = projectFilePath ?? filePath;
 
                 ClearAllDataOnScene();
                 PresentProject();
@@ -397,53 +402,95 @@ namespace BazisAvaloniaGUI.Shell
 
         private async void сохранитькакToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var saveDialog = await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+            try
             {
-                DefaultExtension = "bpf2",
-                FileTypeChoices = FileTypes("(*.bpf2)|*.bpf2|(*.bpf)|*.bpf")
-            });
-
-            if (saveDialog == null)
-                return;
-
-            var fileName = saveDialog.TryGetLocalPath();
-
-            if (project == null)
-                await MessageBox.Show(this, Resources.SaveWithoutProjectMessage);
-            else
+                if (await SaveProjectAsync(saveAs: true))
+                    console.PrintInfo(Resources.ProjectSavedCaption, Color.Black);
+            }
+            catch (Exception ex)
             {
-                var newFolder = Path.GetDirectoryName(fileName);
-                var oldFolder = Path.GetDirectoryName(lblStatus.Text);
-
-                project.ChangeProjectName(Path.GetFileName(fileName));
-
-                if (oldFolder != newFolder)
-                {
-                    if (project.MaterialsDB != null)
-                        IOFileController.CopyFile(project.MaterialsDB.Name, oldFolder, newFolder);
-                    if (project.FunctionsDB != null)
-                        IOFileController.CopyFile(project.FunctionsDB.Name, oldFolder, newFolder);
-                }
-
-                project.Save(fileName);
-
-                console.PrintInfo(Resources.ProjectSavedCaption, Color.Black);
-                lblStatus.Text = fileName;
+                console.PrintInfo(ex.Message, Color.Red);
             }
         }
 
-        private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                project?.Save(lblStatus.Text);
-                console.PrintInfo(Resources.ProjectSavedCaption, Color.Black);
+                if (await SaveProjectAsync())
+                    console.PrintInfo(Resources.ProjectSavedCaption, Color.Black);
             }
             catch (Exception ex)
             {
                 console.PrintInfo(ex.Message, Color.Red);
             }
 
+        }
+
+        private static bool IsProjectFile(string filePath)
+        {
+            var extension = Path.GetExtension(filePath);
+            return string.Equals(extension, ".bpf", StringComparison.OrdinalIgnoreCase)
+                || string.Equals(extension, ".bpf2", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private async Task<bool> SaveProjectAsync(bool saveAs = false)
+        {
+            if (project == null)
+                return false;
+
+            var fileName = projectFilePath;
+            if (saveAs || string.IsNullOrEmpty(fileName))
+            {
+                var saveDialog = await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+                {
+                    DefaultExtension = "bpf2",
+                    FileTypeChoices = FileTypes("(*.bpf2)|*.bpf2|(*.bpf)|*.bpf")
+                });
+                if (saveDialog == null)
+                    return false;
+
+                fileName = saveDialog.TryGetLocalPath();
+                if (string.IsNullOrWhiteSpace(fileName))
+                    return false;
+                if (!IsProjectFile(fileName))
+                    fileName += ".bpf2";
+            }
+
+            SaveProjectToFile(fileName);
+            return true;
+        }
+
+        private void SaveProjectToFile(string fileName)
+        {
+            if (!IsProjectFile(fileName))
+                throw new ArgumentException("Project file extension must be .bpf or .bpf2.", nameof(fileName));
+
+            fileName = Path.GetFullPath(fileName);
+            var newFolder = Path.GetDirectoryName(fileName);
+            var oldFolder = WorkingDir;
+            var comparison = OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+            var oldName = project.Name;
+            try
+            {
+                project.ChangeProjectName(Path.GetFileName(fileName));
+                if (!string.IsNullOrEmpty(oldFolder) && !string.Equals(oldFolder, newFolder, comparison))
+                {
+                    if (project.MaterialsDB != null)
+                        IOFileController.CopyFile(project.MaterialsDB.Name, oldFolder, newFolder);
+                    if (project.FunctionsDB != null)
+                        IOFileController.CopyFile(project.FunctionsDB.Name, oldFolder, newFolder);
+                }
+                project.Save(fileName);
+            }
+            catch
+            {
+                project.ChangeProjectName(oldName);
+                throw;
+            }
+
+            projectFilePath = fileName;
+            lblStatus.Text = fileName;
         }
 
         private void PresentProject()

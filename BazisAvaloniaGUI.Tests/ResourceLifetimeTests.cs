@@ -12,7 +12,7 @@ namespace BazisAvaloniaGUI.Tests;
 [TestFixture]
 [SingleThreaded]
 [Apartment(ApartmentState.STA)]
-public class ResourceLifetimeTests
+public partial class ResourceLifetimeTests
 {
     private const BindingFlags InstanceMembers = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
     private readonly Assembly gui = typeof(TabButtonControlService).Assembly;
@@ -31,7 +31,11 @@ public class ResourceLifetimeTests
     public void RemovedDatabasePages_CanBeCollectedWhileMainWindowLives(string openMethod)
     {
         var window = (Window)Create("Shell.MainWindow");
-        GetField(window, "project").SetValue(window, new ProjectController());
+        GetField(window, "project").SetValue(window, new ProjectController
+        {
+            MaterialsDB = new MaterialDB.MaterialData.MaterialDBData(),
+            FunctionsDB = new MaterialDB.FunctionData.FunctionDBData()
+        });
         try
         {
             var pages = Enumerable.Range(0, 3).Select(_ => OpenAndRemovePage(window, openMethod)).ToArray();
@@ -69,7 +73,11 @@ public class ResourceLifetimeTests
         var databaseProperty = project.GetType().GetProperty(projectProperty);
         var database = Activator.CreateInstance(databaseProperty.PropertyType);
         databaseProperty.SetValue(project, database);
-        GetField(window, "project").SetValue(window, new ProjectController());
+        GetField(window, "project").SetValue(window, new ProjectController
+        {
+            MaterialsDB = new MaterialDB.MaterialData.MaterialDBData(),
+            FunctionsDB = new MaterialDB.FunctionData.FunctionDBData()
+        });
         try
         {
             Call(window, openMethod, "Database");

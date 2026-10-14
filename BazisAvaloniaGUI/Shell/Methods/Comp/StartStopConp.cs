@@ -15,11 +15,12 @@ namespace BazisAvaloniaGUI.Shell
 {
     internal partial class MainWindow
     {
-        private void запуститьToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void запуститьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                project.Save(lblStatus.Text);
+                if (!await SaveProjectAsync())
+                    return;
                 console.PrintInfo($"{Resources.StartStopConp_SaveProjectInto_Message} {WorkingDir}", Color.Black);
 
                 CheckProjectDataBeforeCreationTCF();
@@ -32,7 +33,7 @@ namespace BazisAvaloniaGUI.Shell
                 var result = new List<string>
             {
                 $@"\\загрузка сетки и данных",
-                $@"загрузить проект {lblStatus.Text}",
+                $@"загрузить проект {projectFilePath}",
                 /*
                 $@"\\загрузка материалов",
                 $@"загрузить материалы {project.Path}\{project.MaterialsDB}",
@@ -67,7 +68,7 @@ namespace BazisAvaloniaGUI.Shell
         {
             try
             {
-                if (!File.Exists($@"{lblStatus.Text}"))
+                if (!File.Exists(projectFilePath))
                     throw new Exception($"{Resources.StartStopConp_ProjectDirectoryCheck_Message_Part1}: {WorkingDir} {Resources.StartStopConp_ProjectDataCheck_LackOfProjFile_Message}: {project.Name}.");
 
                 var mat = Path.Combine(WorkingDir, project.MaterialsDB.Name);

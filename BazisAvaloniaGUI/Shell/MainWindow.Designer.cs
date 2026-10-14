@@ -406,6 +406,7 @@ namespace BazisAvaloniaGUI.Shell
             // Esc на сцене: в BaseForm.GlControl_KeyDown также закрывается окно дополнительного выбора.
             scene.Surface.SelectionReset += CloseAdvancedSelectionForm;
             scene.AdvancedSelectionRequested += scene_AdvancedSelectionRequested;
+            scene.ScreenShotRequested += btnMakeScreenShot_Click;
 
             Opened += BaseForm_Load;
             Closing += OnClosingForm;

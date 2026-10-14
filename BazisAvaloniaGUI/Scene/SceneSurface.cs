@@ -59,7 +59,7 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
     private const double RightButtonDragThreshold = 4;
 
     /// <summary>Снимок экрана делается сразу после ближайшей отрисовки — из обработчика кнопки буфер ещё пуст.</summary>
-    private bool captureRequested;
+    private string? screenShotPath;
     /// <summary>
     /// Запрошена смена точки поворота
     /// </summary>
@@ -260,9 +260,9 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
         Invoke(scene => presenter.SetAttribute(scene, objsPresenter, attribName));
 
     /// <summary>Просит снять текущий кадр в PNG: снимок делается сразу после ближайшей отрисовки.</summary>
-    public void RequestScreenShot()
+    public void RequestScreenShot(string path)
     {
-        captureRequested = true;
+        screenShotPath = Path.GetFullPath(path);
         Redraw();
     }
 
@@ -654,10 +654,10 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
 
         controller.DisplayObjects(fb);
 
-        if (captureRequested)
+        if (screenShotPath is { } path)
         {
-            captureRequested = false;
-            CaptureScreenShot();
+            screenShotPath = null;
+            CaptureScreenShot(path);
         }
 
         while (frameCaptures.TryDequeue(out var capture))
@@ -673,8 +673,8 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
         }
     }
 
-    /// <summary>Читает готовый кадр и сохраняет его в PNG рядом с приложением.</summary>
-    private void CaptureScreenShot()
+    /// <summary>Читает готовый кадр и сохраняет его в PNG по выбранному оболочкой пути.</summary>
+    private void CaptureScreenShot(string path)
     {
         if (controller == null)
             return;
@@ -682,7 +682,6 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
         try
         {
             var png = controller.CaptureScreenshot(new GlFrameGrabber());
-            var path = Path.Combine(AppContext.BaseDirectory, "screenShot.png");
             File.WriteAllBytes(path, png);
             Dispatcher.UIThread.Post(() => MessageReported?.Invoke($"{Localization.Resources.MakeScreenShot_ScreenShotTaken_Message}: {path}", DrawingColor.Black));
         }
