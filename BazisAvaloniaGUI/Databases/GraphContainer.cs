@@ -162,6 +162,10 @@ internal sealed class GraphContainer : UserControl
     public void CreateGraphData(string header, List<GraphData> data, AxisFormat xFormat, AxisFormat yFormat)
     {
         Header = header; CurrentData = data; xAxis = xFormat; yAxis = yFormat;
+        // Новые серии создаются с IsTitleShown = true: без этого после отключения названий кнопка
+        // оставалась отжатой, а названия новых графиков рисовались
+        var titlesShown = btnTitle.Classes.Contains("graph-checked");
+        foreach (var series in data) series.IsTitleShown = titlesShown;
         Set_Max_Min_X_Y(); Set_X_Y_Value(); graphControl.InvalidateVisual();
         var menu = new ContextMenu();
         foreach (var series in data)
@@ -201,7 +205,13 @@ internal sealed class GraphContainer : UserControl
     }
     private void Graph_MouseWheel(object sender, PointerWheelEventArgs e)
     {
-        var factor = e.Delta.Y > 0 ? 0.9f : 1.1f; X_max *= factor; Y_max *= factor;
+        // Масштабируем диапазон относительно его центра: умножение только максимумов при ненулевом
+        // минимуме (X = 100..110) делало max < min, и график переворачивался
+        var factor = e.Delta.Y > 0 ? 0.9f : 1.1f;
+        var xCenter = (X_max + X_min) / 2; var xHalf = (X_max - X_min) / 2 * factor;
+        var yCenter = (Y_max + Y_min) / 2; var yHalf = (Y_max - Y_min) / 2 * factor;
+        X_min = xCenter - xHalf; X_max = xCenter + xHalf;
+        Y_min = yCenter - yHalf; Y_max = yCenter + yHalf;
         Set_X_Y_Value(); graphControl.InvalidateVisual(); e.Handled = true;
     }
     private async void btnValueToTable_Click(object sender, RoutedEventArgs e)
@@ -249,8 +259,9 @@ internal sealed class GraphContainer : UserControl
                     context.DrawLine(pen, new Point(plot.Left, yPixel), new Point(plot.Right, yPixel));
                     context.DrawLine(pen, new Point(xPixel, plot.Top), new Point(xPixel, plot.Bottom));
                 }
-                Label((owner.xAxis.StepFormat == StepFormat.logarithmic ? Math.Pow(10, x) : x).ToString("#." + new string('0', owner.xAxis.NumberOfSings)), new Point(xPixel, Bounds.Height - 15));
-                Label((owner.yAxis.StepFormat == StepFormat.logarithmic ? Math.Pow(10, y) : y).ToString("#." + new string('0', owner.yAxis.NumberOfSings)), new Point(plot.Left / 2, yPixel));
+                // "0." а не "#.": с "#." ноль подписывался как ".00" (или пустой строкой при NumberOfSings = 0)
+                Label((owner.xAxis.StepFormat == StepFormat.logarithmic ? Math.Pow(10, x) : x).ToString("0." + new string('0', owner.xAxis.NumberOfSings)), new Point(xPixel, Bounds.Height - 15));
+                Label((owner.yAxis.StepFormat == StepFormat.logarithmic ? Math.Pow(10, y) : y).ToString("0." + new string('0', owner.yAxis.NumberOfSings)), new Point(plot.Left / 2, yPixel));
             }
             Label("X," + owner.CurrentData[0].XUnit, new Point(plot.Right + marginX / 2, plot.Bottom), 11);
             Label("Y," + owner.CurrentData[0].YUnit, new Point(plot.Left / 2, 16), 11);

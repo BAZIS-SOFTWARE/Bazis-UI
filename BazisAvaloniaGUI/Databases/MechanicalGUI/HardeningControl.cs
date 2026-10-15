@@ -76,9 +76,15 @@ namespace BazisAvaloniaGUI.Databases.MechanicalGUI
         internal List<GraphData> CaclHardeningForTemp()
         {
             var temps = yieldTable.AsEnumerable().Select(r => Convert.ToSingle(r[0])).ToList();
-            var temp = float.Parse(txbTemp.Text);
-            var temp1 = temps.Find(x => Math.Abs(x - temp) < 1e-4 | x > temp);
-            var temp1_index = temps.IndexOf(temp1);
+            var temp = DatabaseNumber.ParseFloat(txbTemp.Text);
+            // FindIndex вместо Find: Find при температуре выше таблицы возвращал default(float) = 0,
+            // и интерполяция молча шла по строке с 0 °C (или падала с индексом -2)
+            var temp1_index = temps.FindIndex(x => Math.Abs(x - temp) < 1e-4 || x > temp);
+            if (temps.Count < 2 || temp1_index < 0 || temp < temps[0] - 1e-4)
+                throw new ArgumentOutOfRangeException(nameof(temp), temp, "Температура вне диапазона таблицы свойств");
+            // Температура, равная первой в таблице: интерполяция по первому интервалу (раньше индекс -1)
+            temp1_index = Math.Max(temp1_index, 1);
+            var temp1 = temps[temp1_index];
             var temp0_index = temp1_index - 1;
             var temp0 = temps[temp0_index];
 

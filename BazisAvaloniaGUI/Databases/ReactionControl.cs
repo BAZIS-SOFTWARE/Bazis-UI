@@ -36,11 +36,22 @@ internal sealed class ReactionControl : UserControl
         var phases = reacData[1].Split('-');
         void Select(ComboBox selector, string value) { if (!selector.Items.Contains(value)) selector.Items.Add(value); selector.SelectedItem = value; }
         Select(PhaseName, reacData[0]); Select(InitialPhase, phases[0]); Select(FinalPhase, phases[1]);
+        var syncing = false;
         foreach (var selector in new[] { PhaseName, InitialPhase, FinalPhase })
         {
             AutomationProperties.SetName(selector, selector.Name);
-            selector.SelectionChanged += (_, _) => ChangeReactionName?.Invoke(reaction.Name,
-                $"{PhaseName.SelectedItem} {InitialPhase.SelectedItem}-{FinalPhase.SelectedItem}");
+            selector.SelectionChanged += (_, _) =>
+            {
+                if (syncing) return;
+                ChangeReactionName?.Invoke(reaction.Name, $"{PhaseName.SelectedItem} {InitialPhase.SelectedItem}-{FinalPhase.SelectedItem}");
+                // Имя отклонено (такая реакция уже есть): возвращаем комбобоксы к фактическому имени,
+                // иначе окно показывало бы реакцию, которой в базе нет
+                var actual = reaction.Name.Split(' ');
+                var actualPhases = actual[1].Split('-');
+                syncing = true;
+                try { Select(PhaseName, actual[0]); Select(InitialPhase, actualPhases[0]); Select(FinalPhase, actualPhases[1]); }
+                finally { syncing = false; }
+            };
         }
         TimeDependent.Content = DatabaseControlResources.Get("ReactionControl", "chbTimeDependent.Text");
         TimeDependent.IsChecked = reaction.DataTable.Columns.Count > 2;
@@ -70,15 +81,17 @@ internal sealed class ReactionControl : UserControl
         layout.Children.Add(settings); Grid.SetRow(DataGridView, 1); layout.Children.Add(DataGridView); Content = layout;
     }
 
+    private static readonly Regex PhaseValueRegex = new(@"(^([0]\.)(\d{0,3}[1-9])$)|(^[1]$)|(^[0]$)");
     internal void btnAddTime_Click(object sender, EventArgs e)
     {
-        var regex = new Regex(@"(^([0]\.)(\d{0,3}[1-9])$)|(^[1]$)|(^[0]$)");
-        if (!regex.IsMatch(PhaseValue.Text)) { _ = MessageBox.Show(this, Resources.InvalidRegexPhaseMatchWarning, Localization.Localization.GetAttentionCaption()); return; }
+        if (!PhaseValueRegex.IsMatch(PhaseValue.Text ?? "")) { _ = MessageBox.Show(this, Resources.InvalidRegexPhaseMatchWarning, Localization.Localization.GetAttentionCaption()); return; }
         try { reaction.DataTable.Columns.Add(new DataColumn($"Масс.Доли_{PhaseValue.Text}", typeof(float)) { DefaultValue = 0 }); }
         catch (Exception ex) { _ = MessageBox.Show(this, ex.Message); }
     }
     internal void btnChange_Click(object sender, EventArgs e)
     {
+        // Та же проверка, что при добавлении: иначе столбец переименовывался в "Масс.Доли_abc"
+        if (!PhaseValueRegex.IsMatch(PhaseValue.Text ?? "")) { _ = MessageBox.Show(this, Resources.InvalidRegexPhaseMatchWarning, Localization.Localization.GetAttentionCaption()); return; }
         try
         {
             var i = DataGridView.SelectedColumn;
@@ -94,7 +107,10 @@ internal sealed class ReactionControl : UserControl
     }
     internal void btnDelTime_Click(object sender, EventArgs e)
     {
-        if (DataGridView.SelectedColumn > 0) reaction.DataTable.Columns.RemoveAt(DataGridView.SelectedColumn);
+        // Остаются минимум два столбца долей: при открытии зависимость от времени определяется по Columns.Count > 2,
+        // и после удаления до одного столбца "Масс.Доли_x" флажок и кнопки не соответствовали бы данным
+        if (DataGridView.SelectedColumn > 0 && DataGridView.SelectedColumn < reaction.DataTable.Columns.Count && reaction.DataTable.Columns.Count > 3)
+            reaction.DataTable.Columns.RemoveAt(DataGridView.SelectedColumn);
         DataGridView.SelectedColumn = -1; DataGridView.Refresh();
     }
     private async void chbTimeDependent_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)

@@ -47,6 +47,9 @@ namespace BazisAvaloniaGUI.Navigator
             {
                 if (e.Source is Image { Parent: StackPanel panel } && panel == actions)
                     return;
+                // Двойной щелчок по стрелке уже переключил узел дважды в PointerPressed — третий раз не нужен.
+                if (e.Source == expander || e.Source == glyph)
+                    return;
                 node?.Toggle();
             };
 

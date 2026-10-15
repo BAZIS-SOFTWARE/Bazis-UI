@@ -71,7 +71,8 @@ namespace BazisAvaloniaGUI.Shell
                 var loader = new LoadResultsFileDB();
                 var times = loader.GetValues($@"{ResultDbPath}", "nodes", "Time");
                 checkPlayerControl.StartValue = 0;
-                checkPlayerControl.StopValue = times.Count() - 1;
+                // Пустая БД результатов: StopValue = -1 < StartValue бросил бы исключение
+                checkPlayerControl.StopValue = Math.Max(0, times.Count() - 1);
             }
             catch (Exception ex)
             {

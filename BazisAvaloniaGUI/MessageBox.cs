@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Layout;
 using Avalonia.Media;
 using System.Threading.Tasks;
@@ -47,8 +48,16 @@ namespace BazisAvaloniaGUI
             else
                 actions.Children.Add(Button("OK", () => dialog.Close(DialogResult.OK)));
 
-            if (TopLevel.GetTopLevel(owner) is Window window)
+            // Контрол ещё не (или уже не) в окне, либо его окно скрыто — владельцем становится главное окно
+            // приложения: иначе сообщение открывалось немодальным, а Yes/No-вызовы сразу получали None
+            // (ShowDialog со скрытым владельцем к тому же бросает исключение).
+            var window = owner == null ? null : TopLevel.GetTopLevel(owner) as Window;
+            if (window == null || !window.IsVisible)
+                window = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (window != null && window.IsVisible)
                 return dialog.ShowDialog<DialogResult>(window);
+
+            // Видимых окон нет (запуск/закрытие приложения): сообщение показывается без ожидания ответа.
             dialog.Show();
             return Task.FromResult(DialogResult.None);
         }

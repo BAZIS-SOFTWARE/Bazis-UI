@@ -183,16 +183,20 @@ namespace BazisAvaloniaGUI.SettingsControls
 
         private async void btnSetSolverPath_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = await TopLevel.GetTopLevel(this).StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            if (TopLevel.GetTopLevel(this) is not { } topLevel)
+                return;
+            var dialog = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 AllowMultiple = false,
                 FileTypeFilter = new[] { new FilePickerFileType("(*.exe)") { Patterns = new[] { "*.exe" } } }
             });
 
-            if (dialog.Count == 0)
+            // Файл не из локальной ФС (нет пути) — путь к решателю не меняется, а не сбрасывается в null.
+            var path = dialog.Count == 0 ? null : dialog[0].TryGetLocalPath();
+            if (string.IsNullOrEmpty(path))
                 return;
 
-            lblSolverPath.Text = dialog[0].TryGetLocalPath();
+            lblSolverPath.Text = path;
 
             SetSolverPathEvent?.Invoke(lblSolverPath.Text);
         }
@@ -282,7 +286,10 @@ namespace BazisAvaloniaGUI.SettingsControls
         private System.Threading.Tasks.Task<Color?> ShowColorDialog(Border colorPanel)
         {
             var current = colorPanel.Tag is Color color ? color : Color.White;
-            return new ColorSelectionDialog(current).ShowDialog<Color?>(TopLevel.GetTopLevel(this) as Window);
+            // Страница не в окне (вкладку уже закрыли): ShowDialog(null) бросил бы исключение в async void.
+            if (TopLevel.GetTopLevel(this) is not Window owner)
+                return System.Threading.Tasks.Task.FromResult<Color?>(null);
+            return new ColorSelectionDialog(current).ShowDialog<Color?>(owner);
         }
 
         /// <summary>Avalonia: аналог присвоения Panel.BackColor.</summary>

@@ -92,7 +92,13 @@ internal class DataBasePage : UserControl
         var horizontal = new GridSplitter { ResizeDirection = GridResizeDirection.Rows, VerticalAlignment = VerticalAlignment.Stretch };
         Grid.SetColumn(horizontal, 2); Grid.SetRow(horizontal, 1); layout.Children.Add(horizontal);
         Content = layout;
-        TreeView.SelectionChanged += (_,_) => { if (TreeView.SelectedNode != null) TreeView_AfterSelect(TreeView, new TreeViewEventArgs(TreeView.SelectedNode)); };
+        TreeView.SelectionChanged += (_,_) =>
+        {
+            if (TreeView.SelectedNode != null) TreeView_AfterSelect(TreeView, new TreeViewEventArgs(TreeView.SelectedNode));
+            // Выделение снято (например, удалён выбранный узел): таблица удалённой ветки не должна
+            // оставаться редактируемой — правки ушли бы в данные, которых уже нет в дереве
+            else { DataGridView.DataSource = null; GraphContainer.ClearData(); }
+        };
         TreeView.AddHandler(PointerPressedEvent, (_,e) =>
         {
             if (e.GetCurrentPoint(TreeView).Properties.IsRightButtonPressed && e.Source is Avalonia.Visual visual)
@@ -174,7 +180,10 @@ internal class DataBasePage : UserControl
             for (var i = 1; i < table.Columns.Count; i++)
             {
                 var points = new List<GraphPoint>();
-                for (var j = 0; j < table.Rows.Count; j++) points.Add(new GraphPoint(Convert.ToSingle(table.Rows[j][0]), Convert.ToSingle(table.Rows[j][i])));
+                // Пустая ячейка (DBNull) пропускается: Convert.ToSingle(DBNull) бросал исключение, и график не строился вовсе
+                for (var j = 0; j < table.Rows.Count; j++)
+                    if (table.Rows[j][0] is not DBNull && table.Rows[j][i] is not DBNull)
+                        points.Add(new GraphPoint(Convert.ToSingle(table.Rows[j][0]), Convert.ToSingle(table.Rows[j][i])));
                 if (points.Count != 0) range.Add(new GraphData($"{header}_{table.Columns[i].ColumnName}", color,xUnit,yUnit,points.ToArray()) { ValueFlag = true });
             }
         return range;

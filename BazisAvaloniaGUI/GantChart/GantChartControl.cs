@@ -21,9 +21,6 @@ namespace BazisAvaloniaGUI.GantChart
         // Avalonia: перекрывает StyledElement.Resources, чтобы Resources.X ссылался на строковые ресурсы.
         private new class Resources : Localization.Resources { }
 
-        // $this.Size из GantChartControl.resx: в BaseForm AddConds вызывается до размещения контрола,
-        // поэтому Width в расчёте koeff равен ширине из дизайнера.
-        private const double DesignWidth = 385;
         private const double RowHeight = 22;
 
         private readonly ResourceManager resources = new(typeof(cntrГант));
@@ -32,7 +29,10 @@ namespace BazisAvaloniaGUI.GantChart
         private string sortedColumn;
         private bool sortDescending;
 
-        float koeff;
+        // Длительность шкалы (max - min); масштаб считается от ширины колонки полос при отрисовке
+        float timeSpan;
+        // Начало шкалы: полосы откладываются от самого раннего условия, а не от нуля
+        double minTime;
 
         public cntrГант()
         {
@@ -48,13 +48,16 @@ namespace BazisAvaloniaGUI.GantChart
         public void AddConds(IEnumerable<ICondData> conds)
         {
             var conditions = conds.ToList();
-            rows.Clear();
             if (conditions.Count == 0)
             {
-                koeff = 0;
+                rows.Clear();
+                timeSpan = 0;
                 Present();
                 return;
             }
+            // Строки собираются отдельно и подменяются целиком: исключение на неизвестном условии
+            // не должно оставлять в rows частичный набор, который покажет следующая сортировка
+            var newRows = new List<(string Name, ICondData Cond)>();
             foreach (var item in conditions)
             {
                 string kind;
@@ -85,12 +88,15 @@ namespace BazisAvaloniaGUI.GantChart
                     default: throw new ArgumentException(Resources.cntrГант_AddConds_UndefinedCondExc);
                 }
 
-                rows.Add(($"{kind} : {itemParts[1]}", item));
+                newRows.Add(($"{kind} : {itemParts[1]}", item));
             }
+            rows.Clear();
+            rows.AddRange(newRows);
             var max = conditions.Max(x => x.StopTime);
             var min = conditions.Min(x => x.StartTime);
+            minTime = min;
 
-            koeff = (float)((max - min) / (Bounds.Width > 0 ? Bounds.Width : DesignWidth));
+            timeSpan = (float)(max - min);
             Present();
         }
 
@@ -109,7 +115,7 @@ namespace BazisAvaloniaGUI.GantChart
                 grid.RowDefinitions.Add(new RowDefinition(new GridLength(RowHeight)));
                 AddCell(new Border(), i + 1, 0);
                 AddCell(new TextBlock { Text = rows[i].Name, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(2, 0), TextTrimming = TextTrimming.CharacterEllipsis }, i + 1, 1);
-                AddCell(new ConditionBar(rows[i].Cond, () => koeff), i + 1, 2);
+                AddCell(new ConditionBar(rows[i].Cond, () => timeSpan, () => minTime), i + 1, 2);
             }
         }
 
@@ -159,8 +165,15 @@ namespace BazisAvaloniaGUI.GantChart
 
         private int dataGridView_SortCompare(ICondData cellValue1, ICondData cellValue2)
         {
-            var value1 = cellValue1?.ToString().Split(" : ")[1].Split(' ')[5];
-            var value2 = cellValue2?.ToString().Split(" : ")[1].Split(' ')[5];
+            // Без проверки длины условие с иным форматом ToString падало по IndexOutOfRange при щелчке на заголовке
+            static string TimeToken(ICondData cond)
+            {
+                var parts = cond?.ToString().Split(" : ");
+                var words = parts?.Length > 1 ? parts[1].Split(' ') : null;
+                return words?.Length > 5 ? words[5] : null;
+            }
+            var value1 = TimeToken(cellValue1);
+            var value2 = TimeToken(cellValue2);
 
             if (float.TryParse(value1, out float floatValue1) && float.TryParse(value2, out float floatValue2))
                 return floatValue1.CompareTo(floatValue2);
@@ -169,15 +182,20 @@ namespace BazisAvaloniaGUI.GantChart
         }
 
         /// <summary>Ячейка колонки CondTime: отрисовка из dataGridView_CellPainting.</summary>
-        private sealed class ConditionBar(ICondData currentCond, Func<float> koeff) : Control
+        private sealed class ConditionBar(ICondData currentCond, Func<float> timeSpan, Func<double> minTime) : Control
         {
             public override void Render(DrawingContext context)
             {
                 var cellBounds = new Rect(Bounds.Size);
-                int barStartPixel = (int)(currentCond.StartTime / koeff());
-                int barWidthPixel = (int)(currentCond.StopTime / koeff());
-
                 context.FillRectangle(Brushes.White, cellBounds);
+
+                // timeSpan = 0, если все условия мгновенные (max == min) или условий нет: полосу не рисуем
+                var scale = cellBounds.Width > 0 ? timeSpan() / cellBounds.Width : 0;
+                if (scale <= 0)
+                    return;
+
+                int barStartPixel = (int)((currentCond.StartTime - minTime()) / scale);
+                int barWidthPixel = (int)((currentCond.StopTime - minTime()) / scale);
 
                 IBrush color;
 

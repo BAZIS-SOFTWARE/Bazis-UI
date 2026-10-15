@@ -83,6 +83,11 @@ namespace BazisAvaloniaGUI.AdvanceSelection
             rbtVolume.IsEnabled = volume;
             rbtSurface.IsEnabled = surface;
             rbtCurve.IsEnabled = curve;
+
+            // Отмеченная размерность стала недоступна для нового типа объектов (например, кривые
+            // после перехода с точек на поверхности) — возвращаемся к объёмам, доступным всегда.
+            if ((rbtSurface.IsChecked == true && !surface) || (rbtCurve.IsChecked == true && !curve))
+                rbtVolume.IsChecked = true;
         }
     }
 }

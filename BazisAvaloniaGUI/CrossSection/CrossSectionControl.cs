@@ -127,10 +127,16 @@ namespace BazisAvaloniaGUI.CrossSection
 
             try
             {
-                if (txbPoint1.Text == txbPoint2.Text || txbPoint2.Text == txbPoint3.Text || txbPoint1.Text == txbPoint3.Text)
+                var point1 = Parse(txbPoint1.Text);
+                var point2 = Parse(txbPoint2.Text);
+                var point3 = Parse(txbPoint3.Text);
+
+                // Сравниваются координаты, а не строки: "0;0;0" и "0.0; 0; 0" — одна точка.
+                // Совпадающие или лежащие на одной прямой точки плоскость не задают (нулевая нормаль).
+                if (Vector3.Cross(point2 - point1, point3 - point1) == Vector3.Zero)
                     throw new Exception(Localization.Resources.CrossSectionControl_InvalidSurfaceCoordsSetException);
 
-                CreateCrossFromTextArgs?.Invoke(this, new CreatePlaneFromTextArgs(Parse(txbPoint1.Text), Parse(txbPoint2.Text), Parse(txbPoint3.Text)));
+                CreateCrossFromTextArgs?.Invoke(this, new CreatePlaneFromTextArgs(point1, point2, point3));
             }
             catch (Exception ex)
             {
@@ -140,7 +146,10 @@ namespace BazisAvaloniaGUI.CrossSection
 
         private static Vector3 Parse(string text)
         {
-            var p = text.Split(';');
+            // Пустое поле или меньше трёх координат — сообщение о неверном задании точек вместо NullReference/IndexOutOfRange.
+            var p = (text ?? string.Empty).Split(';');
+            if (p.Length < 3)
+                throw new FormatException(Localization.Resources.CrossSectionControl_InvalidSurfaceCoordsSetException);
             float Coordinate(int index) => float.Parse(p[index].Trim().Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture);
             return new Vector3(Coordinate(0), Coordinate(1), Coordinate(2));
         }

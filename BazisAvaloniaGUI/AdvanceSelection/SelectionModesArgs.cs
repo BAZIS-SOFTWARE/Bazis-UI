@@ -11,7 +11,7 @@ namespace BazisAvaloniaGUI.AdvanceSelection
 
         public bool Reverse { get; set; }
 
-        public float Angle { get; }
+        public float Angle { get; set; }
 
         public List<int> SelectedNumbers { get; protected set; } = new List<int>();
 
@@ -27,7 +27,7 @@ namespace BazisAvaloniaGUI.AdvanceSelection
     public class SelectInPlainEventArgs : EventArgs
     {
         public ObjType Objects { get; }
-        public float Angle { get; }
+        public float Angle { get; set; }
 
         public List<int> SelectedNumbers { get; set; } = new List<int>();
 

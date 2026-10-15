@@ -27,6 +27,8 @@ namespace BazisAvaloniaGUI.Animation
         /// <summary>Ошибка ввода (в BaseForm — MessageBox), сообщение выводит оболочка.</summary>
         public event Action<string> ErrorReported;
 
+        private const int MaxGifDelay = ushort.MaxValue * 10;
+
         private readonly TextBox txbDelayTime;
         private readonly CheckBox chbDelTempScrs;
 
@@ -57,7 +59,8 @@ namespace BazisAvaloniaGUI.Animation
 
         private void btnCreateAnimation_Click(object sender, RoutedEventArgs e)
         {
-            if (!int.TryParse(txbDelayTime.Text, out var delay) || delay <= 0)
+            // Задержка кадра GIF — 16-битное число сотых долей секунды: больше 655350 мс поле переполняется.
+            if (!int.TryParse(txbDelayTime.Text, out var delay) || delay <= 0 || delay > MaxGifDelay)
             {
                 txbDelayTime.Text = "100";
                 ErrorReported?.Invoke("Некорректный ввод!");

@@ -78,7 +78,7 @@ namespace BazisAvaloniaGUI.Console
 
             var path = GetSessionLogPath;
             using (StreamWriter sw = new StreamWriter(path, true, System.Text.Encoding.Default))
-                sw.Write(str);
+                sw.WriteLine(str); // каждое сообщение — отдельной строкой журнала (Write склеивал их в одну)
 
             rtxbInput.Focus();
             Dispatcher.UIThread.Post(() => tlscOut.ScrollToEnd());
@@ -97,7 +97,7 @@ namespace BazisAvaloniaGUI.Console
                 await launcher.LaunchUriAsync(new Uri(GetSessionLogPath));
         }
 
-        private void btnDictionary_Click(object sender, RoutedEventArgs e) => CommandsListRequestedEvent.Invoke();
+        private void btnDictionary_Click(object sender, RoutedEventArgs e) => CommandsListRequestedEvent?.Invoke();
 
         private void ConsoleControl_Load(object sender, RoutedEventArgs e)
         {

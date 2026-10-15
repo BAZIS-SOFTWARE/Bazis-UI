@@ -57,9 +57,17 @@ namespace BazisAvaloniaGUI.Databases
         public override void AddNewRowButton_Click(object sender, EventArgs e)
         {
             if (TreeView.SelectedNode == null) return;
-            var fun = TreeView.SelectedNode.Name.Split(',')[0];
-            float number = 0;
-            Functions[fun].DataTable.Rows.Add(number, number);
+            // Исключение (нет таблицы/функции, иное число столбцов) в обработчике кнопки ронял приложение
+            try
+            {
+                var fun = TreeView.SelectedNode.Name.Split(',')[0];
+                var table = Functions[fun].DataTable ?? throw new Exception(Resources.PropertyTableIsMissing);
+                var row = table.NewRow();
+                for (var i = 0; i < table.Columns.Count; i++)
+                    if (table.Columns[i].DataType != typeof(string)) row[i] = 0f;
+                table.Rows.Add(row);
+            }
+            catch (Exception ex) { MessageBox.Show(this, ex.Message); }
         }
 
         public void AddTreeNode(Property function)
@@ -286,6 +294,8 @@ namespace BazisAvaloniaGUI.Databases
                     var grDataRange = SetGraphData(table, header, Color.Orange, xUnit, yUnit);
                     if (grDataRange.Count != 0)
                         GraphContainer.CreateGraphData(Functions[funName].Name, grDataRange, new AxisFormat(), new AxisFormat());
+                    // Без точек график предыдущей функции оставался на экране под заголовком новой
+                    else GraphContainer.ClearData();
                 }
             }
             catch (Exception ex) { MessageBox.Show(this, ex.Message); }
@@ -296,19 +306,22 @@ namespace BazisAvaloniaGUI.Databases
             try
             {
                 // || : при Esc Label == null, а ContainsKey(null) бросил бы ArgumentNullException.
-                if (e.Label == null || e.Label == "" || Functions.ContainsKey(e.Label)
+                // Ключ словаря — имя без единиц ("Имя,K-s" → "Имя"): дубликат проверяется по нему,
+                // и все проверки выполняются до изменения данных, чтобы ошибка не оставила словарь неполным
+                var oldName = e.Node.Text.Split(',')[0];
+                var newKey = e.Label?.Split(',')[0];
+                if (string.IsNullOrEmpty(newKey) || (newKey != oldName && Functions.ContainsKey(newKey))
+                    || !Functions.ContainsKey(oldName)
                     || e.Label.Split(',').Count() < 2 || e.Label.Split(',')[1].Split('-').Count() < 2)
                     e.CancelEdit = true;
                 else
                 {
-                    var oldName = e.Node.Text.Split(',')[0];
                     var newName = e.Label;
-                    e.Node.Name = newName;
                     var fun = Functions[oldName];
-                    fun.Name = newName.Split(',')[0];
-
                     Functions.Remove(oldName);
-                    Functions.Add(newName.Split(',')[0], fun);
+                    Functions.Add(newKey, fun);
+                    fun.Name = newKey;
+                    e.Node.Name = newName;
                     OnMutationEvent?.Invoke();
                 }
                 LabelEditFlag = false;

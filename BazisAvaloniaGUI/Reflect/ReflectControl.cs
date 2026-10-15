@@ -70,7 +70,8 @@ namespace BazisAvaloniaGUI.Reflect
             var planeButtons = new WrapPanel();
             foreach (var (name, vector) in planes)
             {
-                var button = new RadioButton { Name = name, Content = Text(name), GroupName = "reflectPlane", Tag = vector, Margin = new Thickness(0, 0, 6, 0) };
+                // Как в WinForms (radioButton1.Checked = true): отмечена плоскость, совпадающая с начальной нормалью (1, 0, 0).
+                var button = new RadioButton { Name = name, Content = Text(name), GroupName = "reflectPlane", Tag = vector, Margin = new Thickness(0, 0, 6, 0), IsChecked = name == "radioButton1" };
                 button.IsCheckedChanged += OnChoicePlane;
                 planeButtons.Children.Add(button);
             }
@@ -138,13 +139,15 @@ namespace BazisAvaloniaGUI.Reflect
 
         private void OnMouseMove(object sender, PointerEventArgs e)
         {
-            if (!IsMouseDown || SelectedObject == null)
-                return;
-
             var position = e.GetPosition(this);
             var sign = Math.Sign(position.X - MouseLastPos.X);
             MouseLastPos = position;
-            if (sign == 0)
+
+            // Как в WinForms (e.Button == Left): отпускание кнопки вне поля не доходит до PointerReleased,
+            // и по одному флагу IsMouseDown смещение продолжалось бы при движении без нажатой кнопки.
+            if (!e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+                IsMouseDown = false;
+            if (!IsMouseDown || SelectedObject == null || sign == 0)
                 return;
 
             var delta = float.Parse(domainUpDown1.SelectedItem?.ToString() ?? "0.01", NumberStyles.Any, CultureInfo.InvariantCulture);
@@ -183,7 +186,8 @@ namespace BazisAvaloniaGUI.Reflect
 
         private void OnSetCopyName(object sender, RoutedEventArgs e)
         {
-            if (SelectedObject != null)
+            // Нулевая нормаль (A = B = C = 0) плоскости не задаёт: её нормировка даёт NaN в матрице отражения.
+            if (SelectedObject != null && (Plane[0] != 0 || Plane[1] != 0 || Plane[2] != 0))
                 CreateReflectObj?.Invoke(SelectedObject, Plane);
         }
 

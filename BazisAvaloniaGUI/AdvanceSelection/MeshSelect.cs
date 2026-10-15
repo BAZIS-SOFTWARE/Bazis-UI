@@ -120,10 +120,14 @@ namespace BazisAvaloniaGUI.AdvanceSelection
 
         public object GetSelectedAdditionalMode()
         {
+            // Угол берётся при каждом выборе: раньше накопленная конфигурация сохраняла угол,
+            // введённый до первого щелчка, и его изменение не действовало до смены режима.
             if (rbtDirection.IsChecked == true)
             {
                 if (directionConfig == null)
                     directionConfig = new SelectInDirectionEventArgs(ObjType.Узел, chbChangeDirection.IsChecked == true, ParseAngle());
+                else
+                    directionConfig.Angle = ParseAngle();
                 return directionConfig;
             }
 
@@ -131,14 +135,25 @@ namespace BazisAvaloniaGUI.AdvanceSelection
             {
                 if (plainConfig == null)
                     plainConfig = new SelectInPlainEventArgs(selectType, ParseAngle());
+                else
+                    plainConfig.Angle = ParseAngle();
                 return plainConfig;
             }
             else
                 return selectType;
         }
 
-        private float ParseAngle() =>
-            float.Parse(txbAngle.Text.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture);
+        private float ParseAngle()
+        {
+            // Пустое или нечисловое поле: вызов идёт из обработчика выбора на сцене, где FormatException
+            // не перехватывается, — восстанавливаем угол по умолчанию, как сброс поля в других панелях.
+            if (float.TryParse((txbAngle.Text ?? string.Empty).Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out var angle))
+                return angle;
+            txbAngle.Text = DefaultAngle.ToString(CultureInfo.InvariantCulture);
+            return DefaultAngle;
+        }
+
+        private const float DefaultAngle = 5;
 
         private void SetApply(bool set, bool surface, bool direction, bool other)
         {
@@ -148,6 +163,11 @@ namespace BazisAvaloniaGUI.AdvanceSelection
             lblAngle.IsEnabled = other;
             txbAngle.IsEnabled = other;
             chbChangeDirection.IsEnabled = other;
+
+            // Отмеченный режим стал недоступен для нового типа объектов (например, «по направлению»
+            // после перехода с узлов на 2D-элементы) — возвращаемся к выбору по наборам, доступному всегда.
+            if ((rbtSurface.IsChecked == true && !surface) || (rbtDirection.IsChecked == true && !direction))
+                rbtSet.IsChecked = true;
         }
 
         private void chbChangeDirection_CheckedChanged(object sender, EventArgs e)

@@ -12,9 +12,11 @@ internal static class Localization
     /// <summary>
     /// Получить подпись об отсутствии искомого файла на текущей языковой культуре
     /// </summary>
+    // Подписи FileAbsenceCaption, ErrorCaption и AttentionCaption есть только в общих ресурсах (Resources.resx);
+    // в ресурсах формы их нет, и GetString возвращал null — окна сообщений были без заголовка.
     public static string GetFileMissingCaption()
     {
-        return formResources.GetString("FileAbsenceCaption");
+        return Resources.FileAbsenceCaption;
     }
 
     /// <summary>
@@ -30,7 +32,7 @@ internal static class Localization
     /// </summary>
     public static string GetErrorCaption()
     {
-        return formResources.GetString("ErrorCaption");
+        return Resources.ErrorCaption;
     }
 
     /// <summary>
@@ -38,7 +40,7 @@ internal static class Localization
     /// </summary>
     public static string GetAttentionCaption()
     {
-        return formResources.GetString("AttentionCaption");
+        return Resources.AttentionCaption;
     }
 
     /// <summary>

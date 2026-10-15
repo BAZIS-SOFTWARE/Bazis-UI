@@ -33,6 +33,17 @@ namespace BazisAvaloniaGUI.Databases
 
         public MaterialDBData Materials { get; set; }
         = new MaterialDBData() { Name = "newMatDataBase.jsf" };
+
+        // Путь (материал, категория, свойство) таблицы, показанной в DataGridView
+        private string[] shownPath;
+
+        private void ShowProperty(string[] path, Property property)
+        {
+            DataGridView.DataSource = property.DataTable;
+            // Присваивается после DataSource: сеттер фиксирует незавершённую правку ячейки,
+            // и её обработчики должны видеть путь прежней таблицы
+            shownPath = path;
+        }
 /// <inheritdoc/>
 
         public void SafeDBEventHandler(string dbFullPath)
@@ -289,23 +300,25 @@ namespace BazisAvaloniaGUI.Databases
                 var reaction = Materials[mat]["Металлургия"][reac];
 
                 var reacControl = new ReactionControl(phaseNames, reaction);
+                // Узел фиксируется при открытии: к моменту выбора в комбобоксе выделение может смениться
+                var reacNode = TreeView.SelectedNode;
 
                 reacControl.ChangeReactionName += (oldReacName, newReacName) =>
                 {
+                    if (newReacName == oldReacName)
+                        return;
                     if (Materials[mat][cat].PropertyData.ContainsKey(newReacName))
                     {
                         MessageBox.Show(this, Resources.ReactionWithASuchNameIsAlreadyExistChooseAnotherName);
                         return;
                     }
 
-                    reaction.Name = newReacName;
-
-                    TreeView.SelectedNode.Name = $"{newReacName},{reaction.Y_unit}-{reaction.X_unit}";
-                    TreeView.SelectedNode.Text = $"{newReacName},{reaction.Y_unit}-{reaction.X_unit}";
-
-
                     Materials[mat][cat].PropertyData.Remove(oldReacName);
                     Materials[mat][cat].PropertyData.Add(newReacName, reaction);
+                    reaction.Name = newReacName;
+
+                    reacNode.Name = $"{newReacName},{reaction.Y_unit}-{reaction.X_unit}";
+                    reacNode.Text = $"{newReacName},{reaction.Y_unit}-{reaction.X_unit}";
                 };
 
                 ShowAuxiliaryWindow("editForm", Resources.EditReaction, reacControl, true);
@@ -419,7 +432,7 @@ namespace BazisAvaloniaGUI.Databases
         {
             try
             {
-                if (TreeView.SelectedNode != null & TreeView.SelectedNode.Level == 2)
+                if (TreeView.SelectedNode != null && TreeView.SelectedNode.Level == 2)
                 {
                     var dataAr = TreeView.SelectedNode.FullPath.Split('\\', ',');
 
@@ -434,7 +447,7 @@ namespace BazisAvaloniaGUI.Databases
                     var dt = Resort(property.DataTable, "Температура", "ASC");
                     property.DataTable = dt;
 
-                    DataGridView.DataSource = property.DataTable;
+                    ShowProperty(dataAr, property);
 
                     var header = property.Name;
                     var xUnit = property.X_unit;
@@ -468,7 +481,7 @@ namespace BazisAvaloniaGUI.Databases
                     if (property.DataTable == null)
                         throw new Exception(Resources.PropertyTableIsMissing);
 
-                    DataGridView.DataSource = property.DataTable;
+                    ShowProperty(dataAr, property);
 
                     var xUnit = property.X_unit;
                     var yUnit = property.Y_unit;
@@ -476,8 +489,17 @@ namespace BazisAvaloniaGUI.Databases
                     var grDataRange = SetGraphData(property.DataTable, property.Name, Color.Orange, xUnit, yUnit);
                     if (grDataRange.Count != 0)
                         GraphContainer.CreateGraphData(property.Name, grDataRange,new AxisFormat(), new AxisFormat());
+                    else GraphContainer.ClearData();
 
                     //TreeView.SelectedNode = e.Node;
+                }
+                else
+                {
+                    // Материал/категория: таблица прежнего свойства не должна оставаться редактируемой —
+                    // правка "Фаза"/удаление строки не обновили бы столбцы фаз в других таблицах
+                    DataGridView.DataSource = null;
+                    shownPath = null;
+                    GraphContainer.ClearData();
                 }
             }
             catch (Exception ex) { MessageBox.Show(this, ex.Message); }
@@ -498,10 +520,10 @@ namespace BazisAvaloniaGUI.Databases
                 var material = ConvertToMaterials(dataSet);
 
                 var lastItem = material.Last();
-                var oldName = lastItem.Key;
                 var values = lastItem.Value;
 
-                Materials.Remove(oldName);
+                // Materials.Remove(имя черновика) здесь не нужен: он удалял из базы пользовательский
+                // материал "Новый_материал", оставляя его узел в дереве
                 values.Name = name;
                 Materials.Add(name, values);
 
@@ -527,18 +549,18 @@ namespace BazisAvaloniaGUI.Databases
             var cell = grView[e.ColumnIndex, e.RowIndex];
             var colName = cell.OwningColumn.ColumnName;
 
-            if (colName == "Фаза" & TreeView.SelectedNode.Level == 2)
+            // shownPath, а не SelectedNode: правка может фиксироваться уже после выбора другого узла
+            if (colName == "Фаза" && shownPath != null && Materials.ContainsKey(shownPath[0]))
             {
-                var dataAr = TreeView.SelectedNode.FullPath.Split('\\', ',');
-
-                var mat = dataAr[0];
-                var cat = dataAr[1];
-                var prop = dataAr[2];
+                var mat = shownPath[0];
 
                 var phaseNames = sourceTable.AsEnumerable().Select(r => r.Field<string>(0)).ToArray();
+                var oldPhase = Convert.ToString(OldCellValue);
+                var newPhase = Convert.ToString(NewCellValue);
+                if (oldPhase == newPhase) return;
 
                 var regex = new Regex(@"\W", RegexOptions.CultureInvariant);
-                if (regex.IsMatch(NewCellValue.ToString()) | NewCellValue.ToString().Count() == 0)
+                if (regex.IsMatch(newPhase) || newPhase.Length == 0)
                 {
                     MessageBox.Show(this,
                         Resources.ThePhaseNameCanOnlyConsistOfLettersNumbersAndTheUnderscore_,
@@ -548,33 +570,53 @@ namespace BazisAvaloniaGUI.Databases
                     return;
                 }
 
+                // Дубликат фазы: переименование столбцов упало бы с DuplicateNameException на середине,
+                // оставив часть таблиц со старыми именами столбцов
+                if (phaseNames.Count(x => x == newPhase) > 1)
+                {
+                    MessageBox.Show(this, $"\"{newPhase}\": фаза с таким именем уже существует",
+                        BazisAvaloniaGUI.Localization.Localization.GetAttentionCaption(), MessageBoxButtons.OK);
+                    EditCell.Value = OldCellValue;
+                    return;
+                }
+
                 var termTables = Materials[mat]["Тепловые свойства"].PropertyData.Values.Select(x => x.DataTable);
                 UpdatePhaseColumns(termTables, phaseNames);
                 var mechTables = Materials[mat]["Механические свойства"].PropertyData.Values.Select(x => x.DataTable);
                 UpdatePhaseColumns(mechTables, phaseNames);
 
-                var reactions = Materials[mat]["Металлургия"].PropertyData.Values.ToArray();
-
-                foreach (var reaction in reactions)
+                // Имя реакции "Вид Ф1-Ф2": заменяется только фаза целиком. Replace по подстроке портил
+                // реакции других фаз (фаза "A" внутри "AB") и единицы в тексте узла
+                var metallurgy = Materials[mat]["Металлургия"].PropertyData;
+                var metallurgicalNode = TreeView.Nodes.Find(mat, true).FirstOrDefault()?.Nodes.Find("Металлургия", true).FirstOrDefault();
+                foreach (var reaction in metallurgy.Values.ToArray())
                 {
-                    if (reaction.Name.Contains(OldCellValue.ToString()))
-                    {
-                        var newName = reaction.Name.Replace(OldCellValue.ToString(), NewCellValue.ToString());
-                        Materials[mat]["Металлургия"].PropertyData.Remove(reaction.Name);
-                        reaction.Name = newName;
-                        Materials[mat]["Металлургия"].PropertyData.Add(newName, reaction);
-                    }
-                }
-                var metallurgicalNode = TreeView.Nodes.Find(mat, true)[0].Nodes.Find("Металлургия", true)[0];
+                    if (!ReactionUsesPhase(reaction.Name, oldPhase))
+                        continue;
+                    var oldName = reaction.Name;
+                    var newName = RenamePhaseInReaction(oldName, oldPhase, newPhase);
+                    metallurgy.Remove(oldName);
+                    reaction.Name = newName;
+                    metallurgy.Add(newName, reaction);
 
-                foreach (TreeNode node in metallurgicalNode.Nodes)
-                {
-                    var name = node.Text.Replace(OldCellValue.ToString(), NewCellValue.ToString());
-                    node.Text = name;
-                    node.Name = name;
+                    var node = metallurgicalNode?.Nodes.FirstOrDefault(n => n.Name.Split(',')[0] == oldName);
+                    if (node != null)
+                        node.Name = node.Text = newName + node.Name.Substring(oldName.Length);
                 }
-
             }
+        }
+
+        private static bool ReactionUsesPhase(string reactionName, string phase)
+        {
+            var parts = reactionName.Split(' ');
+            return parts.Length > 1 && parts[1].Split('-').Contains(phase);
+        }
+
+        private static string RenamePhaseInReaction(string reactionName, string oldPhase, string newPhase)
+        {
+            var parts = reactionName.Split(' ');
+            parts[1] = string.Join("-", parts[1].Split('-').Select(p => p == oldPhase ? newPhase : p));
+            return string.Join(" ", parts);
         }
 
         private void UpdatePhaseColumns(IEnumerable<DataTable> tables, string [] phaseNames)
@@ -591,7 +633,10 @@ namespace BazisAvaloniaGUI.Databases
             try
             {
                 // || : при Esc Label == null, а ContainsKey(null) бросил бы ArgumentNullException.
-                if (e.Label == null || e.Label == "" || Materials.ContainsKey(e.Label))
+                // ',' и '\' — разделители FullPath: с ними путь узлов материала разбирался бы неверно
+                // и его свойства перестали бы открываться (KeyNotFound)
+                if (string.IsNullOrWhiteSpace(e.Label) || e.Label.IndexOfAny([',', '\\']) >= 0 || Materials.ContainsKey(e.Label)
+                    || !Materials.ContainsKey(e.Node.Text))
                     e.CancelEdit = true;
                 else
                 {
@@ -604,6 +649,8 @@ namespace BazisAvaloniaGUI.Databases
 
                     Materials.Remove(oldText);
                     Materials.Add(newName, mat);
+                    if (shownPath != null && shownPath[0] == oldText)
+                        shownPath[0] = newName;
                     OnMutationEvent?.Invoke();
                 }
                 LabelEditFlag = false;
@@ -621,7 +668,9 @@ namespace BazisAvaloniaGUI.Databases
         {
             try
             {
-                if (Materials.Remove(TreeView.SelectedNode.Name))
+                // Только узел материала: иначе выбранное свойство/категория с именем, совпадающим
+                // с именем материала, удалило бы из базы этот материал при сохранении его узла
+                if (TreeView.SelectedNode?.Level == 0 && Materials.Remove(TreeView.SelectedNode.Name))
                 {
                     MessageBox.Show(this, Resources.DataRemovedSuccessfully);
                     RemoveNode(TreeView.SelectedNode);
@@ -692,13 +741,20 @@ namespace BazisAvaloniaGUI.Databases
 
                 if (prop == "Структура")
                 {
-                    var phaseName = $"newPhase{table.Rows.Count + 1}";
+                    var termTables = Materials[mat]["Тепловые свойства"].PropertyData.Values.Select(x => x.DataTable).ToArray();
+                    var mechTables = Materials[mat]["Механические свойства"].PropertyData.Values.Select(x => x.DataTable).ToArray();
+
+                    // newPhase{N} мог совпасть с существующей фазой (после удаления строки из середины):
+                    // DuplicateNameException на части таблиц оставлял столбцы без строки фазы
+                    var phases = table.AsEnumerable().Select(r => r.Field<string>(0)).ToHashSet();
+                    var number = table.Rows.Count + 1;
+                    while (phases.Contains($"newPhase{number}") || termTables.Concat(mechTables).Any(t => t.Columns.Contains($"newPhase{number}")))
+                        number++;
+                    var phaseName = $"newPhase{number}";
                     newRow[0] = phaseName;
                     newRow[1] = 0;
 
-                    var termTables = Materials[mat]["Тепловые свойства"].PropertyData.Values.Select(x => x.DataTable);
                     AddNewColumn(termTables, phaseName, typeof(float));
-                    var mechTables = Materials[mat]["Механические свойства"].PropertyData.Values.Select(x => x.DataTable);
                     AddNewColumn(mechTables, phaseName, typeof(float));
                 }
 
@@ -724,43 +780,47 @@ namespace BazisAvaloniaGUI.Databases
 
         public override void DataGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
-            var sourceTable = (DataTable)e.Row.DataGridView.DataSource;
-
-            if (TreeView.SelectedNode.Level == 2)
+            // shownPath, а не SelectedNode: при снятом выделении NRE в обработчике Delete ронял приложение
+            if (shownPath == null || shownPath[2] != "Структура" || !Materials.ContainsKey(shownPath[0]))
+                return;
+            try
             {
-                var dataAr = TreeView.SelectedNode.FullPath.Split('\\', ',');
+                var matName = shownPath[0];
+                var phaseName = Convert.ToString(e.Row.Cells[0].Value);
+                var termTables = Materials[matName]["Тепловые свойства"].PropertyData.Values.Select(x => x.DataTable);
+                DelColumn(termTables, phaseName);
+                var mechTables = Materials[matName]["Механические свойства"].PropertyData.Values.Select(x => x.DataTable);
+                DelColumn(mechTables, phaseName);
 
-                var matName = dataAr[0];
-                var genProp = dataAr[1];
-                var subProp = dataAr[2];
-
-                if(subProp == "Структура")
+                // Удаляются только реакции с этой фазой целиком ("Вид Ф1-Ф2"); Contains по подстроке
+                // удалял и реакции фаз, содержащих имя удаляемой ("A" в "AB")
+                var metallurgy = Materials[matName]["Металлургия"].PropertyData;
+                var metallurgicalNode = TreeView.Nodes.Find(matName, true).FirstOrDefault()?.Nodes.Find("Металлургия", true).FirstOrDefault();
+                foreach (var reaction in metallurgy.Values.ToArray())
                 {
-                    var phaseName = (string)e.Row.Cells[0].Value;
-                    var termTables = Materials[matName]["Тепловые свойства"].PropertyData.Values.Select(x => x.DataTable);
-                    DelColumn(termTables, phaseName);
-                    var mechTables = Materials[matName]["Механические свойства"].PropertyData.Values.Select(x => x.DataTable);
-                    DelColumn(mechTables, phaseName);
-
-                    var reactions = Materials[matName]["Металлургия"].PropertyData.Values.ToArray();
-                    var metallurgicalNode = TreeView.Nodes.Find(matName, true)[0].Nodes.Find("Металлургия", true)[0];
-                    foreach (var reaction in reactions)
+                    if (ReactionUsesPhase(reaction.Name, phaseName))
                     {
-                        if (reaction.Name.Contains(phaseName))
-                        {
-                            Materials[matName]["Металлургия"].PropertyData.Remove(reaction.Name);
-                            metallurgicalNode.Nodes.RemoveByKey(reaction.Name + "," + reaction.Units);
-                        }
+                        metallurgy.Remove(reaction.Name);
+                        var node = metallurgicalNode?.Nodes.FirstOrDefault(n => n.Name.Split(',')[0] == reaction.Name);
+                        if (node != null) RemoveNode(node);
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                e.Cancel = true;
+                MessageBox.Show(this, ex.Message);
             }
         }
 
         private void DelColumn(IEnumerable<DataTable> tables, string name)
         {
+            // Отсутствующий столбец пропускается: исключение на середине цикла оставляло
+            // часть таблиц с удалённым столбцом, а часть — без изменений
             foreach (var table in tables)
             {
-                table.Columns.Remove(name);
+                if (table.Columns.Contains(name))
+                    table.Columns.Remove(name);
             }
         }
 

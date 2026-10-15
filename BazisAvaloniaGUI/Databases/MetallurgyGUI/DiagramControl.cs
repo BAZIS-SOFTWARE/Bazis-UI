@@ -153,6 +153,10 @@ namespace BazisAvaloniaGUI.Databases.MetallurgyGUI
         internal void CalcCCTDiagram()
         {
             var coolings = reactions.Values.Where(x => x.Name.Split(' ')[1].Split('-')[0] == cctPanel.InitialPhase);
+            // Скорости охлаждения должны быть отрицательными: при vel >= 0 цикл "while (temp > tempStop)"
+            // ниже никогда не завершался и подвешивал приложение
+            if (!(cctPanel.MinVel < 0) || !(cctPanel.MaxVel < 0))
+                throw new ArgumentException("Скорости охлаждения должны быть отрицательными");
             var vel = cctPanel.MinVel;
             var velQ = (float)Math.Pow(cctPanel.MaxVel / cctPanel.MinVel, 1.0f / (float)(cctPanel.VelNumber - 1));
             var tempVel = cctPanel.MinVel;

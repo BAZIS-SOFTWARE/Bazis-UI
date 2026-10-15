@@ -13,7 +13,11 @@ namespace BazisAvaloniaGUI.Console
         public static void AddComand(string command)
         {
             if (history.LastOrDefault() == command)
+            {
+                // Повтор последней команды (например, выбранной стрелками) тоже возвращает навигацию в конец истории.
+                index = history.Count;
                 return;
+            }
 
             history.Add(command);
 

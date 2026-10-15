@@ -58,11 +58,11 @@ namespace BazisAvaloniaGUI.Databases.MetallurgyGUI
         }
 
         public string InitialPhase => cmbPhases.SelectedItem?.ToString() ?? "";
-        public float IniTemp => float.Parse(txbIniTemp.Text);
-        public float FinTemp => float.Parse(txbFinTemp.Text);
-        public float MaxPhase => float.Parse(txbMaxPhase.Text);
-        public float MinPhase => float.Parse(txbMinPhase.Text);
-        public float MaxTime => float.Parse(txbMaxTime.Text);
+        public float IniTemp => DatabaseNumber.ParseFloat(txbIniTemp.Text);
+        public float FinTemp => DatabaseNumber.ParseFloat(txbFinTemp.Text);
+        public float MaxPhase => DatabaseNumber.ParseFloat(txbMaxPhase.Text);
+        public float MinPhase => DatabaseNumber.ParseFloat(txbMinPhase.Text);
+        public float MaxTime => DatabaseNumber.ParseFloat(txbMaxTime.Text);
 
         private static StackPanel Row(string label, Control control)
         {

@@ -96,7 +96,8 @@ namespace BazisAvaloniaGUI.Clip
             var planeButtons = new WrapPanel();
             foreach (var (name, values) in planes)
             {
-                var button = new RadioButton { Name = name, Content = Text(name), GroupName = "clipPlane", Tag = values, Margin = new Thickness(0, 0, 6, 0) };
+                // Как в WinForms (radioButton6.Checked = true): отмечена плоскость начальной нормали (0, 0, -1).
+                var button = new RadioButton { Name = name, Content = Text(name), GroupName = "clipPlane", Tag = values, Margin = new Thickness(0, 0, 6, 0), IsChecked = name == "radioButton6" };
                 button.Click += OnChoicePlane;
                 planeButtons.Children.Add(button);
             }
@@ -249,6 +250,10 @@ namespace BazisAvaloniaGUI.Clip
 
         private void OnMouseMove(object sender, PointerEventArgs e)
         {
+            // Как в WinForms (смещение только при нажатой левой кнопке): отпускание вне поля не доходит
+            // до OnMouseUp, и без этой проверки D менялось бы при простом наведении на поле.
+            if (!e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+                IsMouseDown = false;
             if (!IsMouseDown || checkBox1.IsChecked != true)
                 return;
 
@@ -280,9 +285,12 @@ namespace BazisAvaloniaGUI.Clip
         {
             var rBtn = (RadioButton)sender;
             PreventRedraw = true;
-            var values = rBtn.Tag.ToString().Split(' ');
-            for (var i = 0; i < sliders.Length; ++i)
-                sliders[i].Value = int.Parse(values[i]);
+            var values = rBtn.Tag.ToString().Split(' ').Select(int.Parse).ToArray();
+            // Как в WinForms, сначала выставляется ненулевой (отличный от 100) ползунок: иначе при переходе,
+            // например, с X на Y все ползунки на миг становятся 100, OnChangeValue выходит без обновления
+            // и в плоскости остаётся старая компонента (нормаль (1, 1, 0) вместо (0, 1, 0)), а подпись — старое значение.
+            foreach (var i in Enumerable.Range(0, sliders.Length).OrderBy(i => values[i] == 100))
+                sliders[i].Value = values[i];
             PreventRedraw = false;
 
             SetClipPlaneEvent?.Invoke(plane);

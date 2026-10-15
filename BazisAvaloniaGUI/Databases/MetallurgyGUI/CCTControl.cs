@@ -53,10 +53,10 @@ namespace BazisAvaloniaGUI.Databases.MetallurgyGUI
         }
 
         public string InitialPhase => cmbPhases.SelectedItem?.ToString() ?? "";
-        public float IniTemp => float.Parse(txbIniTemp.Text);
-        public float FinTemp => float.Parse(txbFinTemp.Text);
-        public float MaxVel => float.Parse(txbMaxVel.Text);
-        public float MinVel => float.Parse(txbMinVel.Text);
+        public float IniTemp => DatabaseNumber.ParseFloat(txbIniTemp.Text);
+        public float FinTemp => DatabaseNumber.ParseFloat(txbFinTemp.Text);
+        public float MaxVel => DatabaseNumber.ParseFloat(txbMaxVel.Text);
+        public float MinVel => DatabaseNumber.ParseFloat(txbMinVel.Text);
         public decimal VelNumber => nudVels.Value ?? 0;
 
         private static StackPanel Row(string label, Control control)

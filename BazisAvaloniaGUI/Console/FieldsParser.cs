@@ -65,19 +65,22 @@ namespace BazisAvaloniaGUI.Utilities
                 if (stopChars.Length > 1) tokenValue.Append(a);
                 else
                 {
-                    if (a == '\\' && line[i + 1] == '\\')
+                    // Обратная косая черта последним символом (незакрытая кавычка): экранировать нечего,
+                    // обращение к line[i + 1] выходило за границу строки.
+                    var next = i + 1 < line.Length ? line[i + 1] : '\0';
+                    if (a == '\\' && next == '\\')
                     {
                         tokenValue.Append(a);
                         slashScreen++;
                         i++;
                     }
-                    else if (a == '\\' && line[i + 1] == '\'')
+                    else if (a == '\\' && next == '\'')
                     {
                         tokenValue.Append('\'');
                         quotesInsideNumber++;
                         i++;
                     }
-                    else if (a == '\\' && line[i + 1] == '\"')
+                    else if (a == '\\' && next == '\"')
                     {
                         tokenValue.Append('\"');
                         quotesInsideNumber++;
