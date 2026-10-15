@@ -358,6 +358,7 @@ namespace BazisAvaloniaGUI.Shell
             try
             {
                 var previousProject = project;
+                var cadImported = false;
                 filePath = Path.GetFullPath(filePath);
                 var ext = Path.GetExtension(filePath).ToLowerInvariant();
 
@@ -370,19 +371,26 @@ namespace BazisAvaloniaGUI.Shell
 
                 else if (geomFilter.Contains(ext))
                 {
-                    // Как в исходном BaseForm: импорт CAD создаёт новый проект. Импорт в текущий контроллер
-                    // заменял модель, но оставлял путь сохранения, результаты, расчёты и окна старого проекта
-                    var gmshLibraryPath = await dataController.GetGmshLibraryPath();
-                    if (string.IsNullOrWhiteSpace(gmshLibraryPath))
-                        return false;
+                    // Как в исходном BaseForm: CAD импортируется в текущий контроллер, уже инициализированная
+                    // сессия Gmsh переиспользуется и не выгружается. Новый контроллер создаётся только при
+                    // отсутствии проекта и назначается после успешного импорта
+                    var cadProject = project ?? new ProjectController();
+                    if (!cadProject.IsGeometryInitialized)
+                    {
+                        var gmshLibraryPath = await dataController.GetGmshLibraryPath();
+                        if (string.IsNullOrWhiteSpace(gmshLibraryPath))
+                            return false;
 
-                    // Gmsh — общее состояние процесса: геометрию прежнего проекта выгружаем до инициализации новой
-                    project?.UnloadGeometry();
-                    var cadProject = new ProjectController();
-                    cadProject.InitializeGeometry(gmshLibraryPath);
+                        cadProject.InitializeGeometry(gmshLibraryPath);
+                    }
+
                     cadProject.ImportCAD(filePath);
-                    ReplaceProject(cadProject);
+                    // Ядро заменило данные проекта в том же контроллере: окна и состояние старой модели
+                    // (путь сохранения, результаты, расчёты) сбрасываются ниже, как при смене проекта
+                    CloseProjectTools();
+                    project = cadProject;
                     projectFilePath = null;
+                    cadImported = true;
                 }
 
                 else
@@ -394,7 +402,7 @@ namespace BazisAvaloniaGUI.Shell
 
                 lblStatus.Text = projectFilePath ?? filePath;
 
-                if (!ReferenceEquals(previousProject, project))
+                if (cadImported || !ReferenceEquals(previousProject, project))
                 {
                     ClearResultsState();
                     PresentCompDataOnTree(new List<string>());
@@ -464,14 +472,20 @@ namespace BazisAvaloniaGUI.Shell
             if (ReferenceEquals(project, newProject))
                 return;
 
+            CloseProjectTools();
+            project?.UnloadGeometry();
+            project = newProject;
+        }
+
+        /// <summary>Отменяет выбор и закрывает окна, которые работают с моделью текущего проекта.</summary>
+        private void CloseProjectTools()
+        {
             CancelInteractiveSelection();
             chamferWindowService.Close();
             CloseAdvancedSelectionForm();
             CloseClipPlaneForm();
             // Окно отзеркаливания хранит имена VBO старой сцены
             OwnedWindows.FirstOrDefault(x => x.Name == "reflectForm")?.Close();
-            project?.UnloadGeometry();
-            project = newProject;
         }
 
         private void UnblockInterface()

@@ -214,7 +214,8 @@ namespace BazisAvaloniaGUI.Databases
         {
             LabelEditFlag = true;
             // OnMutationEvent поднимается в TreeView_AfterLabelEdit — только после успешного переименования.
-            BeginLabelEdit(TreeView.SelectedNode);
+            // Редактируется только имя функции: единицы ("Имя,K-s") хранятся в самой функции и здесь не меняются
+            BeginLabelEdit(TreeView.SelectedNode, TreeView.SelectedNode?.Text.Split(',')[0]);
         }
 
         private void DeleteMaterialItem_Click(object sender, EventArgs e)
@@ -305,23 +306,26 @@ namespace BazisAvaloniaGUI.Databases
         {
             try
             {
-                // || : при Esc Label == null, а ContainsKey(null) бросил бы ArgumentNullException.
-                // Ключ словаря — имя без единиц ("Имя,K-s" → "Имя"): дубликат проверяется по нему,
-                // и все проверки выполняются до изменения данных, чтобы ошибка не оставила словарь неполным
-                var oldName = e.Node.Text.Split(',')[0];
-                var newKey = e.Label?.Split(',')[0];
-                if (string.IsNullOrEmpty(newKey) || (newKey != oldName && Functions.ContainsKey(newKey))
-                    || !Functions.ContainsKey(oldName)
-                    || e.Label.Split(',').Count() < 2 || e.Label.Split(',')[1].Split('-').Count() < 2)
+                // Редактируется только имя ("Имя,K-s" → "Имя"): единицы функции не меняются и возвращаются
+                // в подпись из текущего текста узла. Ключ словаря — имя без единиц; все проверки выполняются
+                // до изменения данных, чтобы ошибка не оставила словарь неполным. При Esc Label == null
+                var oldText = e.Node.Text;
+                var oldName = oldText.Split(',')[0];
+                var unitsIndex = oldText.IndexOf(',');
+                var units = unitsIndex >= 0 ? oldText.Substring(unitsIndex) : string.Empty;
+                var newKey = e.Label?.Trim();
+                if (string.IsNullOrEmpty(newKey) || newKey.Contains(',')
+                    || (newKey != oldName && Functions.ContainsKey(newKey))
+                    || !Functions.ContainsKey(oldName))
                     e.CancelEdit = true;
                 else
                 {
-                    var newName = e.Label;
                     var fun = Functions[oldName];
                     Functions.Remove(oldName);
                     Functions.Add(newKey, fun);
                     fun.Name = newKey;
-                    e.Node.Name = newName;
+                    e.Label = newKey + units;
+                    e.Node.Name = e.Label;
                     OnMutationEvent?.Invoke();
                 }
                 LabelEditFlag = false;

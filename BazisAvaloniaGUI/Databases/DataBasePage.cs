@@ -127,16 +127,17 @@ internal class DataBasePage : UserControl
             await MessageBox.Show(this, ex.Message, "Ошибка");
         }
     }
-    protected void BeginLabelEdit(TreeNode node)
+    /// <param name="editText">Редактируемая часть подписи; по умолчанию — вся подпись узла.</param>
+    protected void BeginLabelEdit(TreeNode node, string editText = null)
     {
         if (!LabelEditFlag || node == null) return;
-        var edit = new TextBox { Text = node.Text, Height = 20, MinHeight = 20, Padding = new Thickness(2,0) };
+        var edit = new TextBox { Text = editText ?? node.Text, Height = 20, MinHeight = 20, Padding = new Thickness(2,0) };
         node.Header = edit; var finished = false;
         void Finish(string label)
         {
             if (finished) return; finished = true;
             var e = new NodeLabelEditEventArgs(node,label); TreeView_AfterLabelEdit(TreeView,e);
-            node.Text = e.CancelEdit || label == null ? node.Text : label;
+            node.Text = e.CancelEdit || e.Label == null ? node.Text : e.Label;
         }
         edit.KeyDown += (_,e) => { if (e.Key == Key.Enter) Finish(edit.Text); if (e.Key == Key.Escape) Finish(null); };
         edit.LostFocus += (_,_) => Finish(edit.Text);
@@ -150,7 +151,7 @@ internal class DataBasePage : UserControl
     internal void RenameNode(TreeNode node, string label)
     {
         LabelEditFlag = true; var e = new NodeLabelEditEventArgs(node,label); TreeView_AfterLabelEdit(TreeView,e);
-        if (!e.CancelEdit) node.Text = label;
+        if (!e.CancelEdit) node.Text = e.Label;
     }
     protected void ShowAuxiliaryWindow(string name, string title, UserControl control, bool modal)
     {

@@ -433,11 +433,11 @@ namespace BazisGUI
 
                 var folderName = dialog.SelectedPath;
 
+                project.Create(Path.Combine(folderName, "newProject.bpf2"));
+                requiresSaveAs = false;
                 // Геометрия прежнего проекта не должна переходить в новый (см. OpenProject)
                 if (project.IsGeometryInitialized)
                     project.UnloadGeometry();
-                project.Create(Path.Combine(folderName, "newProject.bpf2"));
-                requiresSaveAs = false;
 
                 var appDirName = Path.GetDirectoryName(Application.ExecutablePath);
 
@@ -482,12 +482,7 @@ namespace BazisGUI
             {
                 var ext = Path.GetExtension(filePath).ToLower();
 
-                // До перехода на один ProjectController каждое открытие создавало новый контроллер.
-                // Open/Create не сбрасывают Gmsh, поэтому геометрию прежнего проекта выгружаем явно,
-                // иначе генерация сетки работает по старой CAD-модели
-                if (project.IsGeometryInitialized)
-                    project.UnloadGeometry();
-
+                // Как в исходном BaseForm: CAD импортируется в текущий контроллер с уже открытой сессией Gmsh
                 if (geomFilter.Contains(ext))
                 {
                     if (!project.IsGeometryInitialized)
@@ -508,6 +503,12 @@ namespace BazisGUI
                 {
                     await LoadModelWithProgress(filePath, false);
                     requiresSaveAs = ext != ".bpf" && ext != ".bpf2";
+
+                    // До перехода на один ProjectController открытие проекта/сетки создавало новый контроллер
+                    // без геометрии. Open не сбрасывает Gmsh, поэтому после успешной загрузки выгружаем CAD-модель
+                    // прежнего проекта, иначе генерация сетки работает по ней. При ошибке загрузки сессия остаётся
+                    if (project.IsGeometryInitialized)
+                        project.UnloadGeometry();
                 }
             }
             catch (Exception ex)

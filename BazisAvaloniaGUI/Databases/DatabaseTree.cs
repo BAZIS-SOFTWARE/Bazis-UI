@@ -69,6 +69,7 @@ internal sealed class TreeViewEventArgs(TreeNode node) : System.EventArgs { publ
 internal sealed class NodeLabelEditEventArgs(TreeNode node, string label) : System.EventArgs
 {
     public TreeNode Node { get; } = node;
-    public string Label { get; } = label;
+    /// <summary>Новая подпись узла; обработчик может её уточнить (например, вернуть неизменяемую часть).</summary>
+    public string Label { get; set; } = label;
     public bool CancelEdit { get; set; }
 }
