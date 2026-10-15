@@ -280,6 +280,10 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
     {
         Interlocked.Increment(ref contoursVersion);
         Invoke(scene => scene.VboController.DeleteAllVBObjects());
+        // Удалён и буфер "Boundary": при включённой кнопке «Контуры» строим его заново,
+        // вызывающий код пересоздаёт только буферы модели
+        if (contoursVisible)
+            SetContoursVisible(true);
     }
 
     /// <summary>Пересоздаёт буферы наборов модели (BaseForm.CreateVBObjsByObjsType для перечисленных наборов).</summary>

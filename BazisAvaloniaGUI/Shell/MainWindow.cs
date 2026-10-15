@@ -268,20 +268,22 @@ namespace BazisAvaloniaGUI.Shell
                     return;
 
                 var folderName = dialog[0].TryGetLocalPath();
+                if (folderName == null)
+                    return;
 
+                // Новый проект полностью готовится до замены текущего: при ошибке инициализации
+                // активный проект, навигатор и сцена остаются согласованными
                 var newProject = new ProjectController();
                 newProject.CreateProject("newProject.bpf2");
-                ReplaceProject(newProject);
 
-                projectFilePath = Path.GetFullPath(Path.Combine(folderName, project.Name));
-                lblStatus.Text = projectFilePath;
+                var newProjectFilePath = Path.GetFullPath(Path.Combine(folderName, newProject.Name));
 
                 var appDirName = AppContext.BaseDirectory;
 
                 string[] matfiles = Directory.GetFiles(appDirName, "*Materials*.jsf", SearchOption.AllDirectories);
                 string[] funfiles = Directory.GetFiles(appDirName, "*functions*.jsf", SearchOption.AllDirectories);
 
-                project.CreateTask();
+                newProject.CreateTask();
 
                 if (matfiles.Length != 0)
                 {
@@ -290,7 +292,7 @@ namespace BazisAvaloniaGUI.Shell
                     if (IOFileController.CopyFile(matName, matDirName, folderName))
                     {
                         var matDB = new MaterialDBData(matName, folderName);
-                        project.MaterialsDB = matDB;
+                        newProject.MaterialsDB = matDB;
                     }
 
                 }
@@ -302,9 +304,13 @@ namespace BazisAvaloniaGUI.Shell
                     if (IOFileController.CopyFile(funName, funDirName, folderName))
                     {
                         var funDB = new FunctionDBData(funName, folderName);
-                        project.FunctionsDB = funDB;
+                        newProject.FunctionsDB = funDB;
                     }
                 }
+
+                ReplaceProject(newProject);
+                projectFilePath = newProjectFilePath;
+                lblStatus.Text = projectFilePath;
 
                 ClearResultsState();
                 CloseGanttChart();
@@ -422,6 +428,8 @@ namespace BazisAvaloniaGUI.Shell
             chamferWindowService.Close();
             CloseAdvancedSelectionForm();
             CloseClipPlaneForm();
+            // Окно отзеркаливания хранит имена VBO старой сцены
+            OwnedWindows.FirstOrDefault(x => x.Name == "reflectForm")?.Close();
             project?.UnloadGeometry();
             project = newProject;
         }
