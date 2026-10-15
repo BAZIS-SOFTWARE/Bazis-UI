@@ -47,6 +47,13 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
     private int contoursVersion;
     private bool contoursVisible;
     private bool wasInitialized;
+
+    /// <summary>
+    /// Настройки вида, заданные кнопками сцены. Хранятся здесь, а не только в контроллере: при пересоздании
+    /// GL-контекста создаётся новый SceneController со значениями по умолчанию, и они применяются к нему заново.
+    /// </summary>
+    private bool displayBasis = true;
+    private ViewAxis rotationAxis = ViewAxis.XYZ;
     private int width;
     private int height;
     private SceneMouseButton pressedButton;
@@ -84,6 +91,13 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
 
     /// <summary>Сообщение для консоли окна (снимок экрана, результат операции и т.п.).</summary>
     public event Action<string, DrawingColor>? MessageReported;
+
+    /// <summary>
+    /// GL-контекст пересоздан (не первая инициализация) и контроллер сцены создан заново с настройками
+    /// по умолчанию — оболочка заново передаёт ему свои настройки (фон, освещение, проекция и т.п.).
+    /// Вызывается в UI-потоке, до перестройки буферов проекта.
+    /// </summary>
+    public event Action? ControllerRecreated;
 
     /// <summary>Тип объектов для выбора; null — «Объекты» (все наборы).</summary>
     public ObjType? SelectedObjectType
@@ -138,8 +152,12 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
     /// <summary>Отображение базиса (три оси + сфера в начале координат).</summary>
     public bool DisplayBasis
     {
-        get => controller?.DisplayBasis ?? false;
-        set => Invoke(scene => scene.DisplayBasis = value);
+        get => displayBasis;
+        set
+        {
+            displayBasis = value;
+            Invoke(scene => scene.DisplayBasis = value);
+        }
     }
 
     /// <summary>
@@ -243,6 +261,10 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
         }
         Task.Run(() =>
         {
+            // Запрос уже устарел (например, следом показан другой проект) — контуры не считаем
+            if (version != Volatile.Read(ref contoursVersion))
+                return;
+
             try
             {
                 var nodes = currentProject.FindBoundaryEdges();
@@ -273,13 +295,16 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
     public void AddPresenter(IObjsPresenter objsPresenter) => Invoke(scene => presenter.Refresh(scene, objsPresenter));
 
     /// <summary>Удаляет буфер по имени (BaseForm.VBOController.DeleteVBObjects).</summary>
-    public void DeleteObjects(string name) => Invoke(scene => scene.VboController.DeleteVBObjects(name));
+    public void DeleteObjects(string name) => Invoke(scene => presenter.Delete(scene, name));
 
-    /// <summary>Удаляет все буферы сцены (BaseForm.VBOController.DeleteAllVBObjects).</summary>
+    /// <summary>
+    /// Удаляет все буферы сцены (BaseForm.VBOController.DeleteAllVBObjects), кроме плоскости сечения:
+    /// пока открыто окно сечения, она снимается только явно (DeleteClipPlane).
+    /// </summary>
     public void DeleteAllObjects()
     {
         Interlocked.Increment(ref contoursVersion);
-        Invoke(scene => scene.VboController.DeleteAllVBObjects());
+        Invoke(scene => presenter.DeleteAll(scene));
         // Удалён и буфер "Boundary": при включённой кнопке «Контуры» строим его заново,
         // вызывающий код пересоздаёт только буферы модели
         if (contoursVisible)
@@ -577,19 +602,6 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
     }
 
     /// <summary>
-    /// Пересоздаёт буферы всех наборов модели, сохраняя камеру (BaseForm: DeleteAllVBObjects + CreateVBObjects("Объекты")).
-    /// Буферы вне модели (поля результатов, сечения) при этом удаляются, как и в BaseForm.
-    /// </summary>
-    public void RefreshProject()
-    {
-        Invoke(scene =>
-        {
-            if (project != null)
-                presenter.Display(project, scene, fitToScreen: false);
-        });
-    }
-
-    /// <summary>
     /// Выравнивает камеру по координатной плоскости (XY/XZ/YZ) и запрашивает перерисовку.
     /// Масштаб сохраняется: SceneController.PlaneObjs берёт текущий ScaleFactor камеры.
     /// </summary>
@@ -597,14 +609,13 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
 
     /// <summary>
     /// Задаёт ось вращения для протягивания мышью: X/Y/Z — только вокруг этой оси, XYZ — свободный поворот.
-    /// Перерисовка не нужна: вид не меняется, режим влияет только на последующие движения мыши.
+    /// Вид не меняется, режим влияет только на последующие движения мыши. Значение запоминается,
+    /// чтобы применяться и к контроллеру, ещё не созданному или пересозданному вместе с GL-контекстом.
     /// </summary>
     public void SetRotationAxis(ViewAxis axis)
     {
-        if (controller == null)
-            return;
-
-        controller.RotationAxis = axis;
+        rotationAxis = axis;
+        Invoke(scene => scene.RotationAxis = axis);
     }
 
     /// <summary>
@@ -642,14 +653,26 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
                     || change is GeoChange or MeshChange or SetDelete or SetRename)
                 {
                     presenter.Display(project, scene, fitToScreen: false);
+                    // Display удалил и буфер "Boundary": при включённой кнопке «Контуры» строим контуры
+                    // изменённой модели заново (из UI-потока, где живёт состояние кнопки)
+                    Dispatcher.UIThread.Post(RebuildContoursIfVisible);
                     return;
                 }
             }
             recolor.ExceptWith(rebuild);
-            presenter.Refresh(project, scene, rebuild);
+            // Наборы, буферов которых нет на сцене (вместо модели показано поле результатов), не перестраиваем
+            presenter.RefreshShown(project, scene, rebuild);
             presenter.Recolor(project, scene, recolor);
         });
     }
+
+    /// <summary>Перестраивает контуры, если кнопка «Контуры» включена.</summary>
+    private void RebuildContoursIfVisible()
+    {
+        if (contoursVisible)
+            SetContoursVisible(true);
+    }
+
     protected override void OnOpenGlInit(GlInterface gl)
     {
         GL.LoadBindings(new AvaloniaGlBindingsContext(gl));
@@ -659,15 +682,35 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
         controller.RenderRequested += RequestRendering;
         controller.SelectionChanged += OnSelectionChanged;
         controller.Initialization();
+        // Новый контроллер создаётся с настройками по умолчанию — применяем заданные кнопками сцены
+        controller.DisplayBasis = displayBasis;
+        controller.RotationAxis = rotationAxis;
         width = height = 0;
 
-        // Контекст пересоздан (например, панель сцены переподключена) — буферы прежнего контекста потеряны.
-        if (wasInitialized && project != null)
-        {
-            var currentProject = project;
-            sceneActions.Enqueue(scene => presenter.Display(currentProject, scene, fitToScreen: false));
-        }
+        // Контекст пересоздан (например, панель сцены переподключена) — буферы и настройки прежнего
+        // контроллера потеряны. Сначала оболочка заново передаёт настройки (её действия встают в очередь
+        // раньше перестройки, чтобы буферы создавались уже с нужной прозрачностью), затем перестраиваются
+        // буферы проекта и контуры.
+        if (wasInitialized)
+            Dispatcher.UIThread.Post(RestoreAfterContextRecreation);
         wasInitialized = true;
+    }
+
+    /// <summary>Восстанавливает содержимое сцены после пересоздания GL-контекста.</summary>
+    private void RestoreAfterContextRecreation()
+    {
+        ControllerRecreated?.Invoke();
+
+        if (project == null)
+            return;
+
+        var currentProject = project;
+        Invoke(scene =>
+        {
+            if (ReferenceEquals(project, currentProject))
+                presenter.Display(currentProject, scene, fitToScreen: false);
+        });
+        RebuildContoursIfVisible();
     }
 
     protected override void OnOpenGlRender(GlInterface gl, int fb)
@@ -804,7 +847,9 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
     protected override void OnPointerReleased(PointerReleasedEventArgs e)
     {
         base.OnPointerReleased(e);
-        if (controller == null)
+        // Отпускание без нажатия на сцене (кнопку нажали вне её, либо жест уже прерван потерей захвата)
+        // не должно приводить к выбору объектов
+        if (controller == null || pressedButton == SceneMouseButton.None)
             return;
 
         var args = CreateMouseArgs(e);
@@ -848,6 +893,8 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
             controller?.OnPointerReleased(new SceneMouseEventArgs { Button = SceneMouseButton.Middle });
         if (pressedButton == SceneMouseButton.Left && controller != null)
         {
+            // Рамка прервана — последующее отпускание кнопки не должно выбирать объекты
+            controller.CancelSelection();
             controller.SelectionRectangle.Remove();
             RequestNextFrameRendering();
         }

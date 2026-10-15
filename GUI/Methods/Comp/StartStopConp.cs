@@ -23,7 +23,8 @@ namespace BazisGUI
                 project.Save(lblStatus.Text);
                 console.PrintInfo($"{Resources.StartStopConp_SaveProjectInto_Message} {WorkingDir}", Color.Black);
 
-                CheckProjectDataBeforeCreationTCF();
+                if (!CheckProjectDataBeforeCreationTCF())
+                    return;
 
                 var compDir = Path.Combine(WorkingDir, "ComputationData");
 
@@ -64,7 +65,8 @@ namespace BazisGUI
             }
         }
 
-        private void CheckProjectDataBeforeCreationTCF()
+        /// <summary>Проверяет наличие файла проекта и баз данных; при ошибке расчёт не запускается.</summary>
+        private bool CheckProjectDataBeforeCreationTCF()
         {
             try
             {
@@ -79,10 +81,12 @@ namespace BazisGUI
                 if (!File.Exists(func))
                     throw new Exception($"{Resources.StartStopConp_ProjectDirectoryCheck_Message_Part1}: {WorkingDir} {Resources.StartStopConp_ProjectDataCheck_LackOfFunctions_Message}: {project.FunctionsDB.Name}.");
 
+                return true;
             }
             catch (Exception ex)
             {
                 console.PrintInfo(ex.Message, Color.Red);
+                return false;
             }
         }
 

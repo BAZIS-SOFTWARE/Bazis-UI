@@ -10,16 +10,58 @@ namespace BazisAvaloniaGUI.Scene;
 
 internal class SceneProjectPresenter
 {
+    /// <summary>
+    /// Имя буфера плоскости сечения (SceneController.CreateClipPlane). Пока открыто окно сечения, общая
+    /// очистка сцены его не удаляет — снимается он только явно (DeleteClipPlane при закрытии окна).
+    /// </summary>
+    public const string ClipPlaneName = "ClipPlane";
+
+    /// <summary>
+    /// Наборы модели, буферы которых сейчас принадлежат сцене (построены Display/RefreshSets, в том числе
+    /// пустые — все объекты набора скрыты). Если буфер набора удалён извне (вместо модели показано поле
+    /// результатов), набор отсюда убирается, и изменения представления не возвращают его на сцену.
+    /// Используется только в потоке рендера.
+    /// </summary>
+    private readonly HashSet<string> modelSets = new();
+
     /// <summary>Создаёт GL-объекты для видимых наборов загруженного проекта.</summary>
     public void Display(IProjectController project, SceneController scene, bool fitToScreen = true)
     {
-        var vboController = scene.VboController;
-        vboController.DeleteAllVBObjects();
+        DeleteAll(scene);
 
         Refresh(project, scene, project.GetAllModelSetsInfo());
         if (fitToScreen)
             scene.FitObjectsToScreen();
     }
+
+    /// <summary>
+    /// Удаляет все буферы сцены, кроме плоскости сечения (BaseForm.VBOController.DeleteAllVBObjects).
+    /// </summary>
+    public void DeleteAll(SceneController scene)
+    {
+        var vboController = scene.VboController;
+        var names = vboController.GetVBObjs()
+            .Select(vbo => vbo.ObjName)
+            .Where(name => name != ClipPlaneName)
+            .ToList();
+        foreach (var name in names)
+            vboController.DeleteVBObjects(name);
+        modelSets.Clear();
+    }
+
+    /// <summary>Удаляет буфер по имени; набор модели перестаёт обновляться по изменениям представления.</summary>
+    public void Delete(SceneController scene, string name)
+    {
+        scene.VboController.DeleteVBObjects(name);
+        modelSets.Remove(name);
+    }
+
+    /// <summary>
+    /// Перестраивает буферы наборов по изменению представления (OnProjectMessage). Наборы, которых сейчас
+    /// нет на сцене (удалены ради поля результатов), не трогает — иначе модель перекрыла бы результаты.
+    /// </summary>
+    public void RefreshShown(IProjectController project, SceneController scene, IEnumerable<ISetInfo> sets) =>
+        Refresh(project, scene, sets.Where(set => modelSets.Contains(set.Name)));
 
     /// <summary>
     /// Перестраивает GL-объекты только для наборов с изменившимся представлением.
@@ -30,6 +72,7 @@ internal class SceneProjectPresenter
         var vboController = scene.VboController;
         foreach (var set in sets)
         {
+            modelSets.Add(set.Name);
             var drawingObject = vboController.FindVBObj(set.Name)?.ActiveDrawingObject;
             vboController.DeleteVBObjects(set.Name);
             if (set.NumberOfObjects == 0)
@@ -79,6 +122,8 @@ internal class SceneProjectPresenter
     {
         var vboController = scene.VboController;
         vboController.DeleteVBObjects(presenter.Name);
+        // Буфер с этим именем больше не набор модели — изменения представления его не перестраивают
+        modelSets.Remove(presenter.Name);
         if (presenter.Count() == 0)
             return;
         var vbo = CreateVbo(presenter, scene);

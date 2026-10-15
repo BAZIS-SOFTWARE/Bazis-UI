@@ -11,7 +11,7 @@ namespace BazisGUI.Scene.Core.Layers
     /// используются меши, построенные один раз через IQuadricMeshFactory (см. scene.avalonia.md,
     /// раздел "Попутная находка" — заодно снимается утечка gluNewQuadric без gluDeleteQuadric).
     /// </summary>
-    public class BasisLayer : ISceneLayer
+    public class BasisLayer : ISceneLayer, System.IDisposable
     {
         public string Name => "Basis";
         public int Order { get; set; } = 0;
@@ -98,6 +98,13 @@ namespace BazisGUI.Scene.Core.Layers
             GL.Scale(scale, scale, scale);
             centre.Load();
             GL.PopMatrix();
+        }
+
+        /// <summary>Освобождает GL-буферы мешей слоя (вызывается при текущем GL-контексте).</summary>
+        public void Dispose()
+        {
+            foreach (var mesh in new[] { axisX, axisY, axisZ, tipX, tipY, tipZ, centre })
+                VBO.VBO.DeleteAllBuffers(mesh);
         }
     }
 }

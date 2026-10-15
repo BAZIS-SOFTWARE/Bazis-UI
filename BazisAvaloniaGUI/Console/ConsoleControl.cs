@@ -140,37 +140,32 @@ namespace BazisAvaloniaGUI.Console
                     if (line.StartsWith("//"))
                         continue;
                     var matches = Regex.Matches(line, @"\$(\w+)");
-                    if (matches.Count > 0)
+                    try
                     {
-                        foreach (System.Text.RegularExpressions.Match match in matches)
+                        if (matches.Count > 0)
                         {
-                            var name = match.Groups[1].Value;
+                            foreach (System.Text.RegularExpressions.Match match in matches)
+                            {
+                                var name = match.Groups[1].Value;
 
-                            if (!variables.ContainsKey(name))
-                                variables[name] = "default";
-                        }
-                        try
-                        {
+                                if (!variables.ContainsKey(name))
+                                    variables[name] = "default";
+                            }
                             await ProcessCommandLine(line, variables);
                         }
-                        catch (Exception ex)
-                        {
-                            PrintInfo($"{ex.Message} in line: {line}", Color.Red);
-                            break;
-                        }
-
-                    }
-                    else
-                    {
-                        try
-                        {
+                        else
                             await ConsoleCommandEnteredEvent(line);
-                        }
-                        catch (Exception ex)
-                        {
-                            PrintInfo($"{ex.Message} in line: {line}", Color.Red);
-                            break;
-                        }
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        // Отмена пользователем (Esc) — не ошибка: останавливаем макрос без красного текста.
+                        PrintInfo($"{Resources.UtilityToolStrip_SelectObjectAsync_OperationCanceled_Message}: {line}", Color.Black);
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        PrintInfo($"{ex.Message} in line: {line}", Color.Red);
+                        break;
                     }
                 }
             }
@@ -208,20 +203,33 @@ namespace BazisAvaloniaGUI.Console
 
         private async void btnStartMacro_Click(object sender, RoutedEventArgs e)
         {
-            var top = TopLevel.GetTopLevel(this);
-            var files = await top.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            try
             {
-                AllowMultiple = false,
-                FileTypeFilter = [new FilePickerFileType("Bazis command file(*.tcf)") { Patterns = ["*.tcf"] }, FilePickerFileTypes.All]
-            });
+                if (TopLevel.GetTopLevel(this) is not { } top)
+                    return;
+                var files = await top.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+                {
+                    AllowMultiple = false,
+                    FileTypeFilter = [new FilePickerFileType("Bazis command file(*.tcf)") { Patterns = ["*.tcf"] }, FilePickerFileTypes.All]
+                });
 
-            if (files.Count == 0)
-                return;
+                if (files.Count == 0)
+                    return;
 
-            var t = ExecuteCmdFile(files[0].TryGetLocalPath());
-            await t;
-            if (t.Exception != null)
-                PrintInfo(t.Exception.InnerException.Message, Color.Red);
+                // Файл не из локальной ФС (например, из облачного провайдера) — пути нет.
+                var path = files[0].TryGetLocalPath();
+                if (string.IsNullOrEmpty(path))
+                {
+                    PrintInfo(Resources.ExecuteCMDFileMissing, Color.Red);
+                    return;
+                }
+
+                await ExecuteCmdFile(path);
+            }
+            catch (Exception ex)
+            {
+                PrintInfo(ex.Message, Color.Red);
+            }
         }
 
         private async void KeyDownEventHadler(object sender, KeyEventArgs e)
@@ -237,6 +245,10 @@ namespace BazisAvaloniaGUI.Console
                 try
                 {
                     await ConsoleCommandEnteredEvent(cmds);
+                }
+                catch (OperationCanceledException)
+                {
+                    PrintInfo(Resources.UtilityToolStrip_SelectObjectAsync_OperationCanceled_Message, Color.Black);
                 }
                 catch (Exception ex)
                 {

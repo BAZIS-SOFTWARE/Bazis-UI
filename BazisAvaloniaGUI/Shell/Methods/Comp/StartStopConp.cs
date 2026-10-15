@@ -23,7 +23,8 @@ namespace BazisAvaloniaGUI.Shell
                     return;
                 console.PrintInfo($"{Resources.StartStopConp_SaveProjectInto_Message} {WorkingDir}", Color.Black);
 
-                CheckProjectDataBeforeCreationTCF();
+                if (!CheckProjectDataBeforeCreationTCF())
+                    return;
 
                 var compDir = Path.Combine(WorkingDir, "ComputationData");
 
@@ -64,7 +65,8 @@ namespace BazisAvaloniaGUI.Shell
             }
         }
 
-        private void CheckProjectDataBeforeCreationTCF()
+        /// <summary>Проверяет наличие файла проекта и баз данных; при ошибке расчёт не запускается.</summary>
+        private bool CheckProjectDataBeforeCreationTCF()
         {
             try
             {
@@ -79,10 +81,12 @@ namespace BazisAvaloniaGUI.Shell
                 if (!File.Exists(func))
                     throw new Exception($"{Resources.StartStopConp_ProjectDirectoryCheck_Message_Part1}: {WorkingDir} {Resources.StartStopConp_ProjectDataCheck_LackOfFunctions_Message}: {project.FunctionsDB.Name}.");
 
+                return true;
             }
             catch (Exception ex)
             {
                 console.PrintInfo(ex.Message, Color.Red);
+                return false;
             }
         }
 
@@ -110,27 +114,35 @@ namespace BazisAvaloniaGUI.Shell
 
         private void остановитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var runProc = Process.GetProcessesByName("BazisSolverCP");
-
-            if (runProc.Length != 0)
+            try
             {
-                if (!OperatingSystem.IsWindows())
-                {
-                    runProc[0].Kill();
-                    return;
-                }
+                var runProc = Process.GetProcessesByName("BazisSolverCP");
 
-                var process = new Process();
-                var startInfo = new ProcessStartInfo
+                if (runProc.Length != 0)
                 {
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    FileName = "cmd.exe",
-                    //Arguments = $"/C sc stop BazisSolver",
-                    Arguments = $"/C taskkill /pid {runProc[0].Id} /f",
-                    Verb = "runas"
-                };
-                process.StartInfo = startInfo;
-                process.Start();
+                    if (!OperatingSystem.IsWindows())
+                    {
+                        runProc[0].Kill();
+                        return;
+                    }
+
+                    var process = new Process();
+                    var startInfo = new ProcessStartInfo
+                    {
+                        WindowStyle = ProcessWindowStyle.Hidden,
+                        FileName = "cmd.exe",
+                        //Arguments = $"/C sc stop BazisSolver",
+                        Arguments = $"/C taskkill /pid {runProc[0].Id} /f",
+                        Verb = "runas"
+                    };
+                    process.StartInfo = startInfo;
+                    process.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Процесс уже завершился или отказано в повышении прав
+                console.PrintInfo(ex.Message, Color.Red);
             }
         }
     }

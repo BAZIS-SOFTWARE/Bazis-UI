@@ -57,10 +57,8 @@ namespace BazisAvaloniaGUI.Shell
                 return;
 
             subscribedModelView = modelView;
-            // В BaseForm здесь ApplyModelViewSettings(): цвет выделения и ModelView.Transparency из settingsConfig.
-            // Avalonia смешивает кадр OpenGL с окном по альфа-каналу (GLControl его игнорирует), поэтому
-            // TransparencyValue = 0 делает грани невидимыми. Прозрачность задаётся через SetTransparencyValueEvent,
-            // здесь — только цвет выделения.
+            // В BaseForm здесь ApplyModelViewSettings() (цвет выделения и ModelView.Transparency из settingsConfig).
+            // Полные настройки представления, включая прозрачность, применяет PresentProject; здесь — цвет выделения.
             ApplySelectionColor();
             if (project != null)
                 scene.Surface.ShowProject(project);
@@ -249,24 +247,49 @@ namespace BazisAvaloniaGUI.Shell
 
         internal void SetBackColorToAllObjects()
         {
-            if (project != null)
+            if (project == null)
+                return;
+
+            // Как в исходном BaseForm: сбрасываются и выделение, и подсветка групп/условий
+            using (project.BeginViewUpdate())
+            {
                 project.ClearSelection();
+                project.ClearColor();
+            }
+        }
+
+        /// <summary>Признак подписки на пересоздание контроллера сцены (см. <see cref="SubscribeToSceneRecreation"/>).</summary>
+        private bool sceneRecreationSubscribed;
+
+        /// <summary>
+        /// При пересоздании GL-контекста сцена создаёт новый контроллер с настройками по умолчанию —
+        /// передаём ему все настройки из settingsConfig заново. Подписка однократная; вызывается из
+        /// <see cref="ApplySceneSettings"/>, который выполняется при запуске (SetGeneralSettings).
+        /// </summary>
+        private void SubscribeToSceneRecreation()
+        {
+            if (sceneRecreationSubscribed)
+                return;
+
+            sceneRecreationSubscribed = true;
+            scene.Surface.ControllerRecreated += () => ApplySceneSettings(applyProjection: true, applyLight: true);
         }
 
         /// <summary>
         /// Перенос части BaseForm.SetGeneralSettings и обработчиков настроек: цвет фона, освещение,
-        /// прозрачность отрисовки, проекция, положение и интенсивность источника света передаются сцене.
+        /// прозрачность отрисовки, проекция, угол обзора, шаг вращения, положение и интенсивность
+        /// источника света передаются сцене.
         /// </summary>
         /// <param name="applyProjection">
-        /// Проекция из настроек: в BaseForm она задаётся сцене только при смене в окне настроек,
-        /// при запуске сцена открывается в перспективной проекции.
+        /// Проекция из настроек. В BaseForm UpdateProjection читал settingsConfig.Projection на каждом
+        /// вызове, в том числе при запуске, поэтому по умолчанию проекция применяется всегда.
         /// </param>
         /// <param name="applyLight">
-        /// Положение и интенсивность источника света: в BaseForm тоже задаются только при смене в окне
-        /// настроек, при запуске действует освещение OpenGL по умолчанию (без затухания).
+        /// Положение и интенсивность источника света из настроек (по умолчанию применяются, в том числе при запуске).
         /// </param>
-        private void ApplySceneSettings(bool applyProjection = false, bool applyLight = false)
+        private void ApplySceneSettings(bool applyProjection = true, bool applyLight = true)
         {
+            SubscribeToSceneRecreation();
             var config = settingsConfig;
             scene.Surface.Invoke(sceneController =>
             {
@@ -279,6 +302,11 @@ namespace BazisAvaloniaGUI.Shell
                 }
                 if (applyProjection)
                     sceneController.Projection = config.Projection;
+                // Нулевые/отрицательные значения (повреждённый или старый файл настроек) не применяем
+                if (config.AngleOfProjection > 0)
+                    sceneController.AngleOfProjection = config.AngleOfProjection;
+                if (config.RotationAngle > 0)
+                    sceneController.RotationAngle = config.RotationAngle;
                 sceneController.UpdateProjection();
                 if (applyLight)
                 {

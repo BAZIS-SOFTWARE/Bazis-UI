@@ -90,5 +90,26 @@ namespace SceneCore.Tests
             Assert.That(matrix[1, 1], Is.EqualTo(f).Within(1e-4));
             Assert.That(matrix[0, 0], Is.EqualTo(f).Within(1e-4)); // aspect 400/400 = 1
         }
+
+        [Test]
+        public void Camera_ParallelProjection_DoesNotChangeOnPanRotateAndScale()
+        {
+            var camera = new SceneCamera { Width = 400, Height = 300 };
+            camera.Initialize(0, 0, -5);
+            camera.Projection = ViewProjection.Parallel;
+            var before = camera.GetProjectionMatrix();
+
+            // Панорамирование, поворот и масштаб не должны менять размер параллельной проекции —
+            // иначе выбор объектов расходится с нарисованной картинкой.
+            camera.Rotate(ViewAxis.X, 30);
+            camera.Scale(1.7f);
+            camera.Move(new System.Drawing.Point(120, -80), new System.Drawing.Point(0, 0), camera.ScaleFactor);
+            camera.Rotate(ViewAxis.Z, 45);
+            var after = camera.GetProjectionMatrix();
+
+            Assert.That(after[0, 0], Is.EqualTo(before[0, 0]).Within(1e-5));
+            Assert.That(after[1, 1], Is.EqualTo(before[1, 1]).Within(1e-5));
+            Assert.That(after[2, 2], Is.EqualTo(before[2, 2]).Within(1e-5));
+        }
     }
 }

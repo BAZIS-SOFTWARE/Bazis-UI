@@ -29,28 +29,29 @@ namespace BazisAvaloniaGUI.Shell
         /// </summary>
         private async void MergeDataBase_Click(object sender, EventArgs e)
         {
-            var openDialog = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
-            {
-                Title = "Выберите файлы БД результатов",
-                FileTypeFilter = FileTypes("Results files (*.db)|*.db"),
-                AllowMultiple = true,
-            });
-
-            if (openDialog.Count == 0)
-                return;
-
-            var paths = openDialog.Select(file => file.TryGetLocalPath()).ToArray();
-            if (paths == null || paths.Length < 2)
-            {
-                console.PrintInfo("Необходимо выбрать минимум два файла", Color.Orange);
-                return;
-            }
-
             var loader = new LoadResultsFileDB();
             var currentResultPath = string.Empty;
+            string[] paths = [];
 
             try
             {
+                var openDialog = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+                {
+                    Title = "Выберите файлы БД результатов",
+                    FileTypeFilter = FileTypes("Results files (*.db)|*.db"),
+                    AllowMultiple = true,
+                });
+
+                if (openDialog.Count == 0)
+                    return;
+
+                paths = openDialog.Select(file => file.TryGetLocalPath()).ToArray();
+                if (paths.Length < 2 || paths.Any(string.IsNullOrEmpty))
+                {
+                    console.PrintInfo("Необходимо выбрать минимум два файла", Color.Orange);
+                    return;
+                }
+
                 currentResultPath = loader.Merge(paths[0], paths[1]);
 
                 for (int i = 2; i < paths.Length; i++)
@@ -67,6 +68,9 @@ namespace BazisAvaloniaGUI.Shell
             catch (Exception ex)
             {
                 console.PrintInfo($"Ошибка при объединении файлов: {ex.Message}", Color.Red);
+                // Промежуточный результат (создан Merge, а не выбран пользователем) не оставляем на диске.
+                if (!string.IsNullOrEmpty(currentResultPath))
+                    TryDeleteFile(currentResultPath);
             }
 
             /// <summary>
@@ -77,6 +81,10 @@ namespace BazisAvaloniaGUI.Shell
             {
                 try
                 {
+                    // Имя результата Merge строится из типа и времён и может совпасть с исходным файлом — его не трогаем.
+                    if (paths.Any(source => string.Equals(Path.GetFullPath(source), Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase)))
+                        return;
+
                     if (File.Exists(path))
                     {
                         GC.Collect();

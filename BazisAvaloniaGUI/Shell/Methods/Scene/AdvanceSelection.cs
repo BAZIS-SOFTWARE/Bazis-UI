@@ -96,13 +96,16 @@ namespace BazisAvaloniaGUI.Shell
                 var additionalMode = mesh.GetSelectedAdditionalMode();
                 if (additionalMode is SelectInDirectionEventArgs sdArgs)
                 {
+                    // Запоминаем размер до AddRange, чтобы при ошибке откатить всю добавленную порцию.
+                    var addedFrom = sdArgs.SelectedNumbers.Count;
                     sdArgs.SelectedNumbers.AddRange(numbers);
-                    SelectInDirection(sdArgs);
+                    SelectInDirection(sdArgs, addedFrom);
                 }
                 else if (additionalMode is SelectInPlainEventArgs spArgs)
                 {
+                    var addedFrom = spArgs.SelectedNumbers.Count;
                     spArgs.SelectedNumbers.AddRange(numbers);
-                    SelectInPlane(spArgs);
+                    SelectInPlane(spArgs, addedFrom);
                 }
                 else if (additionalMode is ObjType setType)
                     SelectionControl_SelectInSet(setType, numbers, isSelected);
@@ -113,7 +116,7 @@ namespace BazisAvaloniaGUI.Shell
             }
         }
 
-        private bool SelectInPlane(SelectInPlainEventArgs spArgs)
+        private bool SelectInPlane(SelectInPlainEventArgs spArgs, int addedFrom)
         {
             try
             {
@@ -151,12 +154,22 @@ namespace BazisAvaloniaGUI.Shell
             catch (Exception ex)
             {
                 console.PrintInfo(ex.Message, Color.Red);
-                spArgs.SelectedNumbers.RemoveAt(spArgs.SelectedNumbers.Count - 1);
+                RemoveAddedNumbers(spArgs.SelectedNumbers, addedFrom);
                 return false;
             }
         }
 
-        private bool SelectInDirection(SelectInDirectionEventArgs sdArgs)
+        /// <summary>
+        /// Откатывает номера, добавленные последней порцией выбора (с позиции <paramref name="addedFrom"/>).
+        /// Раньше удалялся только последний номер, и при выборе нескольких объектов остаток «залипал».
+        /// </summary>
+        private static void RemoveAddedNumbers(List<int> numbers, int addedFrom)
+        {
+            if (addedFrom >= 0 && addedFrom < numbers.Count)
+                numbers.RemoveRange(addedFrom, numbers.Count - addedFrom);
+        }
+
+        private bool SelectInDirection(SelectInDirectionEventArgs sdArgs, int addedFrom)
         {
             try
             {
@@ -174,9 +187,10 @@ namespace BazisAvaloniaGUI.Shell
                     console.PrintInfo(Resources.AdvanceSelection2NodesWarning, Color.Orange);
                 return false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                sdArgs.SelectedNumbers.RemoveAt(sdArgs.SelectedNumbers.Count - 1);
+                console.PrintInfo(ex.Message, Color.Red);
+                RemoveAddedNumbers(sdArgs.SelectedNumbers, addedFrom);
                 return false;
             }
         }

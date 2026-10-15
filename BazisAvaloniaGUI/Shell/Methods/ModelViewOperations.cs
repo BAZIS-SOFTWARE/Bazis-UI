@@ -49,15 +49,26 @@ namespace BazisAvaloniaGUI.Shell
             if (project == null)
                 return;
 
-            project.SetSelectionColor(settingsConfig.SelectObjectColor);
-            project.SetTransparency(GetModelViewTransparency());
+            using (project.BeginViewUpdate())
+            {
+                project.SetSelectionColor(settingsConfig.SelectObjectColor);
+                project.SetTransparency(GetModelViewTransparency());
+                // Цвет узлов из настроек хранится в конфиге, а новый проект получает цвет по умолчанию
+                if (!settingsConfig.NodeColor.IsEmpty)
+                    foreach (var set in project.GetModelSetsInfo(ObjType.Узел))
+                        project.SetColor(set, settingsConfig.NodeColor);
+            }
         }
 
         /// <summary>
         /// Преобразует процент прозрачности интерфейса в альфа-канал представления.
+        /// Вне режима прозрачности модель непрозрачна.
         /// </summary>
         private byte GetModelViewTransparency()
         {
+            if (!settingsConfig.Transparency)
+                return byte.MaxValue;
+
             var transparency = settingsConfig.TransparencyValue * byte.MaxValue / 100;
             return (byte)Math.Clamp(transparency, byte.MinValue, byte.MaxValue);
         }

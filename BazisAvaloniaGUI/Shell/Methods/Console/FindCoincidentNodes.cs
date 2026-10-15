@@ -53,7 +53,14 @@ namespace BazisAvaloniaGUI.Shell
 
             var actBreak = new Action(() =>
             {
-                Dispatcher.UIThread.Invoke(new Action(() => console.PrintInfo(Resources.FindCoincidentNodes_Action_OperationCanceled_Message, Color.Black)));
+                Dispatcher.UIThread.Invoke(new Action(() =>
+                {
+                    console.PrintInfo(Resources.FindCoincidentNodes_Action_OperationCanceled_Message, Color.Black);
+                    // Esc: снимаем подсветку найденных совпадающих узлов, иначе она остаётся
+                    // как обычное выделение и попадает в следующую операцию.
+                    project?.ClearSelection(ObjType.Узел);
+                    RequestRedraw();
+                }));
             });
             await AsyncMethodContainer(actConfirm, actBreak, $@"{Resources.FindCoincidentNodes_AsyncContainer_Message}");
         }

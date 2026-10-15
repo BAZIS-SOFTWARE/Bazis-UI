@@ -10,7 +10,6 @@ namespace BazisAvaloniaGUI.Chamfer.ViewModels
     public partial class ChamferViewModel : ObservableObject
     {
         private readonly IChamferOperationService operationService;
-        public event EventHandler CloseRequested;
 
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(AddCommand))]
@@ -62,7 +61,9 @@ namespace BazisAvaloniaGUI.Chamfer.ViewModels
                     operationService.AddByLengths(length1, length2, isReflected);
             }
 
-            CloseRequested?.Invoke(this, EventArgs.Empty);
+            // Окно не закрывается здесь: операция выполняется асинхронно (Post в UI-контекст),
+            // и при ошибке пользователь должен иметь возможность поправить параметры.
+            // При успехе окно закрывает MainWindow.CreateChamfer через ChamferWindowService.Close.
         }
 
         [RelayCommand]

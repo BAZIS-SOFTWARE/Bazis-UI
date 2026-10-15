@@ -21,6 +21,8 @@ namespace BazisAvaloniaGUI.Shell
                     PresentCondDataOnTree();
                     PresentModelObjectsForSelection();
                     ClearAllDataOnScene();
+                    // ClearAllDataOnScene удаляет и буферы геометрии — пересоздаём оставшиеся объекты.
+                    CreateVBObjects("Объекты");
                 }
 
                 RequestRedraw();

@@ -49,26 +49,28 @@ namespace BazisAvaloniaGUI.Shell
             if (!uint.TryParse(strAr[1].Replace(" ", ""), out number))
                 throw new Exception(Resources.PositiveCellingNumberException);
         }
-        private async void FindObject(ObjType objType, uint number)
+        // Синхронно и в потоке вызова (команды консоли выполняются в UI-потоке):
+        // исключение доходит до обработчика консоли и останавливает макрос.
+        private void FindObject(ObjType objType, uint number)
         {
-            Dispatcher.UIThread.Invoke(new Action(() =>
+            if (project == null)
+                throw new Exception(Resources.SaveWithoutProjectMessage);
+
+            var obj = project.GetAllModelObjects().
+                FirstOrDefault(x => x.ObjType == objType && x.Number == number);
+
+            if (obj != null)
             {
-                var obj = project.GetAllModelObjects().
-                FirstOrDefault(x => x.ObjType == objType & x.Number == number);
-
-                if (obj != null)
+                using (project.BeginViewUpdate())
                 {
-                    using (project.BeginViewUpdate())
-                    {
-                        foreach (var item in project.GetModelSetsInfo(objType))
-                            project.SetVisible(objType, item.GetNumbers(), false);
+                    foreach (var item in project.GetModelSetsInfo(objType))
+                        project.SetVisible(objType, item.GetNumbers(), false);
 
-                        project.SetVisible(objType, [(int)number], true);
-                    }
+                    project.SetVisible(objType, [(int)number], true);
                 }
-                else
-                    console.PrintInfo(Resources.ConsoleEvents_ConsoleInEvent_ObjectNotFound_Message, Color.Orange);
-            }));
+            }
+            else
+                console.PrintInfo(Resources.ConsoleEvents_ConsoleInEvent_ObjectNotFound_Message, Color.Orange);
         }
 
         private void FindVolElems(string v)

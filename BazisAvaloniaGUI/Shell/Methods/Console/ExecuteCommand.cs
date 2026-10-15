@@ -179,7 +179,9 @@ namespace BazisAvaloniaGUI.Shell
                         FindObject(type, number);
                         break;
                     case GenCmd.LoadProject:
-                        await OpenProject(cmds[1]);
+                        // Макрос не должен продолжаться без проекта: исключение останавливает его на этой строке.
+                        if (!await OpenProject(cmds[1]))
+                            throw new Exception($"Не удалось загрузить проект: {cmds[1]}");
                         break;
                     case GenCmd.SaveProject:
                         SaveProjectToFile(cmds[1]);
@@ -198,7 +200,7 @@ namespace BazisAvaloniaGUI.Shell
                         break;
                     case GenCmd.MoveNodes:
                         if (cmds[1] == Resources.MoveRotNodesOption)
-                            console_NodesShiftCoordinate();
+                            await console_NodesShiftCoordinate();
                         break;
                     case GenCmd.FindFreeNodes:
                         console_FindFreeNodesEvent();
@@ -299,9 +301,12 @@ namespace BazisAvaloniaGUI.Shell
                         break;
                     case GenCmd.LoadMaterialDB:
                         project.MaterialsDB = LoadDB<MaterialDBData>(cmds[1]);
+                        // Страницы баз данных показывают ссылку на старую базу — перечитываем.
+                        RefreshDataBasePages();
                         break;
                     case GenCmd.LoadFunctionDB:
                         project.FunctionsDB = LoadDB<FunctionDBData>(cmds[1]);
+                        RefreshDataBasePages();
                         break;
                     case GenCmd.CreateTask:
                         project.CreateTask();

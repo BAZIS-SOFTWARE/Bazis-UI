@@ -101,6 +101,9 @@ internal sealed class ReactionControl : UserControl
     {
         var result = await MessageBox.Show(this, Resources.EnteredDataDeletingWarning, Localization.Localization.GetAttentionCaption(), MessageBoxButtons.OKCancel);
         if (result == DialogResult.OK) ApplyTimeDependent(TimeDependent.IsChecked == true);
+        // CheckBox переключается до Click: при отмене (Cancel/None) возвращаем прежнее состояние,
+        // иначе флажок разойдётся с фактическим составом столбцов таблицы.
+        else TimeDependent.IsChecked = TimeDependent.IsChecked != true;
     }
     internal void ApplyTimeDependent(bool enabled)
     {

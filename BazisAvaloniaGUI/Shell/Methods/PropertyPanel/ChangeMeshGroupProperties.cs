@@ -9,7 +9,6 @@ namespace BazisAvaloniaGUI.Shell
     {
         private void ChangeMeshGroupProperties(PropertyChangedEventArgs obj, int index)
         {
-            var grName = navigator.SelectedNode.Text.Split(' ')[0];
             var _objectsGr = project.GetModelGroup(index);
 
             if (Enum.TryParse(obj.Key, out GroupPropertyKeys key))
@@ -17,8 +16,10 @@ namespace BazisAvaloniaGUI.Shell
                 switch (key)
                 {
                     case GroupPropertyKeys.Name:
-                        _objectsGr.Name = obj.NewValue.ToString();
-                        OnGroupRenamed?.Invoke(_objectsGr.ObjType, _objectsGr.Number, obj.NewValue);
+                        // Старое имя берём у самой группы: текст узла "{Name} {Count}" ломается на именах с пробелом.
+                        var newName = obj.NewValue.ToString();
+                        project.ChangeGroupName(_objectsGr.Name, newName);
+                        OnGroupRenamed?.Invoke(_objectsGr.ObjType, _objectsGr.Number, newName);
                         break;
 
                     case GroupPropertyKeys.CreateCond:

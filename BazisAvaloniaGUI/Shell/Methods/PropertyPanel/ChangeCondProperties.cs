@@ -167,7 +167,9 @@ namespace BazisAvaloniaGUI.Shell
                             var pythonFunction = new CustomFrameFunction();
                             pythonFunction.CreateEngine(file);
                             cond.Function = pythonFunction;
-                            Navigator_SelectCondEvent(navigator.SelectedNode.Index);
+                            // Пока был открыт диалог, выделение в навигаторе могло смениться/сброситься.
+                            if (navigator.SelectedNode?.Index is int index)
+                                Navigator_SelectCondEvent(index);
                         }
                         else
                             console.PrintInfo(Resources.ChangeCondProperties_ChangeGeneralProperties_FileNotSelected_Message, Color.Red);

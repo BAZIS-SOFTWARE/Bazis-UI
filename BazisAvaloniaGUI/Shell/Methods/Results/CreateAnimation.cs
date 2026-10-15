@@ -64,12 +64,23 @@ namespace BazisAvaloniaGUI.Shell
 
         public async void CreateGIFAnimation(CreateAnimationEventArgs args)
         {
-            var outputFilePath = Path.Combine(WorkingDir, "results.gif");
             try
             {
+                // WorkingDir может быть null (проект не сохранён) — Path.Combine внутри try.
+                var outputFilePath = Path.Combine(WorkingDir, "results.gif");
+                // Кадры снимаются асинхронно: за это время проект/база результатов могут смениться.
+                var currentProject = project;
+                var resultDbPath = ResultDbPath;
+                void ThrowIfProjectChanged()
+                {
+                    if (!ReferenceEquals(currentProject, project) || resultDbPath != ResultDbPath)
+                        throw new OperationCanceledException();
+                }
+
                 //выбрать узел в дереве асинхронно
                 await SelectContainerAsync(Resources.Result_CreateGIFAnimation_SelectContainerAsync_SelectResult_Message);
 
+                ThrowIfProjectChanged();
                 if (navigator.SelectedNode?.Name != NodeName.Result.ToString())
                     throw new Exception(Resources.Result_CreateGIFAnimation_Exception);
 
@@ -95,10 +106,12 @@ namespace BazisAvaloniaGUI.Shell
                 {
                     for (int i = 0; i < list.Count; i++)
                     {
-                        var result = loader.GetResult(ResultDbPath, tables, list[i]);
+                        ThrowIfProjectChanged();
+                        var result = loader.GetResult(resultDbPath, tables, list[i]);
                         ShowResults(result, resName);
                         // В BaseForm — RenderNow и снимок экрана: кадр снимается после отрисовки поля результата.
                         var image = await scene.Surface.CaptureFrameAsync();
+                        ThrowIfProjectChanged();
                         gif.WriteFrame(image, args.DelayTime);
 
                         var total = ((i + 1) / (float)list.Count * 100).ToString("#.##");

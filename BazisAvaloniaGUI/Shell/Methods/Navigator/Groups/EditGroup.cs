@@ -12,35 +12,48 @@ namespace BazisAvaloniaGUI.Shell
     {
         private async void EditGroup()
         {
-            var ind = navigator.SelectedNode.Index;
-            var group = project.GetModelGroup(ind);
-
-            ApplySelectionColor();
-            using (project.BeginViewUpdate())
-            {
-                project.ClearSelection();
-                foreach (var objType in group.Select(x => x.ObjType).Distinct())
-                {
-                    var numbers = group.Where(x => x.ObjType == objType).Select(x => x.Number);
-                    project.Select(objType, numbers);
-                }
-            }
             try
             {
-                await EditGroupAsync(group);
+                // Узел и проект запоминаются до await: за время интерактивного выбора
+                // пользователь может выделить другой узел дерева или сменить проект.
+                var node = navigator.SelectedNode;
+                var currentProject = project;
+                if (node == null || currentProject == null)
+                    return;
+
+                var group = currentProject.GetModelGroup(node.Index);
+                if (group == null)
+                    return;
+
+                ApplySelectionColor();
+                using (currentProject.BeginViewUpdate())
+                {
+                    currentProject.ClearSelection();
+                    foreach (var objType in group.Select(x => x.ObjType).Distinct())
+                    {
+                        var numbers = group.Where(x => x.ObjType == objType).Select(x => x.Number);
+                        currentProject.Select(objType, numbers);
+                    }
+                }
+
+                // Esc: группа не изменена, текст узла не трогаем.
+                if (!await EditGroupAsync(group) || !ReferenceEquals(currentProject, project))
+                    return;
+
+                node.Text = $"{group.Name} {group.Count}";
             }
             catch (OperationCanceledException)
             {
                 // Окно закрыто или начат другой выбор.
-                return;
             }
-
-            // не очень безопасно, так как пользователь может поменять узел дерева
-            // в процессе редактирования группы
-            navigator.SelectedNode.Text = $"{group.Name} {group.Count}";
+            catch (Exception ex)
+            {
+                console.PrintInfo(ex.Message, Color.Red);
+            }
         }
 
-        public async Task EditGroupAsync(IGroup group)
+        /// <returns>true — состав группы изменён; false — отмена (Esc).</returns>
+        public async Task<bool> EditGroupAsync(IGroup group)
         {
             var actConfirm = new Func<Tuple<bool, object>>(() =>
             {
@@ -69,7 +82,7 @@ namespace BazisAvaloniaGUI.Shell
 
             var message = $@"{Resources.EditGroup_EditGroupAsync_Preamble_Message}";
 
-            await AsyncMethodContainer(actConfirm, actBreak, message);
+            return await AsyncMethodContainer(actConfirm, actBreak, message) != null;
         }
     }
 }

@@ -45,7 +45,11 @@ internal partial class SceneView : UserControl
         DisplayStatesToggle.IsCheckedChanged += (_, _) =>
             DisplayStatesPanel.IsVisible = DisplayStatesToggle.IsChecked == true;
 
-        Surface.ProjectShown += project => UpdateSets(project, resetSelection: true);
+        Surface.ProjectShown += project =>
+        {
+            UpdateSets(project, resetSelection: true);
+            ResetViewModeButtons();
+        };
         Surface.SelectionReset += OnSelectionReset;
     }
 
@@ -196,6 +200,17 @@ internal partial class SceneView : UserControl
                 other.IsChecked = ReferenceEquals(other, button);
 
         Surface.SetViewMode(mode);
+    }
+
+    /// <summary>
+    /// Новый проект показывается в режимах отображения из своего представления, а не в режиме,
+    /// выбранном кнопками для прежнего проекта, — снимаем отметку со всех кнопок режима.
+    /// </summary>
+    private void ResetViewModeButtons()
+    {
+        foreach (var button in DisplayStatesPanel.Children.OfType<ToggleButton>())
+            if (IsViewModeButton(button.Name))
+                button.IsChecked = false;
     }
 
     /// <summary>Имя кнопки относится к выбору режима отображения (а не к базису/контурам).</summary>

@@ -109,9 +109,17 @@ internal class DataBasePage : UserControl
     public virtual void AddDB_Click(object sender, RoutedEventArgs e) => LoadEvent?.Invoke();
     public async void SafeFileButton_Click(object sender, EventArgs e)
     {
-        var file = await FileStorage.SaveFilePickerAsync(new FilePickerSaveOptions
-        { DefaultExtension = "jsf", FileTypeChoices = [new FilePickerFileType("(*.jsf)") { Patterns = ["*.jsf"] }] });
-        if (file?.TryGetLocalPath() is string path && path.Length > 0) SaveEvent?.Invoke(path);
+        try
+        {
+            var file = await FileStorage.SaveFilePickerAsync(new FilePickerSaveOptions
+            { DefaultExtension = "jsf", FileTypeChoices = [new FilePickerFileType("(*.jsf)") { Patterns = ["*.jsf"] }] });
+            if (file?.TryGetLocalPath() is string path && path.Length > 0) SaveEvent?.Invoke(path);
+        }
+        catch (Exception ex)
+        {
+            // Ошибка записи базы (нет прав, файл занят и т.п.) не должна ронять приложение.
+            await MessageBox.Show(this, ex.Message, "Ошибка");
+        }
     }
     protected void BeginLabelEdit(TreeNode node)
     {

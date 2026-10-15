@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.OpenGL;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace BazisAvaloniaGUI;
@@ -24,6 +25,13 @@ internal class Program
     private static void Main(string[] args)
     {
         ConfigureCulture();
+
+        // Исключения незамеченных задач не должны ронять процесс — только лог.
+        TaskScheduler.UnobservedTaskException += (_, e) =>
+        {
+            Trace.TraceError($"Необработанное исключение в задаче: {e.Exception}");
+            e.SetObserved();
+        };
 
         var builder = AppBuilder.Configure<App>().UsePlatformDetect();
         var profiles = new[]

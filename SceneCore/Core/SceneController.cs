@@ -129,6 +129,9 @@ namespace BazisGUI.Scene.Core
 
         public void Resize(int width, int height)
         {
+            // Нулевой размер (свёрнутое окно, панель до раскладки) даёт деление на ноль в матрице проекции
+            width = Math.Max(width, 1);
+            height = Math.Max(height, 1);
             camera.Width = width;
             camera.Height = height;
             input.Viewport = new Viewport(width, height);
@@ -138,9 +141,17 @@ namespace BazisGUI.Scene.Core
             renderer?.Reshape(width, height);
         }
 
-        /// <summary>Освобождает GL-ресурсы (шейдеры, FBO, текстуры атласа шрифта, ClipPlaneRenderer).</summary>
+        /// <summary>
+        /// Освобождает GL-ресурсы (шейдеры, FBO, текстуры атласа шрифта, ClipPlaneRenderer,
+        /// меши вспомогательной геометрии и слоёв базиса/точки вращения/компаса).
+        /// Буферы VboController освобождает хост (как и раньше в BaseForm/SceneSurface).
+        /// </summary>
         public void Dispose()
         {
+            geometryObjectsLayer?.Clear();
+            if (layers != null)
+                foreach (var layer in layers.GetOrdered())
+                    (layer as IDisposable)?.Dispose();
             renderer?.Dispose();
             clipPlaneRenderer?.Dispose();
             (textRenderer as IDisposable)?.Dispose();
@@ -205,6 +216,19 @@ namespace BazisGUI.Scene.Core
             get => input.RotationAngle;
             set => input.RotationAngle = value;
         }
+
+        /// <summary>
+        /// Угол обзора камеры в градусах (SettingsConfig.AngleOfProjection): по нему строятся и матрица
+        /// проекции, и пересчёт экранных координат при выборе объектов.
+        /// </summary>
+        public float AngleOfProjection
+        {
+            get => camera.AngleOfProjection;
+            set => camera.AngleOfProjection = value;
+        }
+
+        /// <summary>Прерывает начатое выделение рамкой (например, при потере захвата указателя).</summary>
+        public void CancelSelection() => input.CancelSelection();
 
         public Color BackGroundColor
         {
@@ -350,7 +374,13 @@ namespace BazisGUI.Scene.Core
         public void DisplayObjects() => DisplayObjects(0);
 
         /// <summary>Рисует сцену в буфер, предоставленный графическим хостом.</summary>
-        public void DisplayObjects(int targetFramebuffer) => renderer.Render(BuildContext(targetFramebuffer));
+        public void DisplayObjects(int targetFramebuffer)
+        {
+            // Матрица проекции загружается каждый кадр: иначе после смены проекции/угла обзора без Resize
+            // рисуется устаревшая матрица, а выбор объектов считает по текущей.
+            UpdateProjection();
+            renderer.Render(BuildContext(targetFramebuffer));
+        }
 
         public IEnumerable<IVBObject> GetVBObjs() => vboController.GetVBObjs().Cast<IVBObject>();
 
@@ -507,6 +537,8 @@ namespace BazisGUI.Scene.Core
             });
         }
 
+        // DisplayConus/DisplaySphere/DisplayMarker создают GL-буферы меша на каждый вызов: меш передаётся
+        // слою как принадлежащий объекту и удаляется при HideGeometryObj/HideAllGeometryObjs/Dispose.
         public void DisplayConus(float upperDiam, float bottomDiam, float length, Frame frame)
         {
             var mesh = meshFactory.CreateCylinder(bottomDiam / 2, upperDiam / 2, length, Color.Red);
@@ -524,7 +556,7 @@ namespace BazisGUI.Scene.Core
 
                 mesh.Load();
                 GL.PopMatrix();
-            });
+            }, mesh);
         }
 
         public void DisplaySphere(float width, Frame frame)
@@ -543,7 +575,7 @@ namespace BazisGUI.Scene.Core
 
                 mesh.Load();
                 GL.PopMatrix();
-            });
+            }, mesh);
         }
 
         /// <summary>
@@ -561,7 +593,7 @@ namespace BazisGUI.Scene.Core
                 GL.Translate(centre._x, centre._y, centre._z);
                 mesh.Load();
                 GL.PopMatrix();
-            });
+            }, mesh);
         }
 
         public void DisplayDistance(Segment3D line)

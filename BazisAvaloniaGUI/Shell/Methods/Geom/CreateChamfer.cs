@@ -20,12 +20,15 @@ namespace BazisAvaloniaGUI.Shell
                 PresentMeshData();
                 RequestRedraw();
                 PresentGeoData();
+                RequestClearChamferPreview();
+                // Окно фаски закрывается только после успешного построения.
+                chamferWindowService.Close();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 console.PrintInfo(ex.Message, Color.Red);
+                // Окно остаётся открытым — превью по текущим параметрам сохраняем.
             }
-            RequestClearChamferPreview();
         }
 
 

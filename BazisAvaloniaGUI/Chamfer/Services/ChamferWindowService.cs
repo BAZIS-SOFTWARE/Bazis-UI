@@ -60,7 +60,8 @@ namespace BazisAvaloniaGUI.Chamfer.Services
                 DataContext = viewModel
             };
             currentWindow = window;
-            viewModel.CloseRequested += (_, _) => window.Close();
+            // Окно закрывается не по нажатию «Добавить», а после успешного построения фаски
+            // (вызывающая сторона вызывает Close); при ошибке оно остаётся открытым для правки параметров.
 
             window.Closed += (_, _) =>
             {

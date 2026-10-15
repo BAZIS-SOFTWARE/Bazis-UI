@@ -10,7 +10,7 @@ using OpenTK.Graphics.OpenGL;
 namespace BazisGUI.Scene.Core.Layers
 {
     /// <summary>Перенос BaseForm.DisplayCompass().</summary>
-    public class CompassLayer : ISceneLayer
+    public class CompassLayer : ISceneLayer, System.IDisposable
     {
         public string Name => "Compass";
         public int Order { get; set; } = 50;
@@ -111,6 +111,13 @@ namespace BazisGUI.Scene.Core.Layers
             GL.PopMatrix();
             GL.MatrixMode(MatrixMode.Modelview);
             GL.PopMatrix();
+        }
+
+        /// <summary>Освобождает GL-буферы мешей слоя (вызывается при текущем GL-контексте).</summary>
+        public void Dispose()
+        {
+            foreach (var mesh in new[] { tipX, tipY, tipZ })
+                VBO.VBO.DeleteAllBuffers(mesh);
         }
 
         private void DrawLabel(string text, Color color, Point3D position, IRenderContext context)

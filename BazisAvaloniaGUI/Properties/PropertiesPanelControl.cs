@@ -153,43 +153,51 @@ namespace BazisAvaloniaGUI.Properties
 
         private async void DataGridView1_CellClick(int rowIndex)
         {
-            var row = gridRows[rowIndex];
-            var value = "";
-            if (row.HeaderValue == Resources.Header_Color)
+            try
             {
-                if (TopLevel.GetTopLevel(this) is Window owner)
+                var row = gridRows[rowIndex];
+                var value = "";
+                if (row.HeaderValue == Resources.Header_Color)
                 {
-                    var current = row.CellBackColor ?? Color.White;
-                    var color = await new ColorSelectionDialog(current).ShowDialog<Color?>(owner);
-                    if (color != null)
-                        value = color.Value.ToString();
+                    if (TopLevel.GetTopLevel(this) is Window owner)
+                    {
+                        var current = row.CellBackColor ?? Color.White;
+                        var color = await new ColorSelectionDialog(current).ShowDialog<Color?>(owner);
+                        if (color != null)
+                            value = color.Value.ToString();
+                    }
+                }
+
+                else if (row.HeaderValue == Resources.Header_File)
+                {
+                    var top = TopLevel.GetTopLevel(this);
+                    if (top != null)
+                    {
+                        var files = await top.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions { AllowMultiple = false });
+                        if (files.Count != 0)
+                            value = files[0].TryGetLocalPath() ?? "";
+                    }
+                }
+
+                if (value != "" && IsCurrentRow(row, rowIndex))
+                {
+                    DataGridView1_CellBeginEdit(rowIndex);
+                    SetCellValue(rowIndex, value);
+                    SelectRow(rowIndex);
+                }
+
+                if (row.CellKind == CellKind.Button)
+                {
+                    var buttonSet = row.StyleTag as ButtonPropertyValue;
+
+                    if (buttonSet != null)
+                        buttonSet.OnClick?.Invoke();
                 }
             }
-
-            else if (row.HeaderValue == Resources.Header_File)
+            catch (Exception ex)
             {
-                var top = TopLevel.GetTopLevel(this);
-                if (top != null)
-                {
-                    var files = await top.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions { AllowMultiple = false });
-                    if (files.Count != 0)
-                        value = files[0].TryGetLocalPath() ?? "";
-                }
-            }
-
-            if (value != "" && IsCurrentRow(row, rowIndex))
-            {
-                DataGridView1_CellBeginEdit(rowIndex);
-                SetCellValue(rowIndex, value);
-                SelectRow(rowIndex);
-            }
-
-            if (row.CellKind == CellKind.Button)
-            {
-                var buttonSet = row.StyleTag as ButtonPropertyValue;
-
-                if (buttonSet != null)
-                    buttonSet.OnClick?.Invoke();
+                // async void: исключение действия кнопки/диалога не должно ронять приложение.
+                await MessageBox.Show(this, ex.Message, "Ошибка");
             }
         }
 

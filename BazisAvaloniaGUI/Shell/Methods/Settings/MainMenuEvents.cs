@@ -133,6 +133,8 @@ namespace BazisAvaloniaGUI.Shell
             {
                 settingsConfig.Transparency = ar;
                 ApplySceneSettings();
+                // Альфа ModelView задаётся только в режиме прозрачности (GetModelViewTransparency)
+                project?.SetTransparency(GetModelViewTransparency());
                 ClearAllDataOnScene();
                 if (project != null)
                     CreateVBObjects("Объекты");

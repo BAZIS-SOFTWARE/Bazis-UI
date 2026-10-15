@@ -32,7 +32,7 @@ namespace BazisAvaloniaGUI.Shell
                 rows.Add(new RowProperty(GroupPropertyKeys.Direction.ToString(),
                     Resources.Header_groups_direction,
                     new ButtonPropertyValue(Resources.Показать,
-                    new Action(async () => await NewMethod2(obj)))));
+                    new Action(() => NewMethod2(obj)))));
 
                 rows.Add(new RowProperty(GroupPropertyKeys.Direction.ToString(),
                     Resources.Header_groups_direction,
@@ -60,8 +60,17 @@ namespace BazisAvaloniaGUI.Shell
         /// Показ направления группы: сферы в первом и последнем объектах группы
         /// (в BaseForm — gluSphere через DisplayGeometryObjectEvent).
         /// </summary>
-        private Task NewMethod2(IGroup obj)
+        // Синхронный метод: исключение доходит до обработчика щелчка панели свойств,
+        // а не теряется в async void-лямбде.
+        private void NewMethod2(IGroup obj)
         {
+            // Пустая группа: First()/Last() бросили бы InvalidOperationException.
+            if (!obj.Any())
+            {
+                console.PrintInfo(Resources.ConsoleEvents_ConsoleInEvent_ObjectNotFound_Message, Color.Orange);
+                return;
+            }
+
             var objs = new List<IModelObject>() { obj.First(), obj.Last() };
 
             HideAllGeometryObjects();
@@ -70,7 +79,6 @@ namespace BazisAvaloniaGUI.Shell
                 var centre = new Point3D(item._x, item._y, item._z);
                 scene.Surface.Invoke(sceneController => sceneController.DisplayMarker(centre, 1.5f, Color.Red));
             }
-            return Task.CompletedTask;
         }
 
         private void CreateNodesConditionsProperties(IGroup obj, List<RowProperty> rows)

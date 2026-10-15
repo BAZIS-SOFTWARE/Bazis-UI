@@ -101,11 +101,20 @@ namespace BazisAvaloniaGUI.Shell
         public MainWindow(string[] args)
         {
             var datacontroller = new IODataController();
-            var config = datacontroller.LoadConfig();
-
-            if (config != null)
-                settingsConfig = config;
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(settingsConfig.Language);
+            // Повреждённый settingsConfig.json или неизвестный язык не должны мешать запуску:
+            // остаются настройки по умолчанию
+            try
+            {
+                var config = datacontroller.LoadConfig();
+                if (config != null)
+                    settingsConfig = config;
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(settingsConfig.Language);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
+            }
             // Сообщения команд консоли выводятся из фоновых задач — язык ресурсов должен совпадать.
             CultureInfo.DefaultThreadCurrentUICulture = Thread.CurrentThread.CurrentUICulture;
 
@@ -200,11 +209,19 @@ namespace BazisAvaloniaGUI.Shell
 
         private void содержаниеToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var helpFile = Directory.GetFiles(AppContext.BaseDirectory, "ПО Bazis 5.2. Руководство пользователя.pdf", SearchOption.AllDirectories);
+            try
+            {
+                var helpFile = Directory.GetFiles(AppContext.BaseDirectory, "ПО Bazis 5.2. Руководство пользователя.pdf", SearchOption.AllDirectories);
 
-            if (helpFile.Count() != 0)
-                Process.Start(new ProcessStartInfo(helpFile[0]) { UseShellExecute = true });
-            else MessageBox.Show(this, Localization.Localization.GetFileMissingCaption());
+                if (helpFile.Count() != 0)
+                    Process.Start(new ProcessStartInfo(helpFile[0]) { UseShellExecute = true });
+                else MessageBox.Show(this, Localization.Localization.GetFileMissingCaption());
+            }
+            catch (Exception ex)
+            {
+                // Нет программы, связанной с PDF
+                console.PrintInfo(ex.Message, Color.Red);
+            }
         }
 
         private void опрограммеToolStripMenuItem_Click(object sender, EventArgs e)
@@ -328,14 +345,16 @@ namespace BazisAvaloniaGUI.Shell
             }
         }
 
-        private async Task OpenProject(string filePath)
+        /// <summary>Открывает проект, CAD или сетку. Возвращает false, если проект не загружен.</summary>
+        private async Task<bool> OpenProject(string filePath)
         {
-            if (isLoadingProject)
-                return;
+            if (isLoadingProject || string.IsNullOrEmpty(filePath))
+                return false;
 
             isLoadingProject = true;
             var wasEnabled = IsEnabled;
             IsEnabled = false;
+            var ownedWindows = DisableOwnedWindows();
             try
             {
                 var previousProject = project;
@@ -351,19 +370,19 @@ namespace BazisAvaloniaGUI.Shell
 
                 else if (geomFilter.Contains(ext))
                 {
-                    if (project == null)
-                        project = new ProjectController();
+                    // Как в исходном BaseForm: импорт CAD создаёт новый проект. Импорт в текущий контроллер
+                    // заменял модель, но оставлял путь сохранения, результаты, расчёты и окна старого проекта
+                    var gmshLibraryPath = await dataController.GetGmshLibraryPath();
+                    if (string.IsNullOrWhiteSpace(gmshLibraryPath))
+                        return false;
 
-                    if (!project.IsGeometryInitialized)
-                    {
-                        var gmshLibraryPath = await dataController.GetGmshLibraryPath();
-                        if (string.IsNullOrWhiteSpace(gmshLibraryPath))
-                            return;
-
-                        project.InitializeGeometry(gmshLibraryPath);
-                    }
-
-                    project.ImportCAD(filePath);
+                    // Gmsh — общее состояние процесса: геометрию прежнего проекта выгружаем до инициализации новой
+                    project?.UnloadGeometry();
+                    var cadProject = new ProjectController();
+                    cadProject.InitializeGeometry(gmshLibraryPath);
+                    cadProject.ImportCAD(filePath);
+                    ReplaceProject(cadProject);
+                    projectFilePath = null;
                 }
 
                 else
@@ -390,18 +409,39 @@ namespace BazisAvaloniaGUI.Shell
 
                 FitObjectsToScreen();
                 RequestRedraw();
+                return true;
             }
             catch (Exception ex)
             {
                 OwnedWindows.FirstOrDefault(window => window.Name == "Загрузка")?.Close();
                 IsEnabled = wasEnabled;
                 await MessageBox.Show(this, Localization.Localization.GetErrorWithStackMessage(ex), Localization.Localization.GetErrorCaption());
+                return false;
             }
             finally
             {
                 IsEnabled = wasEnabled;
+                RestoreOwnedWindows(ownedWindows);
                 isLoadingProject = false;
             }
+        }
+
+        /// <summary>
+        /// На время фоновой загрузки отключает и дочерние окна (измерения, сечение, графики):
+        /// IsEnabled главного окна их не блокирует, а они читают модель, которую меняет загрузка.
+        /// </summary>
+        private List<Window> DisableOwnedWindows()
+        {
+            var disabled = OwnedWindows.Where(window => window.IsEnabled && window.Name != "Загрузка").ToList();
+            foreach (var window in disabled)
+                window.IsEnabled = false;
+            return disabled;
+        }
+
+        private static void RestoreOwnedWindows(IEnumerable<Window> windows)
+        {
+            foreach (var window in windows)
+                window.IsEnabled = true;
         }
 
         private async void открытьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -539,10 +579,12 @@ namespace BazisAvaloniaGUI.Shell
                 project.ChangeProjectName(Path.GetFileName(fileName));
                 if (!string.IsNullOrEmpty(oldFolder) && !string.Equals(oldFolder, newFolder, comparison))
                 {
-                    if (project.MaterialsDB != null)
-                        IOFileController.CopyFile(project.MaterialsDB.Name, oldFolder, newFolder);
-                    if (project.FunctionsDB != null)
-                        IOFileController.CopyFile(project.FunctionsDB.Name, oldFolder, newFolder);
+                    // CopyFile возвращает false, если базы нет рядом со старым проектом (например, она открыта
+                    // из другой папки): проект сохранится без неё, и запуск расчёта будет отклонён
+                    if (project.MaterialsDB != null && !IOFileController.CopyFile(project.MaterialsDB.Name, oldFolder, newFolder))
+                        console.PrintInfo($"{Resources.StartStopConp_ProjectDataCheck_LackOfMaterials_Message}: {project.MaterialsDB.Name}", Color.Orange);
+                    if (project.FunctionsDB != null && !IOFileController.CopyFile(project.FunctionsDB.Name, oldFolder, newFolder))
+                        console.PrintInfo($"{Resources.StartStopConp_ProjectDataCheck_LackOfFunctions_Message}: {project.FunctionsDB.Name}", Color.Orange);
                 }
                 project.Save(fileName);
             }
@@ -558,6 +600,9 @@ namespace BazisAvaloniaGUI.Shell
 
         private void PresentProject()
         {
+            // Настройки вида (выделение, прозрачность, цвет узлов) применяются к каждому показанному
+            // проекту, в том числе после импорта CAD в тот же контроллер
+            ApplyModelViewSettings();
             SubscribeToModelView();
             CreateVBObjects("Объекты");
 
@@ -625,11 +670,17 @@ namespace BazisAvaloniaGUI.Shell
 
         private async Task AppendMeshAsync(string fileName)
         {
+            // Append меняет текущий проект в фоне: открытие другого проекта и дочерние окна блокируются
+            if (isLoadingProject)
+                return;
+
+            isLoadingProject = true;
             var currentProject = project;
             var wasEnabled = IsEnabled;
             var message = new TextBlock { TextWrapping = Avalonia.Media.TextWrapping.Wrap };
             var loadingWindow = dataController.CreateMessageBoxExForm(message);
             var progress = new Progress<int>(value => message.Text = $"{value}%");
+            var ownedWindows = DisableOwnedWindows();
             try
             {
                 loadingWindow.Show(this);
@@ -640,6 +691,8 @@ namespace BazisAvaloniaGUI.Shell
             {
                 loadingWindow.Close();
                 IsEnabled = wasEnabled;
+                RestoreOwnedWindows(ownedWindows);
+                isLoadingProject = false;
             }
         }
 

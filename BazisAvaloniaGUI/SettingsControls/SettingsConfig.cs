@@ -20,7 +20,8 @@ namespace BazisAvaloniaGUI.SettingsControls
         public Point LighterPosition;
         public bool Transparency;
         public bool BackRibbers;
-        public int TransparencyValue;
+        /// <summary>Непрозрачность модели в процентах (0..100). 0 делает грани невидимыми.</summary>
+        public int TransparencyValue = 100;
         public ViewProjection Projection = ViewProjection.Perspective;
         public bool DisplayBasis = true;
         public bool DisplayCompass = true;
@@ -51,5 +52,17 @@ namespace BazisAvaloniaGUI.SettingsControls
         public bool CheckCondValue;
 
         public string Language = "en";
+
+        /// <summary>
+        /// Приводит TransparencyValue к процентам: до перехода на ModelView значение хранилось в 0..255,
+        /// а 0 (поле отсутствовало в файле) делает модель невидимой.
+        /// </summary>
+        public void NormalizeTransparencyValue()
+        {
+            if (TransparencyValue > 100)
+                TransparencyValue = Math.Min(TransparencyValue, 255) * 100 / 255;
+            if (TransparencyValue <= 0)
+                TransparencyValue = 100;
+        }
     }
 }

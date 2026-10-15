@@ -68,10 +68,14 @@ namespace BazisGUI
 
         public async void CreateGIFAnimation(CreateAnimationEventArgs args)
         {
-            var outputFilePath = Path.Combine(WorkingDir, "results.gif");
-            var stream = new FileStream(outputFilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+            FileStream stream = null;
             try
             {
+                // Внутри try: async void с исключением вне try завершает процесс (WorkingDir может быть null,
+                // папка может быть недоступна на запись). Create обрезает прежний, более длинный файл
+                var outputFilePath = Path.Combine(WorkingDir, "results.gif");
+                stream = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write, FileShare.Read);
+
                 //выбрать узел в дереве асинхронно
                 await SelectContainerAsync(Resources.Result_CreateGIFAnimation_SelectContainerAsync_SelectResult_Message);
 
@@ -141,7 +145,7 @@ namespace BazisGUI
             }
             finally
             {
-                stream.Dispose();
+                stream?.Dispose();
             }
         }
     }

@@ -92,6 +92,9 @@ namespace BazisAvaloniaGUI.Shell
             catch (Exception ex)
             {
                 console.PrintInfo(ex.Message, Color.Red);
+                // Ошибка повторилась бы на каждом тике таймера: останавливаем плеер
+                // (на следующем тике PlayerControl вызовет StopChecking и StopCheckingEvent).
+                checkPlayerControl.Cancelation = true;
             }
         }
 

@@ -404,8 +404,8 @@ namespace BazisAvaloniaGUI.Databases
             try
             {
                 LabelEditFlag = true;
+                // OnMutationEvent поднимается в TreeView_AfterLabelEdit — только после успешного переименования.
                 BeginLabelEdit(TreeView.SelectedNode);
-                OnMutationEvent?.Invoke();
             }
             catch (Exception)
             {
@@ -590,7 +590,8 @@ namespace BazisAvaloniaGUI.Databases
         {
             try
             {
-                if (e.Label == null | e.Label == "" | Materials.ContainsKey(e.Label))
+                // || : при Esc Label == null, а ContainsKey(null) бросил бы ArgumentNullException.
+                if (e.Label == null || e.Label == "" || Materials.ContainsKey(e.Label))
                     e.CancelEdit = true;
                 else
                 {
@@ -603,6 +604,7 @@ namespace BazisAvaloniaGUI.Databases
 
                     Materials.Remove(oldText);
                     Materials.Add(newName, mat);
+                    OnMutationEvent?.Invoke();
                 }
                 LabelEditFlag = false;
 

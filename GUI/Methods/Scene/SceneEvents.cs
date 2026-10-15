@@ -175,8 +175,15 @@ namespace BazisGUI
 
         internal void SetBackColorToAllObjects()
         {
-            if (project != null)
+            if (project == null)
+                return;
+
+            // Как в исходном BaseForm: сбрасываются и выделение, и подсветка групп/условий
+            using (project.BeginViewUpdate())
+            {
                 project.ClearSelection();
+                project.ClearColor();
+            }
         }
 
         private void GlControl_KeyDown(object sender, KeyEventArgs e)

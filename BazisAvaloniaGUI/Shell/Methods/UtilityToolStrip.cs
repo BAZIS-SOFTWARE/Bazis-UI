@@ -138,10 +138,8 @@ namespace BazisAvaloniaGUI.Shell
             while (true)
             {
                 message = $@"Выберите {ObjType.Узел} и нажмите на клавишу ""E"" для подтверждения или клавишу ""ESC"" для отмены";
-                var res = SelectObjectAsync(ObjType.Узел, message);
-                await res;
-
-                if (res.Result is IPoint node)
+                // Esc здесь — штатное завершение построения пути, а не отмена: сообщение не печатаем.
+                if (await SelectObjectAsync(ObjType.Узел, message, reportCancel: false) is IPoint node)
                 {
                     nodes.Add(node);
                     project.ClearSelection(ObjType.Узел);
@@ -164,11 +162,12 @@ namespace BazisAvaloniaGUI.Shell
             return nodes;
         }
 
-        public async Task<object> SelectObjectAsync(ObjType objType, string message)
+        public async Task<object> SelectObjectAsync(ObjType objType, string message, bool reportCancel = true)
         {
             var actBreak = new Action(() =>
             {
-                Dispatcher.UIThread.Invoke(new Action(() => console.PrintInfo(Resources.UtilityToolStrip_SelectObjectAsync_OperationCanceled_Message, Color.Black)));
+                if (reportCancel)
+                    Dispatcher.UIThread.Invoke(new Action(() => console.PrintInfo(Resources.UtilityToolStrip_SelectObjectAsync_OperationCanceled_Message, Color.Black)));
             });
 
             var actPointConfirm = new Func<Tuple<bool, object>>(() =>
