@@ -421,6 +421,7 @@ namespace BazisAvaloniaGUI.Shell
             CancelInteractiveSelection();
             chamferWindowService.Close();
             CloseAdvancedSelectionForm();
+            CloseClipPlaneForm();
             project?.UnloadGeometry();
             project = newProject;
         }

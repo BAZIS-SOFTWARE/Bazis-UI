@@ -45,6 +45,7 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
     private SceneController? controller;
     private ProjectController? project;
     private int contoursVersion;
+    private bool contoursVisible;
     private bool wasInitialized;
     private int width;
     private int height;
@@ -226,6 +227,7 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
     public void SetContoursVisible(bool visible)
     {
         var version = Interlocked.Increment(ref contoursVersion);
+        contoursVisible = visible;
         if (project == null)
             return;
 
@@ -563,6 +565,10 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
         if (VisualRoot != null)
             project.Message += OnProjectMessage;
         Invoke(scene => presenter.Display(project, scene, fitToScreen: true));
+        // Display удаляет все буферы, включая "Boundary": при включённой кнопке «Контуры»
+        // строим контуры нового проекта, чтобы состояние кнопки совпадало со сценой
+        if (contoursVisible)
+            SetContoursVisible(true);
         ProjectShown?.Invoke(project);
     }
 

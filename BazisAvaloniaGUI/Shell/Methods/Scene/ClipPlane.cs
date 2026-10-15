@@ -100,6 +100,21 @@ namespace BazisAvaloniaGUI.Shell
         }
 
         /// <summary>
+        /// Закрывает окно «Скрыть плоскостью» и сбрасывает отсечение, чтобы плоскость и режим
+        /// не перешли на буферы следующего проекта (SceneProjectPresenter подключает активный clipper).
+        /// </summary>
+        private void CloseClipPlaneForm()
+        {
+            OwnedWindows.FirstOrDefault(x => x.Name == "clipPlaneForm")?.Close();
+            scene.Surface.Invoke(sceneController =>
+            {
+                sceneController.DeleteClipPlane();
+                sceneController.Advanced3DClipper.ClipMode = ClipMode.None;
+                GL.Disable(EnableCap.ClipPlane0);
+            });
+        }
+
+        /// <summary>
         /// Смена режима отсечения для 3д элементов (BaseForm.ChangeClipMode для каждого набора 3D-элементов).
         /// </summary>
         public void ChangeClipMode(ClipMode mode)
