@@ -2,6 +2,7 @@ using BazisGUI.Scene.Core.Rendering;
 using BazisGUI.Scene.VBO;
 using Geometry;
 using BazisGUI.Scene.Core;
+using BazisGUI.Scene.Core.Camera;
 
 namespace BazisGUI.Scene.Core.Layers
 {
@@ -43,7 +44,9 @@ namespace BazisGUI.Scene.Core.Layers
             clipper.ScaleFactor = context.ScaleFactor;
 
             var model = SceneController.ComputeClipPlaneModelMatrix(plane, clipPlaneVbo.BoundingBox);
-            var view = context.Camera.GetViewMatrix();
+            // Как в старом DisplayModelObjects: сечение строилось уже после GL.Translate(-Position)
+            var position = context.Camera.Position;
+            var view = GlMatrix.Translate(context.Camera.GetViewMatrix(), -position._x, -position._y, -position._z);
 
             clipPlaneVbo.ModelMatrix = model.AsColumnMajorArray();
             clipper.ClipMatrix = (view * model).AsColumnMajorArray();

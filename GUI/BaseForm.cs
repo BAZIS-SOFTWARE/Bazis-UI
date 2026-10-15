@@ -628,7 +628,9 @@ namespace BazisGUI
         {
             try
             {
-                if (!project.HasProject || !project.IsModified)
+                // IsModified не учитывает правки условий из панели свойств (они меняют объекты напрямую),
+                // поэтому сохраняем всегда, как и до перехода на события ProjectController
+                if (!project.HasProject)
                     return;
                 project.Save(project.FilePath);
                 console.PrintInfo(Resources.ProjectSavedCaption, Color.Black);

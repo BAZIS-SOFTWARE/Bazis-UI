@@ -122,6 +122,20 @@ namespace BazisAvaloniaGUI.Shell
 
         public async void HandleArgs(string[] args)
         {
+            // async void из Opened: необработанное исключение здесь роняет процесс,
+            // а в WinForms его показывал стандартный диалог ошибки
+            try
+            {
+                await HandleArgsAsync(args);
+            }
+            catch (Exception ex)
+            {
+                await MessageBox.Show(this, Localization.Localization.GetErrorWithStackMessage(ex), Localization.Localization.GetErrorCaption());
+            }
+        }
+
+        private async Task HandleArgsAsync(string[] args)
+        {
             if (args.Length != 0)
             {
                 if (args.Contains("-proj"))

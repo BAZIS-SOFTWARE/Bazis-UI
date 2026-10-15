@@ -1,5 +1,6 @@
 using BazisGUI.Scene.Core.Rendering;
 using BazisGUI.Scene.Core.Text;
+using OpenTK.Graphics.OpenGL;
 
 namespace BazisGUI.Scene.Core.Layers
 {
@@ -26,7 +27,15 @@ namespace BazisGUI.Scene.Core.Layers
                 if (label.IsScreenSpace)
                     textRenderer.DrawText2D(label, context);
                 else
+                {
+                    // Как в старом DisplayText3DTemplate: подписи в координатах модели сдвигаются
+                    // на центр вращения (GL.Translate(-Position)), как и сама модель
+                    var position = context.Camera.Position;
+                    GL.PushMatrix();
+                    GL.Translate(-position._x, -position._y, -position._z);
                     textRenderer.DrawText3D(label, context);
+                    GL.PopMatrix();
+                }
             }
         }
     }
