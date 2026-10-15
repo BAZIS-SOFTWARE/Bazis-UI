@@ -25,7 +25,15 @@ namespace BazisAvaloniaGUI.Shell
                     project.Select(objType, numbers);
                 }
             }
-            await EditGroupAsync(group);
+            try
+            {
+                await EditGroupAsync(group);
+            }
+            catch (OperationCanceledException)
+            {
+                // Окно закрыто или начат другой выбор.
+                return;
+            }
 
             // не очень безопасно, так как пользователь может поменять узел дерева
             // в процессе редактирования группы

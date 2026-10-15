@@ -46,6 +46,10 @@ namespace BazisAvaloniaGUI.Shell
 
                 RequestRedraw();
             }
+            catch (OperationCanceledException)
+            {
+                // Отмена интерактивного выбора завершает текущую операцию.
+            }
             catch (Exception ex)
             {
                 console.PrintInfo(ex.Message, Color.Red);

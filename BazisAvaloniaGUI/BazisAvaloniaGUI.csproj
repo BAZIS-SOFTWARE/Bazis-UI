@@ -36,5 +36,9 @@
     <AvaloniaResource Include="Player\Assets\*.png" />
     <Content Include="..\GUI\DataBases\Materials\materials_draft.txt" Link="DataBases\Materials\materials_draft.txt" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="..\GUI\DataBases\Functions\functions_draft.txt" Link="DataBases\Functions\functions_draft.txt" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\GUI\DataBases\Materials\Materials_v4.jsf" Link="DataBases\Materials\Materials_v4.jsf" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\GUI\DataBases\Materials\Materials_v6.jsf" Link="DataBases\Materials\Materials_v6.jsf" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\GUI\DataBases\Functions\functions.jsf" Link="DataBases\Functions\functions.jsf" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\GUI\Help\ПО Bazis 5.2. Руководство пользователя.pdf" Link="Help\ПО Bazis 5.2. Руководство пользователя.pdf" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

@@ -44,6 +44,7 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
     private readonly ConcurrentQueue<TaskCompletionSource<byte[]>> frameCaptures = new();
     private SceneController? controller;
     private ProjectController? project;
+    private int contoursVersion;
     private bool wasInitialized;
     private int width;
     private int height;
@@ -129,6 +130,7 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
     {
         if (project != null)
             project.Message -= OnProjectMessage;
+        CancelFrameCaptures();
         base.OnDetachedFromVisualTree(e);
     }
 
@@ -175,10 +177,20 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
     /// </summary>
     public Task<byte[]> CaptureFrameAsync()
     {
+        Dispatcher.UIThread.VerifyAccess();
+        if (VisualRoot == null)
+            return Task.FromCanceled<byte[]>(new CancellationToken(true));
         var completion = new TaskCompletionSource<byte[]>(TaskCreationOptions.RunContinuationsAsynchronously);
         frameCaptures.Enqueue(completion);
         Redraw();
         return completion.Task;
+    }
+
+    private void CancelFrameCaptures()
+    {
+        screenShotPath = null;
+        while (frameCaptures.TryDequeue(out var capture))
+            capture.TrySetCanceled();
     }
 
     /// <summary>Запрашивает перерисовку сцены (BaseForm.RequestRedraw). Можно вызывать из любого потока.</summary>
@@ -213,22 +225,42 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
     /// <summary>Показывает или скрывает контуры модели (граничные рёбра), как кнопка «Контуры» в WinForms.</summary>
     public void SetContoursVisible(bool visible)
     {
+        var version = Interlocked.Increment(ref contoursVersion);
         if (project == null)
             return;
 
         var currentProject = project;
+        if (!visible)
+        {
+            Invoke(scene =>
+            {
+                if (version == Volatile.Read(ref contoursVersion) && ReferenceEquals(project, currentProject))
+                    scene.VboController.DeleteVBObjects("Boundary");
+            });
+            return;
+        }
         Task.Run(() =>
         {
-            var edges = new List<ILineObject<Model.MeshObjects.Node>>();
-            if (visible)
+            try
             {
                 var nodes = currentProject.FindBoundaryEdges();
-                edges.AddRange(currentProject.CreateBoundaryEdges(nodes));
+                var edges = currentProject.CreateBoundaryEdges(nodes);
+                var linePresenter = new PresentersCreator().CreateLineObjectsPresenter(edges.ToList(), DrawingColor.DarkGray);
+                linePresenter.Name = "Boundary";
+                Invoke(scene =>
+                {
+                    if (version == Volatile.Read(ref contoursVersion) && ReferenceEquals(project, currentProject))
+                        presenter.Refresh(scene, linePresenter);
+                });
             }
-            var linePresenter = new PresentersCreator().CreateLineObjectsPresenter(edges.ToList(), DrawingColor.DarkGray);
-            linePresenter.Name = "Boundary";
-
-            AddPresenter(linePresenter);
+            catch (Exception error)
+            {
+                Dispatcher.UIThread.Post(() =>
+                {
+                    if (version == Volatile.Read(ref contoursVersion) && ReferenceEquals(project, currentProject))
+                        ProjectDisplayFailed?.Invoke(this, error);
+                });
+            }
         });
     }
 
@@ -242,7 +274,11 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
     public void DeleteObjects(string name) => Invoke(scene => scene.VboController.DeleteVBObjects(name));
 
     /// <summary>Удаляет все буферы сцены (BaseForm.VBOController.DeleteAllVBObjects).</summary>
-    public void DeleteAllObjects() => Invoke(scene => scene.VboController.DeleteAllVBObjects());
+    public void DeleteAllObjects()
+    {
+        Interlocked.Increment(ref contoursVersion);
+        Invoke(scene => scene.VboController.DeleteAllVBObjects());
+    }
 
     /// <summary>Пересоздаёт буферы наборов модели (BaseForm.CreateVBObjsByObjsType для перечисленных наборов).</summary>
     public void RefreshSets(IEnumerable<ISetInfo> sets)
@@ -520,6 +556,7 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
     /// <summary>Передаёт загруженный проект в поток рендера для создания VBO.</summary>
     public void ShowProject(ProjectController project)
     {
+        Interlocked.Increment(ref contoursVersion);
         if (this.project != null)
             this.project.Message -= OnProjectMessage;
         this.project = project;
@@ -705,6 +742,7 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
 
     protected override void OnOpenGlLost()
     {
+        CancelFrameCaptures();
         controller = null;
     }
 

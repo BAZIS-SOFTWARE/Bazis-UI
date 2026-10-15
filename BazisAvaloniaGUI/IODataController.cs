@@ -83,11 +83,14 @@ namespace BazisAvaloniaGUI
             mbf.Show(owner);
             mb.Text = Resources.ImportMeshCaption;
             var progress = new Progress<int>(value => mb.Text = $"{value}%");
-            await Task.Run(new Action(() =>
+            try
             {
-                controller.Open(fullPath, progress);
-            }));
-            mbf.Close();
+                await Task.Run(() => controller.Open(fullPath, progress));
+            }
+            finally
+            {
+                mbf.Close();
+            }
 
             controller.ChangeProjectName("новый_проект.bpf2");
             return controller;
@@ -147,12 +150,14 @@ namespace BazisAvaloniaGUI
             var mbf = CreateMessageBoxExForm(mb);
             mbf.Show(owner);
             var progress = new Progress<int>(value => mb.Text = $"{value}%");
-            await Task.Run(new Action(() =>
+            try
             {
-                controller.Open(fullPath, progress);
-
-            }));
-            mbf.Close();
+                await Task.Run(() => controller.Open(fullPath, progress));
+            }
+            finally
+            {
+                mbf.Close();
+            }
             return controller;
         }
     }

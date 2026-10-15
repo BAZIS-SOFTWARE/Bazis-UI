@@ -124,15 +124,15 @@ namespace BazisAvaloniaGUI.Shell
                     PresentResultsField(result, resName, tableName);
                 }
 
+                HideAllText3D();
+
                 if (settingsConfig.ShowNodeResultsValue)
                 {
-                    HideAllText3D();
                     ShowResultValue(ResultType.nodes, resName, result);
                 }
 
                 if (settingsConfig.ShowElementsResultsValue)
                 {
-                    HideAllText3D();
                     ShowResultValue(ResultType.elements, resName, result);
                 }
 
@@ -148,8 +148,7 @@ namespace BazisAvaloniaGUI.Shell
         {
             try
             {
-                navigator.TrySearchNodes(NodeName.Results, out List<TreeNode> nodes);
-                nodes[0].Remove();
+                ClearResultsState();
 
                 ClearAllDataOnScene();
                 // В BaseForm представления создавались без добавления на сцену (CreateVBObject без AddVbo),

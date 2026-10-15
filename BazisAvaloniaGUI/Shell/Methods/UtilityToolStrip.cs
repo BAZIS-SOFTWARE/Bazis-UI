@@ -94,7 +94,7 @@ namespace BazisAvaloniaGUI.Shell
                         }
                     case MeasureKind.DistancePointToPlane:
                         {
-                            DistancePointToPlane(SelectedObjects);
+                            await DistancePointToPlane(SelectedObjects);
                             break;
                         }
                     case MeasureKind.Path:
@@ -116,6 +116,10 @@ namespace BazisAvaloniaGUI.Shell
                     default:
                         break;
                 }
+            }
+            catch (OperationCanceledException)
+            {
+                // Отмена интерактивного выбора завершает текущую операцию.
             }
             catch (Exception ex)
             {
@@ -224,7 +228,7 @@ namespace BazisAvaloniaGUI.Shell
             console.PrintInfo($"{Resources.UtilityToolStrip_CalcSquare_Output} : {square}", Color.Black);
         }
 
-        private async void DistancePointToPlane(SelectionType objTypeStr)
+        private async Task DistancePointToPlane(SelectionType objTypeStr)
         {
             var objType = Converters.ConvertSelectionTypeToObjType(objTypeStr);
 

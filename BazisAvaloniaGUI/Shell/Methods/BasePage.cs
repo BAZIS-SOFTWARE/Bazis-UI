@@ -12,8 +12,36 @@ namespace BazisAvaloniaGUI.Shell
 {
     internal partial class MainWindow
     {
-        /// <summary>Кнопка на клавиатуре</summary>
-        public Key PressedKey { get; set; }
+        private Key pressedKey;
+        private TaskCompletionSource<object> interactiveSelection;
+        private Func<Tuple<bool, object>> confirmSelection;
+
+        /// <summary>Последняя клавиша; подтверждение и отмена выбора обрабатываются в UI-потоке.</summary>
+        public Key PressedKey
+        {
+            get => pressedKey;
+            set
+            {
+                pressedKey = value;
+                if (value == Key.Escape)
+                    interactiveSelection?.TrySetResult(null);
+                else if (value == Key.E && interactiveSelection != null && !interactiveSelection.Task.IsCompleted)
+                {
+                    try
+                    {
+                        var result = confirmSelection();
+                        if (result.Item1)
+                            interactiveSelection.TrySetResult(result.Item2);
+                    }
+                    catch (Exception error)
+                    {
+                        interactiveSelection.TrySetException(error);
+                    }
+                }
+            }
+        }
+
+        private void CancelInteractiveSelection() => interactiveSelection?.TrySetCanceled();
 
         public async Task<Geometry.Plane> CreateSurfaceAsync(ObjType objType)
         {
@@ -50,50 +78,43 @@ namespace BazisAvaloniaGUI.Shell
                 }
             });
             // TODO: придумать, как решить проблему upcast-а ниже (мб передан null)
-            var surfaceAwait = AsyncMethodContainer(actSurfaceConfirm, actBreak, message);
-            await surfaceAwait;
-            return (Geometry.Plane)surfaceAwait.Result;
+            return (Geometry.Plane)await AsyncMethodContainer(actSurfaceConfirm, actBreak, message);
         }
 
         public async Task<object> AsyncMethodContainer(Func<Tuple<bool, object>> actConfirm, Action actBreak, string cmdMessage)
         {
-            object resObject = null;
+            Dispatcher.UIThread.VerifyAccess();
+            CancelInteractiveSelection();
+            var completion = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
+            interactiveSelection = completion;
+            confirmSelection = actConfirm;
             PressedKey = Key.None;
-            Dispatcher.UIThread.Invoke(new Action(() =>
-            {
-
-                var color = GetTextColor();
-
-                DisplayText2D(cmdMessage, color, new Point2D(10, 10));
-                RequestRedraw();
-            }));
-            await System.Threading.Tasks.Task.Run(() =>
-            {
-                while (true)
-                {
-                    if (PressedKey == Key.E)
-                    {
-                        var resAction = actConfirm.Invoke();
-                        if (resAction.Item1)
-                        {
-                            resObject = resAction.Item2;
-                            break;
-                        }
-                        PressedKey = Key.None;
-                    }
-                    if (PressedKey == Key.Escape)
-                    {
-                        actBreak.Invoke();
-                        break;
-                    }
-                }
-            });
-
-            HideAllText2D();
+            DisplayText2D(cmdMessage, GetTextColor(), new Point2D(10, 10));
             RequestRedraw();
-
-            PressedKey = Key.None;
-            return resObject;
+            try
+            {
+                var result = await completion.Task;
+                if (result == null && !isClosing)
+                    actBreak();
+                return result;
+            }
+            catch (OperationCanceledException)
+            {
+                if (!isClosing)
+                    actBreak();
+                throw;
+            }
+            finally
+            {
+                if (ReferenceEquals(interactiveSelection, completion))
+                {
+                    interactiveSelection = null;
+                    confirmSelection = null;
+                    HideAllText2D();
+                    RequestRedraw();
+                    PressedKey = Key.None;
+                }
+            }
         }
 
         private Color GetTextColor()

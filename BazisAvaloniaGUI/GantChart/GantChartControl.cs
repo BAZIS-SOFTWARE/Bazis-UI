@@ -47,7 +47,15 @@ namespace BazisAvaloniaGUI.GantChart
 
         public void AddConds(IEnumerable<ICondData> conds)
         {
-            foreach (var item in conds)
+            var conditions = conds.ToList();
+            rows.Clear();
+            if (conditions.Count == 0)
+            {
+                koeff = 0;
+                Present();
+                return;
+            }
+            foreach (var item in conditions)
             {
                 string kind;
                 var itemParts = item.ToString().Split(" : ");
@@ -79,8 +87,8 @@ namespace BazisAvaloniaGUI.GantChart
 
                 rows.Add(($"{kind} : {itemParts[1]}", item));
             }
-            var max = conds.Max(x => x.StopTime);
-            var min = conds.Min(x => x.StartTime);
+            var max = conditions.Max(x => x.StopTime);
+            var min = conditions.Min(x => x.StartTime);
 
             koeff = (float)((max - min) / (Bounds.Width > 0 ? Bounds.Width : DesignWidth));
             Present();

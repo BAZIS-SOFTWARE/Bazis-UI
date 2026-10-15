@@ -107,6 +107,10 @@ namespace BazisAvaloniaGUI.Shell
                 }
                 console.PrintInfo($"{Resources.Result_CreateGIFAnimation_AnimationCreated}: {outputFilePath}", Color.Green);
             }
+            catch (OperationCanceledException)
+            {
+                // Отмена интерактивного выбора завершает текущую операцию.
+            }
             catch (Exception ex)
             {
                 console.PrintInfo(ex.Message, Color.Red);

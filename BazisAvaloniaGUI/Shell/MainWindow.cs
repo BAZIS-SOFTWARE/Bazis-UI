@@ -66,6 +66,8 @@ namespace BazisAvaloniaGUI.Shell
 
         ProjectController project;
         private string projectFilePath;
+        private readonly ChamferWindowService chamferWindowService = new();
+        private bool isLoadingProject;
         IODataController dataController;
         PreProc.PreProc preProc = new();
         IPresentersCreator presentersCreator = new PresentersCreator();
@@ -290,6 +292,10 @@ namespace BazisAvaloniaGUI.Shell
                     }
                 }
 
+                ClearResultsState();
+                CloseGanttChart();
+                CancelInteractiveSelection();
+                chamferWindowService.Close();
                 ClearAllDataOnScene();
                 PresentProject();
                 PresentCompDataOnTree(new List<string>());
@@ -306,8 +312,15 @@ namespace BazisAvaloniaGUI.Shell
 
         private async Task OpenProject(string filePath)
         {
+            if (isLoadingProject)
+                return;
+
+            isLoadingProject = true;
+            var wasEnabled = IsEnabled;
+            IsEnabled = false;
             try
             {
+                var previousProject = project;
                 filePath = Path.GetFullPath(filePath);
                 var ext = Path.GetExtension(filePath).ToLowerInvariant();
 
@@ -342,6 +355,14 @@ namespace BazisAvaloniaGUI.Shell
 
                 lblStatus.Text = projectFilePath ?? filePath;
 
+                if (!ReferenceEquals(previousProject, project))
+                {
+                    ClearResultsState();
+                    CloseGanttChart();
+                    CancelInteractiveSelection();
+                    chamferWindowService.Close();
+                }
+
                 ClearAllDataOnScene();
                 PresentProject();
                 OnProjectLoaded?.Invoke();
@@ -354,12 +375,20 @@ namespace BazisAvaloniaGUI.Shell
             catch (Exception ex)
             {
                 OwnedWindows.FirstOrDefault(window => window.Name == "Загрузка")?.Close();
+                IsEnabled = wasEnabled;
                 await MessageBox.Show(this, Localization.Localization.GetErrorWithStackMessage(ex), Localization.Localization.GetErrorCaption());
+            }
+            finally
+            {
+                IsEnabled = wasEnabled;
+                isLoadingProject = false;
             }
         }
 
         private async void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (isLoadingProject)
+                return;
             var dialog = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 AllowMultiple = false,
@@ -368,7 +397,7 @@ namespace BazisAvaloniaGUI.Shell
             if (dialog.Count == 0)
                 return;
 
-            OpenProject(dialog[0].TryGetLocalPath());
+            await OpenProject(dialog[0].TryGetLocalPath());
         }
 
         private void UnblockInterface()
@@ -509,6 +538,8 @@ namespace BazisAvaloniaGUI.Shell
         {
             // Страница настроек закрывается вместе с окном: изменения сохраняются без сообщения.
             isClosing = true;
+            CancelInteractiveSelection();
+            chamferWindowService.Close();
             if (savedConfigSnapshot != null)
                 SaveConfigIfChanged(showMessage: false);
             project?.UnloadGeometry();
@@ -539,16 +570,7 @@ namespace BazisAvaloniaGUI.Shell
                         return;
                     var fileName = dialog[0].TryGetLocalPath();
 
-                    var mb = new TextBlock { TextWrapping = Avalonia.Media.TextWrapping.Wrap };
-                    var mbf = dataController.CreateMessageBoxExForm(mb);
-                    mbf.Show(this);
-                    var progress = new Progress<int>(value => mb.Text = $"{value}%");
-                    await Task.Run(new Action(() =>
-                    {
-                        project.Append(fileName, progress);
-
-                    }));
-                    mbf.Close();
+                    await AppendMeshAsync(fileName);
 
                     ClearAllDataOnScene();
                     PresentProject();
@@ -567,6 +589,26 @@ namespace BazisAvaloniaGUI.Shell
             }
         }
 
+        private async Task AppendMeshAsync(string fileName)
+        {
+            var currentProject = project;
+            var wasEnabled = IsEnabled;
+            var message = new TextBlock { TextWrapping = Avalonia.Media.TextWrapping.Wrap };
+            var loadingWindow = dataController.CreateMessageBoxExForm(message);
+            var progress = new Progress<int>(value => message.Text = $"{value}%");
+            try
+            {
+                loadingWindow.Show(this);
+                IsEnabled = false;
+                await Task.Run(() => currentProject.Append(fileName, progress));
+            }
+            finally
+            {
+                loadingWindow.Close();
+                IsEnabled = wasEnabled;
+            }
+        }
+
         private void addChamferToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // CheckOnClick: MenuItem с ToggleType = CheckBox переключает IsChecked до события Click.
@@ -575,10 +617,10 @@ namespace BazisAvaloniaGUI.Shell
                 SelectedObjects = SelectionType.Curves;
                 var synchronizationContext = SynchronizationContext.Current;
                 var operationService = new SynchronizationContextChamferOperationService(synchronizationContext, RequestChamferByAngle, RequestChamferByLengths, RequestChamferPreview, RequestClearChamferPreview);
-                ChamferWindowService.Show(operationService, () => synchronizationContext.Post(_ => OnChamferWindowClosed(), null));
+                chamferWindowService.Show(this, operationService, OnChamferWindowClosed);
             }
             else
-                ChamferWindowService.Close();
+                chamferWindowService.Close();
         }
 
         /// <summary>

@@ -20,26 +20,10 @@ namespace BazisAvaloniaGUI.Shell
     {
         public async Task SelectContainerAsync(string message)
         {
-            PressedKey = Key.None;
-
-            DisplayText2D(message, Color.Black, new Point2D(10, 10));
-            RequestRedraw();
-            await System.Threading.Tasks.Task.Run(() =>
-            {
-                while (true)
-                {
-                    if (PressedKey == Key.E)
-                        break;
-                    if (PressedKey == Key.Escape)
-                    {
-                        Dispatcher.UIThread.Invoke(new Action(() => console.PrintInfo(Resources.CreatePlot_SelectContainerAsync_CancelOperation_Message, Color.Black)));
-                        break;
-                    }
-                }
-            });
-            HideAllText2D();
-            RequestRedraw();
-            PressedKey = Key.None;
+            var result = await AsyncMethodContainer(() => Tuple.Create(true, (object)true),
+                () => console.PrintInfo(Resources.CreatePlot_SelectContainerAsync_CancelOperation_Message, Color.Black), message);
+            if (result == null)
+                throw new OperationCanceledException();
         }
 
         private async void построитьГрафикToolStripMenuItem_Click(object sender, EventArgs e)
@@ -102,6 +86,10 @@ namespace BazisAvaloniaGUI.Shell
                 if (grDataAr.Count != 0)
                     ShowGraphWindow($"{Resources.CreatePlot_GraphForm_Text_Part1} {resDes} - {Resources.CreatePlot_GraphForm_Text_Part2}",
                         Resources.CreatePlot_CreateGraphData_Header, grDataAr);
+            }
+            catch (OperationCanceledException)
+            {
+                // Отмена интерактивного выбора завершает текущую операцию.
             }
             catch (Exception ex)
             {
@@ -166,6 +154,10 @@ namespace BazisAvaloniaGUI.Shell
                     ShowGraphWindow($"{Resources.Result_BuildDiagram_Text_Part1} {resDes} - {Resources.Result_BuildDiagram_Text_Part2}",
                         Resources.Result_BuildDiagram_DistanceResultSet_Header, new List<GraphData>() { grData });
                 }
+            }
+            catch (OperationCanceledException)
+            {
+                // Отмена интерактивного выбора завершает текущую операцию.
             }
             catch (Exception ex)
             {

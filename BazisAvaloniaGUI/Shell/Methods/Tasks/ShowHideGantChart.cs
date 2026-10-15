@@ -2,11 +2,20 @@ using Avalonia.Controls;
 using BazisAvaloniaGUI.GantChart;
 using System;
 using System.Drawing;
+using System.Linq;
 
 namespace BazisAvaloniaGUI.Shell
 {
     internal partial class MainWindow
     {
+        private void CloseGanttChart()
+        {
+            foreach (var name in TabButtonsService.GetNames().ToArray())
+                if (TabButtonsService.GetControl(name) is cntrГант)
+                    TabButtonsService.RemoveControl(name);
+            показатьНаДиаграммеToolStripMenuItem.IsChecked = false;
+        }
+
         private void показатьНаДиаграммеToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
