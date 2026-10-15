@@ -987,6 +987,8 @@ internal class Resources
 
     internal static string MainMenuEvents_ChangeLanguage_Message => ResourceManager.GetString("MainMenuEvents.ChangeLanguage.Message", Culture);
 
+    internal static string Results_InvalidDatabase_Message => ResourceManager.GetString("Results.InvalidDatabase.Message", Culture);
+
     internal static string MakeScreenShot_Message => ResourceManager.GetString("MakeScreenShot.Message", Culture);
 
     internal static string MakeScreenShot_ScreenShotTaken_Message => ResourceManager.GetString("MakeScreenShot.ScreenShotTaken.Message", Culture);

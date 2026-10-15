@@ -2227,4 +2227,7 @@ Create variable?</value>
   <data name="SceneView.ToolTip.RotateVertical90" xml:space="preserve">
     <value>Rotate 90° vertically</value>
   </data>
+  <data name="Results.InvalidDatabase.Message" xml:space="preserve">
+    <value>База должна содержать таблицу nodes с результатами и временными шагами.</value>
+  </data>
 </root>

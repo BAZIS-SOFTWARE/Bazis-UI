@@ -45,6 +45,7 @@ public partial class ResourceLifetimeTests
         var window = CreateProjectWindow(Path.Combine(folder, "current.bpf2"));
         var original = GetField(window, "project").GetValue(window);
         var tabs = (TabButtonControlService)GetField(window, "TabButtonsService").GetValue(window);
+        Call(window, "PresentCompDataOnTree", new List<string> { "old computation instruction" });
         tabs.AddControl("Old chart", (Control)Create("GantChart.cntrГант"));
         var menu = (MenuItem)GetField(window, "показатьНаДиаграммеToolStripMenuItem").GetValue(window);
         menu.IsChecked = true;
@@ -61,6 +62,7 @@ public partial class ResourceLifetimeTests
             Assert.That(GetField(window, "projectFilePath").GetValue(window), Is.EqualTo(path));
             Assert.That(tabs.GetNames(), Does.Not.Contain("Old chart"));
             Assert.That(menu.IsChecked, Is.False);
+            Assert.That(HasNavigatorNode(window, "Calculations"), Is.False);
         }
         finally
         {

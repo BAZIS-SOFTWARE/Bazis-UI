@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BazisAvaloniaGUI.Shell
 {
@@ -92,27 +93,58 @@ namespace BazisAvaloniaGUI.Shell
 
         private async void открытьToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            var openDialog = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            try
             {
-                AllowMultiple = false,
-                SuggestedStartLocation = await StorageProvider.TryGetFolderFromPathAsync(AppContext.BaseDirectory),
-                FileTypeFilter = FileTypes("Results files (*.db)|*.db")
-            });
+                var openDialog = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+                {
+                    AllowMultiple = false,
+                    SuggestedStartLocation = await StorageProvider.TryGetFolderFromPathAsync(AppContext.BaseDirectory),
+                    FileTypeFilter = FileTypes("Results files (*.db)|*.db")
+                });
+                if (openDialog.Count == 0)
+                    return;
 
-            if (openDialog.Count == 0)
-                return;
-
-
-            ResultDbPath = openDialog[0].TryGetLocalPath();
-
-            FillingResultsData();
+                await OpenResultsAsync(openDialog[0].TryGetLocalPath());
+            }
+            catch (Exception ex)
+            {
+                await MessageBox.Show(this, Localization.Localization.GetErrorWithStackMessage(ex), Localization.Localization.GetErrorCaption());
+            }
         }
 
-        private void FillingResultsData()
+        private async Task OpenResultsAsync(string filePath)
         {
+            try
+            {
+                FillingResultsData(filePath);
+            }
+            catch (Exception ex)
+            {
+                await MessageBox.Show(this, Localization.Localization.GetErrorWithStackMessage(ex), Localization.Localization.GetErrorCaption());
+            }
+        }
+
+        private void FillingResultsData(string filePath)
+        {
+            filePath = Path.GetFullPath(filePath);
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException(null, filePath);
             var loader = new LoadResultsFileDB();
-            var scheme = loader.GetTablesSchemes(ResultDbPath).
+            var scheme = loader.GetTablesSchemes(filePath).
                 FirstOrDefault(x => x.Key == ResultType.nodes.ToString());
+            if (scheme.Value == null)
+                throw new InvalidDataException(Resources.Results_InvalidDatabase_Message);
+
+            var times = loader.GetValues(filePath, scheme.Key, "Time").ToArray();
+            if (times.Length == 0)
+                throw new InvalidDataException(Resources.Results_InvalidDatabase_Message);
+            var children = new List<TreeNode>();
+            foreach (var desc in scheme.Value)
+            {
+                var rn = navigator.CreateRealNode(NodeName.Result, $"{desc}");
+                rn.Nodes.Add(navigator.CreateVirtualNode(NodeName.Result));
+                children.Add(rn);
+            }
 
             List<TreeNode> results;
 
@@ -127,17 +159,10 @@ namespace BazisAvaloniaGUI.Shell
             else
                 results[0].Nodes.Clear();
 
-            resultTimes = loader.GetValues(ResultDbPath, scheme.Key, "Time");
-
-
-            foreach (var desc in scheme.Value)
-            {
-                var rn = navigator.CreateRealNode(NodeName.Result, $"{desc}");
-
-                var vn = navigator.CreateVirtualNode(NodeName.Result);
-                rn.Nodes.Add(vn);
-                results[0].Nodes.Add(rn);
-            }
+            checkPlayerControl.StopChecking();
+            results[0].Nodes.AddRange(children.ToArray());
+            ResultDbPath = filePath;
+            resultTimes = times;
         }
 
         private void PresentResultsField(Result result, string resName, string tableName)

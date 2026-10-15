@@ -145,8 +145,7 @@ namespace BazisAvaloniaGUI.Shell
                     if (project == null)
                         throw new Exception(Resources.HandleArgsResultsLoadingWithoutProjectException);
 
-                    ResultDbPath = fullPath;
-                    FillingResultsData();
+                    await OpenResultsAsync(fullPath);
                 }
                 if (args.Contains("-cad"))
                 {
@@ -256,8 +255,9 @@ namespace BazisAvaloniaGUI.Shell
 
                 var folderName = dialog[0].TryGetLocalPath();
 
-                project = new ProjectController();
-                project.CreateProject("newProject.bpf2");
+                var newProject = new ProjectController();
+                newProject.CreateProject("newProject.bpf2");
+                ReplaceProject(newProject);
 
                 projectFilePath = Path.GetFullPath(Path.Combine(folderName, project.Name));
                 lblStatus.Text = projectFilePath;
@@ -294,8 +294,6 @@ namespace BazisAvaloniaGUI.Shell
 
                 ClearResultsState();
                 CloseGanttChart();
-                CancelInteractiveSelection();
-                chamferWindowService.Close();
                 ClearAllDataOnScene();
                 PresentProject();
                 PresentCompDataOnTree(new List<string>());
@@ -326,7 +324,8 @@ namespace BazisAvaloniaGUI.Shell
 
                 if (IsProjectFile(filePath))
                 {
-                    project = await dataController.OpenProject(filePath);
+                    var loadedProject = await dataController.OpenProject(filePath);
+                    ReplaceProject(loadedProject);
                     projectFilePath = filePath;
                 }
 
@@ -349,7 +348,8 @@ namespace BazisAvaloniaGUI.Shell
 
                 else
                 {
-                    project = await dataController.ImportMesh(filePath);
+                    var importedProject = await dataController.ImportMesh(filePath);
+                    ReplaceProject(importedProject);
                     projectFilePath = null;
                 }
 
@@ -358,9 +358,8 @@ namespace BazisAvaloniaGUI.Shell
                 if (!ReferenceEquals(previousProject, project))
                 {
                     ClearResultsState();
+                    PresentCompDataOnTree(new List<string>());
                     CloseGanttChart();
-                    CancelInteractiveSelection();
-                    chamferWindowService.Close();
                 }
 
                 ClearAllDataOnScene();
@@ -398,6 +397,18 @@ namespace BazisAvaloniaGUI.Shell
                 return;
 
             await OpenProject(dialog[0].TryGetLocalPath());
+        }
+
+        private void ReplaceProject(ProjectController newProject)
+        {
+            if (ReferenceEquals(project, newProject))
+                return;
+
+            CancelInteractiveSelection();
+            chamferWindowService.Close();
+            CloseAdvancedSelectionForm();
+            project?.UnloadGeometry();
+            project = newProject;
         }
 
         private void UnblockInterface()
