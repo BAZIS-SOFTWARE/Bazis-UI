@@ -1,13 +1,12 @@
 ﻿using BazisGUI.Properties;
+using Newtonsoft.Json;
 using PreProc;
 using PreProc.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BazisGUI
 {
@@ -24,23 +23,29 @@ namespace BazisGUI
                 if (!Directory.Exists(inputDir))
                     Directory.CreateDirectory(inputDir);
 
-                var oldTSF = Directory.GetFiles(inputDir);
-                if (oldTSF.Length > 0) Array.ForEach(oldTSF, x => File.Delete(x));
-
-                var procProp = new ProcessProperty()
-                {
-                    TaskKind = project.TaskKind,
-                    CommonTaskType = ProcessType.Welding // убрать из препроцессора
-                };
-
                 var data = project.GetAllCondData();
-                preProc.CalcCompDataV2(data, procProp, inputDir);
+                var parameters = preProc.CalcCompDataV2(data, project.TaskKind, synchronizeTimeSteps: true);
+                var serializer = new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Auto,
+                    Formatting = Newtonsoft.Json.Formatting.Indented
+                };
+                var files = new Dictionary<string, string>();
+                var instructions = new List<string>();
+                foreach (var parameter in parameters)
+                {
+                    var path = Path.Combine(inputDir, $"{parameter}.tsf");
+                    var contents = JsonConvert.SerializeObject(parameter, serializer);
+                    files.Add(path, contents);
+                    instructions.Add($"{parameter.TaskKind} {path} {TaskStatus.выполнить}");
+                }
+                var oldTasks = Directory.GetFiles(inputDir, "*.tsf");
+                foreach (var oldTask in oldTasks)
+                    File.Delete(oldTask);
+                foreach (var file in files)
+                    File.WriteAllText(file.Key, file.Value, new UTF8Encoding(false));
 
-                var tsfFiles = Directory.GetFiles(inputDir, "*.tsf");
-
-                var sortedFiles = preProc.SortCompDataByTimeAndType(tsfFiles);
-
-                PresentCompDataOnTree(sortedFiles);
+                PresentCompDataOnTree(instructions);
 
                 console.PrintInfo($"{Resources.GenerateTSF_InstructionsFormed_Message} {inputDir}", Color.Green);
 

@@ -55,6 +55,11 @@ class BaseForm {
   - toolStripMenuItem3_Click(object sender, EventArgs e) : void
   - экспортСеткиToolStripMenuItem_Click(object sender, EventArgs e) : void
   - добавитьСеткуToolStripMenuItem_Click(object sender, EventArgs e) : void
+  - сформироватьИнструкцииToolStripMenuItem_Click(object sender, EventArgs e) : void
+  - открытьИнструкцииToolStripMenuItem_Click(object sender, EventArgs e) : void
+  + PresentCompDataOnTree(compData) : void
+  - запуститьToolStripMenuItem_Click(object sender, EventArgs e) : void
+  + StartComputation() : void
 }
 
 class TabButtonControlService {
