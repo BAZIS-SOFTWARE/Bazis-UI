@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="lblStatus.Text" xml:space="preserve">
+    <value>Создайте или загрузите проект или сетку</value>
+  </data>
+  <data name="btnSelect.Text" xml:space="preserve">
+    <value>Выбрать</value>
+  </data>
+  <data name="btnDisplayViews.Text" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="создатьToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Создать</value>
+  </data>
+  <data name="открытьToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Открыть</value>
+  </data>
+  <data name="добавитьToolStripMenuItem.Text" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="сохранитьToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Сохранить</value>
+  </data>
+  <data name="сохранитькакToolStripMenuItem.Text" xml:space="preserve">
+    <value>Сохранить &amp;как</value>
+  </data>
+  <data name="выходToolStripMenuItem.Text" xml:space="preserve">
+    <value>Вы&amp;ход</value>
+  </data>
+  <data name="файлToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Файл</value>
+  </data>
+  <data name="toolStripMenuItem2.Text" xml:space="preserve">
+    <value>Навигатор</value>
+  </data>
+  <data name="toolStripMenuItem3.Text" xml:space="preserve">
+    <value>Консоль</value>
+  </data>
+  <data name="viewMenuItem.Text" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="создатьТочкуToolStripMenuItem.Text" xml:space="preserve">
+    <value>Создать точку</value>
+  </data>
+  <data name="создатьЛиниюToolStripMenuItem.Text" xml:space="preserve">
+    <value>Создать линию</value>
+  </data>
+  <data name="создатьПлоскостьToolStripMenuItem.Text" xml:space="preserve">
+    <value>Создать плоскость</value>
+  </data>
+  <data name="создатьОбъемToolStripMenuItem.Text" xml:space="preserve">
+    <value>Создать объем</value>
+  </data>
+  <data name="addChamferToolStripMenuItem.Text" xml:space="preserve">
+    <value>Добавить фаску</value>
+  </data>
+  <data name="геометрияToolStripMenuItem.Text" xml:space="preserve">
+    <value>Геометрия</value>
+  </data>
+  <data name="загрузитьgeoToolStripMenuItem.Text" xml:space="preserve">
+    <value>Загрузить *.gscript</value>
+  </data>
+  <data name="сформироватьgeoToolStripMenuItem.Text" xml:space="preserve">
+    <value>Сформировать *.gscript</value>
+  </data>
+  <data name="наToolStripMenuItem.Text" xml:space="preserve">
+    <value>На границах 2D элементов</value>
+  </data>
+  <data name="уплотнитьToolStripMenuItem.Text" xml:space="preserve">
+    <value>Уплотнить существующую</value>
+  </data>
+  <data name="наПоверхности3DToolStripMenuItem.Text" xml:space="preserve">
+    <value>На открытых 3D элементах</value>
+  </data>
+  <data name="наПоверхностиГеометрииToolStripMenuItem.Text" xml:space="preserve">
+    <value>На поверхностях геометрии</value>
+  </data>
+  <data name="квадратизацияСуществующейToolStripMenuItem.Text" xml:space="preserve">
+    <value>Квадратизация существующей</value>
+  </data>
+  <data name="сеткаToolStripMenuItem.Text" xml:space="preserve">
+    <value>Сетка</value>
+  </data>
+  <data name="материалыMenuItem.Text" xml:space="preserve">
+    <value>Материалы</value>
+  </data>
+  <data name="функцииMenuItem.Text" xml:space="preserve">
+    <value>Функции</value>
+  </data>
+  <data name="dataBasesMenuItem.Text" xml:space="preserve">
+    <value>Базы данных</value>
+  </data>
+  <data name="создатьToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="загрузитьМастерToolStripMenuItem.Text" xml:space="preserve">
+    <value>Пользовательский мастер</value>
+  </data>
+  <data name="мастерToolStripMenuItem.Text" xml:space="preserve">
+    <value>Мастер</value>
+  </data>
+  <data name="показатьНаДиаграммеToolStripMenuItem.Text" xml:space="preserve">
+    <value>Показать на диаграмме</value>
+  </data>
+  <data name="tasksMenuItem.Text" xml:space="preserve">
+    <value>Задача</value>
+  </data>
+  <data name="открытьИнструкцииToolStripMenuItem.Text" xml:space="preserve">
+    <value>Открыть</value>
+  </data>
+  <data name="сформироватьИнструкцииToolStripMenuItem.Text" xml:space="preserve">
+    <value>Сформировать</value>
+  </data>
+  <data name="запуститьToolStripMenuItem.Text" xml:space="preserve">
+    <value>Запустить</value>
+  </data>
+  <data name="остановитьToolStripMenuItem.Text" xml:space="preserve">
+    <value>Остановить</value>
+  </data>
+  <data name="расчетыToolStripMenuItem.Text" xml:space="preserve">
+    <value>Расчеты</value>
+  </data>
+  <data name="открытьToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Открыть</value>
+  </data>
+  <data name="объединитьToolStripMenuItem.Text" xml:space="preserve">
+    <value>Объединить</value>
+  </data>
+  <data name="построитьГрафикToolStripMenuItem.Text" xml:space="preserve">
+    <value>Построить график</value>
+  </data>
+  <data name="построитьДиаграммуToolStripMenuItem.Text" xml:space="preserve">
+    <value>Построить диаграмму</value>
+  </data>
+  <data name="создатьАнимациюToolStripMenuItem.Text" xml:space="preserve">
+    <value>Создать анимацию</value>
+  </data>
+  <data name="экспортироватьРезультатыToolStripMenuItem.Text" xml:space="preserve">
+    <value>Экспортировать результаты</value>
+  </data>
+  <data name="toolStripMenuItem4.Text" xml:space="preserve">
+    <value>Отразить результаты</value>
+  </data>
+  <data name="результатыMenuItem.Text" xml:space="preserve">
+    <value>Результаты</value>
+  </data>
+  <data name="измеритьToolStripMenuItem.Text" xml:space="preserve">
+    <value>Измерить</value>
+  </data>
+  <data name="скрытьПлоскостьюToolStripMenuItem.Text" xml:space="preserve">
+    <value>Скрыть плоскостью</value>
+  </data>
+  <data name="рассечьПлоскостьюToolStripMenuItem.Text" xml:space="preserve">
+    <value>Рассечь плоскостью</value>
+  </data>
+  <data name="инструментыToolStripMenuItem.Text" xml:space="preserve">
+    <value>Инструменты</value>
+  </data>
+  <data name="настройкиToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Настройки</value>
+  </data>
+  <data name="содержаниеToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Содержание</value>
+  </data>
+  <data name="опрограммеToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;О программе...</value>
+  </data>
+  <data name="справкаToolStripMenuItem.Text" xml:space="preserve">
+    <value>Спра&amp;вка</value>
+  </data>
+  <data name="сведенияMenuItem.Text" xml:space="preserve">
+    <value>Сведения</value>
+  </data>
+  <data name="лицензияToolStripMenuItem.Text" xml:space="preserve">
+    <value>Лицензия</value>
+  </data>
+  <data name="создатьГруппуItem.Text" xml:space="preserve">
+    <value>Создать новую группу</value>
+  </data>
+  <data name="скрытьВыбранноеItem.Text" xml:space="preserve">
+    <value>Скрыть выбранное</value>
+  </data>
+  <data name="показатьСкрытыеItem.Text" xml:space="preserve">
+    <value>Показать все скрытые</value>
+  </data>
+  <data name="menuItem_InfoSelectedObjects.Text" xml:space="preserve">
+    <value>Выбранные объекты</value>
+  </data>
+  <data name="menuItem_SetRotPoint.Text" xml:space="preserve">
+    <value>Задать точку вращения</value>
+  </data>
+  <data name="показатьСопряженныеItem.Text" xml:space="preserve">
+    <value>Показать сопряженные</value>
+  </data>
+  <data name="menuItem_DeleteSelectedObjects.Text" xml:space="preserve">
+    <value>Удалить выбранное</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Bazis. Система инженерного анализа</value>
+  </data>
+</root>

@@ -1,0 +1,156 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!--
+    Ресурсы темы Fluent, переопределённые по правилам дизайна GUI (см. bazis-avalonia-components).
+    Fluent задаёт цвета состояний через эти ключи прямо в частях шаблонов, поэтому стили уровня контрола
+    (Background, BorderBrush) их не перекрывают. Ресурсы приложения ищутся раньше ресурсов темы.
+  -->
+
+  <!-- Fluent берёт акцент из настроек Windows (у пользователя может быть, например, красный).
+       Фиксируем цвет выделения WinForms SystemColors.Highlight. -->
+  <Color x:Key="SystemAccentColor">#0078D7</Color>
+  <Color x:Key="SystemAccentColorDark1">#0063B1</Color>
+  <Color x:Key="SystemAccentColorDark2">#004E8C</Color>
+  <Color x:Key="SystemAccentColorDark3">#003964</Color>
+  <Color x:Key="SystemAccentColorLight1">#1A86D9</Color>
+  <Color x:Key="SystemAccentColorLight2">#4BA0E1</Color>
+  <Color x:Key="SystemAccentColorLight3">#7AB8E8</Color>
+
+  <!-- Фон выпадающего меню, включая отступы вокруг разделителей. -->
+  <SolidColorBrush x:Key="MenuFlyoutPresenterBackground" Color="#F0F0F0" />
+
+  <!-- Прямоугольный бегунок плеера используется всеми слайдерами GUI. -->
+  <CornerRadius x:Key="SliderThumbCornerRadius">0</CornerRadius>
+  <x:Double x:Key="SliderHorizontalThumbWidth">12</x:Double>
+  <x:Double x:Key="SliderHorizontalThumbHeight">20</x:Double>
+  <x:Double x:Key="SliderVerticalThumbWidth">20</x:Double>
+  <x:Double x:Key="SliderVerticalThumbHeight">12</x:Double>
+
+  <!-- Button -->
+  <SolidColorBrush x:Key="ButtonBackground" Color="#E1E1E1" />
+  <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#C5C5C5" />
+  <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#C5C5C5" />
+  <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#F0F0F0" />
+  <SolidColorBrush x:Key="ButtonBorderBrush" Color="#969696" />
+  <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#969696" />
+  <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#969696" />
+  <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="#CBCBCB" />
+  <SolidColorBrush x:Key="ButtonForeground" Color="#000000" />
+  <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#000000" />
+  <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#000000" />
+  <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="#626262" />
+
+  <!-- TextBox: высота 20 px, рамка #7A7A7A (2 px при наведении и вводе), недоступность #F8F8F8 / #CACACA. -->
+  <x:Double x:Key="TextControlThemeMinHeight">20</x:Double>
+  <Thickness x:Key="TextControlThemePadding">4,2,4,2</Thickness>
+  <Thickness x:Key="TextControlBorderThemeThicknessFocused">2</Thickness>
+  <SolidColorBrush x:Key="TextControlBackground" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="TextControlBackgroundDisabled" Color="#F8F8F8" />
+  <SolidColorBrush x:Key="TextControlBorderBrush" Color="#7A7A7A" />
+  <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="#7A7A7A" />
+  <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="#7A7A7A" />
+  <SolidColorBrush x:Key="TextControlBorderBrushDisabled" Color="#CACACA" />
+  <SolidColorBrush x:Key="TextControlForeground" Color="#000000" />
+  <SolidColorBrush x:Key="TextControlForegroundPointerOver" Color="#000000" />
+  <SolidColorBrush x:Key="TextControlForegroundFocused" Color="#000000" />
+
+  <!-- ComboBox: поле и пункты 20 px, фон белый, рамка #7A7A7A; пункт: наведение #E5E5E5, нажатие #D5D5D5. -->
+  <SolidColorBrush x:Key="ComboBoxBackground" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="ComboBoxBackgroundPressed" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="ComboBoxBackgroundUnfocused" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="ComboBoxBackgroundDisabled" Color="#F8F8F8" />
+  <SolidColorBrush x:Key="ComboBoxBackgroundBorderBrushFocused" Color="Transparent" />
+  <SolidColorBrush x:Key="ComboBoxBackgroundBorderBrushUnfocused" Color="Transparent" />
+  <SolidColorBrush x:Key="ComboBoxBorderBrush" Color="#7A7A7A" />
+  <SolidColorBrush x:Key="ComboBoxBorderBrushPointerOver" Color="#7A7A7A" />
+  <SolidColorBrush x:Key="ComboBoxBorderBrushPressed" Color="#7A7A7A" />
+  <SolidColorBrush x:Key="ComboBoxBorderBrushDisabled" Color="#CACACA" />
+  <SolidColorBrush x:Key="ComboBoxForeground" Color="#000000" />
+  <SolidColorBrush x:Key="ComboBoxForegroundFocused" Color="#000000" />
+  <SolidColorBrush x:Key="ComboBoxForegroundFocusedPressed" Color="#000000" />
+  <SolidColorBrush x:Key="ComboBoxDropDownGlyphForeground" Color="#000000" />
+  <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundFocused" Color="#000000" />
+  <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundFocusedPressed" Color="#000000" />
+  <SolidColorBrush x:Key="ComboBoxDropDownGlyphForegroundDisabled" Color="#80000000" />
+  <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="ComboBoxDropDownBorderBrush" Color="#7A7A7A" />
+  <Thickness x:Key="ComboBoxDropdownBorderThickness">1</Thickness>
+  <Thickness x:Key="ComboBoxDropdownBorderPadding">0</Thickness>
+  <Thickness x:Key="ComboBoxDropdownContentMargin">0</Thickness>
+  <Thickness x:Key="ComboBoxItemThemePadding">4,0,4,0</Thickness>
+  <SolidColorBrush x:Key="ComboBoxItemBackground" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="ComboBoxItemBackgroundPointerOver" Color="#E5E5E5" />
+  <SolidColorBrush x:Key="ComboBoxItemBackgroundPressed" Color="#D5D5D5" />
+  <SolidColorBrush x:Key="ComboBoxItemBackgroundSelected" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPointerOver" Color="#E5E5E5" />
+  <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedPressed" Color="#D5D5D5" />
+  <SolidColorBrush x:Key="ComboBoxItemForeground" Color="#000000" />
+  <SolidColorBrush x:Key="ComboBoxItemForegroundPointerOver" Color="#000000" />
+  <SolidColorBrush x:Key="ComboBoxItemForegroundPressed" Color="#000000" />
+  <SolidColorBrush x:Key="ComboBoxItemForegroundSelected" Color="#000000" />
+  <SolidColorBrush x:Key="ComboBoxItemForegroundSelectedPointerOver" Color="#000000" />
+  <SolidColorBrush x:Key="ComboBoxItemForegroundSelectedPressed" Color="#000000" />
+  <SolidColorBrush x:Key="ComboBoxItemBorderBrushSelected" Color="Transparent" />
+  <SolidColorBrush x:Key="ComboBoxItemBorderBrushSelectedPointerOver" Color="Transparent" />
+  <SolidColorBrush x:Key="ComboBoxItemBorderBrushSelectedPressed" Color="Transparent" />
+
+  <!-- CheckBox: белый квадрат с чёрной рамкой и чёрной галочкой; нажатие #E5E5E5; недоступность #F8F8F8 / #CACACA. -->
+  <SolidColorBrush x:Key="CheckBoxForegroundUnchecked" Color="#000000" />
+  <SolidColorBrush x:Key="CheckBoxForegroundChecked" Color="#000000" />
+  <SolidColorBrush x:Key="CheckBoxForegroundUncheckedPointerOver" Color="#000000" />
+  <SolidColorBrush x:Key="CheckBoxForegroundCheckedPointerOver" Color="#000000" />
+  <SolidColorBrush x:Key="CheckBoxForegroundUncheckedPressed" Color="#000000" />
+  <SolidColorBrush x:Key="CheckBoxForegroundCheckedPressed" Color="#000000" />
+  <SolidColorBrush x:Key="CheckBoxCheckBackgroundFillUnchecked" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="CheckBoxCheckBackgroundFillUncheckedPointerOver" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="CheckBoxCheckBackgroundFillUncheckedPressed" Color="#E5E5E5" />
+  <SolidColorBrush x:Key="CheckBoxCheckBackgroundFillUncheckedDisabled" Color="#F8F8F8" />
+  <SolidColorBrush x:Key="CheckBoxCheckBackgroundFillChecked" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="CheckBoxCheckBackgroundFillCheckedPointerOver" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="CheckBoxCheckBackgroundFillCheckedPressed" Color="#E5E5E5" />
+  <SolidColorBrush x:Key="CheckBoxCheckBackgroundFillCheckedDisabled" Color="#F8F8F8" />
+  <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeUnchecked" Color="#000000" />
+  <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeUncheckedPointerOver" Color="#000000" />
+  <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeUncheckedPressed" Color="#000000" />
+  <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeUncheckedDisabled" Color="#CACACA" />
+  <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeChecked" Color="#000000" />
+  <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeCheckedPointerOver" Color="#000000" />
+  <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeCheckedPressed" Color="#000000" />
+  <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeCheckedDisabled" Color="#CACACA" />
+  <SolidColorBrush x:Key="CheckBoxCheckGlyphForegroundChecked" Color="#000000" />
+  <SolidColorBrush x:Key="CheckBoxCheckGlyphForegroundCheckedPointerOver" Color="#000000" />
+  <SolidColorBrush x:Key="CheckBoxCheckGlyphForegroundCheckedPressed" Color="#000000" />
+  <SolidColorBrush x:Key="CheckBoxCheckGlyphForegroundCheckedDisabled" Color="#CACACA" />
+
+  <!-- RadioButton: белый круг с чёрной рамкой и чёрной точкой. -->
+  <SolidColorBrush x:Key="RadioButtonForeground" Color="#000000" />
+  <SolidColorBrush x:Key="RadioButtonForegroundPointerOver" Color="#000000" />
+  <SolidColorBrush x:Key="RadioButtonForegroundPressed" Color="#000000" />
+  <SolidColorBrush x:Key="RadioButtonOuterEllipseFill" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="RadioButtonOuterEllipseFillPointerOver" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="RadioButtonOuterEllipseFillPressed" Color="#E5E5E5" />
+  <SolidColorBrush x:Key="RadioButtonOuterEllipseFillDisabled" Color="#F8F8F8" />
+  <SolidColorBrush x:Key="RadioButtonOuterEllipseStroke" Color="#000000" />
+  <SolidColorBrush x:Key="RadioButtonOuterEllipseStrokePointerOver" Color="#000000" />
+  <SolidColorBrush x:Key="RadioButtonOuterEllipseStrokePressed" Color="#000000" />
+  <SolidColorBrush x:Key="RadioButtonOuterEllipseStrokeDisabled" Color="#CACACA" />
+  <SolidColorBrush x:Key="RadioButtonOuterEllipseCheckedFill" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="RadioButtonOuterEllipseCheckedFillPointerOver" Color="#FFFFFF" />
+  <SolidColorBrush x:Key="RadioButtonOuterEllipseCheckedFillPressed" Color="#E5E5E5" />
+  <SolidColorBrush x:Key="RadioButtonOuterEllipseCheckedFillDisabled" Color="#F8F8F8" />
+  <SolidColorBrush x:Key="RadioButtonOuterEllipseCheckedStroke" Color="#000000" />
+  <SolidColorBrush x:Key="RadioButtonOuterEllipseCheckedStrokePointerOver" Color="#000000" />
+  <SolidColorBrush x:Key="RadioButtonOuterEllipseCheckedStrokePressed" Color="#000000" />
+  <SolidColorBrush x:Key="RadioButtonOuterEllipseCheckedStrokeDisabled" Color="#CACACA" />
+  <SolidColorBrush x:Key="RadioButtonCheckGlyphFill" Color="#000000" />
+  <SolidColorBrush x:Key="RadioButtonCheckGlyphFillPointerOver" Color="#000000" />
+  <SolidColorBrush x:Key="RadioButtonCheckGlyphFillPressed" Color="#000000" />
+  <SolidColorBrush x:Key="RadioButtonCheckGlyphFillDisabled" Color="#CACACA" />
+  <SolidColorBrush x:Key="RadioButtonCheckGlyphStroke" Color="#000000" />
+  <SolidColorBrush x:Key="RadioButtonCheckGlyphStrokePointerOver" Color="#000000" />
+  <SolidColorBrush x:Key="RadioButtonCheckGlyphStrokePressed" Color="#000000" />
+  <SolidColorBrush x:Key="RadioButtonCheckGlyphStrokeDisabled" Color="#CACACA" />
+</ResourceDictionary>

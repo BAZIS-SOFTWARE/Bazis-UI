@@ -1,0 +1,88 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Style Selector="TextBox.property-editor">
+    <Setter Property="CornerRadius" Value="0" />
+    <Setter Property="Background" Value="#FFFFFF" />
+    <Setter Property="Foreground" Value="#000000" />
+    <Setter Property="BorderBrush" Value="#7A7A7A" />
+    <Setter Property="BorderThickness" Value="1" />
+  </Style>
+  <Style Selector="TextBox.property-editor:pointerover">
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+  <Style Selector="TextBox.property-editor:focus-within">
+    <Setter Property="BorderBrush" Value="#7A7A7A" />
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+  <Style Selector="TextBox.property-editor /template/ Border">
+    <Setter Property="CornerRadius" Value="0" />
+  </Style>
+  <Style Selector="TextBox.property-editor.property-error">
+    <Setter Property="Background" Value="#FFFFFF" />
+    <Setter Property="Foreground" Value="#D60000" />
+    <Setter Property="BorderBrush" Value="#D60000" />
+    <Setter Property="BorderThickness" Value="1" />
+  </Style>
+  <Style Selector="TextBox.property-editor.property-error:pointerover, TextBox.property-editor.property-error:focus">
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+  <Style Selector="TextBox.property-editor:disabled">
+    <Setter Property="Background" Value="#F8F8F8" />
+    <Setter Property="BorderBrush" Value="#CACACA" />
+    <Setter Property="BorderThickness" Value="1" />
+  </Style>
+  <Style Selector="Button.property-editor">
+    <Setter Property="CornerRadius" Value="0" />
+    <Setter Property="BorderBrush" Value="#969696" />
+    <Setter Property="Height" Value="22" />
+    <Setter Property="MinHeight" Value="0" />
+    <Setter Property="MaxHeight" Value="22" />
+    <Setter Property="Margin" Value="1" />
+    <Setter Property="Padding" Value="4,0" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+  <Style Selector="ComboBox.property-editor">
+    <Setter Property="CornerRadius" Value="0" />
+  </Style>
+  <Style Selector="ComboBox.property-editor /template/ Border">
+    <Setter Property="CornerRadius" Value="0" />
+  </Style>
+  <Style Selector="ComboBoxItem">
+    <Setter Property="CornerRadius" Value="0" />
+  </Style>
+  <Style Selector="ComboBoxItem:selected">
+    <Setter Property="Background" Value="#FFFFFF" />
+    <Setter Property="Foreground" Value="#000000" />
+  </Style>
+  <Style Selector="ComboBoxItem:pointerover">
+    <Setter Property="Background" Value="#E5E5E5" />
+  </Style>
+  <Style Selector="ComboBoxItem:selected:pointerover">
+    <Setter Property="Background" Value="#E5E5E5" />
+  </Style>
+  <Style Selector="ComboBoxItem:pressed">
+    <Setter Property="Background" Value="#D5D5D5" />
+  </Style>
+  <Style Selector="ComboBoxItem:selected:pressed">
+    <Setter Property="Background" Value="#D5D5D5" />
+  </Style>
+  <Style Selector="NumericUpDown.property-editor">
+    <Setter Property="CornerRadius" Value="0" />
+  </Style>
+  <Style Selector="CheckBox.property-editor">
+    <Setter Property="CornerRadius" Value="0" />
+    <Setter Property="Background" Value="#FFFFFF" />
+    <Setter Property="Foreground" Value="#000000" />
+    <Setter Property="BorderBrush" Value="#000000" />
+    <Setter Property="BorderThickness" Value="1" />
+  </Style>
+  <Style Selector="CheckBox.property-editor:checked">
+    <Setter Property="Background" Value="#FFFFFF" />
+    <Setter Property="Foreground" Value="#000000" />
+    <Setter Property="BorderBrush" Value="#000000" />
+  </Style>
+  <Style Selector="CheckBox.property-editor:pointerover">
+    <Setter Property="Background" Value="#FFFFFF" />
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+</Styles>

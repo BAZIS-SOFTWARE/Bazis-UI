@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="button2.Text" xml:space="preserve"><value>Capture</value></data>
+  <data name="textBox2.Text" xml:space="preserve"><value>1.0</value></data>
+  <data name="radioButton6.Text" xml:space="preserve"><value>YX</value></data>
+  <data name="radioButton5.Text" xml:space="preserve"><value>XY</value></data>
+  <data name="radioButton4.Text" xml:space="preserve"><value>XZ</value></data>
+  <data name="radioButton3.Text" xml:space="preserve"><value>ZX</value></data>
+  <data name="checkBox1.Text" xml:space="preserve"><value>Turn on</value></data>
+  <data name="domainUpDown1.Items" xml:space="preserve"><value>1</value></data>
+  <data name="domainUpDown1.Items1" xml:space="preserve"><value>0.1</value></data>
+  <data name="domainUpDown1.Items2" xml:space="preserve"><value>0.01</value></data>
+  <data name="domainUpDown1.Items3" xml:space="preserve"><value>0.001</value></data>
+  <data name="domainUpDown1.Text" xml:space="preserve"><value>0.01</value></data>
+  <data name="label5.Text" xml:space="preserve"><value>Delta D:</value></data>
+  <data name="textBox1.Text" xml:space="preserve"><value>0</value></data>
+  <data name="label4.Text" xml:space="preserve"><value>D:</value></data>
+  <data name="label3.Text" xml:space="preserve"><value>C: -1</value></data>
+  <data name="label2.Text" xml:space="preserve"><value>B: 0</value></data>
+  <data name="label1.Text" xml:space="preserve"><value>A: 0</value></data>
+  <data name="radioButton1.Text" xml:space="preserve"><value>YZ</value></data>
+  <data name="radioButton2.Text" xml:space="preserve"><value>ZY</value></data>
+  <data name="button1.Text" xml:space="preserve"><value>Reset</value></data>
+  <data name="radioButton9.Text" xml:space="preserve"><value>Layer 3D</value></data>
+  <data name="radioButton8.Text" xml:space="preserve"><value>3D stay</value></data>
+  <data name="radioButton7.Text" xml:space="preserve"><value>Regular</value></data>
+  <data name="label6.Text" xml:space="preserve"><value>Layer thickness:</value></data>
+  <data name="colorSlider1.Text" xml:space="preserve"><value>colorSlider1</value></data>
+  <data name="colorSlider2.Text" xml:space="preserve"><value>colorSlider2</value></data>
+  <data name="colorSlider3.Text" xml:space="preserve"><value>colorSlider3</value></data>
+</root>

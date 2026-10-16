@@ -81,6 +81,8 @@ namespace BazisGUI
             {
                 settingsConfig.Transparency = ar;
                 averageColorRenderer.IsEnable = ar;
+                // Альфа ModelView задаётся только в режиме прозрачности (GetModelViewTransparency)
+                project?.SetTransparency(GetModelViewTransparency());
                 ClearAllDataOnScene();
                 if(project != null)
                     CreateVBObjects("Объекты");

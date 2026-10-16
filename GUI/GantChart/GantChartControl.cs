@@ -68,7 +68,11 @@ namespace BazisGUI.GantChart
             var min = conds.Min(x => x.StartTime);
 
             koeff = (max - min) / Width;
+            minTime = min;
         }
+
+        // Начало шкалы: полосы откладываются от самого раннего условия, а не от нуля
+        float minTime;
 
         private void dataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
@@ -80,8 +84,10 @@ namespace BazisGUI.GantChart
                 // Calculate bar position and width based on dates and column width
                 // This is a simplified example; actual calculation would be more complex
                 // and depend on the time scale represented by the column.
-                int barStartPixel = (int)(currentCond.StartTime / koeff);
-                int barWidthPixel = (int)(currentCond.StopTime / koeff);
+                // koeff = 0, если все условия мгновенные (max == min): полосы нулевой длины в начале шкалы
+                var scale = koeff > 0 ? koeff : 1;
+                int barStartPixel = (int)((currentCond.StartTime - minTime) / scale);
+                int barWidthPixel = (int)((currentCond.StopTime - minTime) / scale);
 
                 e.Graphics.FillRectangle(new SolidBrush(Color.White), e.CellBounds);
 

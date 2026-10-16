@@ -161,6 +161,9 @@ namespace BazisGUI.Scene
             GL.CallList(quadDisplayList);
             GL.DepthMask(true);
             BlendShader.Unbind();
+            // Текстуры смешивания привязаны к блокам 0–10; после смешивания рисуются подписи и компас,
+            // которые работают с блоком 0 — иначе атлас шрифта привязывается к последнему активному блоку.
+            GL.ActiveTexture(TextureUnit.Texture0);
         }
         /// <summary>
         /// Очистка всех подключенных буфферов

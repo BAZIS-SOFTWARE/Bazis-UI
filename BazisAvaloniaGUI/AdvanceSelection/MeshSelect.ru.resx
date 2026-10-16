@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="rbtSet.Text" xml:space="preserve"><value>Наборы</value></data>
+  <data name="rbtSurface.Text" xml:space="preserve"><value>В плоскости</value></data>
+  <data name="rbtDirection.Text" xml:space="preserve"><value>По направлению</value></data>
+  <data name="lblAngle.Text" xml:space="preserve"><value>Угол</value></data>
+  <data name="chbChangeDirection.Text" xml:space="preserve"><value>Сменить направление</value></data>
+  <data name="txbAngle.Text" xml:space="preserve"><value>5</value></data>
+</root>

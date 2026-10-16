@@ -9,8 +9,9 @@ namespace BazisGUI
     {
         private void ChangeMeshGroupProperties(PropertyChangedEventArgs obj, int index)
         {
-            var grName = navigator.SelectedNode.Text.Split(' ')[0];
             var _objectsGr = project.GetModelGroup(index);
+            // Текст узла — "{Name} {Count}": для имён с пробелом разбор текста давал не то имя
+            var grName = _objectsGr.Name;
 
             if (Enum.TryParse(obj.Key, out GroupPropertyKeys key))
             {

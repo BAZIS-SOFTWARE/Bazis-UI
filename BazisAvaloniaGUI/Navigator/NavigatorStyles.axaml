@@ -1,0 +1,36 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- Строка навигатора как в WinForms treeView: ItemHeight = 18, FullRowSelect, выделение #C4C4C4. -->
+  <Style Selector="ListBox.navigator-tree">
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="0" />
+  </Style>
+  <Style Selector="ListBox.navigator-tree ListBoxItem">
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="MinHeight" Value="18" />
+    <Setter Property="Height" Value="18" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="#000000" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+  </Style>
+  <Style Selector="ListBox.navigator-tree ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="ListBox.navigator-tree ListBoxItem:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#C4C4C4" />
+  </Style>
+  <Style Selector="ListBox.navigator-tree ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#C4C4C4" />
+    <Setter Property="Foreground" Value="#000000" />
+  </Style>
+  <Style Selector="ListBox.navigator-tree ListBoxItem:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#C4C4C4" />
+  </Style>
+  <Style Selector="ListBox.navigator-tree ListBoxItem:selected:focus /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#C4C4C4" />
+  </Style>
+  <Style Selector="ListBox.navigator-tree ListBoxItem:selected:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#C4C4C4" />
+  </Style>
+</Styles>

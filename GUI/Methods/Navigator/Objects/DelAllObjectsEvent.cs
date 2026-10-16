@@ -16,6 +16,15 @@ namespace BazisGUI
                 if (navigator.SelectedNode.Name == NodeName.Mesh.ToString())
                 {
                     project.ClearModelCollection(ObjType.Узел);
+
+                    // Ядро перестраивает только буферы наборов: вспомогательные объекты и подписи
+                    // удалённой сетки убираем сами (полный ClearAllDataOnScene удалил бы и буферы геометрии)
+                    DisplayGeometryObjectEvent = null;
+                    DisplayText2DEvent = null;
+                    DisplayText3DEvent = null;
+                    foreach (var name in new[] { "Boundary", "Normals", "transPoints", "crossSection" })
+                        VBOController.DeleteVBObjects(name);
+                    RequestRedraw();
                 }
             }
             catch (Exception ex)

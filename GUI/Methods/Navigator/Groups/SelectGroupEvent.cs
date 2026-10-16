@@ -14,14 +14,16 @@ namespace BazisGUI
             try
             {  
                 var group = project.GetModelGroup(grIndex); // закраска объектов в выделяемой группе
+                // Как в исходном BaseForm: объекты группы только подкрашиваются и не становятся
+                // выделением, иначе «Удалить выбранное»/«Создать группу» применяются к группе
                 using (project.BeginViewUpdate())
                 {
-                    project.SetSelectionColor(settingsConfig.SelectGroupColor);
                     project.ClearSelection();
+                    project.ClearColor();
                     foreach (var objType in group.Select(x => x.ObjType).Distinct())
                     {
                         var numbers = group.Where(x => x.ObjType == objType).Select(x => x.Number);
-                        project.Select(objType, numbers);
+                        project.SetColor(objType, numbers, settingsConfig.SelectGroupColor);
                     }
                 }
 

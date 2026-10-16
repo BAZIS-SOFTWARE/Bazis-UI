@@ -1,0 +1,2158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="HandleArgsCADAbsenceException" xml:space="preserve">
+    <value>Отсутствуют необходимые аргументы для -cad file</value>
+  </data>
+  <data name="GenMergeElementSets" xml:space="preserve">
+    <value>Слить наборы элементов</value>
+  </data>
+  <data name="Geo.Surface.Header.AddedCurves" xml:space="preserve">
+    <value>Добавленные кривые</value>
+  </data>
+  <data name="SelectReaction" xml:space="preserve">
+    <value>Выберите реакцию!</value>
+  </data>
+  <data name="UtilityTiilStrip.SelectObjectAsync.NoObjectSelected.Message" xml:space="preserve">
+    <value>Не выбрано ни одного объекта типа</value>
+  </data>
+  <data name="Geo.Volume.Header.LayerThickness" xml:space="preserve">
+    <value>Толщина слоя</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Media" xml:space="preserve">
+    <value>Среда</value>
+  </data>
+  <data name="DataBase.Materials.NoDataException" xml:space="preserve">
+    <value>База физических свойств пустая</value>
+  </data>
+  <data name="txbMaxVel.Text" xml:space="preserve">
+    <value>-100</value>
+  </data>
+  <data name="Cond.Clamp.Header.Type" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="EditGroup.EditGroupAsync.OperationCanceled.Message" xml:space="preserve">
+    <value>Операция отменена</value>
+  </data>
+  <data name="BasePage.CreateSurfaceAsync.SelectThreeNodes.Message" xml:space="preserve">
+    <value>Выберите три узла или точки!</value>
+  </data>
+  <data name="Comp.Chem.Header.MaxConcentrationValue" xml:space="preserve">
+    <value>Значение макс. концентрации</value>
+  </data>
+  <data name="Header.File" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="colorSlider3.Text" xml:space="preserve">
+    <value>colorSlider3</value>
+  </data>
+  <data name="MeshSet.General.Header.Color" xml:space="preserve">
+    <value>Цвет</value>
+  </data>
+  <data name="btnCreateCopy.Text" xml:space="preserve">
+    <value>Задать</value>
+  </data>
+  <data name="SubMoveNodes" xml:space="preserve">
+    <value>переместить</value>
+  </data>
+  <data name="GenerateBoundaryMesh.CreateBoundaryMeh.CheckRecommendation.Message" xml:space="preserve">
+    <value>Рекомендуется проверить порядок точности набора в панели свойств</value>
+  </data>
+  <data name="CopySuffics" xml:space="preserve">
+    <value>_copy</value>
+  </data>
+  <data name="GenerateBoundaryMesh.CreateBoundaryMeh.ObjectsGenerated.Message" xml:space="preserve">
+    <value>Сгенерировано объектов</value>
+  </data>
+  <data name="Cond.General.Header.Plane" xml:space="preserve">
+    <value>Плоскость</value>
+  </data>
+  <data name="CreatePlot.BuildGraph.NoNodesSelected.Exception" xml:space="preserve">
+    <value>Не выбран ни один узел</value>
+  </data>
+  <data name="Reference" xml:space="preserve">
+    <value>Спра&amp;вка</value>
+  </data>
+  <data name="GenRenumberMesh" xml:space="preserve">
+    <value>Перенумерация сетки</value>
+  </data>
+  <data name="EditGroup.EditGroupAsync.GroupChanged.Message" xml:space="preserve">
+    <value>Группа изменена успешно</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Task" xml:space="preserve">
+    <value>Задача</value>
+  </data>
+  <data name="FindCoincidentNodes.Action.Message" xml:space="preserve">
+    <value>Выполняется поиск совпадающих узлов сетки...</value>
+  </data>
+  <data name="MakeScreenShot.Message" xml:space="preserve">
+    <value>Сделан снимок экрана</value>
+  </data>
+  <data name="SubFindCoincident" xml:space="preserve">
+    <value>узлы&lt;|&gt;расстояние</value>
+  </data>
+  <data name="DataBaseMainMenuEvents.OpenFuncDB.DBNotLoaded.Message" xml:space="preserve">
+    <value>База данных функций не загружена</value>
+  </data>
+  <data name="versionWordPrefix" xml:space="preserve">
+    <value>Версия</value>
+  </data>
+  <data name="Comp.General.Header.RelaxCoef" xml:space="preserve">
+    <value>Коэф. релаксации (w)</value>
+  </data>
+  <data name="Comp.General.Header.MaxCalcStep" xml:space="preserve">
+    <value>Максимальный шаг расчета, сек</value>
+  </data>
+  <data name="txbPoint1.Text" xml:space="preserve">
+    <value>0;0;0</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Results" xml:space="preserve">
+    <value>Результаты</value>
+  </data>
+  <data name="SaveWithoutProjectMessage" xml:space="preserve">
+    <value>Сначала откройте существующий проект или создайте новый</value>
+  </data>
+  <data name="SubFindVolElems" xml:space="preserve">
+    <value>величина</value>
+  </data>
+  <data name="Result.General.Header.AverageValues" xml:space="preserve">
+    <value>Усреднять значения</value>
+  </data>
+  <data name="CalculateDiagram" xml:space="preserve">
+    <value>Рассчитать диаграмму</value>
+  </data>
+  <data name="Cond.Clamp.Header.Direction" xml:space="preserve">
+    <value>Направление</value>
+  </data>
+  <data name="InvalidCoordinatesException" xml:space="preserve">
+    <value>Неправильно введены координаты</value>
+  </data>
+  <data name="Cond.General.Header.ShiftingX" xml:space="preserve">
+    <value>Смещение X</value>
+  </data>
+  <data name="txbPoint2.Text" xml:space="preserve">
+    <value>0;0;0</value>
+  </data>
+  <data name="ConvertFailCaption" xml:space="preserve">
+    <value>Не удалось конвертировать</value>
+  </data>
+  <data name="InvalidArgumentsNumberException" xml:space="preserve">
+    <value>Неверное кол-во аргументов</value>
+  </data>
+  <data name="Comp.General.Header.MinCalcStep" xml:space="preserve">
+    <value>Минимальный шаг расчета, сек</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>B: 0</value>
+  </data>
+  <data name="ThePhaseNameCanOnlyConsistOfLettersNumbersAndTheUnderscore" xml:space="preserve">
+    <value>Название этапа может состоять только из букв, цифр и нижнего подчеркивания</value>
+  </data>
+  <data name="SelectByRect.Hidden.Message" xml:space="preserve">
+    <value>Скрыто</value>
+  </data>
+  <data name="Header.Color" xml:space="preserve">
+    <value>Цвет</value>
+  </data>
+  <data name="Comp.Mech.Header.MaxDifference" xml:space="preserve">
+    <value>Макс. разница dU, &gt;0</value>
+  </data>
+  <data name="txbMaxTime.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="GenMoveMesh" xml:space="preserve">
+    <value>Переместить сетку</value>
+  </data>
+  <data name="GenCreateSurface" xml:space="preserve">
+    <value>Создать поверхность</value>
+  </data>
+  <data name="GenCreateCurve" xml:space="preserve">
+    <value>Создать кривую</value>
+  </data>
+  <data name="Result.BuildDiagram.Text_Part1" xml:space="preserve">
+    <value>Граф</value>
+  </data>
+  <data name="txbPhaseValue.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="message.Text" xml:space="preserve">
+    <value>Сообщение</value>
+  </data>
+  <data name="CreateDiagram.LackOfCalcDataWarning" xml:space="preserve">
+    <value>Отсутствуют расчетные данные. Измените условия построения диаграммы.</value>
+  </data>
+  <data name="TheReactionRequiresAtLeastTwoPhases" xml:space="preserve">
+    <value>Для реакции необходимо минимум две фазы!</value>
+  </data>
+  <data name="Geo.General.Header.MinSize" xml:space="preserve">
+    <value>Мин. размер</value>
+  </data>
+  <data name="SubRotateMesh" xml:space="preserve">
+    <value>повернуть&lt;|&gt;x,y,z:угол</value>
+  </data>
+  <data name="AdvanceSelectionElemntsSelectionWarning" xml:space="preserve">
+    <value>Должен быть выбран элемент</value>
+  </data>
+  <data name="ShowHideDelObjects.DelObjectEvent.TryToDelGeom.Message" xml:space="preserve">
+    <value>Рекомендуется проверить уровень точности набора в панели свойств</value>
+  </data>
+  <data name="Reflect.CreateReflectedVBObject.Exception_Part3" xml:space="preserve">
+    <value>не существует</value>
+  </data>
+  <data name="SubSetLevel" xml:space="preserve">
+    <value>тип&lt;|&gt;порядок точности</value>
+  </data>
+  <data name="EnteredDataDeletingWarning" xml:space="preserve">
+    <value>При нажатии на кнопку \&quot;ОК\&quot; введенные данные будут удалены</value>
+  </data>
+  <data name="Geo.Volume.Header.SizeOfElementsInCenter" xml:space="preserve">
+    <value>Размер элементов в центре</value>
+  </data>
+  <data name="SubCreateMesh2DPoligon" xml:space="preserve">
+    <value>x1,y1&lt;|&gt;x2,y2&lt;|&gt;x3,y3&lt;|&gt;x4,y4&lt;|&gt;кол-во элементов</value>
+  </data>
+  <data name="rbtCCT.Text" xml:space="preserve">
+    <value>CCT</value>
+  </data>
+  <data name="Geo.Surface.Header.MeshType.Regular" xml:space="preserve">
+    <value>Регулярная</value>
+  </data>
+  <data name="Licensing" xml:space="preserve">
+    <value>Лицензирование проведено</value>
+  </data>
+  <data name="CreatePlot.BuildGraph.BuildingGraph.Text_Part1" xml:space="preserve">
+    <value>Идет построение графика для объекта</value>
+  </data>
+  <data name="Cond.Load.Header.Direction" xml:space="preserve">
+    <value>Направление</value>
+  </data>
+  <data name="GenExtrudeCurve" xml:space="preserve">
+    <value>Экструзия кривой</value>
+  </data>
+  <data name="Geo.Curve.Header.Algorithm" xml:space="preserve">
+    <value>Алгоритм</value>
+  </data>
+  <data name="DeletingError" xml:space="preserve">
+    <value>Ошибка удаления</value>
+  </data>
+  <data name="AddReaction" xml:space="preserve">
+    <value>Добавить реакцию</value>
+  </data>
+  <data name="Geo.Curve.Header.Coefficient" xml:space="preserve">
+    <value>Коэффициент</value>
+  </data>
+  <data name="LoadingForm.Text" xml:space="preserve">
+    <value>Загрузка данных. Пожалуйста подождите...</value>
+  </data>
+  <data name="rbtVolume.AccessibleName" xml:space="preserve">
+    <value>GeomSelect.Volumes</value>
+  </data>
+  <data name="Geo.General.Header.Algorithm2D" xml:space="preserve">
+    <value>Алгоритм 2D</value>
+  </data>
+  <data name="Result.BuildDiagram.DistanceResultSet.Header" xml:space="preserve">
+    <value>Набор результатов по расстоянию</value>
+  </data>
+  <data name="UtilityToolStrip.Measuring.InvalidSeletedTypeError" xml:space="preserve">
+    <value>Пожалуйста, выберите другой необходимый тип объекта. Измерения не могут быть произведены для типа</value>
+  </data>
+  <data name="radioButton5.Text" xml:space="preserve">
+    <value>XY</value>
+  </data>
+  <data name="GenLoadProject" xml:space="preserve">
+    <value>Загрузить проект</value>
+  </data>
+  <data name="MethodIsNotImplementedException" xml:space="preserve">
+    <value>Метод не реализован!</value>
+  </data>
+  <data name="btnSelect.Text.Points" xml:space="preserve">
+    <value>Точка</value>
+  </data>
+  <data name="btnSelect.Text.Objects" xml:space="preserve">
+    <value>Объекты</value>
+  </data>
+  <data name="Geo.Volume.Header.MeshType" xml:space="preserve">
+    <value>Вид сетки</value>
+  </data>
+  <data name="GenExit" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="rbtnPath.Text" xml:space="preserve">
+    <value>Путь, мм</value>
+  </data>
+  <data name="GenRotateMesh" xml:space="preserve">
+    <value>Повернуть сетку</value>
+  </data>
+  <data name="Cond.General.Header.File" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="ChangeCondProperties.ChangeGeneralProperties.FileNotSelected.Message" xml:space="preserve">
+    <value>Файл не выбран</value>
+  </data>
+  <data name="rbtXY.Text" xml:space="preserve">
+    <value>XY</value>
+  </data>
+  <data name="Result.CreateGIFAnimation.SelectContainerAsync.SelectResult.Message" xml:space="preserve">
+    <value>Выберите результат и нажмите клавишу «E» для подтверждения</value>
+  </data>
+  <data name="MeshObj.General.Header.CoordinateY" xml:space="preserve">
+    <value>Координата Y</value>
+  </data>
+  <data name="SelectAFunction" xml:space="preserve">
+    <value>Выберите функцию!</value>
+  </data>
+  <data name="Result.CreateGIFAnimation.CreateGIFAnimationInfo" xml:space="preserve">
+    <value>Создание GIF анимации</value>
+  </data>
+  <data name="GenerateBoundaryMesh.Generate2DOn3DSurfaces.Elements.Message" xml:space="preserve">
+    <value>элементов!</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Project" xml:space="preserve">
+    <value>Проект</value>
+  </data>
+  <data name="StartStopConp.ProjectDataCheck.LackOfProjFile.Message" xml:space="preserve">
+    <value>отсутствует файл проекта</value>
+  </data>
+  <data name="rbtCurve.AccessibleName" xml:space="preserve">
+    <value>GeomSelect.Curves</value>
+  </data>
+  <data name="Result.General.Header.Intervals" xml:space="preserve">
+    <value>Интервалы</value>
+  </data>
+  <data name="Geo.Surface.Header.CornerPoints" xml:space="preserve">
+    <value>Угловые точки</value>
+  </data>
+  <data name="CreatePlot.BuildGraph.SelectResult.Exception" xml:space="preserve">
+    <value>Выберите результат в разделе результаты</value>
+  </data>
+  <data name="radioButton2.Text" xml:space="preserve">
+    <value>ZY</value>
+  </data>
+  <data name="EditGroup.EditGroupAsync.NoObjectsSelected.Message" xml:space="preserve">
+    <value>Не выбран ни один объект!</value>
+  </data>
+  <data name="GenMoveNodes" xml:space="preserve">
+    <value>Переместить узел</value>
+  </data>
+  <data name="StartStopConp.ProjectDataCheck.LackOfFunctions.Message" xml:space="preserve">
+    <value>отсутствует файл функций</value>
+  </data>
+  <data name="HandleBaseMaster.Handle.CondCreation.Message" xml:space="preserve">
+    <value>Генерация граничных условий приведет к удалению старых условий данного мастера, если они есть. Продолжить?</value>
+  </data>
+  <data name="Geo.Volume.Header.TransitionGradientDegree" xml:space="preserve">
+    <value>Степень градиента перехода</value>
+  </data>
+  <data name="HandleArgsResultsAbsenceException" xml:space="preserve">
+    <value>Отсутствуют необходимые аргументы для -res file</value>
+  </data>
+  <data name="CreatePlot.BuildGraph.SelectContainerAsync.SelectNodes.Message" xml:space="preserve">
+    <value>Выберите узлы и нажмите на клавишу &quot;&quot;E&quot;&quot; для подтверждения</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Источник</value>
+  </data>
+  <data name="CreatePlot.GraphData.Header_Part1" xml:space="preserve">
+    <value>Узел</value>
+  </data>
+  <data name="SceneEvents.Info.Selected" xml:space="preserve">
+    <value>Объекты выбраны</value>
+  </data>
+  <data name="Groups.Header.CreateCondition" xml:space="preserve">
+    <value>Создать условие</value>
+  </data>
+  <data name="cmbFinalPhase.AccessibleName" xml:space="preserve">
+    <value>FinalPhase</value>
+  </data>
+  <data name="Comp.Mech.Header.MaxDisplacement" xml:space="preserve">
+    <value>Макс. перемещение U, &gt;0</value>
+  </data>
+  <data name="chbTimeDependent.Text" xml:space="preserve">
+    <value>Реакция зависит от времени</value>
+  </data>
+  <data name="radioButton4.Text" xml:space="preserve">
+    <value>XZ</value>
+  </data>
+  <data name="Geo.Volume.Header.MeshType.Regulare" xml:space="preserve">
+    <value>Регулярная</value>
+  </data>
+  <data name="HandleArgsProjectAbsenceException" xml:space="preserve">
+    <value>Отсутствуют необходимые аргументы для -proj path file</value>
+  </data>
+  <data name="Cond.General.Header.Group" xml:space="preserve">
+    <value>Группа</value>
+  </data>
+  <data name="CreatePlot.GraphForm.Text_Part1" xml:space="preserve">
+    <value>График</value>
+  </data>
+  <data name="txbMinVel.Text" xml:space="preserve">
+    <value>-0.01</value>
+  </data>
+  <data name="Cond.Heat.Header.Power" xml:space="preserve">
+    <value>Мощность, Дж/cек</value>
+  </data>
+  <data name="DataBase.Materials.MissingException" xml:space="preserve">
+    <value>Не загружена база физических свойств</value>
+  </data>
+  <data name="Result.CreateGIFAnimation.Exception" xml:space="preserve">
+    <value>Выберите результат в разделе результатов</value>
+  </data>
+  <data name="Cond.General.Header.RotationZ" xml:space="preserve">
+    <value>Поворот Z</value>
+  </data>
+  <data name="SceneEvents.CreateGroup.SuccessCaption" xml:space="preserve">
+    <value>Создана новая группа</value>
+  </data>
+  <data name="Cond.Material.Header.Material" xml:space="preserve">
+    <value>Материал</value>
+  </data>
+  <data name="Cond.General.Header.RotationX" xml:space="preserve">
+    <value>Поворот X</value>
+  </data>
+  <data name="Cond.General.Header.StopTime" xml:space="preserve">
+    <value>Стоп, сек</value>
+  </data>
+  <data name="AdvanceSelectionForm.Text" xml:space="preserve">
+    <value>Расширенный выбор</value>
+  </data>
+  <data name="toolStripContainer1.Text" xml:space="preserve">
+    <value>toolStripContainer1</value>
+  </data>
+  <data name="ThePhaseNameCanOnlyConsistOfLettersNumbersAndTheUnderscore_" xml:space="preserve">
+    <value>Наименование фазы может состоять только из букв, цифр и нижнего подчёркивания \&quot;_\&quot;!</value>
+  </data>
+  <data name="dToolStripMenuItem.Text" xml:space="preserve">
+    <value>1D</value>
+  </data>
+  <data name="domainUpDown1.Items1" xml:space="preserve">
+    <value>0.1</value>
+  </data>
+  <data name="DelBranchException" xml:space="preserve">
+    <value>Возникла ошибка при удалении данных!</value>
+  </data>
+  <data name="Geo.General.Header.MaxSize" xml:space="preserve">
+    <value>Макс. размер</value>
+  </data>
+  <data name="UtilityToolStrip.DistancePointToPoint.EmptySelectionErrorMessage" xml:space="preserve">
+    <value>Не выбрано ни одного объекта типа</value>
+  </data>
+  <data name="MeshSet.General.Header.Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="Geo.Volume.Header.SurfaceElementsSize" xml:space="preserve">
+    <value>Размер элементов поверхности</value>
+  </data>
+  <data name="Task.General.Header.Type" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="MakeScreenShot.ScreenShotTaken.Message" xml:space="preserve">
+    <value>Сделан снимок экрана</value>
+  </data>
+  <data name="rbtnDistance.Text" xml:space="preserve">
+    <value>Расстояние, мм</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="LoadDBCorruptedException" xml:space="preserve">
+    <value>Загруженная база данных повреждена</value>
+  </data>
+  <data name="GenCreateMesh2DPoligon" xml:space="preserve">
+    <value>Построить 2D сетку</value>
+  </data>
+  <data name="BasePage.CreateSurfaceAync.OperationCanceled.Message" xml:space="preserve">
+    <value>Операция отменена</value>
+  </data>
+  <data name="DataRemovedSuccessfully" xml:space="preserve">
+    <value>Данные удалены успешно</value>
+  </data>
+  <data name="FindCoincidentNodes.Action.OperationCanceled.Message" xml:space="preserve">
+    <value>Операция отменена</value>
+  </data>
+  <data name="ResultsMainMenuEvents.MergeResults.Recalculated.Message" xml:space="preserve">
+    <value>Перерасчет выполнен</value>
+  </data>
+  <data name="dToolStripMenuItem2.Text" xml:space="preserve">
+    <value>3D</value>
+  </data>
+  <data name="GenFindObject" xml:space="preserve">
+    <value>Найти объект</value>
+  </data>
+  <data name="PropertyTableIsMissing" xml:space="preserve">
+    <value>Таблица свойства отсутсвует!</value>
+  </data>
+  <data name="Result.General.Header.ShowValuesInElements" xml:space="preserve">
+    <value>Показать значения в элементах</value>
+  </data>
+  <data name="btnCalc.Text" xml:space="preserve">
+    <value>Рассчитать</value>
+  </data>
+  <data name="Comp.General.Header.StopTime" xml:space="preserve">
+    <value>Время окончания, сек</value>
+  </data>
+  <data name="MeshSet.General.Header.View" xml:space="preserve">
+    <value>Представление</value>
+  </data>
+  <data name="Cond.General.Header.Speed" xml:space="preserve">
+    <value>Скорость, мм/сек</value>
+  </data>
+  <data name="MainMenuEvents.ChangeLanguage.Message" xml:space="preserve">
+    <value>Для применения изменений откройте приложение занова</value>
+  </data>
+  <data name="DataBaseMainMenuEvents.OpenMatDB.DBNotLoaded.Message" xml:space="preserve">
+    <value>База данных материалов не загружена</value>
+  </data>
+  <data name="AddBranch.ExceptionMessage" xml:space="preserve">
+    <value>Ошибка добавления узла</value>
+  </data>
+  <data name="Reflect.CreateReflectedVBObject.Exception_Part1" xml:space="preserve">
+    <value>Объект с именем</value>
+  </data>
+  <data name="SubCreatePoint" xml:space="preserve">
+    <value>x,y,z</value>
+  </data>
+  <data name="btnSelect.Text.Elements2D" xml:space="preserve">
+    <value>Элемент2D</value>
+  </data>
+  <data name="New_function_" xml:space="preserve">
+    <value>Новая_функция_</value>
+  </data>
+  <data name="Result.CreateGIFAnimation.AnimationCreated" xml:space="preserve">
+    <value>GIF анимация создана</value>
+  </data>
+  <data name="InvalidRegexPhaseMatchWarning" xml:space="preserve">
+    <value>Значение масс. доли должно задаваться в следующем формате: А.ББ, где А=0...1, Б=0...9. Знак разделения дробных чисел - точка. Значение масс. доли не должно превышать 1!\nНапример: 0.01; 0.5; 1</value>
+  </data>
+  <data name="Data" xml:space="preserve">
+    <value>Данные</value>
+  </data>
+  <data name="Result.General.Header.MaxValue" xml:space="preserve">
+    <value>Макс. значение</value>
+  </data>
+  <data name="StartStopConp.ProjectDataCheck.LackOfMaterials.Message" xml:space="preserve">
+    <value>отсутствует файл материалов</value>
+  </data>
+  <data name="Comp.General.Header.IterationQuantity" xml:space="preserve">
+    <value>Кол-во итераций решения</value>
+  </data>
+  <data name="Geo.Surface.Header.RibbersOrientation" xml:space="preserve">
+    <value>Ориентация ребер</value>
+  </data>
+  <data name="Reflect.Form.Text" xml:space="preserve">
+    <value>Отражение</value>
+  </data>
+  <data name="SubLoadProject" xml:space="preserve">
+    <value>путь</value>
+  </data>
+  <data name="SubRenumberMesh" xml:space="preserve">
+    <value>тип:начальный номер</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>A: 1</value>
+  </data>
+  <data name="radioButton3.Text" xml:space="preserve">
+    <value>ZX</value>
+  </data>
+  <data name="HeaderName" xml:space="preserve">
+    <value>Свойства</value>
+  </data>
+  <data name="Geo.Curve.Header.PointQuantity" xml:space="preserve">
+    <value>Количество точек</value>
+  </data>
+  <data name="NewProjectNameTemplate" xml:space="preserve">
+    <value>новый_проект.bpf2</value>
+  </data>
+  <data name="SubExtrudeRotation" xml:space="preserve">
+    <value>Элемент 2D&lt;|&gt;угол в градусах&lt;|&gt;точка&lt;|&gt;ось вращения XYZ&lt;|&gt;трансфинитная сетка 1-да, 0-нет</value>
+  </data>
+  <data name="Cond.General.Header.ShiftingY" xml:space="preserve">
+    <value>Смещение Y</value>
+  </data>
+  <data name="VersionNews" xml:space="preserve">
+    <value>Новости версий</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Calculation" xml:space="preserve">
+    <value>Расчет</value>
+  </data>
+  <data name="RemoveReaction" xml:space="preserve">
+    <value>Удалить реакцию</value>
+  </data>
+  <data name="GenFindFreeNodes" xml:space="preserve">
+    <value>Найти свободные узлы</value>
+  </data>
+  <data name="LicenseAllowedAnswer" xml:space="preserve">
+    <value>Лицензирование проведено</value>
+  </data>
+  <data name="Task.General.Header.CheckConditionValues" xml:space="preserve">
+    <value>Проверка значений условий</value>
+  </data>
+  <data name="GenerateMesh3DEvents.Generate3D.GMSHNull.Exception" xml:space="preserve">
+    <value>Ошибка построения сетки. Возможно, геометрия не загружена</value>
+  </data>
+  <data name="rbtTTT.Text" xml:space="preserve">
+    <value>TTT</value>
+  </data>
+  <data name="cmbPhaseName.Items" xml:space="preserve">
+    <value>Охлаждение</value>
+  </data>
+  <data name="Geo.Surface.Header.Squaring" xml:space="preserve">
+    <value>Квадратизация</value>
+  </data>
+  <data name="CallBackFormName" xml:space="preserve">
+    <value>Загрузка</value>
+  </data>
+  <data name="Cond.General.Header.ShiftingZ" xml:space="preserve">
+    <value>Смещение Z</value>
+  </data>
+  <data name="Comp.General.Header.Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="StartStopConp.FormCommandFile.Message" xml:space="preserve">
+    <value>Файл команд был сгенерирован по пути:</value>
+  </data>
+  <data name="SubCreateSurface" xml:space="preserve">
+    <value>кривые формирующие контур&lt;|&gt;кривая#1,кривая#2,кривая#3</value>
+  </data>
+  <data name="UtilityTiilStrip.SelectObjectAsync.SelectOne.Message" xml:space="preserve">
+    <value>Выберите один объект типа</value>
+  </data>
+  <data name="Cond.Load.Header.Type" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="Result.BuildDiagram.SelectTime.Exception" xml:space="preserve">
+    <value>Выберите время в разделе результаты</value>
+  </data>
+  <data name="btnSelect.Text.Nodes" xml:space="preserve">
+    <value>Узел</value>
+  </data>
+  <data name="textBox1.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="GenSaveProject" xml:space="preserve">
+    <value>Сохранить проект</value>
+  </data>
+  <data name="FindCoincidentNodes.ActionConfirm.MergeNodes.Message" xml:space="preserve">
+    <value>Узлы объединены</value>
+  </data>
+  <data name="txbFinTemp.Text" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="cmbPhaseName.AccessibleName" xml:space="preserve">
+    <value>PhaseName</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Objects" xml:space="preserve">
+    <value>Объекты</value>
+  </data>
+  <data name="rbtDirection.Text" xml:space="preserve">
+    <value>По направлению</value>
+  </data>
+  <data name="GenerateBoundaryMesh.Generate2DOn3DSurfaces.NoObjects.Message" xml:space="preserve">
+    <value>Модель не содержит</value>
+  </data>
+  <data name="clslLigthingIntensity.Text" xml:space="preserve">
+    <value>colorSlider</value>
+  </data>
+  <data name="New_material_" xml:space="preserve">
+    <value>Новый_материал_</value>
+  </data>
+  <data name="Result.General.Header.Accuracy" xml:space="preserve">
+    <value>Точность</value>
+  </data>
+  <data name="CalculateHardening" xml:space="preserve">
+    <value>Рассчитать упрочнение</value>
+  </data>
+  <data name="UnknownTypeException" xml:space="preserve">
+    <value>Неизвестный тип объекта!</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Calculations" xml:space="preserve">
+    <value>Расчеты</value>
+  </data>
+  <data name="Cond.General.Header.ReferenceLine" xml:space="preserve">
+    <value>Опорная линия</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Источник:</value>
+  </data>
+  <data name="title.Text" xml:space="preserve">
+    <value>Загрузка данных. Пожалуйста подождите...</value>
+  </data>
+  <data name="Checking.StartCheckingEvent.SelectedDataIsNotCheckable.Message" xml:space="preserve">
+    <value>Выбранные данные не проверяются</value>
+  </data>
+  <data name="cmbPhaseName.Items2" xml:space="preserve">
+    <value>Выдержка</value>
+  </data>
+  <data name="dToolStripMenuItem1.Text" xml:space="preserve">
+    <value>2D</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.ElementsGroup" xml:space="preserve">
+    <value>Группа_Элементов</value>
+  </data>
+  <data name="txbMinPhase.Text" xml:space="preserve">
+    <value>0.01</value>
+  </data>
+  <data name="Comp.Mech.Header.PlasticDeformation" xml:space="preserve">
+    <value>Пласт. деформация Si/St, &gt;1</value>
+  </data>
+  <data name="rbtTTT.AccessibleName" xml:space="preserve">
+    <value>TTT</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Sets" xml:space="preserve">
+    <value>Наборы</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Clamp" xml:space="preserve">
+    <value>Закрепление</value>
+  </data>
+  <data name="SelectByRect.Declination.Type1" xml:space="preserve">
+    <value>объектов</value>
+  </data>
+  <data name="Cond.General.Header.Value" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="SelectMaterial" xml:space="preserve">
+    <value>Выберите материал!</value>
+  </data>
+  <data name="Result.BuildDiagram.GraphData.XUnit" xml:space="preserve">
+    <value>мм</value>
+  </data>
+  <data name="Geo.Point.Header.ElementsSize" xml:space="preserve">
+    <value>Размер элементов</value>
+  </data>
+  <data name="Comp.Chem.Header.InitialConcentration" xml:space="preserve">
+    <value>Начальная концентрация, %</value>
+  </data>
+  <data name="cmbPhases.AccessibleName" xml:space="preserve">
+    <value>InitialPhase</value>
+  </data>
+  <data name="UtilityToolStrip.CrossSection.Text" xml:space="preserve">
+    <value>Построить сечение</value>
+  </data>
+  <data name="Comp.General.Header.InitialStep" xml:space="preserve">
+    <value>Начальный шаг расчета, сек</value>
+  </data>
+  <data name="GetDAtaBase.FindFileByPath.DBNotFound.Message_Part1" xml:space="preserve">
+    <value>База данных</value>
+  </data>
+  <data name="rbtSurface.AccessibleName" xml:space="preserve">
+    <value>GeomSelect.Surfaces</value>
+  </data>
+  <data name="UtilityTiilStrip.SelectObjectAsync.WithNumber.Message" xml:space="preserve">
+    <value>under number</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Material" xml:space="preserve">
+    <value>Материал</value>
+  </data>
+  <data name="LoadDBAddIntoMissingDBException" xml:space="preserve">
+    <value>Загрузите базу данных или создайте новую</value>
+  </data>
+  <data name="FindCoincidentNodes.Action.Found.Message" xml:space="preserve">
+    <value>Найдено</value>
+  </data>
+  <data name="SubCreateCurve" xml:space="preserve">
+    <value>точка#1&lt;|&gt;точка#2</value>
+  </data>
+  <data name="FindFreeNodesEvent.Found.Message" xml:space="preserve">
+    <value>Найдено</value>
+  </data>
+  <data name="chbTemp.Text" xml:space="preserve">
+    <value>Указать температуру</value>
+  </data>
+  <data name="UtilityToolStrip.Distance.Output" xml:space="preserve">
+    <value>Дистанция</value>
+  </data>
+  <data name="GenCreatePoint" xml:space="preserve">
+    <value>Создать точку</value>
+  </data>
+  <data name="HardeningCalculator" xml:space="preserve">
+    <value>Калькулятор упрочнения</value>
+  </data>
+  <data name="HandleArgsResultsLoadingWithoutProjectException" xml:space="preserve">
+    <value>Для загрузки результатов требуется сперва загрузить проект</value>
+  </data>
+  <data name="InvalidCommandException" xml:space="preserve">
+    <value>Неправильный формат команды</value>
+  </data>
+  <data name="UtilityTiilStrip.SelectObjectAsync.Selected.Message" xml:space="preserve">
+    <value>Выбран объект типа</value>
+  </data>
+  <data name="StackTrace" xml:space="preserve">
+    <value>Стек вызовов</value>
+  </data>
+  <data name="SceneEvents.CreateGroup.InvalidGroupTypeWarning" xml:space="preserve">
+    <value>Невозможно создать группу выбранного типа</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Mesh" xml:space="preserve">
+    <value>Сетка</value>
+  </data>
+  <data name="SelectAPropertyOrReactionToRemove" xml:space="preserve">
+    <value>Выберите свойство или реакцию для удаления!</value>
+  </data>
+  <data name="Result.BuildDiagram.NoNodesSelectedException" xml:space="preserve">
+    <value>Не выбран ни один узел</value>
+  </data>
+  <data name="UtilityToolStrip.CreateCrossSection.InvalidNodeNumerErrorMessage" xml:space="preserve">
+    <value>Ошибка, выбрано неверное количество узлов</value>
+  </data>
+  <data name="Geo.General.Header.Algorithm3D" xml:space="preserve">
+    <value>Алгоритм 3D</value>
+  </data>
+  <data name="Function" xml:space="preserve">
+    <value>Функция</value>
+  </data>
+  <data name="button2.Text" xml:space="preserve">
+    <value>Открыть проект</value>
+  </data>
+  <data name="Graph" xml:space="preserve">
+    <value>График</value>
+  </data>
+  <data name="SaveLoadScript.GeoScript.Executed.Message" xml:space="preserve">
+    <value>выполнен</value>
+  </data>
+  <data name="UtilityToolStrip.DistancePointToPlane.InstructionPart2" xml:space="preserve">
+    <value>и нажмите «E» для подтверждения или «ESC» для отмены</value>
+  </data>
+  <data name="Cond.Load.Header.Value" xml:space="preserve">
+    <value>Значение, Н</value>
+  </data>
+  <data name="Cond.General.Header.RotationY" xml:space="preserve">
+    <value>Поворот Y</value>
+  </data>
+  <data name="GetLicenseInfoException" xml:space="preserve">
+    <value>Ошибка запроса информации о лицензии</value>
+  </data>
+  <data name="Comp.General.Header.Accuracy" xml:space="preserve">
+    <value>Точность решения, у.ед.</value>
+  </data>
+  <data name="colorSlider2.Text" xml:space="preserve">
+    <value>colorSlider2</value>
+  </data>
+  <data name="Result.BuildDiagram.Text_Part2" xml:space="preserve">
+    <value>Координата</value>
+  </data>
+  <data name="CreatePlot.SelectContainerAsync.CancelOperation.Message" xml:space="preserve">
+    <value>Операция отменена</value>
+  </data>
+  <data name="SubMergeElementSets" xml:space="preserve">
+    <value>тип&lt;|&gt;набор#1&lt;|&gt;набор#2</value>
+  </data>
+  <data name="OpenTSF.OpenInstructions.Message" xml:space="preserve">
+    <value>Инструкции задачи открыты из</value>
+  </data>
+  <data name="Cond.General.Header.Trajectory" xml:space="preserve">
+    <value>Траектория</value>
+  </data>
+  <data name="Comp.General.Header.IterationsPerStep" xml:space="preserve">
+    <value>Кол-во итераций на шаге</value>
+  </data>
+  <data name="ShowInsideObjects.ShowAllObjects.Message" xml:space="preserve">
+    <value>Все объекты показаны</value>
+  </data>
+  <data name="AdvanceSelection3NodesWarning" xml:space="preserve">
+    <value>Должно быть выбрано три узла</value>
+  </data>
+  <data name="SubExtrudeCurve" xml:space="preserve">
+    <value>Элемент 2D&lt;|&gt;кривая&lt;/&gt;точка&lt;|&gt;шаг&lt;|&gt;трансфинитная сетка 1-да, 0-нет</value>
+  </data>
+  <data name="StartCaption" xml:space="preserve">
+    <value>Старт</value>
+  </data>
+  <data name="SelectByRect.Selected.Message" xml:space="preserve">
+    <value>Выбрано</value>
+  </data>
+  <data name="StartStopConp.SaveProjectInto.Message" xml:space="preserve">
+    <value>Проект сохранен в директории</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Load" xml:space="preserve">
+    <value>Нагрузка</value>
+  </data>
+  <data name="btnSelect.Text.Elements3D" xml:space="preserve">
+    <value>Элемент3D</value>
+  </data>
+  <data name="Comp.General.Header.Priority" xml:space="preserve">
+    <value>Приоритет</value>
+  </data>
+  <data name="Geo.Surface.Header.MeshType" xml:space="preserve">
+    <value>Вид сетки</value>
+  </data>
+  <data name="ReactionWithASuchNameIsAlreadyExistChooseAnotherName" xml:space="preserve">
+    <value>Реакция с таким названием уже существует! Выберите другое название</value>
+  </data>
+  <data name="ProjectSavedCaption" xml:space="preserve">
+    <value>Проект сохранен</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Geometry" xml:space="preserve">
+    <value>Геометрия</value>
+  </data>
+  <data name="txbAngle.Text" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="AnimationForm.Text" xml:space="preserve">
+    <value>Анимация</value>
+  </data>
+  <data name="UtilityToolStrip.DistancePointToPlane.InstructionPart1" xml:space="preserve">
+    <value>Выбрать</value>
+  </data>
+  <data name="Geo.Volume.Header.MeshType.Gradient" xml:space="preserve">
+    <value>Градиентная</value>
+  </data>
+  <data name="AdvanceSelection2NodesWarning" xml:space="preserve">
+    <value>Должно быть выбрано два узла</value>
+  </data>
+  <data name="ModelShiftCoordinateEventArgsVectorExc" xml:space="preserve">
+    <value>Вектор должен содержать три компонента координаты!</value>
+  </data>
+  <data name="CalculateCreep" xml:space="preserve">
+    <value>Рассчитать ползучесть</value>
+  </data>
+  <data name="cmbMeasureObjects.Items1" xml:space="preserve">
+    <value>Между точкой и плоскостью</value>
+  </data>
+  <data name="chbChangeDirection.Text" xml:space="preserve">
+    <value>Сменить направление</value>
+  </data>
+  <data name="rbtSquare.Text" xml:space="preserve">
+    <value>Площадь, мм^2</value>
+  </data>
+  <data name="ColorObjects.ObjectConversion.Exception" xml:space="preserve">
+    <value>Ошибка конвертации объектов</value>
+  </data>
+  <data name="toolStripContainer2.Text" xml:space="preserve">
+    <value>toolStripContainer2</value>
+  </data>
+  <data name="BasePage.CreateSurfaceAsync.SurfaceSet.Message" xml:space="preserve">
+    <value>Поверхность задана</value>
+  </data>
+  <data name="SubSaveProject" xml:space="preserve">
+    <value>путь</value>
+  </data>
+  <data name="GenerateMesh3DEvents.Generate3D.GeneratedElements.Message" xml:space="preserve">
+    <value>Сгенерировано элементов</value>
+  </data>
+  <data name="BazisServerPathMissingMessage" xml:space="preserve">
+    <value>Не удалось установить соединение. Переменная среды &quot;BazisServerPath&quot; не найдена.
+Хотите создать ее?</value>
+  </data>
+  <data name="GenSolveProject" xml:space="preserve">
+    <value>Рассчитать проект</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="BeamConnectionEventArgsArgNumExc" xml:space="preserve">
+    <value>Значение параметра должно быть числом.</value>
+  </data>
+  <data name="txbTemp.AccessibleName" xml:space="preserve">
+    <value>Temp</value>
+  </data>
+  <data name="GenerateTSF.InstructionsFormed.Message" xml:space="preserve">
+    <value>Инструкции задачи сгенерированы в</value>
+  </data>
+  <data name="rbtYZ.Text" xml:space="preserve">
+    <value>YZ</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Heat" xml:space="preserve">
+    <value>Нагрев</value>
+  </data>
+  <data name="textBox2.Text" xml:space="preserve">
+    <value>1.0</value>
+  </data>
+  <data name="ErrorCaption" xml:space="preserve">
+    <value>Ошибка!</value>
+  </data>
+  <data name="btnSelect.Text.Curves" xml:space="preserve">
+    <value>Кривая</value>
+  </data>
+  <data name="GenBeamConnection" xml:space="preserve">
+    <value>Соединить стержнями</value>
+  </data>
+  <data name="cmbMeasureObjects.Items" xml:space="preserve">
+    <value>Между двумя точками</value>
+  </data>
+  <data name="NotACommandException" xml:space="preserve">
+    <value>Введенная строка не является командой</value>
+  </data>
+  <data name="GenFindVolElems" xml:space="preserve">
+    <value>Найти объемные элементы</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Кол - во</value>
+  </data>
+  <data name="ImportMaster.CreateImportedMasters.MasterNotFoundOrAlreadyLoaded.Message" xml:space="preserve">
+    <value>В загруженной библиотеке не определены реализации интерфейса мастера постановки задач или реализация этого мастера уже загружена</value>
+  </data>
+  <data name="ConsoleEvents.ConsoleInEvents.VolumeElements.Message" xml:space="preserve">
+    <value>объемных элементов</value>
+  </data>
+  <data name="cmbPhaseName.Items1" xml:space="preserve">
+    <value>Нагрев</value>
+  </data>
+  <data name="выбратьСопряженныеToolStripMenuItem.Text" xml:space="preserve">
+    <value>Выбрать сопряженные</value>
+  </data>
+  <data name="radioButton6.Text" xml:space="preserve">
+    <value>YX</value>
+  </data>
+  <data name="SelectByRect.Declination.Type3" xml:space="preserve">
+    <value>объекта</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>D:</value>
+  </data>
+  <data name="Cond.General.Header.Parameter" xml:space="preserve">
+    <value>Параметр</value>
+  </data>
+  <data name="BeamConnection.BeamConnection.ObjectsCreated.Message" xml:space="preserve">
+    <value>Созданы объекты</value>
+  </data>
+  <data name="ConsoleEvents.ConsoleInEvent.ObjectFound.Message" xml:space="preserve">
+    <value>Найдено</value>
+  </data>
+  <data name="FindCoincidentNodes.Action.Matches.Message" xml:space="preserve">
+    <value>совпадений</value>
+  </data>
+  <data name="SelectByPoint.ObjectSelected.Message" xml:space="preserve">
+    <value>Объект выбран</value>
+  </data>
+  <data name="ResultsMainMenuEvents.MergeResults.RecalculationOnNodesResNames.Message" xml:space="preserve">
+    <value>Перерасчет для узлов выполнен для</value>
+  </data>
+  <data name="AdvanceSelectionNoObjectSelectedWarning" xml:space="preserve">
+    <value>Нет выбранных объектов</value>
+  </data>
+  <data name="btnSelect.AccessibleName" xml:space="preserve">
+    <value>SelectObjects.btnSelect.Select</value>
+  </data>
+  <data name="Result.General.Header.ShowValuesInNodes" xml:space="preserve">
+    <value>Показать значения в узлах</value>
+  </data>
+  <data name="Result.General.Header.RefineValues" xml:space="preserve">
+    <value>Уточнить значения</value>
+  </data>
+  <data name="DataBase.Functions.NoDataException" xml:space="preserve">
+    <value>База функций пустая</value>
+  </data>
+  <data name="domainUpDown1.Text" xml:space="preserve">
+    <value>0.01</value>
+  </data>
+  <data name="rbtXZ.Text" xml:space="preserve">
+    <value>XZ</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Переименовать</value>
+  </data>
+  <data name="Result.BuildDiagram.SelectContaimerAsync.SelectTime.Message" xml:space="preserve">
+    <value>Выберите время и нажмите на клавишу &quot;&quot;E&quot;&quot; для подтверждения</value>
+  </data>
+  <data name="rbtSet.Text" xml:space="preserve">
+    <value>Наборы</value>
+  </data>
+  <data name="ShowInsideObjects.HideInnerObjects.Message" xml:space="preserve">
+    <value>Скрыты внутренние объекты</value>
+  </data>
+  <data name="btnMeasure.Text" xml:space="preserve">
+    <value>Измерить</value>
+  </data>
+  <data name="Comp.Chem.Header.MaxConcentration" xml:space="preserve">
+    <value>Макс. концентрация. (dCt max), %</value>
+  </data>
+  <data name="ResultsMainMenuEvents.MergeResults.RecalculationOnNodes.Message" xml:space="preserve">
+    <value>Выполняется перерасчет на узлах по времени</value>
+  </data>
+  <data name="Result.General.Header.ShowFields" xml:space="preserve">
+    <value>Показывать поле</value>
+  </data>
+  <data name="MeshSet.General.Header.AccuracyLevel" xml:space="preserve">
+    <value>Порядок точности</value>
+  </data>
+  <data name="DiagramCalculator" xml:space="preserve">
+    <value>Калькулятор диаграмм</value>
+  </data>
+  <data name="SelectByRect.Declination.Type2" xml:space="preserve">
+    <value>объект</value>
+  </data>
+  <data name="GenerateMesh2DEvent.GenerateOnGeometry.Recomendation.Message" xml:space="preserve">
+    <value>Рекомендуется проверить порядок точности наборов перед началом расчета в панели свойств, выбрав его в навигаторе</value>
+  </data>
+  <data name="Found" xml:space="preserve">
+    <value>Найдено</value>
+  </data>
+  <data name="domainUpDown1.Items3" xml:space="preserve">
+    <value>0.001</value>
+  </data>
+  <data name="Result.General.Header.ShowScale" xml:space="preserve">
+    <value>Показать шкалу</value>
+  </data>
+  <data name="FindCoincidentNodes.AsyncContainer.Message" xml:space="preserve">
+    <value>Нажмите &quot;&quot;E&quot;&quot; для слияния, &quot;&quot;Esc&quot;&quot; для отмены</value>
+  </data>
+  <data name="Cond.General.Header.CoordinateSystem" xml:space="preserve">
+    <value>Система координат</value>
+  </data>
+  <data name="Comp.Value.Skip" xml:space="preserve">
+    <value>Пропустить</value>
+  </data>
+  <data name="Result.General.Header.MinValue" xml:space="preserve">
+    <value>Мин. значение</value>
+  </data>
+  <data name="Comp.Mech.Header.PlasticDeformationValue" xml:space="preserve">
+    <value>Значение пласт. деформации Si/St</value>
+  </data>
+  <data name="CreatePlot.CreateGraphData.Header" xml:space="preserve">
+    <value>Набор результатов по времени</value>
+  </data>
+  <data name="Comp.General.Header.SaveFrequency" xml:space="preserve">
+    <value>Частота сохранений, шаг</value>
+  </data>
+  <data name="DataBase.Functions.MissingException" xml:space="preserve">
+    <value>Не загружена база функций</value>
+  </data>
+  <data name="rbtVolume.Text" xml:space="preserve">
+    <value>Объемы</value>
+  </data>
+  <data name="CreatePlot.GraphForm.Text_Part2" xml:space="preserve">
+    <value>Время</value>
+  </data>
+  <data name="VBObjectController.ChangeViewMode.Message" xml:space="preserve">
+    <value>Не найдены объекты определенного типа!</value>
+  </data>
+  <data name="ImportMeshCaption" xml:space="preserve">
+    <value>Импорт сетки</value>
+  </data>
+  <data name="UtilityToolStrip.SelectObjectAsync.OperationCanceled.Message" xml:space="preserve">
+    <value>Операция отменена</value>
+  </data>
+  <data name="Cond.General.Header.Table" xml:space="preserve">
+    <value>Таблица</value>
+  </data>
+  <data name="LicenseInfo" xml:space="preserve">
+    <value>Информация о лицензии</value>
+  </data>
+  <data name="BasePage.CreateSurfaceAsync.SelectNodeType.Message" xml:space="preserve">
+    <value>Выберите или узлы или точки!</value>
+  </data>
+  <data name="ExecuteCMDFileMissing" xml:space="preserve">
+    <value>Указанный коммандный файл не найден!</value>
+  </data>
+  <data name="FindCoincidentOption" xml:space="preserve">
+    <value>узлы</value>
+  </data>
+  <data name="PanelConverter.UndefinedConverterTypeException" xml:space="preserve">
+    <value>Тип конвертера не определен</value>
+  </data>
+  <data name="Comp.GeneralHeader.Algorithm" xml:space="preserve">
+    <value>Алгоритм решения</value>
+  </data>
+  <data name="domainUpDown1.Items2" xml:space="preserve">
+    <value>0.01</value>
+  </data>
+  <data name="domainUpDown1.Items" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="SaveLoadScript.GeoScript.Formed.Message" xml:space="preserve">
+    <value>сформирован</value>
+  </data>
+  <data name="UtilityToolStrip.CalcSquare.Output" xml:space="preserve">
+    <value>Площадь</value>
+  </data>
+  <data name="Result.General.Header.ScaleScreenPositionX" xml:space="preserve">
+    <value>Положение шкалы по Х</value>
+  </data>
+  <data name="colorSlider1.Text" xml:space="preserve">
+    <value>colorSlider1</value>
+  </data>
+  <data name="CreatePlot.BuildGraph.BuildingGraph.Text_Part2" xml:space="preserve">
+    <value>подождите немного</value>
+  </data>
+  <data name="GenFindCoincident" xml:space="preserve">
+    <value>Найти совпадающие</value>
+  </data>
+  <data name="EditReaction" xml:space="preserve">
+    <value>Редактировать реакцию</value>
+  </data>
+  <data name="webPageLabel.Text" xml:space="preserve">
+    <value>www.bazisnet.ru</value>
+  </data>
+  <data name="Geo.General.Header.ShowPointsOnCurves" xml:space="preserve">
+    <value>Показать точки на кривых</value>
+  </data>
+  <data name="FindVolElemsEventArgsArgExc" xml:space="preserve">
+    <value>Значение параметра должно быть числом.</value>
+  </data>
+  <data name="Material" xml:space="preserve">
+    <value>Материал</value>
+  </data>
+  <data name="Groups.Header.Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="MeshObj.General.Header.CoordinateX" xml:space="preserve">
+    <value>Координата X</value>
+  </data>
+  <data name="btnSelect.Text.Elements1D" xml:space="preserve">
+    <value>Элемент1D</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="CreatePlot.DisplayText3D.Text" xml:space="preserve">
+    <value>Узел</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Groups" xml:space="preserve">
+    <value>Группы</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>Список</value>
+  </data>
+  <data name="SaveLoadScript.GeoScript.Message" xml:space="preserve">
+    <value>Скрипт</value>
+  </data>
+  <data name="Comp.Term.Header.MaxTemperture" xml:space="preserve">
+    <value>Макс. темп. (dTt max), C°</value>
+  </data>
+  <data name="CrossSectionControl.InvalidSurfaceCoordsSetException" xml:space="preserve">
+    <value>Неправильно заданы координаты плоскости</value>
+  </data>
+  <data name="CurrentSession" xml:space="preserve">
+    <value>Текущая сессия</value>
+  </data>
+  <data name="CreatePlot.GraphData.XUnit" xml:space="preserve">
+    <value>Сек.</value>
+  </data>
+  <data name="AttentionCaption" xml:space="preserve">
+    <value>Внимание!</value>
+  </data>
+  <data name="StringEx.ToEnum.ArgumentException.Part2" xml:space="preserve">
+    <value>не соответствует ни одному значению.</value>
+  </data>
+  <data name="Result.General.Header.Scale" xml:space="preserve">
+    <value>Масштаб</value>
+  </data>
+  <data name="Cond.Material.Header.Thickness" xml:space="preserve">
+    <value>Толщина</value>
+  </data>
+  <data name="GenerateMesh2DEvent.GenerateOnGeometry.GenElements.Message" xml:space="preserve">
+    <value>Сгенерировано элементов</value>
+  </data>
+  <data name="MeshObj.General.Header.CoordinateZ" xml:space="preserve">
+    <value>Координата Z</value>
+  </data>
+  <data name="EditGroup.EditGroupAsync.Preamble.Message" xml:space="preserve">
+    <value>Измените группу, добавив или удалив объекты. Нажмите &quot;&quot;E&quot;&quot;, чтобы применить изменения или &quot;&quot;ESC&quot;&quot; для отмены</value>
+  </data>
+  <data name="SubMoveMesh" xml:space="preserve">
+    <value>переместить&lt;|&gt;x,y,z</value>
+  </data>
+  <data name="ConnectionEstablishedAnswer" xml:space="preserve">
+    <value>Соединение установлено</value>
+  </data>
+  <data name="StartStopConp.ProjectDirectoryCheck.Message_Part1" xml:space="preserve">
+    <value>В директории проекта</value>
+  </data>
+  <data name="Reflect.CreateReflectedVBObject.Exception_Part2" xml:space="preserve">
+    <value>уже существует</value>
+  </data>
+  <data name="ImportMaster.CreateImportedMasters.MasterOpened.Message" xml:space="preserve">
+    <value>Открыт мастер</value>
+  </data>
+  <data name="Comp.Value.Execute" xml:space="preserve">
+    <value>Выполнить</value>
+  </data>
+  <data name="Comp.General.Header.Execute" xml:space="preserve">
+    <value>Выполнить</value>
+  </data>
+  <data name="Geo.General.Header.MeshSizeFactor" xml:space="preserve">
+    <value>Масштаб. коэффициент</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Result" xml:space="preserve">
+    <value>Результат</value>
+  </data>
+  <data name="MoveRotNodesOption" xml:space="preserve">
+    <value>переместить</value>
+  </data>
+  <data name="GenExtrudeByRotation" xml:space="preserve">
+    <value>Экструзия по вращению</value>
+  </data>
+  <data name="rbtCurve.Text" xml:space="preserve">
+    <value>Кривые</value>
+  </data>
+  <data name="toolStripContainer.Text" xml:space="preserve">
+    <value>toolStripContainer1</value>
+  </data>
+  <data name="ConsoleEvents.ConsoleInEvent.ObjectNotFound.Message" xml:space="preserve">
+    <value>Объект не найден</value>
+  </data>
+  <data name="BasePage.CreateSurfaceAsync.AsyncContainer.Message" xml:space="preserve">
+    <value>Задайте поверхность, выберите три узла и нажмите на кнопку «E» или нажмите кнопку «ESC»</value>
+  </data>
+  <data name="HandleBaseMaster.Success.Message" xml:space="preserve">
+    <value>Граничные условия сформированы</value>
+  </data>
+  <data name="Comp.Term.Header.MaxTempertureValue" xml:space="preserve">
+    <value>Значение макс. темп.</value>
+  </data>
+  <data name="StopCaption" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="StringEx.ToEnum.ArgumentException.Part1" xml:space="preserve">
+    <value>Ошибка: значение</value>
+  </data>
+  <data name="txbIniTemp.Text" xml:space="preserve">
+    <value>800</value>
+  </data>
+  <data name="Comp.General.HeaderMaxRelaxCoef" xml:space="preserve">
+    <value>Макс. коэф. релаксации (wm)</value>
+  </data>
+  <data name="txbMaxPhase.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="UtilityToolStrip.CalcVolume.Output" xml:space="preserve">
+    <value>Объем</value>
+  </data>
+  <data name="lblAngle.Text" xml:space="preserve">
+    <value>Угол</value>
+  </data>
+  <data name="Cond.Material.Header.Diameter" xml:space="preserve">
+    <value>Диаметр</value>
+  </data>
+  <data name="Comp.General.Header.StartTime" xml:space="preserve">
+    <value>Время начала, сек</value>
+  </data>
+  <data name="FindFreeNodesEvent.FreeNodes.Message" xml:space="preserve">
+    <value>свободных узлов</value>
+  </data>
+  <data name="Cond.General.Header.StartTime" xml:space="preserve">
+    <value>Старт, сек</value>
+  </data>
+  <data name="releaseNoteslinkLabel.Text" xml:space="preserve">
+    <value>Узнать новости версии</value>
+  </data>
+  <data name="VBObjectCtor.EmptyArrayArgumentException" xml:space="preserve">
+    <value>VBObject Ошибка: длина индексов массива не может быть нулевой</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.NodesGroup" xml:space="preserve">
+    <value>Группа_Узлов</value>
+  </data>
+  <data name="menuStrip.Text" xml:space="preserve">
+    <value>menuStrip</value>
+  </data>
+  <data name="Comp.General.Header.InitialTemp" xml:space="preserve">
+    <value>Начальная температура, C°</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Время, сек</value>
+  </data>
+  <data name="Task.General.Header.Kind" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="txbPoint3.Text" xml:space="preserve">
+    <value>0;0;0</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Название реакции</value>
+  </data>
+  <data name="radioButton1.Text" xml:space="preserve">
+    <value>YZ</value>
+  </data>
+  <data name="rbtSurface.Text" xml:space="preserve">
+    <value>В плоскости</value>
+  </data>
+  <data name="cmbInitialPhase.AccessibleName" xml:space="preserve">
+    <value>InitialPhase</value>
+  </data>
+  <data name="Cond.General.Header.Function" xml:space="preserve">
+    <value>Функция</value>
+  </data>
+  <data name="PositiveCellingNumberException" xml:space="preserve">
+    <value>Номер должен быть целым положительным числом!</value>
+  </data>
+  <data name="SelectSetEvent.CreateGroupBySet.Message" xml:space="preserve">
+    <value>Создана новая группа</value>
+  </data>
+  <data name="txbMaxTime.AccessibleName" xml:space="preserve">
+    <value>Время</value>
+  </data>
+  <data name="CreatePlot.BuildGraph.SelectContainerAsync.SelectResult.Message" xml:space="preserve">
+    <value>Выберите результат и нажмите на клавишу &quot;&quot;E&quot;&quot; для подтверждения</value>
+  </data>
+  <data name="AdvaneSelectionSelectedCaption" xml:space="preserve">
+    <value>Выбрано</value>
+  </data>
+  <data name="SubBeamConnection" xml:space="preserve">
+    <value>радиус поиска&lt;|&gt;макс. кол-во&lt;|&gt;группа#1&lt;|&gt;группа#2</value>
+  </data>
+  <data name="SubFindObject" xml:space="preserve">
+    <value>тип,номер</value>
+  </data>
+  <data name="Geo.General.ShowAllMeshOnGeneration" xml:space="preserve">
+    <value>Показать всю сетку при генерации</value>
+  </data>
+  <data name="AvailableCommands" xml:space="preserve">
+    <value>Доступные команды</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>&amp;О программе...</value>
+  </data>
+  <data name="FileAbsenceCaption" xml:space="preserve">
+    <value>Отсутствует файл!</value>
+  </data>
+  <data name="Result.General.Header.ScaleScreenPositionY" xml:space="preserve">
+    <value>Положение шкалы по Y</value>
+  </data>
+  <data name="Comp.Mech.Header.MaxDisplacementValue" xml:space="preserve">
+    <value>Значение макс. перемещения U</value>
+  </data>
+  <data name="GenSetLevel" xml:space="preserve">
+    <value>Задать порядок точности</value>
+  </data>
+  <data name="GetDAtaBase.FindFileByPath.DBNotFound.Message_Part2" xml:space="preserve">
+    <value>не найдена в папке</value>
+  </data>
+  <data name="AlreadyExistsNRenameTheMaterial" xml:space="preserve">
+    <value>уже существует! \nПереименуйте материал!</value>
+  </data>
+  <data name="DataBaseMainMenuEvents.OpenDB.SuccessfullyAdded.Message" xml:space="preserve">
+    <value>Успешно добавлена</value>
+  </data>
+  <data name="DataBaseMainMenuEvents.OpenDB.Message" xml:space="preserve">
+    <value>База данных</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Time" xml:space="preserve">
+    <value>Время</value>
+  </data>
+  <data name="button1.Text" xml:space="preserve">
+    <value>Создать проект</value>
+  </data>
+  <data name="btnSelect.Text.Surfaces" xml:space="preserve">
+    <value>Поверхность</value>
+  </data>
+  <data name="GenerateMesh3DEvents.Generate3D.CheckRecommendation.Message" xml:space="preserve">
+    <value>Перед началом вычислений рекомендуется проверить порядок точности наборов данных в панели свойств, выбрав её в навигаторе.</value>
+  </data>
+  <data name="clslTransparency.Text" xml:space="preserve">
+    <value>colorSlider1</value>
+  </data>
+  <data name="Header_chemical_MaxConcentration" xml:space="preserve">
+    <value>Макс.концентр. (dCt max), %</value>
+  </data>
+  <data name="Header_chemical_MaxConcentrationValue" xml:space="preserve">
+    <value>Значение макс.концентр.</value>
+  </data>
+  <data name="Header_chemical_InitialConcentration" xml:space="preserve">
+    <value>Начальная концентрация, %</value>
+  </data>
+  <data name="Пропустить" xml:space="preserve">
+    <value>пропустить</value>
+  </data>
+  <data name="Выполнить" xml:space="preserve">
+    <value>выполнить</value>
+  </data>
+  <data name="Header_comp_Execute" xml:space="preserve">
+    <value>Выполнить</value>
+  </data>
+  <data name="Header_comp_ApplyForAll" xml:space="preserve">
+    <value>Применить ко всем</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Header_comp_Algorithm" xml:space="preserve">
+    <value>Алгоритм решения</value>
+  </data>
+  <data name="Header_comp_SolveIterations" xml:space="preserve">
+    <value>Кол-во итераций решения</value>
+  </data>
+  <data name="Header_comp_SolveAccuracy" xml:space="preserve">
+    <value>Точность решения, у.ед.</value>
+  </data>
+  <data name="Header_comp_RelaxationCoef" xml:space="preserve">
+    <value>Коэф. релаксации (w)</value>
+  </data>
+  <data name="Header_comp_MaxRelaxationCoef" xml:space="preserve">
+    <value>Maкс. коэф. релаксации (wm)</value>
+  </data>
+  <data name="Header_comp_Priority" xml:space="preserve">
+    <value>Приоритет</value>
+  </data>
+  <data name="Header_comp_IterationsOnStep" xml:space="preserve">
+    <value>Кол-во итераций на шаге</value>
+  </data>
+  <data name="Header_comp_SaveRate" xml:space="preserve">
+    <value>Частота сохранений, шаг</value>
+  </data>
+  <data name="Header_comp_InitTemp" xml:space="preserve">
+    <value>Начальная температура, C°</value>
+  </data>
+  <data name="Header_comp_StartTime" xml:space="preserve">
+    <value>Время начала, сек</value>
+  </data>
+  <data name="Header_comp_StopTime" xml:space="preserve">
+    <value>Время окончания, сек</value>
+  </data>
+  <data name="Header_comp_InitialSolveStep" xml:space="preserve">
+    <value>Начальный шаг расчета, сек</value>
+  </data>
+  <data name="Header_comp_MinSolveStep" xml:space="preserve">
+    <value>Минимальный шаг расчета, сек</value>
+  </data>
+  <data name="Header_comp_MaxSolveStep" xml:space="preserve">
+    <value>Максимальный шаг расчета, сек</value>
+  </data>
+  <data name="Header_comp_Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="Execute" xml:space="preserve">
+    <value>Выполнять</value>
+  </data>
+  <data name="Header_cond_material_material" xml:space="preserve">
+    <value>Материал</value>
+  </data>
+  <data name="Header_cond_material_diametr" xml:space="preserve">
+    <value>Диаметр</value>
+  </data>
+  <data name="Header_cond_material_thickness" xml:space="preserve">
+    <value>Толщина</value>
+  </data>
+  <data name="UndefinedConditionTypeExc" xml:space="preserve">
+    <value>Вид условия не определен</value>
+  </data>
+  <data name="Header_cond_media_condType" xml:space="preserve">
+    <value>Вид условия</value>
+  </data>
+  <data name="Header_cond_objectsGroup" xml:space="preserve">
+    <value>Группа объектов</value>
+  </data>
+  <data name="Header_cond_value" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="Header_cond_function" xml:space="preserve">
+    <value>Функция</value>
+  </data>
+  <data name="Header_cond_parameter_placeHolder" xml:space="preserve">
+    <value>Параметр {0}</value>
+  </data>
+  <data name="Header_cond_parameterValue_placeHolder" xml:space="preserve">
+    <value>Значение {0}</value>
+  </data>
+  <data name="Header_cond_table_placeHolder" xml:space="preserve">
+    <value>Таблица {0}</value>
+  </data>
+  <data name="Header_cond_direction" xml:space="preserve">
+    <value>Направление</value>
+  </data>
+  <data name="Header_cond_start" xml:space="preserve">
+    <value>Старт, сек.</value>
+  </data>
+  <data name="Header_cond_stop" xml:space="preserve">
+    <value>Стоп, сек.</value>
+  </data>
+  <data name="Header_cond_coordinateSystem" xml:space="preserve">
+    <value>Система координат</value>
+  </data>
+  <data name="Header_localFrame_trajectory" xml:space="preserve">
+    <value>Траектория</value>
+  </data>
+  <data name="Header_localFrame_referenceLine" xml:space="preserve">
+    <value>Опорная линия</value>
+  </data>
+  <data name="Header_localFrame_speed" xml:space="preserve">
+    <value>Скорость, мм./сек.</value>
+  </data>
+  <data name="Header_cond_plane" xml:space="preserve">
+    <value>Плоскость</value>
+  </data>
+  <data name="Header_cond_shiftingX" xml:space="preserve">
+    <value>Смещение X</value>
+  </data>
+  <data name="Header_cond_shiftingY" xml:space="preserve">
+    <value>Смещение Y</value>
+  </data>
+  <data name="Header_cond_ShiftingZ" xml:space="preserve">
+    <value>Смещение Z</value>
+  </data>
+  <data name="Header_cond_rotX" xml:space="preserve">
+    <value>Поворот OX</value>
+  </data>
+  <data name="Header_cond_rotY" xml:space="preserve">
+    <value>Поворот OY</value>
+  </data>
+  <data name="Header_cond_rotZ" xml:space="preserve">
+    <value>Поворот OZ</value>
+  </data>
+  <data name="Header_clamp_type" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="Header_load_type" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="Header_geo_minSize" xml:space="preserve">
+    <value>Мин размер</value>
+  </data>
+  <data name="Header_geo_maxSize" xml:space="preserve">
+    <value>Макс размер</value>
+  </data>
+  <data name="Header_geo_algorithm2D" xml:space="preserve">
+    <value>Алгоритм 2D</value>
+  </data>
+  <data name="Header_geo_algorithm3D" xml:space="preserve">
+    <value>Алгоритм 3D</value>
+  </data>
+  <data name="Header_geo_scaleCoef" xml:space="preserve">
+    <value>Масштаб. коэфициент</value>
+  </data>
+  <data name="Header_geo_showPointsOnCurves" xml:space="preserve">
+    <value>Показать узлы на кривых</value>
+  </data>
+  <data name="Header_geo_showPointsNumbersOnCurves" xml:space="preserve">
+    <value>Показать кол-во узлов на кривых</value>
+  </data>
+  <data name="Показать" xml:space="preserve">
+    <value>Показать</value>
+  </data>
+  <data name="Header_geo_showSurfacesNumbers" xml:space="preserve">
+    <value>Показать номера поверхностей</value>
+  </data>
+  <data name="Header_geo_showPointsNumbers" xml:space="preserve">
+    <value>Показать номера точек</value>
+  </data>
+  <data name="Header_geo_showVolumesNumbers" xml:space="preserve">
+    <value>Показать номера объемов</value>
+  </data>
+  <data name="Header_geo_showMeshOnGeneration" xml:space="preserve">
+    <value>Отображать всю сетку при генерации</value>
+  </data>
+  <data name="Header_termalTask_maxTemperture" xml:space="preserve">
+    <value>Макс. темп. (dTt max), C°</value>
+  </data>
+  <data name="Header_termalTask_maxTempertureValue" xml:space="preserve">
+    <value>Значение макс. темп.</value>
+  </data>
+  <data name="Header_mechanicalTask_maxDiference" xml:space="preserve">
+    <value>Макс. разница dU, &gt;0</value>
+  </data>
+  <data name="Header_mechanicalTask_maxMove" xml:space="preserve">
+    <value>Макс. перемещения U, &gt;0</value>
+  </data>
+  <data name="Header_mechanicalTask_maxMoveValue" xml:space="preserve">
+    <value>Значение макс. перемещения U</value>
+  </data>
+  <data name="Header_mechanicalTask_maxPlasticDeformation" xml:space="preserve">
+    <value>Пласт. деформации Si/St, &gt;1</value>
+  </data>
+  <data name="Header_mechanicalTask_plasticDeformationValue" xml:space="preserve">
+    <value>Значение пласт. деформации Si/St</value>
+  </data>
+  <data name="Header_curve_number" xml:space="preserve">
+    <value>Номер</value>
+  </data>
+  <data name="Header_curve_PointsNumber" xml:space="preserve">
+    <value>Количество точек</value>
+  </data>
+  <data name="Header_curve_algorithm" xml:space="preserve">
+    <value>Алгоритм</value>
+  </data>
+  <data name="Header_curve_coefficient" xml:space="preserve">
+    <value>Коэффициент</value>
+  </data>
+  <data name="Header_surface_number" xml:space="preserve">
+    <value>Номер</value>
+  </data>
+  <data name="Header_surface_meshType" xml:space="preserve">
+    <value>Вид сетки</value>
+  </data>
+  <data name="Header_surface_meshKind" xml:space="preserve">
+    <value>Вид сетки</value>
+  </data>
+  <data name="Header_surface_cornerPoints" xml:space="preserve">
+    <value>Угловые точки</value>
+  </data>
+  <data name="Header_surface_ribersOrientation" xml:space="preserve">
+    <value>Ориентация ребер</value>
+  </data>
+  <data name="Header_surface_quadratization" xml:space="preserve">
+    <value>Квадратизация</value>
+  </data>
+  <data name="Header_surface_addedCurves" xml:space="preserve">
+    <value>Добавленные кривые</value>
+  </data>
+  <data name="Header_surface_pointsNumbers" xml:space="preserve">
+    <value>Номера точек</value>
+  </data>
+  <data name="Header_groups_name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="Header_groups_sort" xml:space="preserve">
+    <value>Сортировка</value>
+  </data>
+  <data name="Отсортировать" xml:space="preserve">
+    <value>Отсортировать</value>
+  </data>
+  <data name="Header_groups_direction" xml:space="preserve">
+    <value>Направление</value>
+  </data>
+  <data name="Реверс" xml:space="preserve">
+    <value>Реверс</value>
+  </data>
+  <data name="Header_groups_elementsNodes" xml:space="preserve">
+    <value>Узлы элементов</value>
+  </data>
+  <data name="Header_groups_createCond" xml:space="preserve">
+    <value>Создать условие</value>
+  </data>
+  <data name="Header_point_number" xml:space="preserve">
+    <value>Номер</value>
+  </data>
+  <data name="Header_point_elementsSize" xml:space="preserve">
+    <value>Размер элементов</value>
+  </data>
+  <data name="Header_element_number" xml:space="preserve">
+    <value>Номер</value>
+  </data>
+  <data name="Header_element_elementLevel" xml:space="preserve">
+    <value>Порядок элемента</value>
+  </data>
+  <data name="Header_element_includedNodes" xml:space="preserve">
+    <value>Входящие узлы</value>
+  </data>
+  <data name="Header_node_number" xml:space="preserve">
+    <value>Номер</value>
+  </data>
+  <data name="Header_node_cordX" xml:space="preserve">
+    <value>Координата X</value>
+  </data>
+  <data name="Header_node_cordY" xml:space="preserve">
+    <value>Координата Y</value>
+  </data>
+  <data name="Header_node_cordZ" xml:space="preserve">
+    <value>Координата Z</value>
+  </data>
+  <data name="Header_node_linkedElements" xml:space="preserve">
+    <value>Связанные элементы</value>
+  </data>
+  <data name="Header_volume_number" xml:space="preserve">
+    <value>Номер</value>
+  </data>
+  <data name="Header_volume_meshType" xml:space="preserve">
+    <value>Вид сетки</value>
+  </data>
+  <data name="Header_volume_TransitionGradientDegree" xml:space="preserve">
+    <value>Степень градиента перехода</value>
+  </data>
+  <data name="Header_volume_layerThickness" xml:space="preserve">
+    <value>Толщина слоя</value>
+  </data>
+  <data name="Header_volume_surfaceElementsSize" xml:space="preserve">
+    <value>Размер элементов на поверхности</value>
+  </data>
+  <data name="Header_volume_centerElementsSize" xml:space="preserve">
+    <value>Размер элементов в центре</value>
+  </data>
+  <data name="Header_projectMesh_nodes" xml:space="preserve">
+    <value>Узлы</value>
+  </data>
+  <data name="Header_projectMesh_elements1D" xml:space="preserve">
+    <value>Элементы 1D</value>
+  </data>
+  <data name="Header_projectMesh_elements2D" xml:space="preserve">
+    <value>Элементы 2D</value>
+  </data>
+  <data name="Header_projectMesh_show" xml:space="preserve">
+    <value>Показать</value>
+  </data>
+  <data name="Header_projectMesh_hide" xml:space="preserve">
+    <value>Скрыть</value>
+  </data>
+  <data name="Header_projectMesh_delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Header_projectMesh_elements3D" xml:space="preserve">
+    <value>Элементы 3D</value>
+  </data>
+  <data name="Header_object_object" xml:space="preserve">
+    <value>Объект</value>
+  </data>
+  <data name="Header_frameFunction_SPH_width" xml:space="preserve">
+    <value>Ширина, мм.</value>
+  </data>
+  <data name="Header_frameFunction_CIL_length" xml:space="preserve">
+    <value>Длина, мм.</value>
+  </data>
+  <data name="Header_frameFunction_CIL_upperDiam" xml:space="preserve">
+    <value>Верхний диам., мм.</value>
+  </data>
+  <data name="Header_frameFunction_CIL_bottomDiam" xml:space="preserve">
+    <value>Нижний диам., мм.</value>
+  </data>
+  <data name="Header_frameFunction_CFF_file" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="Header_result_showFields" xml:space="preserve">
+    <value>Показывать поле</value>
+  </data>
+  <data name="Header_result_showNodesValues" xml:space="preserve">
+    <value>Показать значения в узлах</value>
+  </data>
+  <data name="Header_result_showElementsValues" xml:space="preserve">
+    <value>Показать значения в элементах</value>
+  </data>
+  <data name="Header_result_averageValues" xml:space="preserve">
+    <value>Усреднять результаты</value>
+  </data>
+  <data name="Header_result_showScale" xml:space="preserve">
+    <value>Показывать шкалу</value>
+  </data>
+  <data name="Header_result_resultScale" xml:space="preserve">
+    <value>Масштаб</value>
+  </data>
+  <data name="Header_result_clarifyValues" xml:space="preserve">
+    <value>Уточнить значения</value>
+  </data>
+  <data name="Header_result_maxScaleValue" xml:space="preserve">
+    <value>Макс. значение</value>
+  </data>
+  <data name="Header_result_minScaleValue" xml:space="preserve">
+    <value>Мин. значение</value>
+  </data>
+  <data name="Header_result_precision" xml:space="preserve">
+    <value>Точность</value>
+  </data>
+  <data name="Header_result_intervals" xml:space="preserve">
+    <value>Интервалы</value>
+  </data>
+  <data name="Header_result_xPos" xml:space="preserve">
+    <value>Положение шкалы по Х</value>
+  </data>
+  <data name="Header_result_yPos" xml:space="preserve">
+    <value>Положение шкалы по Y</value>
+  </data>
+  <data name="Header_result_result" xml:space="preserve">
+    <value>Результат</value>
+  </data>
+  <data name="Header_set_precisionOrder" xml:space="preserve">
+    <value>Порядок точности</value>
+  </data>
+  <data name="Header_set_adjacentNodes" xml:space="preserve">
+    <value>Смежные узлы</value>
+  </data>
+  <data name="Header_set_show" xml:space="preserve">
+    <value>Показать</value>
+  </data>
+  <data name="Header_set_group" xml:space="preserve">
+    <value>Группа</value>
+  </data>
+  <data name="Header_set_create" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="Header_set_name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="Header_set_color" xml:space="preserve">
+    <value>Цвет</value>
+  </data>
+  <data name="Header_set_view" xml:space="preserve">
+    <value>Представление</value>
+  </data>
+  <data name="Header_task_type" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="Headers_task_kind" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="Header_task_materials" xml:space="preserve">
+    <value>Материалы</value>
+  </data>
+  <data name="Header_task_functions" xml:space="preserve">
+    <value>Функции</value>
+  </data>
+  <data name="Header_task_checkCondValues" xml:space="preserve">
+    <value>Проверка значений условий</value>
+  </data>
+  <data name="LoadPythonFile_ВыберитеPythonФайл" xml:space="preserve">
+    <value>Выберите Python файл</value>
+  </data>
+  <data name="CreateTaskWithoutProjectExc" xml:space="preserve">
+    <value>Создайте или загрузите проект или сетку</value>
+  </data>
+  <data name="SettingsControl_headerName_text" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="ConsoleControl_headerName_text" xml:space="preserve">
+    <value>Консоль</value>
+  </data>
+  <data name="cntrГант_headerName_text" xml:space="preserve">
+    <value>Гантт</value>
+  </data>
+  <data name="PropertiesPanelControl_headerName_text" xml:space="preserve">
+    <value>Свойства</value>
+  </data>
+  <data name="FunctionDataBasePage_headerName_text" xml:space="preserve">
+    <value>Функции</value>
+  </data>
+  <data name="MaterialsDataBasePage_headerName_text" xml:space="preserve">
+    <value>Материалы</value>
+  </data>
+  <data name="NavigatorControl_headerName_text" xml:space="preserve">
+    <value>Навигатор</value>
+  </data>
+  <data name="Header_volume_volume" xml:space="preserve">
+    <value>Объем</value>
+  </data>
+  <data name="Header_group_show" xml:space="preserve">
+    <value>Показать</value>
+  </data>
+  <data name="Converters_ConvertClampKindKeysToClampKind_CastExc" xml:space="preserve">
+    <value>Не удалось привести тип {0} к типу {1}</value>
+  </data>
+  <data name="cntrГант_AddConds_Нагрев" xml:space="preserve">
+    <value>Нагрев</value>
+  </data>
+  <data name="cntrГант_AddConds_Материал" xml:space="preserve">
+    <value>Материал</value>
+  </data>
+  <data name="cntrГант_AddConds_Среда" xml:space="preserve">
+    <value>Среда</value>
+  </data>
+  <data name="cntrГант_AddConds_Закрепление" xml:space="preserve">
+    <value>Закрепление</value>
+  </data>
+  <data name="cntrГант_AddConds_Нагрузка" xml:space="preserve">
+    <value>Нагрузка</value>
+  </data>
+  <data name="cntrГант_AddConds_UndefinedCondExc" xml:space="preserve">
+    <value>Не определен тип граничных условий</value>
+  </data>
+  <data name="BaseForm_BaseForm_Load_Navigator" xml:space="preserve">
+    <value>Навигатор</value>
+  </data>
+  <data name="BaseForm_материалыMenuItem_Click_Materials" xml:space="preserve">
+    <value>Материалы</value>
+  </data>
+  <data name="BaseForm_функцииMenuItem_Click_Functions" xml:space="preserve">
+    <value>Функции</value>
+  </data>
+  <data name="BaseForm_настройкиToolStripMenuItem_Click_Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="btnSelect_Text_Select" xml:space="preserve">
+    <value>Выбрать</value>
+  </data>
+  <data name="FailedCreateGeometry" xml:space="preserve">
+    <value>Не удалось создать геометрию</value>
+  </data>
+  <data name="ChamferPreview_CurveMustBelongToTwoSurfaces" xml:space="preserve">
+    <value>Для построения фаски кривая должна принадлежать двум поверхностям. Найдено: {0}.</value>
+  </data>
+  <data name="ChamferPreview_SurfacesMustBelongToOneVolume" xml:space="preserve">
+    <value>Для построения фаски соседние поверхности должны принадлежать одному общему объёму. Найдено: {0}.</value>
+  </data>
+  <data name="ChamferPreview_OnlyStraightCurvesSupported" xml:space="preserve">
+    <value>Линейный предпросмотр фаски поддерживается только для прямолинейных кривых.</value>
+  </data>
+  <data name="ChamferPreview_CurveParametrizationUnavailable" xml:space="preserve">
+    <value>Не удалось получить параметризацию кривой.</value>
+  </data>
+  <data name="ChamferPreview_CurveHasZeroLength" xml:space="preserve">
+    <value>Кривая {0} имеет нулевую длину.</value>
+  </data>
+  <data name="ChamferPreview_SurfaceNormalUnavailable" xml:space="preserve">
+    <value>Не удалось получить нормаль поверхности {0}.</value>
+  </data>
+  <data name="ChamferPreview_SurfaceHasInvalidNormal" xml:space="preserve">
+    <value>Поверхность {0} имеет некорректную нормаль.</value>
+  </data>
+  <data name="ChamferPreview_SurfaceNotOnVolumeBoundary" xml:space="preserve">
+    <value>Поверхность {0} не найдена на границе объёма {1}.</value>
+  </data>
+  <data name="ChamferPreview_OffsetDirectionUnavailable" xml:space="preserve">
+    <value>Не удалось определить направление смещения на поверхности {0}.</value>
+  </data>
+  <data name="ChamferPreview_AngleOutOfRange" xml:space="preserve">
+    <value>Угол фаски должен находиться в диапазоне от 0° до 180°.</value>
+  </data>
+  <data name="ChamferPreview_InvalidSurfaceAngle" xml:space="preserve">
+    <value>Не удалось определить корректный угол между смежными поверхностями.</value>
+  </data>
+  <data name="ChamferPreview_AngleMustBeLessThan" xml:space="preserve">
+    <value>Для угла между поверхностями {0:F3}° угол фаски должен быть меньше {1:F3}°.</value>
+  </data>
+  <data name="ChamferPreview_CalculatedLengthMustBePositive" xml:space="preserve">
+    <value>Рассчитанная длина фаски должна быть конечным положительным числом.</value>
+  </data>
+  <data name="ChamferPreview_InvalidGeometryCoordinates" xml:space="preserve">
+    <value>Ядро вернуло некорректные координаты геометрии.</value>
+  </data>
+  <data name="ChamferWindow_Title" xml:space="preserve">
+    <value>Добавить фаску</value>
+  </data>
+  <data name="ChamferWindow_AngleModeTab" xml:space="preserve">
+    <value>От угла</value>
+  </data>
+  <data name="ChamferWindow_LengthsModeTab" xml:space="preserve">
+    <value>От длины</value>
+  </data>
+  <data name="ChamferWindow_FirstLength" xml:space="preserve">
+    <value>Длина 1</value>
+  </data>
+  <data name="ChamferWindow_SecondLength" xml:space="preserve">
+    <value>Длина 2</value>
+  </data>
+  <data name="ChamferWindow_Angle" xml:space="preserve">
+    <value>Угол</value>
+  </data>
+  <data name="ChamferWindow_ReflectTooltip" xml:space="preserve">
+    <value>Отразить фаску</value>
+  </data>
+  <data name="ChamferWindow_AddButton" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="Header_comp_MatrixStorage" xml:space="preserve">
+    <value>Хранение матрицы</value>
+  </data>
+  <data name="Header_comp_InputSource" xml:space="preserve">
+    <value>Источник данных</value>
+  </data>
+  <data name="Header_comp_InitialStateSource" xml:space="preserve">
+    <value>Начальное состояние</value>
+  </data>
+  <data name="Header_comp_Value" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="Header_comp_FileName" xml:space="preserve">
+    <value>Имя файла</value>
+  </data>
+  <data name="Header_comp_SourceConstant" xml:space="preserve">
+    <value>Константа</value>
+  </data>
+  <data name="Header_comp_SourceFile" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="Header_comp_FieldTemperature" xml:space="preserve">
+    <value>Температура</value>
+  </data>
+  <data name="Header_comp_FieldConcentration" xml:space="preserve">
+    <value>Концентрация</value>
+  </data>
+  <data name="Header_comp_FieldVelocity" xml:space="preserve">
+    <value>Скорость</value>
+  </data>
+  <data name="Header_comp_SetThermal" xml:space="preserve">
+    <value>Термический</value>
+  </data>
+  <data name="Header_comp_SetMechanical" xml:space="preserve">
+    <value>Механический</value>
+  </data>
+  <data name="Header_comp_SetChemical" xml:space="preserve">
+    <value>Химический</value>
+  </data>
+  <data name="Header_comp_SetHydrodynamic" xml:space="preserve">
+    <value>Гидродинамический</value>
+  </data>
+  <data name="Header_comp_FieldPhaseComposition" xml:space="preserve">
+    <value>Фазовый состав</value>
+  </data>
+  <data name="Header_comp_FieldDisplacement" xml:space="preserve">
+    <value>Перемещение</value>
+  </data>
+  <data name="Header_comp_FieldPressure" xml:space="preserve">
+    <value>Давление</value>
+  </data>
+  <data name="Header_comp_FieldStress" xml:space="preserve">
+    <value>Напряжение</value>
+  </data>
+  <data name="Header_comp_FieldStrain" xml:space="preserve">
+    <value>Деформация</value>
+  </data>
+  <data name="Header_comp_NativeSet" xml:space="preserve">
+    <value>Начальное поле</value>
+  </data>
+  <data name="Header_comp_ForeignSets" xml:space="preserve">
+    <value>Внешние поля</value>
+  </data>
+  <data name="ChangeTaskTypeWithoutProjectExc" xml:space="preserve">
+    <value>Задача неопределенна</value>
+  </data>
+  <data name="ChangeTaskInvalidExc" xml:space="preserve">
+    <value>Неверный формат</value>
+  </data>
+  <data name="TaskKind_Chemical" xml:space="preserve">
+    <value>Химическая</value>
+  </data>
+  <data name="TaskKind_Termal" xml:space="preserve">
+    <value>Термическая</value>
+  </data>
+  <data name="TaskKind_Mechanical" xml:space="preserve">
+    <value>Механическая</value>
+  </data>
+  <data name="SceneView.CreateGroup.NothingSelected.Message" xml:space="preserve">
+    <value>Группа не создана: не выбрано ни одного объекта</value>
+  </data>
+  <data name="SceneView.RemoveSelected.Message" xml:space="preserve">
+    <value>Удалено объектов</value>
+  </data>
+  <data name="SceneView.ToolTip.AdvSelect" xml:space="preserve">
+    <value>Расширенный выбор</value>
+  </data>
+  <data name="SceneView.ToolTip.ShowSidesRibs" xml:space="preserve">
+    <value>Показать стороны и рёбра</value>
+  </data>
+  <data name="SceneView.ToolTip.ShowRibs" xml:space="preserve">
+    <value>Показать рёбра</value>
+  </data>
+  <data name="SceneView.ToolTip.ShowSides" xml:space="preserve">
+    <value>Показать стороны</value>
+  </data>
+  <data name="SceneView.ToolTip.Basis" xml:space="preserve">
+    <value>Показать базис</value>
+  </data>
+  <data name="SceneView.ToolTip.Contours" xml:space="preserve">
+    <value>Показать контуры</value>
+  </data>
+  <data name="SceneView.ToolTip.DisplayStates" xml:space="preserve">
+    <value>Режимы отображения</value>
+  </data>
+  <data name="SceneView.ToolTip.ScreenShot" xml:space="preserve">
+    <value>Сделать снимок экрана</value>
+  </data>
+  <data name="SceneView.ToolTip.FitToScreen" xml:space="preserve">
+    <value>Вписать в экран</value>
+  </data>
+  <data name="SceneView.ToolTip.InsideObjects" xml:space="preserve">
+    <value>Показать/скрыть внутренние объекты</value>
+  </data>
+  <data name="SceneView.ToolTip.PlaneXY" xml:space="preserve">
+    <value>Вид на плоскость XY</value>
+  </data>
+  <data name="SceneView.ToolTip.PlaneZX" xml:space="preserve">
+    <value>Вид на плоскость ZX</value>
+  </data>
+  <data name="SceneView.ToolTip.PlaneZY" xml:space="preserve">
+    <value>Вид на плоскость ZY</value>
+  </data>
+  <data name="SceneView.ToolTip.RotateX" xml:space="preserve">
+    <value>Вращение вокруг оси X</value>
+  </data>
+  <data name="SceneView.ToolTip.RotateY" xml:space="preserve">
+    <value>Вращение вокруг оси Y</value>
+  </data>
+  <data name="SceneView.ToolTip.RotateZ" xml:space="preserve">
+    <value>Вращение вокруг оси Z</value>
+  </data>
+  <data name="SceneView.ToolTip.RotateHorizontal90" xml:space="preserve">
+    <value>Повернуть на 90° по горизонтали</value>
+  </data>
+  <data name="SceneView.ToolTip.RotateVertical90" xml:space="preserve">
+    <value>Повернуть на 90° по вертикали</value>
+  </data>
+  <data name="Results.InvalidDatabase.Message" xml:space="preserve">
+    <value>База должна содержать таблицу nodes с результатами и временными шагами.</value>
+  </data>
+</root>

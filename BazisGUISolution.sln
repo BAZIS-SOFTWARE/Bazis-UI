@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SceneCore.Tests", "SceneCor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BazisAvaloniaGUI", "BazisAvaloniaGUI\BazisAvaloniaGUI.csproj", "{2BA1C334-21B6-4A7F-BE85-4BDDE9DE0CB8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BazisAvaloniaGUI.Tests", "BazisAvaloniaGUI.Tests\BazisAvaloniaGUI.Tests.csproj", "{76D327D4-8B4E-4209-AE1E-FC27220590EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -151,6 +153,18 @@ Global
 		{2BA1C334-21B6-4A7F-BE85-4BDDE9DE0CB8}.Release|x64.Build.0 = Release|Any CPU
 		{2BA1C334-21B6-4A7F-BE85-4BDDE9DE0CB8}.Release|x86.ActiveCfg = Release|Any CPU
 		{2BA1C334-21B6-4A7F-BE85-4BDDE9DE0CB8}.Release|x86.Build.0 = Release|Any CPU
+		{76D327D4-8B4E-4209-AE1E-FC27220590EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76D327D4-8B4E-4209-AE1E-FC27220590EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76D327D4-8B4E-4209-AE1E-FC27220590EE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{76D327D4-8B4E-4209-AE1E-FC27220590EE}.Debug|x64.Build.0 = Debug|Any CPU
+		{76D327D4-8B4E-4209-AE1E-FC27220590EE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{76D327D4-8B4E-4209-AE1E-FC27220590EE}.Debug|x86.Build.0 = Debug|Any CPU
+		{76D327D4-8B4E-4209-AE1E-FC27220590EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76D327D4-8B4E-4209-AE1E-FC27220590EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76D327D4-8B4E-4209-AE1E-FC27220590EE}.Release|x64.ActiveCfg = Release|Any CPU
+		{76D327D4-8B4E-4209-AE1E-FC27220590EE}.Release|x64.Build.0 = Release|Any CPU
+		{76D327D4-8B4E-4209-AE1E-FC27220590EE}.Release|x86.ActiveCfg = Release|Any CPU
+		{76D327D4-8B4E-4209-AE1E-FC27220590EE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

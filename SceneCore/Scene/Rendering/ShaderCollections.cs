@@ -116,6 +116,9 @@ namespace BazisGUI.Scene
             "                     (colors[2].rgb * colors[2].a + (1 - colors[2].a) * ",
             "                     (colors[3].rgb * colors[3].a + (1 - colors[3].a) * ",
             "                     (colors[4].rgb * colors[4].a + (1 - colors[4].a) * backColor))));\n",
+            // Кадр непрозрачный: Avalonia смешивает кадр OpenGL с окном по альфа-каналу,
+            // и незаданная альфа делала всю сцену прозрачной (GLControl в WinForms её игнорировал).
+            "   gl_FragColor.a = 1.0;\n",
             "}\n",
             "   void sort(in float depths[5], inout vec4 colors[5]){\n",
             "       for(int i = 0; i < 5; ++i){\n",

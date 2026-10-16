@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root><data name="chbTemp.Text" xml:space="preserve"><value>Set temperture</value></data><data name="label1.Text" xml:space="preserve"><value>Phase</value></data><data name="label2.Text" xml:space="preserve"><value>Temperture</value></data><data name="txbTemp.AccessibleName" xml:space="preserve"><value>Temp</value></data><data name="cmbPhases.AccessibleName" xml:space="preserve"><value>Phases</value></data><data name="btnCalc.Text" xml:space="preserve"><value>Calculate</value></data></root>

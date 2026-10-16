@@ -17,7 +17,7 @@ namespace BazisGUI.Scene.Core.Text
 
         public int Texture { get; private set; }
 
-        public void Build(string family, float size)
+        public void Build(string family, float size, bool bold = false)
         {
             var chars = BuildCharset();
             var cols = (int)Math.Ceiling(Math.Sqrt(chars.Count));
@@ -26,7 +26,10 @@ namespace BazisGUI.Scene.Core.Text
             var atlasWidth = cols * cell;
             var atlasHeight = rows * cell;
 
-            using var typeface = string.IsNullOrEmpty(family) ? SKTypeface.Default : SKTypeface.FromFamilyName(family);
+            var familyName = string.IsNullOrEmpty(family) ? SKTypeface.Default.FamilyName : family;
+            var weight = bold ? SKFontStyleWeight.Bold : SKFontStyleWeight.Normal;
+            using var typeface = SKTypeface.FromFamilyName(familyName, weight, SKFontStyleWidth.Normal, SKFontStyleSlant.Upright)
+                                 ?? SKTypeface.Default;
             using var font = new SKFont(typeface, size) { Edging = SKFontEdging.Antialias };
             using var paint = new SKPaint { Color = SKColors.White, IsAntialias = true };
             using var bitmap = new SKBitmap(atlasWidth, atlasHeight, SKColorType.Rgba8888, SKAlphaType.Premul);

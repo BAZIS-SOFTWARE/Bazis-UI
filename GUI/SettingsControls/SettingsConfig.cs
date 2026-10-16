@@ -20,7 +20,8 @@ namespace BazisGUI.SettingsControls
         public Point LighterPosition;
         public bool Transparency;
         public bool BackRibbers;
-        public int TransparencyValue;
+        /// <summary>Непрозрачность модели в процентах (0..100). 0 делает грани невидимыми.</summary>
+        public int TransparencyValue = 100;
         public ViewProjection Projection = ViewProjection.Perspective;
         public bool DisplayBasis = true;
         public bool DisplayCompass = true;
@@ -52,5 +53,17 @@ namespace BazisGUI.SettingsControls
         public bool CheckCondValue;
 
         public string Language = "en";
+
+        /// <summary>
+        /// Приводит TransparencyValue к процентам: до перехода на ModelView значение хранилось в 0..255.
+        /// Явно сохранённый 0 сохраняется; отсутствующее в файле поле получает 100 из инициализатора.
+        /// </summary>
+        public void NormalizeTransparencyValue()
+        {
+            if (TransparencyValue > 100)
+                TransparencyValue = Math.Min(TransparencyValue, 255) * 100 / 255;
+            if (TransparencyValue < 0)
+                TransparencyValue = 0;
+        }
     }
 }

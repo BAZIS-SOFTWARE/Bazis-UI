@@ -84,6 +84,8 @@ namespace BazisGUI
 
         //BasePage module;
         IProjectController project;
+        // Проект получен импортом CAD/сетки и ещё не сохранялся под своим именем: «Сохранить» вызывает «Сохранить как»
+        bool requiresSaveAs;
         IODataController dataController = new();
         PreProc.PreProc preProc = new();
         PostProcController resultsController = new();
@@ -254,6 +256,12 @@ namespace BazisGUI
                 sceneController.BackGroundColor = settingsConfig.BackGroundColor;
                 averageColorRenderer.IsEnable = settingsConfig.Transparency;
                 averageColorRenderer.IsLighting = settingsConfig.Lighting;//Синхронизация с рендером прозрачности
+                // Старый код читал освещение, проекцию и положение света из settingsConfig при каждой
+                // отрисовке; SceneController хранит их сам, поэтому сохранённые значения передаём при запуске
+                sceneController.IsLighting = settingsConfig.Lighting;
+                sceneController.Projection = settingsConfig.Projection;
+                sceneController.LightTranslateX = settingsConfig.LighterPosition.X;
+                sceneController.LightTranslateY = settingsConfig.LighterPosition.Y;
                 //module.ScenePage.NodeColor = settingsConfig.NodeColor;
                 //module.ScenePage.E2DColor = settingsConfig.Elem2DColor;
                 //module.ScenePage.E3DColor = settingsConfig.Elem3DColor;
@@ -426,6 +434,10 @@ namespace BazisGUI
                 var folderName = dialog.SelectedPath;
 
                 project.Create(Path.Combine(folderName, "newProject.bpf2"));
+                requiresSaveAs = false;
+                // Геометрия прежнего проекта не должна переходить в новый (см. OpenProject)
+                if (project.IsGeometryInitialized)
+                    project.UnloadGeometry();
 
                 var appDirName = Path.GetDirectoryName(Application.ExecutablePath);
 
@@ -470,6 +482,7 @@ namespace BazisGUI
             {
                 var ext = Path.GetExtension(filePath).ToLower();
 
+                // Как в исходном BaseForm: CAD импортируется в текущий контроллер с уже открытой сессией Gmsh
                 if (geomFilter.Contains(ext))
                 {
                     if (!project.IsGeometryInitialized)
@@ -484,9 +497,19 @@ namespace BazisGUI
                     }
 
                     project.ImportGeometry(filePath);
+                    requiresSaveAs = true;
                 }
                 else
+                {
                     await LoadModelWithProgress(filePath, false);
+                    requiresSaveAs = ext != ".bpf" && ext != ".bpf2";
+
+                    // До перехода на один ProjectController открытие проекта/сетки создавало новый контроллер
+                    // без геометрии. Open не сбрасывает Gmsh, поэтому после успешной загрузки выгружаем CAD-модель
+                    // прежнего проекта, иначе генерация сетки работает по ней. При ошибке загрузки сессия остаётся
+                    if (project.IsGeometryInitialized)
+                        project.UnloadGeometry();
+                }
             }
             catch (Exception ex)
             {
@@ -583,7 +606,16 @@ namespace BazisGUI
 
         private void сохранитькакToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SaveProjectAs();
+        }
 
+        /// <summary>
+        /// «Сохранить как». Возвращает true, если проект сохранён.
+        /// </summary>
+        private bool SaveProjectAs()
+        {
+            try
+            {
             using (SaveFileDialog saveDialog = new SaveFileDialog())
             {
                 saveDialog.DefaultExt = "bpf2";
@@ -593,10 +625,13 @@ namespace BazisGUI
                 saveDialog.Filter = filter;
 
                 if (saveDialog.ShowDialog() == DialogResult.Cancel)
-                    return;
+                    return false;
 
                 if (!project.HasProject)
+                {
                     MessageBox.Show(Resources.SaveWithoutProjectMessage);
+                    return false;
+                }
                 else
                 {
                     var newFolder = Path.GetDirectoryName(saveDialog.FileName);
@@ -616,20 +651,35 @@ namespace BazisGUI
                     }
 
                     project.Save(saveDialog.FileName);
+                    requiresSaveAs = false;
 
                     console.PrintInfo(Resources.ProjectSavedCaption, Color.Black);
+                    return true;
                 }
             }
-
-
+            }
+            catch (Exception ex)
+            {
+                console.PrintInfo(ex.Message, Color.Red);
+                return false;
+            }
         }
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                if (!project.HasProject || !project.IsModified)
+                // IsModified не учитывает правки условий из панели свойств (они меняют объекты напрямую),
+                // поэтому сохраняем всегда, как и до перехода на события ProjectController
+                if (!project.HasProject)
                     return;
+                // После импорта CAD/сетки путь проекта — «новый_проект.bpf2» рядом с исходным файлом:
+                // молча писать туда нельзя (затрёт ранее сохранённый проект из той же папки)
+                if (requiresSaveAs)
+                {
+                    SaveProjectAs();
+                    return;
+                }
                 project.Save(project.FilePath);
                 console.PrintInfo(Resources.ProjectSavedCaption, Color.Black);
             }

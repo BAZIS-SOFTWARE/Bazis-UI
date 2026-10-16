@@ -5,6 +5,7 @@ using BazisGUI.Scene; // SceneScale (существующий переиспол
 using BazisGUI.Scene.Core.Rendering;
 using BazisGUI.Scene.Core.Text;
 using Geometry;
+using OpenTK.Graphics.OpenGL;
 using PostProc;
 
 namespace BazisGUI.Scene.Core.Layers
@@ -60,23 +61,45 @@ namespace BazisGUI.Scene.Core.Layers
             var cellSizeY = (length - (itemList.Count - 1) * gapY) / itemList.Count;
             var stepY = cellSizeY + gapY;
 
+            // Как BaseForm.Initialize_GUI_Plane: прямоугольники шкалы задаются в пикселях окна.
+            var lighting = GL.IsEnabled(EnableCap.Lighting);
+            var depthTest = GL.IsEnabled(EnableCap.DepthTest);
+            GL.Disable(EnableCap.Lighting);
+            GL.Disable(EnableCap.DepthTest);
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.PushMatrix();
+            GL.LoadIdentity();
+            GL.Ortho(0, viewport.Width, 0, viewport.Height, 0.1, 200);
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.PushMatrix();
+            GL.LoadIdentity();
+
             scale.DisplayScale(scale.Coord_X, scale.Coord_Y, gapY, cellSizeY, stepY, itemList);
+
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.PopMatrix();
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.PopMatrix();
+            if (depthTest)
+                GL.Enable(EnableCap.DepthTest);
+            if (lighting)
+                GL.Enable(EnableCap.Lighting);
 
             var posY = scale.Coord_Y;
             foreach (var item in itemList)
             {
-                DrawLabel(item.Min.ToString(), new Point3D(scale.Coord_X + 20, posY, -5), context);
-                DrawLabel(item.Max.ToString(), new Point3D(scale.Coord_X + 20, posY + stepY, -5), context);
+                DrawLabel(item.Min.ToString(), new Point2D(scale.Coord_X + 20, posY), context);
+                DrawLabel(item.Max.ToString(), new Point2D(scale.Coord_X + 20, posY + stepY), context);
                 posY += stepY;
             }
 
-            DrawLabel(scale.Title, new Point3D(scale.Coord_X - scale.Title.Length * ApproxCharWidth / 2, posY + 30, -5), context);
-            DrawLabel(scale.Info, new Point3D(scale.Coord_X - scale.Info.Length * ApproxCharWidth / 2, posY + 15, -5), context);
+            DrawLabel(scale.Title, new Point2D(scale.Coord_X - (scale.Title?.Length ?? 0) * ApproxCharWidth / 2, posY + 30), context);
+            DrawLabel(scale.Info, new Point2D(scale.Coord_X - (scale.Info?.Length ?? 0) * ApproxCharWidth / 2, posY + 15), context);
         }
 
-        private void DrawLabel(string text, Point3D position, IRenderContext context)
+        private void DrawLabel(string text, Point2D position, IRenderContext context)
         {
-            textRenderer.DrawText3D(new TextLabel { Text = text, Color = Color.Black, Position3D = position }, context);
+            textRenderer.DrawText2D(new TextLabel { Text = text, Color = Color.Black, Position2D = position, IsScreenSpace = true }, context);
         }
     }
 }

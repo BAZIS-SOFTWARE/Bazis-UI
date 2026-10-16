@@ -1,0 +1,154 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Style Selector="Button.database-tool">
+    <Setter Property="Width" Value="24" />
+    <Setter Property="Height" Value="26" />
+    <Setter Property="MinWidth" Value="0" />
+    <Setter Property="MinHeight" Value="0" />
+    <Setter Property="Padding" Value="3" />
+    <Setter Property="Margin" Value="3,3,0,3" />
+    <Setter Property="Background" Value="#FFFFFF" />
+    <Setter Property="BorderBrush" Value="#969696" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="0" />
+  </Style>
+  <Style Selector="Button.database-tool:pointerover, Button.database-tool.graph-checked">
+    <Setter Property="Background" Value="#C5C5C5" />
+  </Style>
+  <Style Selector="Button.database-tool:pressed">
+    <Setter Property="Background" Value="#C5C5C5" />
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+  <Style Selector="Button.database-tool:disabled">
+    <Setter Property="Background" Value="#F0F0F0" />
+    <Setter Property="BorderBrush" Value="#CBCBCB" />
+  </Style>
+  <Style Selector="Button.database-tool:disabled Image">
+    <Setter Property="Opacity" Value="0.5" />
+  </Style>
+  <Style Selector="Button.database-overflow">
+    <Setter Property="CornerRadius" Value="0" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Background" Value="#DCDCDC" />
+  </Style>
+  <Style Selector="TreeView.database-tree">
+    <Setter Property="Background" Value="#FFFFFF" />
+    <Setter Property="Padding" Value="0" />
+  </Style>
+  <Style Selector="TreeView.database-tree /template/ ScrollViewer /template/ ScrollBar, ScrollViewer.database-table-scroll /template/ ScrollBar">
+    <Setter Property="AllowAutoHide" Value="False" />
+  </Style>
+  <Style Selector="TreeView.database-tree TreeViewItem">
+    <Setter Property="MinHeight" Value="18" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="Foreground" Value="#000000" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid RowDefinitions="18,Auto">
+          <Grid Grid.Row="0" ColumnDefinitions="16,*">
+          <ToggleButton Name="PART_ExpandCollapseChevron" Grid.Row="0" Grid.Column="0" Width="16" Height="18"
+                        MinWidth="0" MinHeight="0" Padding="0" Focusable="False" ClickMode="Press"
+                        IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+            <ToggleButton.Template>
+              <ControlTemplate>
+                <Border Background="#FFFFFF">
+                  <Path Name="DatabaseExpandChevron" Data="M 2,0 L 6,4 L 2,8"
+                        Stroke="#606060" StrokeThickness="1.2"
+                        HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+              </ControlTemplate>
+            </ToggleButton.Template>
+          </ToggleButton>
+          <Border Name="DatabaseNodeHeader" Grid.Row="0" Grid.Column="1" Background="Transparent">
+            <ContentPresenter Name="PART_HeaderPresenter" Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}"
+                              VerticalAlignment="Center" HorizontalAlignment="Left"
+                              HorizontalContentAlignment="Left" />
+          </Border>
+          </Grid>
+          <ItemsPresenter Name="PART_ItemsPresenter" Grid.Row="1"
+                          Margin="16,0,0,0" IsVisible="{TemplateBinding IsExpanded}" />
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+  <Style Selector="TreeView.database-tree TreeViewItem:empty /template/ ToggleButton#PART_ExpandCollapseChevron">
+    <Setter Property="IsVisible" Value="False" />
+  </Style>
+  <Style Selector="TreeView.database-tree TreeViewItem /template/ ToggleButton:checked /template/ Path#DatabaseExpandChevron">
+    <Setter Property="Data" Value="M 0,2 L 4,6 L 8,2" />
+  </Style>
+  <Style Selector="TreeView.database-tree TreeViewItem:selected">
+    <Setter Property="Foreground" Value="#FFFFFF" />
+  </Style>
+  <Style Selector="TreeView.database-tree TreeViewItem:selected /template/ Border#DatabaseNodeHeader">
+    <Setter Property="Background" Value="#0078D7" />
+  </Style>
+  <Style Selector="TextBox.database-cell, TextBox.database-cell:pointerover, TextBox.database-cell:focus">
+    <Setter Property="BorderThickness" Value="0.5" />
+    <Setter Property="BorderBrush" Value="#7A7A7A" />
+  </Style>
+  <!-- The 16 px indicator is independent of its label, so text can follow system DPI. -->
+  <Style Selector="CheckBox.database-toggle, RadioButton.database-toggle">
+    <Setter Property="MinHeight" Value="16" />
+    <Setter Property="MinWidth" Value="16" />
+    <Setter Property="Background" Value="#FFFFFF" />
+    <Setter Property="Foreground" Value="#000000" />
+    <Setter Property="BorderBrush" Value="#000000" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+  </Style>
+  <Style Selector="CheckBox.database-toggle">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid ColumnDefinitions="16,*" ColumnSpacing="6">
+          <Border Name="DatabaseIndicator" Width="16" Height="16" Padding="2,3"
+                  VerticalAlignment="Center" Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+            <Path Name="DatabaseCheck" Data="M 0,4 L 3,7 L 9,0" Stretch="Uniform"
+                  Stroke="#000000" StrokeThickness="1.5" IsVisible="False" />
+          </Border>
+          <ContentPresenter Name="PART_ContentPresenter" Grid.Column="1"
+                            Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+  <Style Selector="RadioButton.database-toggle">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid ColumnDefinitions="16,*" ColumnSpacing="6">
+          <Border Name="DatabaseIndicator" Width="16" Height="16" Padding="3" CornerRadius="8"
+                  VerticalAlignment="Center" Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+            <Ellipse Name="DatabaseDot" Fill="#000000" IsVisible="False" />
+          </Border>
+          <ContentPresenter Name="PART_ContentPresenter" Grid.Column="1"
+                            Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+  <Style Selector="CheckBox.database-toggle:checked /template/ Path#DatabaseCheck">
+    <Setter Property="IsVisible" Value="True" />
+  </Style>
+  <Style Selector="RadioButton.database-toggle:checked /template/ Ellipse#DatabaseDot">
+    <Setter Property="IsVisible" Value="True" />
+  </Style>
+  <Style Selector="CheckBox.database-toggle:pointerover, RadioButton.database-toggle:pointerover">
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+  <Style Selector="CheckBox.database-toggle:pressed, RadioButton.database-toggle:pressed">
+    <Setter Property="Background" Value="#E5E5E5" />
+    <Setter Property="BorderThickness" Value="3" />
+  </Style>
+  <Style Selector="CheckBox.database-toggle:disabled, RadioButton.database-toggle:disabled">
+    <Setter Property="Background" Value="#F8F8F8" />
+    <Setter Property="BorderBrush" Value="#CACACA" />
+    <Setter Property="BorderThickness" Value="1" />
+  </Style>
+</Styles>

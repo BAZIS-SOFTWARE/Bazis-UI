@@ -25,7 +25,7 @@ namespace BazisGUI.Scene.Core.Input
 
         public Viewport Viewport { get; set; }
         public ViewAxis RotationAxis { get; set; } = ViewAxis.XYZ;
-        public float RotationAngle { get; set; } = 2f;
+        public float RotationAngle { get; set; } = 2.5f; // как SettingsConfig.RotationAngle
 
         public event Action Invalidated;
         public event EventHandler<SelectObjectsEventArgs> SelectionRequested;
@@ -81,7 +81,8 @@ namespace BazisGUI.Scene.Core.Input
 
         public void OnPointerReleased(SceneMouseEventArgs args)
         {
-            if (args.Button == SceneMouseButton.Left)
+            // Отпускание без начатой рамки (нажатие было вне сцены или рамка прервана) — не выбор.
+            if (args.Button == SceneMouseButton.Left && rubberBand.IsActive)
             {
                 var isSelected = (args.Modifiers & SceneModifierKeys.Shift) == 0;
                 RectangleBox box;
@@ -111,11 +112,22 @@ namespace BazisGUI.Scene.Core.Input
 
         public void OnWheelChanged(SceneMouseEventArgs args)
         {
-            var steps = Math.Abs(args.Delta / 120);
-            for (var i = 0; i < steps; i++)
-                camera.Scale(args.Delta > 0 ? 1.1f : 0.9f);
+            // Дробные шаги: тачпад и колёса высокого разрешения дают Delta меньше 120 за событие.
+            // Для целых шагов результат совпадает с прежним циклом по 1.1 / 0.9.
+            if (args.Delta != 0)
+            {
+                var steps = Math.Abs(args.Delta) / 120f;
+                camera.Scale((float)Math.Pow(args.Delta > 0 ? 1.1 : 0.9, steps));
+            }
 
             Invalidated?.Invoke();
+        }
+
+        /// <summary>Прерывает выделение рамкой без выбора объектов (потеря захвата указателя).</summary>
+        public void CancelSelection()
+        {
+            rubberBand.End();
+            moved = false;
         }
 
         public void OnKeyDown(SceneKeyEventArgs args)

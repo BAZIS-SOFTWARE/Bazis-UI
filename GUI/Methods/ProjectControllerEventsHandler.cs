@@ -29,7 +29,17 @@ namespace BazisGUI
                 return;
             }
 
-            ProcessProjectChanges(e.Changes);
+            // Изменения уже применены ядром: ошибка обновления интерфейса не должна выходить в вызывающую
+            // команду (она сочтёт операцию неудачной) или в необработанное исключение потока UI
+            try
+            {
+                ProcessProjectChanges(e.Changes);
+            }
+            catch (Exception ex)
+            {
+                console.PrintInfo(ex.Message, Color.Red);
+                RequestRedraw();
+            }
         }
 
         /// <summary>
@@ -361,9 +371,13 @@ namespace BazisGUI
 
         /// <summary>
         /// Преобразует процент прозрачности интерфейса в альфа-канал представления.
+        /// Вне режима прозрачности модель непрозрачна.
         /// </summary>
         private byte GetModelViewTransparency()
         {
+            if (!settingsConfig.Transparency)
+                return byte.MaxValue;
+
             var transparency = settingsConfig.TransparencyValue * byte.MaxValue / 100;
             return (byte)Math.Clamp(transparency, byte.MinValue, byte.MaxValue);
         }

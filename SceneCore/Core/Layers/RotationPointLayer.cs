@@ -10,7 +10,7 @@ namespace BazisGUI.Scene.Core.Layers
     /// Перенос BaseForm.CreateRotationPoint(). Видимость переключается снаружи
     /// (нажатие/отпускание средней кнопки мыши) — см. SceneInputController.
     /// </summary>
-    public class RotationPointLayer : ISceneLayer
+    public class RotationPointLayer : ISceneLayer, System.IDisposable
     {
         public string Name => "RotationPoint";
         public int Order { get; set; } = 10;
@@ -32,5 +32,8 @@ namespace BazisGUI.Scene.Core.Layers
             sphere.Load();
             GL.PopMatrix();
         }
+
+        /// <summary>Освобождает GL-буферы меша слоя (вызывается при текущем GL-контексте).</summary>
+        public void Dispose() => VBO.VBO.DeleteAllBuffers(sphere);
     }
 }

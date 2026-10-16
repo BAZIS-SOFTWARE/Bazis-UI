@@ -1,0 +1,2158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="HandleArgsCADAbsenceException" xml:space="preserve">
+    <value>Required arguments for -cad file are missing</value>
+  </data>
+  <data name="GenMergeElementSets" xml:space="preserve">
+    <value>Merge elements sets</value>
+  </data>
+  <data name="Geo.Surface.Header.AddedCurves" xml:space="preserve">
+    <value>Added curves</value>
+  </data>
+  <data name="SelectReaction" xml:space="preserve">
+    <value>Select reaction!</value>
+  </data>
+  <data name="UtilityTiilStrip.SelectObjectAsync.NoObjectSelected.Message" xml:space="preserve">
+    <value>Selected no objects of type</value>
+  </data>
+  <data name="Geo.Volume.Header.LayerThickness" xml:space="preserve">
+    <value>Layer thickness</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Media" xml:space="preserve">
+    <value>Media</value>
+  </data>
+  <data name="DataBase.Materials.NoDataException" xml:space="preserve">
+    <value>The physical properties database is empty</value>
+  </data>
+  <data name="txbMaxVel.Text" xml:space="preserve">
+    <value>-100</value>
+  </data>
+  <data name="Cond.Clamp.Header.Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="EditGroup.EditGroupAsync.OperationCanceled.Message" xml:space="preserve">
+    <value>Operation canceled</value>
+  </data>
+  <data name="BasePage.CreateSurfaceAsync.SelectThreeNodes.Message" xml:space="preserve">
+    <value>Select three nodes or points!</value>
+  </data>
+  <data name="Comp.Chem.Header.MaxConcentrationValue" xml:space="preserve">
+    <value>Max concentration value</value>
+  </data>
+  <data name="Header.File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="colorSlider3.Text" xml:space="preserve">
+    <value>colorSlider3</value>
+  </data>
+  <data name="MeshSet.General.Header.Color" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="btnCreateCopy.Text" xml:space="preserve">
+    <value>Set</value>
+  </data>
+  <data name="SubMoveNodes" xml:space="preserve">
+    <value>move</value>
+  </data>
+  <data name="GenerateBoundaryMesh.CreateBoundaryMeh.CheckRecommendation.Message" xml:space="preserve">
+    <value>It is recommended to check the accuracy level of the set in the properties panel</value>
+  </data>
+  <data name="CopySuffics" xml:space="preserve">
+    <value>_copy</value>
+  </data>
+  <data name="GenerateBoundaryMesh.CreateBoundaryMeh.ObjectsGenerated.Message" xml:space="preserve">
+    <value>Objects generated of type</value>
+  </data>
+  <data name="Cond.General.Header.Plane" xml:space="preserve">
+    <value>Plane</value>
+  </data>
+  <data name="CreatePlot.BuildGraph.NoNodesSelected.Exception" xml:space="preserve">
+    <value>No nodes selected</value>
+  </data>
+  <data name="Reference" xml:space="preserve">
+    <value>&amp;Reference</value>
+  </data>
+  <data name="GenRenumberMesh" xml:space="preserve">
+    <value>Renumber mesh</value>
+  </data>
+  <data name="EditGroup.EditGroupAsync.GroupChanged.Message" xml:space="preserve">
+    <value>Group changed successfully</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Task" xml:space="preserve">
+    <value>Task</value>
+  </data>
+  <data name="FindCoincidentNodes.Action.Message" xml:space="preserve">
+    <value>Searching for coincident mesh nodes...</value>
+  </data>
+  <data name="MakeScreenShot.Message" xml:space="preserve">
+    <value>ScreenShot taken</value>
+  </data>
+  <data name="SubFindCoincident" xml:space="preserve">
+    <value>nodes&lt;|&gt;distance</value>
+  </data>
+  <data name="DataBaseMainMenuEvents.OpenFuncDB.DBNotLoaded.Message" xml:space="preserve">
+    <value>The function database is not loaded</value>
+  </data>
+  <data name="versionWordPrefix" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="Comp.General.Header.RelaxCoef" xml:space="preserve">
+    <value>Relaxation coef (w)</value>
+  </data>
+  <data name="Comp.General.Header.MaxCalcStep" xml:space="preserve">
+    <value>Max calculation step, sec</value>
+  </data>
+  <data name="txbPoint1.Text" xml:space="preserve">
+    <value>0;0;0</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Results" xml:space="preserve">
+    <value>Results</value>
+  </data>
+  <data name="SaveWithoutProjectMessage" xml:space="preserve">
+    <value>Firstly open exist project or create a new one</value>
+  </data>
+  <data name="SubFindVolElems" xml:space="preserve">
+    <value>value</value>
+  </data>
+  <data name="Result.General.Header.AverageValues" xml:space="preserve">
+    <value>Average values</value>
+  </data>
+  <data name="CalculateDiagram" xml:space="preserve">
+    <value>Calculate diagram</value>
+  </data>
+  <data name="Cond.Clamp.Header.Direction" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="InvalidCoordinatesException" xml:space="preserve">
+    <value>Invalid coordinates entered</value>
+  </data>
+  <data name="Cond.General.Header.ShiftingX" xml:space="preserve">
+    <value>Shifting X</value>
+  </data>
+  <data name="txbPoint2.Text" xml:space="preserve">
+    <value>0;0;0</value>
+  </data>
+  <data name="ConvertFailCaption" xml:space="preserve">
+    <value>Failed to convert</value>
+  </data>
+  <data name="InvalidArgumentsNumberException" xml:space="preserve">
+    <value>Invalid arguments number</value>
+  </data>
+  <data name="Comp.General.Header.MinCalcStep" xml:space="preserve">
+    <value>Min calculation step, sec</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>B: 0</value>
+  </data>
+  <data name="ThePhaseNameCanOnlyConsistOfLettersNumbersAndTheUnderscore" xml:space="preserve">
+    <value>The phase name can only consist of letters, numbers and the underscore</value>
+  </data>
+  <data name="SelectByRect.Hidden.Message" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
+  <data name="Header.Color" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="Comp.Mech.Header.MaxDifference" xml:space="preserve">
+    <value>Max difference dU,&gt;0</value>
+  </data>
+  <data name="txbMaxTime.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="GenMoveMesh" xml:space="preserve">
+    <value>Move mesh</value>
+  </data>
+  <data name="GenCreateSurface" xml:space="preserve">
+    <value>Create surface</value>
+  </data>
+  <data name="GenCreateCurve" xml:space="preserve">
+    <value>Create curve</value>
+  </data>
+  <data name="Result.BuildDiagram.Text_Part1" xml:space="preserve">
+    <value>Graph</value>
+  </data>
+  <data name="txbPhaseValue.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="message.Text" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="CreateDiagram.LackOfCalcDataWarning" xml:space="preserve">
+    <value>Missing calculation data. Please change the chart plotting conditions.</value>
+  </data>
+  <data name="TheReactionRequiresAtLeastTwoPhases" xml:space="preserve">
+    <value>The reaction requires at least two phases!</value>
+  </data>
+  <data name="Geo.General.Header.MinSize" xml:space="preserve">
+    <value>Min size</value>
+  </data>
+  <data name="SubRotateMesh" xml:space="preserve">
+    <value>rotate&lt;|&gt;x,y,z:angle</value>
+  </data>
+  <data name="AdvanceSelectionElemntsSelectionWarning" xml:space="preserve">
+    <value>An element must be selected</value>
+  </data>
+  <data name="ShowHideDelObjects.DelObjectEvent.TryToDelGeom.Message" xml:space="preserve">
+    <value>It is recommended to check the accuracy level of the set in the properties panel</value>
+  </data>
+  <data name="Reflect.CreateReflectedVBObject.Exception_Part3" xml:space="preserve">
+    <value>not exists</value>
+  </data>
+  <data name="SubSetLevel" xml:space="preserve">
+    <value>type&lt;|&gt;precision level</value>
+  </data>
+  <data name="EnteredDataDeletingWarning" xml:space="preserve">
+    <value>After click the &quot;OK&quot; button, the entered data will be deleted</value>
+  </data>
+  <data name="Geo.Volume.Header.SizeOfElementsInCenter" xml:space="preserve">
+    <value>Size of elements in the center</value>
+  </data>
+  <data name="SubCreateMesh2DPoligon" xml:space="preserve">
+    <value>x1,y1&lt;|&gt;x2,y2&lt;|&gt;x3,y3&lt;|&gt;x4,y4&lt;|&gt;number of elements</value>
+  </data>
+  <data name="rbtCCT.Text" xml:space="preserve">
+    <value>CCT</value>
+  </data>
+  <data name="Geo.Surface.Header.MeshType.Regular" xml:space="preserve">
+    <value>Regular</value>
+  </data>
+  <data name="Licensing" xml:space="preserve">
+    <value>Licensing</value>
+  </data>
+  <data name="CreatePlot.BuildGraph.BuildingGraph.Text_Part1" xml:space="preserve">
+    <value>The graph for the object is being built</value>
+  </data>
+  <data name="Cond.Load.Header.Direction" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="GenExtrudeCurve" xml:space="preserve">
+    <value>Extrude curve</value>
+  </data>
+  <data name="Geo.Curve.Header.Algorithm" xml:space="preserve">
+    <value>Algorithm</value>
+  </data>
+  <data name="DeletingError" xml:space="preserve">
+    <value>Removal error</value>
+  </data>
+  <data name="AddReaction" xml:space="preserve">
+    <value>Add reaction</value>
+  </data>
+  <data name="Geo.Curve.Header.Coefficient" xml:space="preserve">
+    <value>Coefficient</value>
+  </data>
+  <data name="LoadingForm.Text" xml:space="preserve">
+    <value>Loading. Please wait...</value>
+  </data>
+  <data name="rbtVolume.AccessibleName" xml:space="preserve">
+    <value>GeomSelect.Volumes</value>
+  </data>
+  <data name="Geo.General.Header.Algorithm2D" xml:space="preserve">
+    <value>Algorithm 2D</value>
+  </data>
+  <data name="Result.BuildDiagram.DistanceResultSet.Header" xml:space="preserve">
+    <value>Distance result set</value>
+  </data>
+  <data name="UtilityToolStrip.Measuring.InvalidSeletedTypeError" xml:space="preserve">
+    <value>Please select another required object type. Measurements cannot be taken for</value>
+  </data>
+  <data name="radioButton5.Text" xml:space="preserve">
+    <value>XY</value>
+  </data>
+  <data name="GenLoadProject" xml:space="preserve">
+    <value>Load project</value>
+  </data>
+  <data name="MethodIsNotImplementedException" xml:space="preserve">
+    <value>Method is not implemented!</value>
+  </data>
+  <data name="btnSelect.Text.Points" xml:space="preserve">
+    <value>Point</value>
+  </data>
+  <data name="btnSelect.Text.Objects" xml:space="preserve">
+    <value>Objects</value>
+  </data>
+  <data name="Geo.Volume.Header.MeshType" xml:space="preserve">
+    <value>Mesh type</value>
+  </data>
+  <data name="GenExit" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="rbtnPath.Text" xml:space="preserve">
+    <value>Path, mm</value>
+  </data>
+  <data name="GenRotateMesh" xml:space="preserve">
+    <value>Rotate mesh</value>
+  </data>
+  <data name="Cond.General.Header.File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="ChangeCondProperties.ChangeGeneralProperties.FileNotSelected.Message" xml:space="preserve">
+    <value>File is not selected</value>
+  </data>
+  <data name="rbtXY.Text" xml:space="preserve">
+    <value>XY</value>
+  </data>
+  <data name="Result.CreateGIFAnimation.SelectContainerAsync.SelectResult.Message" xml:space="preserve">
+    <value>Select the result and press the &quot;E&quot; key to confirm</value>
+  </data>
+  <data name="MeshObj.General.Header.CoordinateY" xml:space="preserve">
+    <value>Coordinate Y</value>
+  </data>
+  <data name="SelectAFunction" xml:space="preserve">
+    <value>Select a function!</value>
+  </data>
+  <data name="Result.CreateGIFAnimation.CreateGIFAnimationInfo" xml:space="preserve">
+    <value>Creating GIF animation</value>
+  </data>
+  <data name="GenerateBoundaryMesh.Generate2DOn3DSurfaces.Elements.Message" xml:space="preserve">
+    <value>elements!</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Project" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="StartStopConp.ProjectDataCheck.LackOfProjFile.Message" xml:space="preserve">
+    <value>missing project file</value>
+  </data>
+  <data name="rbtCurve.AccessibleName" xml:space="preserve">
+    <value>GeomSelect.Curves</value>
+  </data>
+  <data name="Result.General.Header.Intervals" xml:space="preserve">
+    <value>Intervals</value>
+  </data>
+  <data name="Geo.Surface.Header.CornerPoints" xml:space="preserve">
+    <value>Corner points</value>
+  </data>
+  <data name="CreatePlot.BuildGraph.SelectResult.Exception" xml:space="preserve">
+    <value>Select the result in the results section</value>
+  </data>
+  <data name="radioButton2.Text" xml:space="preserve">
+    <value>ZY</value>
+  </data>
+  <data name="EditGroup.EditGroupAsync.NoObjectsSelected.Message" xml:space="preserve">
+    <value>No objects selected!</value>
+  </data>
+  <data name="GenMoveNodes" xml:space="preserve">
+    <value>Move node</value>
+  </data>
+  <data name="StartStopConp.ProjectDataCheck.LackOfFunctions.Message" xml:space="preserve">
+    <value>missing functions file</value>
+  </data>
+  <data name="HandleBaseMaster.Handle.CondCreation.Message" xml:space="preserve">
+    <value>Generating boundary conditions will delete any old conditions in this master, if any. Continue?</value>
+  </data>
+  <data name="Geo.Volume.Header.TransitionGradientDegree" xml:space="preserve">
+    <value>Transition gradient degree</value>
+  </data>
+  <data name="HandleArgsResultsAbsenceException" xml:space="preserve">
+    <value>Required arguments for -res file are missing</value>
+  </data>
+  <data name="CreatePlot.BuildGraph.SelectContainerAsync.SelectNodes.Message" xml:space="preserve">
+    <value>Select the nodes and press the &quot;E&quot; key to confirm</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="CreatePlot.GraphData.Header_Part1" xml:space="preserve">
+    <value>Node</value>
+  </data>
+  <data name="SceneEvents.Info.Selected" xml:space="preserve">
+    <value>Objects are selected</value>
+  </data>
+  <data name="Groups.Header.CreateCondition" xml:space="preserve">
+    <value>Create condition</value>
+  </data>
+  <data name="cmbFinalPhase.AccessibleName" xml:space="preserve">
+    <value>FinalPhase</value>
+  </data>
+  <data name="Comp.Mech.Header.MaxDisplacement" xml:space="preserve">
+    <value>Max displacement U, &gt;0</value>
+  </data>
+  <data name="chbTimeDependent.Text" xml:space="preserve">
+    <value>The reaction depends on time</value>
+  </data>
+  <data name="radioButton4.Text" xml:space="preserve">
+    <value>XZ</value>
+  </data>
+  <data name="Geo.Volume.Header.MeshType.Regulare" xml:space="preserve">
+    <value>Regular</value>
+  </data>
+  <data name="HandleArgsProjectAbsenceException" xml:space="preserve">
+    <value>Required arguments for -proj path file are missing</value>
+  </data>
+  <data name="Cond.General.Header.Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="CreatePlot.GraphForm.Text_Part1" xml:space="preserve">
+    <value>Graph</value>
+  </data>
+  <data name="txbMinVel.Text" xml:space="preserve">
+    <value>-0.01</value>
+  </data>
+  <data name="Cond.Heat.Header.Power" xml:space="preserve">
+    <value>Power, J/sec</value>
+  </data>
+  <data name="DataBase.Materials.MissingException" xml:space="preserve">
+    <value>The physical properties database is not loaded</value>
+  </data>
+  <data name="Result.CreateGIFAnimation.Exception" xml:space="preserve">
+    <value>Select the result in the results section</value>
+  </data>
+  <data name="Cond.General.Header.RotationZ" xml:space="preserve">
+    <value>Rotation Z</value>
+  </data>
+  <data name="SceneEvents.CreateGroup.SuccessCaption" xml:space="preserve">
+    <value>New group created</value>
+  </data>
+  <data name="Cond.Material.Header.Material" xml:space="preserve">
+    <value>Material</value>
+  </data>
+  <data name="Cond.General.Header.RotationX" xml:space="preserve">
+    <value>Rotation X</value>
+  </data>
+  <data name="Cond.General.Header.StopTime" xml:space="preserve">
+    <value>Stop time, sec</value>
+  </data>
+  <data name="AdvanceSelectionForm.Text" xml:space="preserve">
+    <value>Advance selection</value>
+  </data>
+  <data name="toolStripContainer1.Text" xml:space="preserve">
+    <value>toolStripContainer1</value>
+  </data>
+  <data name="ThePhaseNameCanOnlyConsistOfLettersNumbersAndTheUnderscore_" xml:space="preserve">
+    <value>The phase name can only consist of letters, numbers and the underscore \&quot;_\&quot;!</value>
+  </data>
+  <data name="dToolStripMenuItem.Text" xml:space="preserve">
+    <value>1D</value>
+  </data>
+  <data name="domainUpDown1.Items1" xml:space="preserve">
+    <value>0.1</value>
+  </data>
+  <data name="DelBranchException" xml:space="preserve">
+    <value>An error occurred while deleting data!</value>
+  </data>
+  <data name="Geo.General.Header.MaxSize" xml:space="preserve">
+    <value>Max size</value>
+  </data>
+  <data name="UtilityToolStrip.DistancePointToPoint.EmptySelectionErrorMessage" xml:space="preserve">
+    <value>Selected no objects of type</value>
+  </data>
+  <data name="MeshSet.General.Header.Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Geo.Volume.Header.SurfaceElementsSize" xml:space="preserve">
+    <value>SurfaceElementsSize</value>
+  </data>
+  <data name="Task.General.Header.Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="MakeScreenShot.ScreenShotTaken.Message" xml:space="preserve">
+    <value>The screenshot is taken</value>
+  </data>
+  <data name="rbtnDistance.Text" xml:space="preserve">
+    <value>Distance, mm</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="LoadDBCorruptedException" xml:space="preserve">
+    <value>The downloaded database is corrupted</value>
+  </data>
+  <data name="GenCreateMesh2DPoligon" xml:space="preserve">
+    <value>Build 2D mesh</value>
+  </data>
+  <data name="BasePage.CreateSurfaceAync.OperationCanceled.Message" xml:space="preserve">
+    <value>Operation canceled</value>
+  </data>
+  <data name="DataRemovedSuccessfully" xml:space="preserve">
+    <value>Data removed successfully</value>
+  </data>
+  <data name="FindCoincidentNodes.Action.OperationCanceled.Message" xml:space="preserve">
+    <value>Operation canceled</value>
+  </data>
+  <data name="ResultsMainMenuEvents.MergeResults.Recalculated.Message" xml:space="preserve">
+    <value>Recalculation completed</value>
+  </data>
+  <data name="dToolStripMenuItem2.Text" xml:space="preserve">
+    <value>3D</value>
+  </data>
+  <data name="GenFindObject" xml:space="preserve">
+    <value>Find object</value>
+  </data>
+  <data name="PropertyTableIsMissing" xml:space="preserve">
+    <value>Property table is missing!</value>
+  </data>
+  <data name="Result.General.Header.ShowValuesInElements" xml:space="preserve">
+    <value>Show values in elements</value>
+  </data>
+  <data name="btnCalc.Text" xml:space="preserve">
+    <value>Calculate</value>
+  </data>
+  <data name="Comp.General.Header.StopTime" xml:space="preserve">
+    <value>Stop time, sec</value>
+  </data>
+  <data name="MeshSet.General.Header.View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Cond.General.Header.Speed" xml:space="preserve">
+    <value>Speed, mm/sec</value>
+  </data>
+  <data name="MainMenuEvents.ChangeLanguage.Message" xml:space="preserve">
+    <value>To apply the changes, open the application again</value>
+  </data>
+  <data name="DataBaseMainMenuEvents.OpenMatDB.DBNotLoaded.Message" xml:space="preserve">
+    <value>The materials database is not loaded</value>
+  </data>
+  <data name="AddBranch.ExceptionMessage" xml:space="preserve">
+    <value>Error adding node</value>
+  </data>
+  <data name="Reflect.CreateReflectedVBObject.Exception_Part1" xml:space="preserve">
+    <value>Object with name</value>
+  </data>
+  <data name="SubCreatePoint" xml:space="preserve">
+    <value>x,y,z</value>
+  </data>
+  <data name="btnSelect.Text.Elements2D" xml:space="preserve">
+    <value>Element2D</value>
+  </data>
+  <data name="New_function_" xml:space="preserve">
+    <value>New_function_</value>
+  </data>
+  <data name="Result.CreateGIFAnimation.AnimationCreated" xml:space="preserve">
+    <value>GIF animation created</value>
+  </data>
+  <data name="InvalidRegexPhaseMatchWarning" xml:space="preserve">
+    <value>The mass fraction value must be specified in the following format: A.BB, where A=0...1, B=0...9. The fractional number separator is a period. The mass fraction value must not exceed 1!\nFor example: 0.01; 0.5; 1</value>
+  </data>
+  <data name="Data" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="Result.General.Header.MaxValue" xml:space="preserve">
+    <value>Max value</value>
+  </data>
+  <data name="StartStopConp.ProjectDataCheck.LackOfMaterials.Message" xml:space="preserve">
+    <value>missing materials file</value>
+  </data>
+  <data name="Comp.General.Header.IterationQuantity" xml:space="preserve">
+    <value>Number of iterations</value>
+  </data>
+  <data name="Geo.Surface.Header.RibbersOrientation" xml:space="preserve">
+    <value>Ribbers orientation</value>
+  </data>
+  <data name="Reflect.Form.Text" xml:space="preserve">
+    <value>Reflection</value>
+  </data>
+  <data name="SubLoadProject" xml:space="preserve">
+    <value>path</value>
+  </data>
+  <data name="SubRenumberMesh" xml:space="preserve">
+    <value>type:initial number</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>A: 0</value>
+  </data>
+  <data name="radioButton3.Text" xml:space="preserve">
+    <value>ZX</value>
+  </data>
+  <data name="HeaderName" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="Geo.Curve.Header.PointQuantity" xml:space="preserve">
+    <value>Number of points</value>
+  </data>
+  <data name="NewProjectNameTemplate" xml:space="preserve">
+    <value>new_project.bpf2</value>
+  </data>
+  <data name="SubExtrudeRotation" xml:space="preserve">
+    <value>Element 2D&lt;|&gt;angle in degrees&lt;|&gt;point&lt;|&gt;XYZ rotation axis&lt;|&gt;transfinite mesh 1-yes, 0-no</value>
+  </data>
+  <data name="Cond.General.Header.ShiftingY" xml:space="preserve">
+    <value>Shifting Y</value>
+  </data>
+  <data name="VersionNews" xml:space="preserve">
+    <value>Version news</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Calculation" xml:space="preserve">
+    <value>Calculation</value>
+  </data>
+  <data name="RemoveReaction" xml:space="preserve">
+    <value>Remove reaction</value>
+  </data>
+  <data name="GenFindFreeNodes" xml:space="preserve">
+    <value>Find free nodes</value>
+  </data>
+  <data name="LicenseAllowedAnswer" xml:space="preserve">
+    <value>Licensing has been completed</value>
+  </data>
+  <data name="Task.General.Header.CheckConditionValues" xml:space="preserve">
+    <value>Checking condition values</value>
+  </data>
+  <data name="GenerateMesh3DEvents.Generate3D.GMSHNull.Exception" xml:space="preserve">
+    <value>Error creating mesh. Geometry may not be loaded</value>
+  </data>
+  <data name="rbtTTT.Text" xml:space="preserve">
+    <value>TTT</value>
+  </data>
+  <data name="cmbPhaseName.Items" xml:space="preserve">
+    <value>Cooling</value>
+  </data>
+  <data name="Geo.Surface.Header.Squaring" xml:space="preserve">
+    <value>Squaring</value>
+  </data>
+  <data name="CallBackFormName" xml:space="preserve">
+    <value>Loading</value>
+  </data>
+  <data name="Cond.General.Header.ShiftingZ" xml:space="preserve">
+    <value>Shifting Z</value>
+  </data>
+  <data name="Comp.General.Header.Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="StartStopConp.FormCommandFile.Message" xml:space="preserve">
+    <value>A command file has been generated by path:</value>
+  </data>
+  <data name="SubCreateSurface" xml:space="preserve">
+    <value>curves forming the contour&lt;|&gt;curve#1,curve#2,curve#3</value>
+  </data>
+  <data name="UtilityTiilStrip.SelectObjectAsync.SelectOne.Message" xml:space="preserve">
+    <value>Select single object of type</value>
+  </data>
+  <data name="Cond.Load.Header.Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Result.BuildDiagram.SelectTime.Exception" xml:space="preserve">
+    <value>Select the time in the results section</value>
+  </data>
+  <data name="btnSelect.Text.Nodes" xml:space="preserve">
+    <value>Node</value>
+  </data>
+  <data name="textBox1.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="GenSaveProject" xml:space="preserve">
+    <value>Save project</value>
+  </data>
+  <data name="FindCoincidentNodes.ActionConfirm.MergeNodes.Message" xml:space="preserve">
+    <value>Nodes merged</value>
+  </data>
+  <data name="txbFinTemp.Text" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="cmbPhaseName.AccessibleName" xml:space="preserve">
+    <value>PhaseName</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Objects" xml:space="preserve">
+    <value>Objects</value>
+  </data>
+  <data name="rbtDirection.Text" xml:space="preserve">
+    <value>In direction</value>
+  </data>
+  <data name="GenerateBoundaryMesh.Generate2DOn3DSurfaces.NoObjects.Message" xml:space="preserve">
+    <value>Model does not contain</value>
+  </data>
+  <data name="clslLigthingIntensity.Text" xml:space="preserve">
+    <value>colorSlider</value>
+  </data>
+  <data name="New_material_" xml:space="preserve">
+    <value>New_material_</value>
+  </data>
+  <data name="Result.General.Header.Accuracy" xml:space="preserve">
+    <value>Accuracy</value>
+  </data>
+  <data name="CalculateHardening" xml:space="preserve">
+    <value>Calculate hardening</value>
+  </data>
+  <data name="UnknownTypeException" xml:space="preserve">
+    <value>Unknown object type!</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Calculations" xml:space="preserve">
+    <value>Calculations</value>
+  </data>
+  <data name="Cond.General.Header.ReferenceLine" xml:space="preserve">
+    <value>Reference line</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Source:</value>
+  </data>
+  <data name="title.Text" xml:space="preserve">
+    <value>Loading. Please wait...</value>
+  </data>
+  <data name="Checking.StartCheckingEvent.SelectedDataIsNotCheckable.Message" xml:space="preserve">
+    <value>Selected data is not checkable</value>
+  </data>
+  <data name="cmbPhaseName.Items2" xml:space="preserve">
+    <value>Excerpt</value>
+  </data>
+  <data name="dToolStripMenuItem1.Text" xml:space="preserve">
+    <value>2D</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.ElementsGroup" xml:space="preserve">
+    <value>Elements_Group</value>
+  </data>
+  <data name="txbMinPhase.Text" xml:space="preserve">
+    <value>0.01</value>
+  </data>
+  <data name="Comp.Mech.Header.PlasticDeformation" xml:space="preserve">
+    <value>Plastic deformation Si/St, &gt;1</value>
+  </data>
+  <data name="rbtTTT.AccessibleName" xml:space="preserve">
+    <value>TTT</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Sets" xml:space="preserve">
+    <value>Sets</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Clamp" xml:space="preserve">
+    <value>Clamp</value>
+  </data>
+  <data name="SelectByRect.Declination.Type1" xml:space="preserve">
+    <value>objects</value>
+  </data>
+  <data name="Cond.General.Header.Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="SelectMaterial" xml:space="preserve">
+    <value>Select material!</value>
+  </data>
+  <data name="Result.BuildDiagram.GraphData.XUnit" xml:space="preserve">
+    <value>mm</value>
+  </data>
+  <data name="Geo.Point.Header.ElementsSize" xml:space="preserve">
+    <value>Elements size</value>
+  </data>
+  <data name="Comp.Chem.Header.InitialConcentration" xml:space="preserve">
+    <value>Initial concentration, %</value>
+  </data>
+  <data name="cmbPhases.AccessibleName" xml:space="preserve">
+    <value>InitialPhase</value>
+  </data>
+  <data name="UtilityToolStrip.CrossSection.Text" xml:space="preserve">
+    <value>Build cross section</value>
+  </data>
+  <data name="Comp.General.Header.InitialStep" xml:space="preserve">
+    <value>Initial calculation step, sec</value>
+  </data>
+  <data name="GetDAtaBase.FindFileByPath.DBNotFound.Message_Part1" xml:space="preserve">
+    <value>The database</value>
+  </data>
+  <data name="rbtSurface.AccessibleName" xml:space="preserve">
+    <value>GeomSelect.Surfaces</value>
+  </data>
+  <data name="UtilityTiilStrip.SelectObjectAsync.WithNumber.Message" xml:space="preserve">
+    <value>under number</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Material" xml:space="preserve">
+    <value>Material</value>
+  </data>
+  <data name="LoadDBAddIntoMissingDBException" xml:space="preserve">
+    <value>Upload a database or create a new one</value>
+  </data>
+  <data name="FindCoincidentNodes.Action.Found.Message" xml:space="preserve">
+    <value>Found</value>
+  </data>
+  <data name="SubCreateCurve" xml:space="preserve">
+    <value>point#1&lt;|&gt;point#2</value>
+  </data>
+  <data name="FindFreeNodesEvent.Found.Message" xml:space="preserve">
+    <value>Found</value>
+  </data>
+  <data name="chbTemp.Text" xml:space="preserve">
+    <value>Set temperture</value>
+  </data>
+  <data name="UtilityToolStrip.Distance.Output" xml:space="preserve">
+    <value>Distance</value>
+  </data>
+  <data name="GenCreatePoint" xml:space="preserve">
+    <value>Create point</value>
+  </data>
+  <data name="HardeningCalculator" xml:space="preserve">
+    <value>Hardening calculator</value>
+  </data>
+  <data name="HandleArgsResultsLoadingWithoutProjectException" xml:space="preserve">
+    <value>To load the results, you must first load the project</value>
+  </data>
+  <data name="InvalidCommandException" xml:space="preserve">
+    <value>Invalid command format</value>
+  </data>
+  <data name="UtilityTiilStrip.SelectObjectAsync.Selected.Message" xml:space="preserve">
+    <value>Selected object of type</value>
+  </data>
+  <data name="StackTrace" xml:space="preserve">
+    <value>Stack trace</value>
+  </data>
+  <data name="SceneEvents.CreateGroup.InvalidGroupTypeWarning" xml:space="preserve">
+    <value>A group of the selected type cannot be created</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Mesh" xml:space="preserve">
+    <value>Mesh</value>
+  </data>
+  <data name="SelectAPropertyOrReactionToRemove" xml:space="preserve">
+    <value>Select a property or reaction to remove!</value>
+  </data>
+  <data name="Result.BuildDiagram.NoNodesSelectedException" xml:space="preserve">
+    <value>No nodes selected</value>
+  </data>
+  <data name="UtilityToolStrip.CreateCrossSection.InvalidNodeNumerErrorMessage" xml:space="preserve">
+    <value>Error, incorrect number of nodes selected</value>
+  </data>
+  <data name="Geo.General.Header.Algorithm3D" xml:space="preserve">
+    <value>Algorithm 3D</value>
+  </data>
+  <data name="Function" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="button2.Text" xml:space="preserve">
+    <value>Open project</value>
+  </data>
+  <data name="Graph" xml:space="preserve">
+    <value>Graph</value>
+  </data>
+  <data name="SaveLoadScript.GeoScript.Executed.Message" xml:space="preserve">
+    <value>executed</value>
+  </data>
+  <data name="UtilityToolStrip.DistancePointToPlane.InstructionPart2" xml:space="preserve">
+    <value>and press the &quot;E&quot; to confirm or &quot;ESC&quot; to cancel</value>
+  </data>
+  <data name="Cond.Load.Header.Value" xml:space="preserve">
+    <value>Value, N</value>
+  </data>
+  <data name="Cond.General.Header.RotationY" xml:space="preserve">
+    <value>Rotation Y</value>
+  </data>
+  <data name="GetLicenseInfoException" xml:space="preserve">
+    <value>Error requesting license information</value>
+  </data>
+  <data name="Comp.General.Header.Accuracy" xml:space="preserve">
+    <value>Solution accuracy, CU</value>
+  </data>
+  <data name="colorSlider2.Text" xml:space="preserve">
+    <value>colorSlider2</value>
+  </data>
+  <data name="Result.BuildDiagram.Text_Part2" xml:space="preserve">
+    <value>Coordinate</value>
+  </data>
+  <data name="CreatePlot.SelectContainerAsync.CancelOperation.Message" xml:space="preserve">
+    <value>Operation canceled</value>
+  </data>
+  <data name="SubMergeElementSets" xml:space="preserve">
+    <value>type&lt;|&gt;set#1&lt;|&gt;set#2</value>
+  </data>
+  <data name="OpenTSF.OpenInstructions.Message" xml:space="preserve">
+    <value>Task instructions are open from directory</value>
+  </data>
+  <data name="Cond.General.Header.Trajectory" xml:space="preserve">
+    <value>Trajectory</value>
+  </data>
+  <data name="Comp.General.Header.IterationsPerStep" xml:space="preserve">
+    <value>Iterations per step</value>
+  </data>
+  <data name="ShowInsideObjects.ShowAllObjects.Message" xml:space="preserve">
+    <value>All objects shown</value>
+  </data>
+  <data name="AdvanceSelection3NodesWarning" xml:space="preserve">
+    <value>Three nodes must be selected</value>
+  </data>
+  <data name="SubExtrudeCurve" xml:space="preserve">
+    <value>Element 2D&lt;|&gt;curve&lt;|&gt;point&lt;|&gt;step&lt;|&gt;transfinite mesh 1-yes, 0-no</value>
+  </data>
+  <data name="StartCaption" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="SelectByRect.Selected.Message" xml:space="preserve">
+    <value>Selected</value>
+  </data>
+  <data name="StartStopConp.SaveProjectInto.Message" xml:space="preserve">
+    <value>Project saved in directory</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Load" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="btnSelect.Text.Elements3D" xml:space="preserve">
+    <value>Element3D</value>
+  </data>
+  <data name="Comp.General.Header.Priority" xml:space="preserve">
+    <value>Prioriy</value>
+  </data>
+  <data name="Geo.Surface.Header.MeshType" xml:space="preserve">
+    <value>Mesh type</value>
+  </data>
+  <data name="ReactionWithASuchNameIsAlreadyExistChooseAnotherName" xml:space="preserve">
+    <value>Reaction with a such name is already exist! Choose another name</value>
+  </data>
+  <data name="ProjectSavedCaption" xml:space="preserve">
+    <value>Project saved</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Geometry" xml:space="preserve">
+    <value>Geometry</value>
+  </data>
+  <data name="txbAngle.Text" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="AnimationForm.Text" xml:space="preserve">
+    <value>Animation</value>
+  </data>
+  <data name="UtilityToolStrip.DistancePointToPlane.InstructionPart1" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="Geo.Volume.Header.MeshType.Gradient" xml:space="preserve">
+    <value>Gradient</value>
+  </data>
+  <data name="AdvanceSelection2NodesWarning" xml:space="preserve">
+    <value>Two nodes must be selected</value>
+  </data>
+  <data name="ModelShiftCoordinateEventArgsVectorExc" xml:space="preserve">
+    <value>The vector must contain three coordinate components!</value>
+  </data>
+  <data name="CalculateCreep" xml:space="preserve">
+    <value>Calculate creep</value>
+  </data>
+  <data name="cmbMeasureObjects.Items1" xml:space="preserve">
+    <value>Between a point and a plane</value>
+  </data>
+  <data name="chbChangeDirection.Text" xml:space="preserve">
+    <value>Change direction</value>
+  </data>
+  <data name="rbtSquare.Text" xml:space="preserve">
+    <value>Area, mm^2</value>
+  </data>
+  <data name="ColorObjects.ObjectConversion.Exception" xml:space="preserve">
+    <value>Object conversion error</value>
+  </data>
+  <data name="toolStripContainer2.Text" xml:space="preserve">
+    <value>toolStripContainer2</value>
+  </data>
+  <data name="BasePage.CreateSurfaceAsync.SurfaceSet.Message" xml:space="preserve">
+    <value>Surface is set</value>
+  </data>
+  <data name="SubSaveProject" xml:space="preserve">
+    <value>path</value>
+  </data>
+  <data name="GenerateMesh3DEvents.Generate3D.GeneratedElements.Message" xml:space="preserve">
+    <value>Elements generated</value>
+  </data>
+  <data name="BazisServerPathMissingMessage" xml:space="preserve">
+    <value>Connection failed. Environment variable &quot;BazisServerPath&quot; not found.
+Create variable?</value>
+  </data>
+  <data name="GenSolveProject" xml:space="preserve">
+    <value>Solve project</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="BeamConnectionEventArgsArgNumExc" xml:space="preserve">
+    <value>The parameter value must be a number.</value>
+  </data>
+  <data name="txbTemp.AccessibleName" xml:space="preserve">
+    <value>Temp</value>
+  </data>
+  <data name="GenerateTSF.InstructionsFormed.Message" xml:space="preserve">
+    <value>The task instructions are generated in directory</value>
+  </data>
+  <data name="rbtYZ.Text" xml:space="preserve">
+    <value>YZ</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Heat" xml:space="preserve">
+    <value>Heat</value>
+  </data>
+  <data name="textBox2.Text" xml:space="preserve">
+    <value>1.0</value>
+  </data>
+  <data name="ErrorCaption" xml:space="preserve">
+    <value>Error!</value>
+  </data>
+  <data name="btnSelect.Text.Curves" xml:space="preserve">
+    <value>Curve</value>
+  </data>
+  <data name="GenBeamConnection" xml:space="preserve">
+    <value>Connect with beams</value>
+  </data>
+  <data name="cmbMeasureObjects.Items" xml:space="preserve">
+    <value>Between two points</value>
+  </data>
+  <data name="NotACommandException" xml:space="preserve">
+    <value>Entered line is not a command</value>
+  </data>
+  <data name="GenFindVolElems" xml:space="preserve">
+    <value>Find 3D elements</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Quentity</value>
+  </data>
+  <data name="ImportMaster.CreateImportedMasters.MasterNotFoundOrAlreadyLoaded.Message" xml:space="preserve">
+    <value>The loaded library does not define any implementations of the task master interface, or the implementation of this master is already loaded</value>
+  </data>
+  <data name="ConsoleEvents.ConsoleInEvents.VolumeElements.Message" xml:space="preserve">
+    <value>volume elements</value>
+  </data>
+  <data name="cmbPhaseName.Items1" xml:space="preserve">
+    <value>Heating</value>
+  </data>
+  <data name="выбратьСопряженныеToolStripMenuItem.Text" xml:space="preserve">
+    <value>Select paired</value>
+  </data>
+  <data name="radioButton6.Text" xml:space="preserve">
+    <value>YX</value>
+  </data>
+  <data name="SelectByRect.Declination.Type3" xml:space="preserve">
+    <value>objects</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>D:</value>
+  </data>
+  <data name="Cond.General.Header.Parameter" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="BeamConnection.BeamConnection.ObjectsCreated.Message" xml:space="preserve">
+    <value>Objects created</value>
+  </data>
+  <data name="ConsoleEvents.ConsoleInEvent.ObjectFound.Message" xml:space="preserve">
+    <value>Found</value>
+  </data>
+  <data name="FindCoincidentNodes.Action.Matches.Message" xml:space="preserve">
+    <value>matches</value>
+  </data>
+  <data name="SelectByPoint.ObjectSelected.Message" xml:space="preserve">
+    <value>Object selected</value>
+  </data>
+  <data name="ResultsMainMenuEvents.MergeResults.RecalculationOnNodesResNames.Message" xml:space="preserve">
+    <value>Recalculation for nodes has been performed for</value>
+  </data>
+  <data name="AdvanceSelectionNoObjectSelectedWarning" xml:space="preserve">
+    <value>No object selected</value>
+  </data>
+  <data name="btnSelect.AccessibleName" xml:space="preserve">
+    <value>SelectObjects.btnSelect.Select</value>
+  </data>
+  <data name="Result.General.Header.ShowValuesInNodes" xml:space="preserve">
+    <value>Show values in nodes</value>
+  </data>
+  <data name="Result.General.Header.RefineValues" xml:space="preserve">
+    <value>Refine values</value>
+  </data>
+  <data name="DataBase.Functions.NoDataException" xml:space="preserve">
+    <value>The function base is empty</value>
+  </data>
+  <data name="domainUpDown1.Text" xml:space="preserve">
+    <value>0.01</value>
+  </data>
+  <data name="rbtXZ.Text" xml:space="preserve">
+    <value>XZ</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Result.BuildDiagram.SelectContaimerAsync.SelectTime.Message" xml:space="preserve">
+    <value>Select the time and press the &quot;E&quot; key to confirm</value>
+  </data>
+  <data name="rbtSet.Text" xml:space="preserve">
+    <value>Sets</value>
+  </data>
+  <data name="ShowInsideObjects.HideInnerObjects.Message" xml:space="preserve">
+    <value>Hidden internal objects</value>
+  </data>
+  <data name="btnMeasure.Text" xml:space="preserve">
+    <value>Measure</value>
+  </data>
+  <data name="Comp.Chem.Header.MaxConcentration" xml:space="preserve">
+    <value>Max concentration. (dCt max), %</value>
+  </data>
+  <data name="ResultsMainMenuEvents.MergeResults.RecalculationOnNodes.Message" xml:space="preserve">
+    <value>Recalculation is performed on nodes, time</value>
+  </data>
+  <data name="Result.General.Header.ShowFields" xml:space="preserve">
+    <value>Show fields</value>
+  </data>
+  <data name="MeshSet.General.Header.AccuracyLevel" xml:space="preserve">
+    <value>Accuracy level</value>
+  </data>
+  <data name="DiagramCalculator" xml:space="preserve">
+    <value>DelReaction</value>
+  </data>
+  <data name="SelectByRect.Declination.Type2" xml:space="preserve">
+    <value>objects</value>
+  </data>
+  <data name="GenerateMesh2DEvent.GenerateOnGeometry.Recomendation.Message" xml:space="preserve">
+    <value>Recommended to check the level of accuracy of the sets before starting the calculation in the properties panel by selecting it in the navigator</value>
+  </data>
+  <data name="Found" xml:space="preserve">
+    <value>Found</value>
+  </data>
+  <data name="domainUpDown1.Items3" xml:space="preserve">
+    <value>0.001</value>
+  </data>
+  <data name="Result.General.Header.ShowScale" xml:space="preserve">
+    <value>Show scale</value>
+  </data>
+  <data name="FindCoincidentNodes.AsyncContainer.Message" xml:space="preserve">
+    <value>Press &quot;E&quot; to merge, &quot;Esc&quot; to cancel</value>
+  </data>
+  <data name="Cond.General.Header.CoordinateSystem" xml:space="preserve">
+    <value>Coordinate system</value>
+  </data>
+  <data name="Comp.Value.Skip" xml:space="preserve">
+    <value>Skip</value>
+  </data>
+  <data name="Result.General.Header.MinValue" xml:space="preserve">
+    <value>Min value</value>
+  </data>
+  <data name="Comp.Mech.Header.PlasticDeformationValue" xml:space="preserve">
+    <value>Plastic deformation value Si/St</value>
+  </data>
+  <data name="CreatePlot.CreateGraphData.Header" xml:space="preserve">
+    <value>Result set by time</value>
+  </data>
+  <data name="Comp.General.Header.SaveFrequency" xml:space="preserve">
+    <value>Save frequency, step</value>
+  </data>
+  <data name="DataBase.Functions.MissingException" xml:space="preserve">
+    <value>The function database is not loaded</value>
+  </data>
+  <data name="rbtVolume.Text" xml:space="preserve">
+    <value>Volumes</value>
+  </data>
+  <data name="CreatePlot.GraphForm.Text_Part2" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="VBObjectController.ChangeViewMode.Message" xml:space="preserve">
+    <value>No objects of the specified type found!</value>
+  </data>
+  <data name="ImportMeshCaption" xml:space="preserve">
+    <value>Import mesh</value>
+  </data>
+  <data name="UtilityToolStrip.SelectObjectAsync.OperationCanceled.Message" xml:space="preserve">
+    <value>Operation canceled</value>
+  </data>
+  <data name="Cond.General.Header.Table" xml:space="preserve">
+    <value>Table</value>
+  </data>
+  <data name="LicenseInfo" xml:space="preserve">
+    <value>License info</value>
+  </data>
+  <data name="BasePage.CreateSurfaceAsync.SelectNodeType.Message" xml:space="preserve">
+    <value>Select either nodes or points!</value>
+  </data>
+  <data name="ExecuteCMDFileMissing" xml:space="preserve">
+    <value>The specified command file is missing!</value>
+  </data>
+  <data name="FindCoincidentOption" xml:space="preserve">
+    <value>nodes</value>
+  </data>
+  <data name="PanelConverter.UndefinedConverterTypeException" xml:space="preserve">
+    <value>Converter type is not defined</value>
+  </data>
+  <data name="Comp.GeneralHeader.Algorithm" xml:space="preserve">
+    <value>Solution algorithm</value>
+  </data>
+  <data name="domainUpDown1.Items2" xml:space="preserve">
+    <value>0.01</value>
+  </data>
+  <data name="domainUpDown1.Items" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="SaveLoadScript.GeoScript.Formed.Message" xml:space="preserve">
+    <value>formed</value>
+  </data>
+  <data name="UtilityToolStrip.CalcSquare.Output" xml:space="preserve">
+    <value>Square</value>
+  </data>
+  <data name="Result.General.Header.ScaleScreenPositionX" xml:space="preserve">
+    <value>Position of the scale along X</value>
+  </data>
+  <data name="colorSlider1.Text" xml:space="preserve">
+    <value>colorSlider1</value>
+  </data>
+  <data name="CreatePlot.BuildGraph.BuildingGraph.Text_Part2" xml:space="preserve">
+    <value>wait a little</value>
+  </data>
+  <data name="GenFindCoincident" xml:space="preserve">
+    <value>Find Coincident</value>
+  </data>
+  <data name="EditReaction" xml:space="preserve">
+    <value>Edit reaction</value>
+  </data>
+  <data name="webPageLabel.Text" xml:space="preserve">
+    <value>www.bazisnet.ru</value>
+  </data>
+  <data name="Geo.General.Header.ShowPointsOnCurves" xml:space="preserve">
+    <value>Show points on curves</value>
+  </data>
+  <data name="FindVolElemsEventArgsArgExc" xml:space="preserve">
+    <value>The parameter value must be a number.</value>
+  </data>
+  <data name="Material" xml:space="preserve">
+    <value>Material</value>
+  </data>
+  <data name="Groups.Header.Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="MeshObj.General.Header.CoordinateX" xml:space="preserve">
+    <value>Coordinate X</value>
+  </data>
+  <data name="btnSelect.Text.Elements1D" xml:space="preserve">
+    <value>Element1D</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="CreatePlot.DisplayText3D.Text" xml:space="preserve">
+    <value>Node</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Groups" xml:space="preserve">
+    <value>Groups</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="SaveLoadScript.GeoScript.Message" xml:space="preserve">
+    <value>The script</value>
+  </data>
+  <data name="Comp.Term.Header.MaxTemperture" xml:space="preserve">
+    <value>Max temp. (dTt max), C°</value>
+  </data>
+  <data name="CrossSectionControl.InvalidSurfaceCoordsSetException" xml:space="preserve">
+    <value>Incorrectly specified plane coordinates</value>
+  </data>
+  <data name="CurrentSession" xml:space="preserve">
+    <value>Current session</value>
+  </data>
+  <data name="CreatePlot.GraphData.XUnit" xml:space="preserve">
+    <value>Sec.</value>
+  </data>
+  <data name="AttentionCaption" xml:space="preserve">
+    <value>Attention!</value>
+  </data>
+  <data name="StringEx.ToEnum.ArgumentException.Part2" xml:space="preserve">
+    <value>does not match any value.</value>
+  </data>
+  <data name="Result.General.Header.Scale" xml:space="preserve">
+    <value>Scale</value>
+  </data>
+  <data name="Cond.Material.Header.Thickness" xml:space="preserve">
+    <value>Thickness</value>
+  </data>
+  <data name="GenerateMesh2DEvent.GenerateOnGeometry.GenElements.Message" xml:space="preserve">
+    <value>Items generated</value>
+  </data>
+  <data name="MeshObj.General.Header.CoordinateZ" xml:space="preserve">
+    <value>Coordinate Z</value>
+  </data>
+  <data name="EditGroup.EditGroupAsync.Preamble.Message" xml:space="preserve">
+    <value>Modify the group by adding or removing objects. Press &quot;E&quot; to apply the changes or &quot;ESC&quot; to cancel</value>
+  </data>
+  <data name="SubMoveMesh" xml:space="preserve">
+    <value>move&lt;|&gt;x,y,z</value>
+  </data>
+  <data name="ConnectionEstablishedAnswer" xml:space="preserve">
+    <value>Connection established</value>
+  </data>
+  <data name="StartStopConp.ProjectDirectoryCheck.Message_Part1" xml:space="preserve">
+    <value>In the project directory</value>
+  </data>
+  <data name="Reflect.CreateReflectedVBObject.Exception_Part2" xml:space="preserve">
+    <value>already exists</value>
+  </data>
+  <data name="ImportMaster.CreateImportedMasters.MasterOpened.Message" xml:space="preserve">
+    <value>Opened master</value>
+  </data>
+  <data name="Comp.Value.Execute" xml:space="preserve">
+    <value>Execute</value>
+  </data>
+  <data name="Comp.General.Header.Execute" xml:space="preserve">
+    <value>Execute</value>
+  </data>
+  <data name="Geo.General.Header.MeshSizeFactor" xml:space="preserve">
+    <value>Mesh size factor</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Result" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="MoveRotNodesOption" xml:space="preserve">
+    <value>move</value>
+  </data>
+  <data name="GenExtrudeByRotation" xml:space="preserve">
+    <value>Extrusion by rotation</value>
+  </data>
+  <data name="rbtCurve.Text" xml:space="preserve">
+    <value>Curves</value>
+  </data>
+  <data name="toolStripContainer.Text" xml:space="preserve">
+    <value>toolStripContainer1</value>
+  </data>
+  <data name="ConsoleEvents.ConsoleInEvent.ObjectNotFound.Message" xml:space="preserve">
+    <value>Object not found</value>
+  </data>
+  <data name="BasePage.CreateSurfaceAsync.AsyncContainer.Message" xml:space="preserve">
+    <value>Define the surface, select three nodes and press the &quot;E&quot; key or press the &quot;ESC&quot; key</value>
+  </data>
+  <data name="HandleBaseMaster.Success.Message" xml:space="preserve">
+    <value>The boundary conditions have been formed</value>
+  </data>
+  <data name="Comp.Term.Header.MaxTempertureValue" xml:space="preserve">
+    <value>Max temp. value</value>
+  </data>
+  <data name="StopCaption" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="StringEx.ToEnum.ArgumentException.Part1" xml:space="preserve">
+    <value>Error: value</value>
+  </data>
+  <data name="txbIniTemp.Text" xml:space="preserve">
+    <value>800</value>
+  </data>
+  <data name="Comp.General.HeaderMaxRelaxCoef" xml:space="preserve">
+    <value>Max relaxation coef (wm)</value>
+  </data>
+  <data name="txbMaxPhase.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="UtilityToolStrip.CalcVolume.Output" xml:space="preserve">
+    <value>Volume</value>
+  </data>
+  <data name="lblAngle.Text" xml:space="preserve">
+    <value>Angle</value>
+  </data>
+  <data name="Cond.Material.Header.Diameter" xml:space="preserve">
+    <value>Diameter</value>
+  </data>
+  <data name="Comp.General.Header.StartTime" xml:space="preserve">
+    <value>Start time, sec</value>
+  </data>
+  <data name="FindFreeNodesEvent.FreeNodes.Message" xml:space="preserve">
+    <value>free nodes</value>
+  </data>
+  <data name="Cond.General.Header.StartTime" xml:space="preserve">
+    <value>Start time, sec</value>
+  </data>
+  <data name="releaseNoteslinkLabel.Text" xml:space="preserve">
+    <value>Watch the version news </value>
+  </data>
+  <data name="VBObjectCtor.EmptyArrayArgumentException" xml:space="preserve">
+    <value>VBObject Error: Index array length cannot be zero</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.NodesGroup" xml:space="preserve">
+    <value>Node_Group</value>
+  </data>
+  <data name="menuStrip.Text" xml:space="preserve">
+    <value>menuStrip</value>
+  </data>
+  <data name="Comp.General.Header.InitialTemp" xml:space="preserve">
+    <value>Initial temperature, C°</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Time, sec</value>
+  </data>
+  <data name="Task.General.Header.Kind" xml:space="preserve">
+    <value>Kind</value>
+  </data>
+  <data name="txbPoint3.Text" xml:space="preserve">
+    <value>0;0;0</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>C: -1</value>
+  </data>
+  <data name="radioButton1.Text" xml:space="preserve">
+    <value>YZ</value>
+  </data>
+  <data name="rbtSurface.Text" xml:space="preserve">
+    <value>In plane</value>
+  </data>
+  <data name="cmbInitialPhase.AccessibleName" xml:space="preserve">
+    <value>InitialPhase</value>
+  </data>
+  <data name="Cond.General.Header.Function" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="PositiveCellingNumberException" xml:space="preserve">
+    <value>The number must be a positive integer!</value>
+  </data>
+  <data name="SelectSetEvent.CreateGroupBySet.Message" xml:space="preserve">
+    <value>New group created</value>
+  </data>
+  <data name="txbMaxTime.AccessibleName" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="CreatePlot.BuildGraph.SelectContainerAsync.SelectResult.Message" xml:space="preserve">
+    <value>Select the result and press the &quot;E&quot; key to confirm</value>
+  </data>
+  <data name="AdvaneSelectionSelectedCaption" xml:space="preserve">
+    <value>Selected</value>
+  </data>
+  <data name="SubBeamConnection" xml:space="preserve">
+    <value>search radius&lt;|&gt;max quantity&lt;|&gt;group#1&lt;|&gt;group#2</value>
+  </data>
+  <data name="SubFindObject" xml:space="preserve">
+    <value>type,number</value>
+  </data>
+  <data name="Geo.General.ShowAllMeshOnGeneration" xml:space="preserve">
+    <value>Show all mesh on generation</value>
+  </data>
+  <data name="AvailableCommands" xml:space="preserve">
+    <value>Available commands</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>&amp;About...</value>
+  </data>
+  <data name="FileAbsenceCaption" xml:space="preserve">
+    <value>File missing!</value>
+  </data>
+  <data name="Result.General.Header.ScaleScreenPositionY" xml:space="preserve">
+    <value>Position of the scale along Y</value>
+  </data>
+  <data name="Comp.Mech.Header.MaxDisplacementValue" xml:space="preserve">
+    <value>Max displacement value U</value>
+  </data>
+  <data name="GenSetLevel" xml:space="preserve">
+    <value>Set precision level</value>
+  </data>
+  <data name="GetDAtaBase.FindFileByPath.DBNotFound.Message_Part2" xml:space="preserve">
+    <value>not found in the directory</value>
+  </data>
+  <data name="AlreadyExistsNRenameTheMaterial" xml:space="preserve">
+    <value>already exists! \\nRename the material!</value>
+  </data>
+  <data name="DataBaseMainMenuEvents.OpenDB.SuccessfullyAdded.Message" xml:space="preserve">
+    <value>Successfully added</value>
+  </data>
+  <data name="DataBaseMainMenuEvents.OpenDB.Message" xml:space="preserve">
+    <value>Data base</value>
+  </data>
+  <data name="Navigator.TreeView.Node.Text.Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="button1.Text" xml:space="preserve">
+    <value>Create new project</value>
+  </data>
+  <data name="btnSelect.Text.Surfaces" xml:space="preserve">
+    <value>Surface</value>
+  </data>
+  <data name="GenerateMesh3DEvents.Generate3D.CheckRecommendation.Message" xml:space="preserve">
+    <value>It is recommended to check the levelt of accuracy of the sets before starting the calculation in the properties panel by selecting it in the navigator.</value>
+  </data>
+  <data name="clslTransparency.Text" xml:space="preserve">
+    <value>colorSlider1</value>
+  </data>
+  <data name="Header_chemical_MaxConcentration" xml:space="preserve">
+    <value>Max. concentration (dCt max), %</value>
+  </data>
+  <data name="Header_chemical_MaxConcentrationValue" xml:space="preserve">
+    <value>Max. concentration value</value>
+  </data>
+  <data name="Header_chemical_InitialConcentration" xml:space="preserve">
+    <value>Initial concentration, %</value>
+  </data>
+  <data name="Пропустить" xml:space="preserve">
+    <value>pass</value>
+  </data>
+  <data name="Выполнить" xml:space="preserve">
+    <value>execute</value>
+  </data>
+  <data name="Header_comp_Execute" xml:space="preserve">
+    <value>Execute</value>
+  </data>
+  <data name="Header_comp_ApplyForAll" xml:space="preserve">
+    <value>Apply to all</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Header_comp_Algorithm" xml:space="preserve">
+    <value>Solving algorithm</value>
+  </data>
+  <data name="Header_comp_SolveIterations" xml:space="preserve">
+    <value>Solving iterations number</value>
+  </data>
+  <data name="Header_comp_SolveAccuracy" xml:space="preserve">
+    <value>Solving accuracy, CU</value>
+  </data>
+  <data name="Header_comp_RelaxationCoef" xml:space="preserve">
+    <value>Relaxation coefficient (w)</value>
+  </data>
+  <data name="Header_comp_MaxRelaxationCoef" xml:space="preserve">
+    <value>Max relaxation coefficient (wm)</value>
+  </data>
+  <data name="Header_comp_Priority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="Header_comp_IterationsOnStep" xml:space="preserve">
+    <value>Iterations number per step</value>
+  </data>
+  <data name="Header_comp_SaveRate" xml:space="preserve">
+    <value>Saving frequency, step</value>
+  </data>
+  <data name="Header_comp_InitTemp" xml:space="preserve">
+    <value>Initial temperature, C°</value>
+  </data>
+  <data name="Header_comp_StartTime" xml:space="preserve">
+    <value>Start time, sec</value>
+  </data>
+  <data name="Header_comp_StopTime" xml:space="preserve">
+    <value>Stop time, sec</value>
+  </data>
+  <data name="Header_comp_InitialSolveStep" xml:space="preserve">
+    <value>Initial calculation step, sec</value>
+  </data>
+  <data name="Header_comp_MinSolveStep" xml:space="preserve">
+    <value>Min calculation step, sec</value>
+  </data>
+  <data name="Header_comp_MaxSolveStep" xml:space="preserve">
+    <value>Max calculation step, sec</value>
+  </data>
+  <data name="Header_comp_Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Execute" xml:space="preserve">
+    <value>Execute</value>
+  </data>
+  <data name="Header_cond_material_material" xml:space="preserve">
+    <value>Material</value>
+  </data>
+  <data name="Header_cond_material_diametr" xml:space="preserve">
+    <value>Diameter</value>
+  </data>
+  <data name="Header_cond_material_thickness" xml:space="preserve">
+    <value>Thickness</value>
+  </data>
+  <data name="UndefinedConditionTypeExc" xml:space="preserve">
+    <value>Undefined condition type</value>
+  </data>
+  <data name="Header_cond_media_condType" xml:space="preserve">
+    <value>Condition type</value>
+  </data>
+  <data name="Header_cond_objectsGroup" xml:space="preserve">
+    <value>Objects group</value>
+  </data>
+  <data name="Header_cond_value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Header_cond_function" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="Header_cond_parameter_placeHolder" xml:space="preserve">
+    <value>Parameter {0}</value>
+  </data>
+  <data name="Header_cond_parameterValue_placeHolder" xml:space="preserve">
+    <value>Value {0}</value>
+  </data>
+  <data name="Header_cond_table_placeHolder" xml:space="preserve">
+    <value>Table {0}</value>
+  </data>
+  <data name="Header_cond_direction" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="Header_cond_start" xml:space="preserve">
+    <value>Start, sec.</value>
+  </data>
+  <data name="Header_cond_stop" xml:space="preserve">
+    <value>Stop, sec.</value>
+  </data>
+  <data name="Header_cond_coordinateSystem" xml:space="preserve">
+    <value>Coordinate system</value>
+  </data>
+  <data name="Header_localFrame_trajectory" xml:space="preserve">
+    <value>Trajectory</value>
+  </data>
+  <data name="Header_localFrame_referenceLine" xml:space="preserve">
+    <value>Reference line</value>
+  </data>
+  <data name="Header_localFrame_speed" xml:space="preserve">
+    <value>Speed, mm./sec.</value>
+  </data>
+  <data name="Header_cond_plane" xml:space="preserve">
+    <value>Plane</value>
+  </data>
+  <data name="Header_cond_shiftingX" xml:space="preserve">
+    <value>Shifting X</value>
+  </data>
+  <data name="Header_cond_shiftingY" xml:space="preserve">
+    <value>Shifting Y</value>
+  </data>
+  <data name="Header_cond_ShiftingZ" xml:space="preserve">
+    <value>Shifting Z</value>
+  </data>
+  <data name="Header_cond_rotX" xml:space="preserve">
+    <value>Rotation X</value>
+  </data>
+  <data name="Header_cond_rotY" xml:space="preserve">
+    <value>Rotation Y</value>
+  </data>
+  <data name="Header_cond_rotZ" xml:space="preserve">
+    <value>Rotation Z</value>
+  </data>
+  <data name="Header_clamp_type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Header_load_type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Header_geo_minSize" xml:space="preserve">
+    <value>Min size</value>
+  </data>
+  <data name="Header_geo_maxSize" xml:space="preserve">
+    <value>Max size</value>
+  </data>
+  <data name="Header_geo_algorithm2D" xml:space="preserve">
+    <value>Algorithm 2D</value>
+  </data>
+  <data name="Header_geo_algorithm3D" xml:space="preserve">
+    <value>Algorithm 3D</value>
+  </data>
+  <data name="Header_geo_scaleCoef" xml:space="preserve">
+    <value>Scale coefficient</value>
+  </data>
+  <data name="Header_geo_showPointsOnCurves" xml:space="preserve">
+    <value>Show points on curves</value>
+  </data>
+  <data name="Header_geo_showPointsNumbersOnCurves" xml:space="preserve">
+    <value>Show points number on curves</value>
+  </data>
+  <data name="Показать" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="Header_geo_showSurfacesNumbers" xml:space="preserve">
+    <value>Show surfaces numbers</value>
+  </data>
+  <data name="Header_geo_showPointsNumbers" xml:space="preserve">
+    <value>Show points numbers</value>
+  </data>
+  <data name="Header_geo_showVolumesNumbers" xml:space="preserve">
+    <value>Show volumes numbers</value>
+  </data>
+  <data name="Header_geo_showMeshOnGeneration" xml:space="preserve">
+    <value>Show mesh on generation</value>
+  </data>
+  <data name="Header_termalTask_maxTemperture" xml:space="preserve">
+    <value>Max temperture (dTt max), C°</value>
+  </data>
+  <data name="Header_termalTask_maxTempertureValue" xml:space="preserve">
+    <value>Max temperture value</value>
+  </data>
+  <data name="Header_mechanicalTask_maxDiference" xml:space="preserve">
+    <value>Max difference dU, &gt;0</value>
+  </data>
+  <data name="Header_mechanicalTask_maxMove" xml:space="preserve">
+    <value>Max displacement U, &gt;0</value>
+  </data>
+  <data name="Header_mechanicalTask_maxMoveValue" xml:space="preserve">
+    <value>Max displacement value U</value>
+  </data>
+  <data name="Header_mechanicalTask_maxPlasticDeformation" xml:space="preserve">
+    <value>Plastic deformation Si/St, &gt;1</value>
+  </data>
+  <data name="Header_mechanicalTask_plasticDeformationValue" xml:space="preserve">
+    <value>Plastic deformation value Si/St</value>
+  </data>
+  <data name="Header_curve_number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="Header_curve_PointsNumber" xml:space="preserve">
+    <value>Points number</value>
+  </data>
+  <data name="Header_curve_algorithm" xml:space="preserve">
+    <value>Algorithm</value>
+  </data>
+  <data name="Header_curve_coefficient" xml:space="preserve">
+    <value>Coefficient</value>
+  </data>
+  <data name="Header_surface_number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="Header_surface_meshType" xml:space="preserve">
+    <value>Mesh type</value>
+  </data>
+  <data name="Header_surface_meshKind" xml:space="preserve">
+    <value>Mesh kind</value>
+  </data>
+  <data name="Header_surface_cornerPoints" xml:space="preserve">
+    <value>Corner points</value>
+  </data>
+  <data name="Header_surface_ribersOrientation" xml:space="preserve">
+    <value>ribbers orientation</value>
+  </data>
+  <data name="Header_surface_quadratization" xml:space="preserve">
+    <value>Quadratization</value>
+  </data>
+  <data name="Header_surface_addedCurves" xml:space="preserve">
+    <value>Added curves</value>
+  </data>
+  <data name="Header_surface_pointsNumbers" xml:space="preserve">
+    <value>Points numbers</value>
+  </data>
+  <data name="Header_groups_name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Header_groups_sort" xml:space="preserve">
+    <value>Sorting</value>
+  </data>
+  <data name="Отсортировать" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="Header_groups_direction" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="Реверс" xml:space="preserve">
+    <value>Reverse</value>
+  </data>
+  <data name="Header_groups_elementsNodes" xml:space="preserve">
+    <value>Elements nodes</value>
+  </data>
+  <data name="Header_groups_createCond" xml:space="preserve">
+    <value>Create condition</value>
+  </data>
+  <data name="Header_point_number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="Header_point_elementsSize" xml:space="preserve">
+    <value>Elements size</value>
+  </data>
+  <data name="Header_element_number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="Header_element_elementLevel" xml:space="preserve">
+    <value>Elements order</value>
+  </data>
+  <data name="Header_element_includedNodes" xml:space="preserve">
+    <value>Included elements</value>
+  </data>
+  <data name="Header_node_number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="Header_node_cordX" xml:space="preserve">
+    <value>Coordinate X</value>
+  </data>
+  <data name="Header_node_cordY" xml:space="preserve">
+    <value>Coordinate Y</value>
+  </data>
+  <data name="Header_node_cordZ" xml:space="preserve">
+    <value>Coordinate Z</value>
+  </data>
+  <data name="Header_node_linkedElements" xml:space="preserve">
+    <value>Linked elements</value>
+  </data>
+  <data name="Header_volume_number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="Header_volume_meshType" xml:space="preserve">
+    <value>Mesh type</value>
+  </data>
+  <data name="Header_volume_TransitionGradientDegree" xml:space="preserve">
+    <value>Transition gradient degree</value>
+  </data>
+  <data name="Header_volume_layerThickness" xml:space="preserve">
+    <value>Layer thickness</value>
+  </data>
+  <data name="Header_volume_surfaceElementsSize" xml:space="preserve">
+    <value>Surface elements size</value>
+  </data>
+  <data name="Header_volume_centerElementsSize" xml:space="preserve">
+    <value>Center elements size</value>
+  </data>
+  <data name="Header_projectMesh_nodes" xml:space="preserve">
+    <value>Nodes</value>
+  </data>
+  <data name="Header_projectMesh_elements1D" xml:space="preserve">
+    <value>Elements 1D</value>
+  </data>
+  <data name="Header_projectMesh_elements2D" xml:space="preserve">
+    <value>Elements 2D</value>
+  </data>
+  <data name="Header_projectMesh_show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="Header_projectMesh_hide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="Header_projectMesh_delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Header_projectMesh_elements3D" xml:space="preserve">
+    <value>Elements 3D</value>
+  </data>
+  <data name="Header_object_object" xml:space="preserve">
+    <value>Object</value>
+  </data>
+  <data name="Header_frameFunction_SPH_width" xml:space="preserve">
+    <value>Width, mm.</value>
+  </data>
+  <data name="Header_frameFunction_CIL_length" xml:space="preserve">
+    <value>Length, mm.</value>
+  </data>
+  <data name="Header_frameFunction_CIL_upperDiam" xml:space="preserve">
+    <value>Upper diam, mm.</value>
+  </data>
+  <data name="Header_frameFunction_CIL_bottomDiam" xml:space="preserve">
+    <value>Bottom diam, mm.</value>
+  </data>
+  <data name="Header_frameFunction_CFF_file" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Header_result_showFields" xml:space="preserve">
+    <value>Show results fields</value>
+  </data>
+  <data name="Header_result_showNodesValues" xml:space="preserve">
+    <value>Show nodes values</value>
+  </data>
+  <data name="Header_result_showElementsValues" xml:space="preserve">
+    <value>Show elements values</value>
+  </data>
+  <data name="Header_result_averageValues" xml:space="preserve">
+    <value>Average results</value>
+  </data>
+  <data name="Header_result_showScale" xml:space="preserve">
+    <value>Show scale</value>
+  </data>
+  <data name="Header_result_resultScale" xml:space="preserve">
+    <value>Result scale</value>
+  </data>
+  <data name="Header_result_clarifyValues" xml:space="preserve">
+    <value>Clarify values</value>
+  </data>
+  <data name="Header_result_maxScaleValue" xml:space="preserve">
+    <value>Max value</value>
+  </data>
+  <data name="Header_result_minScaleValue" xml:space="preserve">
+    <value>Min value</value>
+  </data>
+  <data name="Header_result_precision" xml:space="preserve">
+    <value>Precision</value>
+  </data>
+  <data name="Header_result_intervals" xml:space="preserve">
+    <value>Intervals</value>
+  </data>
+  <data name="Header_result_xPos" xml:space="preserve">
+    <value>Scale X position on screen</value>
+  </data>
+  <data name="Header_result_yPos" xml:space="preserve">
+    <value>Scale Y position on screen</value>
+  </data>
+  <data name="Header_result_result" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="Header_set_precisionOrder" xml:space="preserve">
+    <value>Precision order</value>
+  </data>
+  <data name="Header_set_adjacentNodes" xml:space="preserve">
+    <value>Adjacent nodes</value>
+  </data>
+  <data name="Header_set_show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="Header_set_group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="Header_set_create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Header_set_name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Header_set_color" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="Header_set_view" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Header_task_type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Headers_task_kind" xml:space="preserve">
+    <value>Kind</value>
+  </data>
+  <data name="Header_task_materials" xml:space="preserve">
+    <value>Materials</value>
+  </data>
+  <data name="Header_task_functions" xml:space="preserve">
+    <value>Functions</value>
+  </data>
+  <data name="Header_task_checkCondValues" xml:space="preserve">
+    <value>Check condition values</value>
+  </data>
+  <data name="LoadPythonFile_ВыберитеPythonФайл" xml:space="preserve">
+    <value>Select python file</value>
+  </data>
+  <data name="CreateTaskWithoutProjectExc" xml:space="preserve">
+    <value>Create or load project</value>
+  </data>
+  <data name="SettingsControl_headerName_text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="ConsoleControl_headerName_text" xml:space="preserve">
+    <value>Console</value>
+  </data>
+  <data name="cntrГант_headerName_text" xml:space="preserve">
+    <value>Gantt</value>
+  </data>
+  <data name="PropertiesPanelControl_headerName_text" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="FunctionDataBasePage_headerName_text" xml:space="preserve">
+    <value>Functions</value>
+  </data>
+  <data name="MaterialsDataBasePage_headerName_text" xml:space="preserve">
+    <value>Materials</value>
+  </data>
+  <data name="NavigatorControl_headerName_text" xml:space="preserve">
+    <value>Navigator</value>
+  </data>
+  <data name="Header_volume_volume" xml:space="preserve">
+    <value>Volume</value>
+  </data>
+  <data name="Header_group_show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="Converters_ConvertClampKindKeysToClampKind_CastExc" xml:space="preserve">
+    <value>Cant cast {0} to target type {1}</value>
+  </data>
+  <data name="cntrГант_AddConds_Нагрев" xml:space="preserve">
+    <value>Heat</value>
+  </data>
+  <data name="cntrГант_AddConds_Материал" xml:space="preserve">
+    <value>Material</value>
+  </data>
+  <data name="cntrГант_AddConds_Среда" xml:space="preserve">
+    <value>Media</value>
+  </data>
+  <data name="cntrГант_AddConds_Закрепление" xml:space="preserve">
+    <value>Clamp</value>
+  </data>
+  <data name="cntrГант_AddConds_Нагрузка" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="cntrГант_AddConds_UndefinedCondExc" xml:space="preserve">
+    <value>Undefiend condition type</value>
+  </data>
+  <data name="BaseForm_BaseForm_Load_Navigator" xml:space="preserve">
+    <value>Navigator</value>
+  </data>
+  <data name="BaseForm_материалыMenuItem_Click_Materials" xml:space="preserve">
+    <value>Materials</value>
+  </data>
+  <data name="BaseForm_функцииMenuItem_Click_Functions" xml:space="preserve">
+    <value>Functions</value>
+  </data>
+  <data name="BaseForm_настройкиToolStripMenuItem_Click_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="btnSelect_Text_Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="FailedCreateGeometry" xml:space="preserve">
+    <value>Failed to create geometry</value>
+  </data>
+  <data name="ChamferPreview_CurveMustBelongToTwoSurfaces" xml:space="preserve">
+    <value>To create a chamfer, a curve must belong to two surfaces. Found: {0}.</value>
+  </data>
+  <data name="ChamferPreview_SurfacesMustBelongToOneVolume" xml:space="preserve">
+    <value>To create a chamfer, adjacent surfaces must belong to one common volume. Found: {0}.</value>
+  </data>
+  <data name="ChamferPreview_OnlyStraightCurvesSupported" xml:space="preserve">
+    <value>Linear chamfer preview is supported only for straight curves.</value>
+  </data>
+  <data name="ChamferPreview_CurveParametrizationUnavailable" xml:space="preserve">
+    <value>Failed to obtain curve parametrization.</value>
+  </data>
+  <data name="ChamferPreview_CurveHasZeroLength" xml:space="preserve">
+    <value>Curve {0} has zero length.</value>
+  </data>
+  <data name="ChamferPreview_SurfaceNormalUnavailable" xml:space="preserve">
+    <value>Failed to obtain normal for surface {0}.</value>
+  </data>
+  <data name="ChamferPreview_SurfaceHasInvalidNormal" xml:space="preserve">
+    <value>Surface {0} has an invalid normal.</value>
+  </data>
+  <data name="ChamferPreview_SurfaceNotOnVolumeBoundary" xml:space="preserve">
+    <value>Surface {0} was not found on the boundary of volume {1}.</value>
+  </data>
+  <data name="ChamferPreview_OffsetDirectionUnavailable" xml:space="preserve">
+    <value>Failed to determine offset direction on surface {0}.</value>
+  </data>
+  <data name="ChamferPreview_AngleOutOfRange" xml:space="preserve">
+    <value>Chamfer angle must be between 0° and 180°.</value>
+  </data>
+  <data name="ChamferPreview_InvalidSurfaceAngle" xml:space="preserve">
+    <value>Failed to determine a valid angle between adjacent surfaces.</value>
+  </data>
+  <data name="ChamferPreview_AngleMustBeLessThan" xml:space="preserve">
+    <value>For a {0:F3}° angle between surfaces, the chamfer angle must be less than {1:F3}°.</value>
+  </data>
+  <data name="ChamferPreview_CalculatedLengthMustBePositive" xml:space="preserve">
+    <value>Calculated chamfer length must be a finite positive number.</value>
+  </data>
+  <data name="ChamferPreview_InvalidGeometryCoordinates" xml:space="preserve">
+    <value>The geometry kernel returned invalid coordinates.</value>
+  </data>
+  <data name="ChamferWindow_Title" xml:space="preserve">
+    <value>Add chamfer</value>
+  </data>
+  <data name="ChamferWindow_AngleModeTab" xml:space="preserve">
+    <value>By angle</value>
+  </data>
+  <data name="ChamferWindow_LengthsModeTab" xml:space="preserve">
+    <value>By length</value>
+  </data>
+  <data name="ChamferWindow_FirstLength" xml:space="preserve">
+    <value>Length 1</value>
+  </data>
+  <data name="ChamferWindow_SecondLength" xml:space="preserve">
+    <value>Length 2</value>
+  </data>
+  <data name="ChamferWindow_Angle" xml:space="preserve">
+    <value>Angle</value>
+  </data>
+  <data name="ChamferWindow_ReflectTooltip" xml:space="preserve">
+    <value>Reflect chamfer</value>
+  </data>
+  <data name="ChamferWindow_AddButton" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Header_comp_MatrixStorage" xml:space="preserve">
+    <value>Matrix storage</value>
+  </data>
+  <data name="Header_comp_InputSource" xml:space="preserve">
+    <value>Data source</value>
+  </data>
+  <data name="Header_comp_InitialStateSource" xml:space="preserve">
+    <value>Initial state</value>
+  </data>
+  <data name="Header_comp_Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Header_comp_FileName" xml:space="preserve">
+    <value>File name</value>
+  </data>
+  <data name="Header_comp_SourceConstant" xml:space="preserve">
+    <value>Constant</value>
+  </data>
+  <data name="Header_comp_SourceFile" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Header_comp_FieldTemperature" xml:space="preserve">
+    <value>Temperature</value>
+  </data>
+  <data name="Header_comp_FieldConcentration" xml:space="preserve">
+    <value>Concentration</value>
+  </data>
+  <data name="Header_comp_FieldVelocity" xml:space="preserve">
+    <value>Velocity</value>
+  </data>
+  <data name="Header_comp_SetThermal" xml:space="preserve">
+    <value>Thermal</value>
+  </data>
+  <data name="Header_comp_SetMechanical" xml:space="preserve">
+    <value>Mechanical</value>
+  </data>
+  <data name="Header_comp_SetChemical" xml:space="preserve">
+    <value>Chemical</value>
+  </data>
+  <data name="Header_comp_SetHydrodynamic" xml:space="preserve">
+    <value>Hydrodynamic</value>
+  </data>
+  <data name="Header_comp_FieldPhaseComposition" xml:space="preserve">
+    <value>Phase composition</value>
+  </data>
+  <data name="Header_comp_FieldDisplacement" xml:space="preserve">
+    <value>Displacement</value>
+  </data>
+  <data name="Header_comp_FieldPressure" xml:space="preserve">
+    <value>Pressure</value>
+  </data>
+  <data name="Header_comp_FieldStress" xml:space="preserve">
+    <value>Stress</value>
+  </data>
+  <data name="Header_comp_FieldStrain" xml:space="preserve">
+    <value>Strain</value>
+  </data>
+  <data name="Header_comp_NativeSet" xml:space="preserve">
+    <value>Initial field</value>
+  </data>
+  <data name="Header_comp_ForeignSets" xml:space="preserve">
+    <value>External fields</value>
+  </data>
+  <data name="ChangeTaskTypeWithoutProjectExc" xml:space="preserve">
+    <value>The task is undefined</value>
+  </data>
+  <data name="ChangeTaskInvalidExc" xml:space="preserve">
+    <value>Invalid format</value>
+  </data>
+  <data name="TaskKind_Chemical" xml:space="preserve">
+    <value>Chemical</value>
+  </data>
+  <data name="TaskKind_Termal" xml:space="preserve">
+    <value>Termal</value>
+  </data>
+  <data name="TaskKind_Mechanical" xml:space="preserve">
+    <value>Mechanical</value>
+  </data>
+  <data name="SceneView.CreateGroup.NothingSelected.Message" xml:space="preserve">
+    <value>Group not created: no objects selected</value>
+  </data>
+  <data name="SceneView.RemoveSelected.Message" xml:space="preserve">
+    <value>Objects removed</value>
+  </data>
+  <data name="SceneView.ToolTip.AdvSelect" xml:space="preserve">
+    <value>Advanced selection</value>
+  </data>
+  <data name="SceneView.ToolTip.ShowSidesRibs" xml:space="preserve">
+    <value>Show sides and edges</value>
+  </data>
+  <data name="SceneView.ToolTip.ShowRibs" xml:space="preserve">
+    <value>Show edges</value>
+  </data>
+  <data name="SceneView.ToolTip.ShowSides" xml:space="preserve">
+    <value>Show sides</value>
+  </data>
+  <data name="SceneView.ToolTip.Basis" xml:space="preserve">
+    <value>Show basis</value>
+  </data>
+  <data name="SceneView.ToolTip.Contours" xml:space="preserve">
+    <value>Show contours</value>
+  </data>
+  <data name="SceneView.ToolTip.DisplayStates" xml:space="preserve">
+    <value>Display modes</value>
+  </data>
+  <data name="SceneView.ToolTip.ScreenShot" xml:space="preserve">
+    <value>Take a screenshot</value>
+  </data>
+  <data name="SceneView.ToolTip.FitToScreen" xml:space="preserve">
+    <value>Fit to screen</value>
+  </data>
+  <data name="SceneView.ToolTip.InsideObjects" xml:space="preserve">
+    <value>Show/hide inner objects</value>
+  </data>
+  <data name="SceneView.ToolTip.PlaneXY" xml:space="preserve">
+    <value>XY plane view</value>
+  </data>
+  <data name="SceneView.ToolTip.PlaneZX" xml:space="preserve">
+    <value>ZX plane view</value>
+  </data>
+  <data name="SceneView.ToolTip.PlaneZY" xml:space="preserve">
+    <value>ZY plane view</value>
+  </data>
+  <data name="SceneView.ToolTip.RotateX" xml:space="preserve">
+    <value>Rotate around the X axis</value>
+  </data>
+  <data name="SceneView.ToolTip.RotateY" xml:space="preserve">
+    <value>Rotate around the Y axis</value>
+  </data>
+  <data name="SceneView.ToolTip.RotateZ" xml:space="preserve">
+    <value>Rotate around the Z axis</value>
+  </data>
+  <data name="SceneView.ToolTip.RotateHorizontal90" xml:space="preserve">
+    <value>Rotate 90° horizontally</value>
+  </data>
+  <data name="SceneView.ToolTip.RotateVertical90" xml:space="preserve">
+    <value>Rotate 90° vertically</value>
+  </data>
+  <data name="Results.InvalidDatabase.Message" xml:space="preserve">
+    <value>The database must contain a nodes table with results and time steps.</value>
+  </data>
+</root>

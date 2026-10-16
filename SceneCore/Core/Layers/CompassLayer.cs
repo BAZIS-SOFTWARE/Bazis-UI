@@ -10,11 +10,19 @@ using OpenTK.Graphics.OpenGL;
 namespace BazisGUI.Scene.Core.Layers
 {
     /// <summary>Перенос BaseForm.DisplayCompass().</summary>
-    public class CompassLayer : ISceneLayer
+    public class CompassLayer : ISceneLayer, System.IDisposable
     {
         public string Name => "Compass";
         public int Order { get; set; } = 50;
         public bool IsVisible { get; set; } = true;
+
+        /// <summary>
+        /// Размер знакоместа в единицах системы координат компаса (1 — один пиксель атласа шрифта).
+        /// Компас рисуется в пиксельной ортопроекции с домножением 1/ScaleFactor, поэтому «мировой»
+        /// масштаб текста (GlyphWorldScale = 0.02) давал знакоместо 0.4 единицы — доли пикселя.
+        /// Знакоместо 20 px (шрифт 12) даёт букву ~12 px — как растровый шрифт в WinForms.
+        /// </summary>
+        public float LabelScale { get; set; } = 1f;
 
         private readonly VBObject tipX;
         private readonly VBObject tipY;
@@ -105,9 +113,16 @@ namespace BazisGUI.Scene.Core.Layers
             GL.PopMatrix();
         }
 
+        /// <summary>Освобождает GL-буферы мешей слоя (вызывается при текущем GL-контексте).</summary>
+        public void Dispose()
+        {
+            foreach (var mesh in new[] { tipX, tipY, tipZ })
+                VBO.VBO.DeleteAllBuffers(mesh);
+        }
+
         private void DrawLabel(string text, Color color, Point3D position, IRenderContext context)
         {
-            textRenderer.DrawText3D(new TextLabel { Text = text, Color = color, Position3D = position }, context);
+            textRenderer.DrawText3D(new TextLabel { Text = text, Color = color, Position3D = position, WorldScale = LabelScale }, context);
         }
     }
 }

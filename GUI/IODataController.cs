@@ -29,7 +29,9 @@ namespace BazisGUI
             if (File.Exists(fullPath))
             {
                 var settings = File.ReadAllText(fullPath);
-                return (SettingsConfig)JsonConvert.DeserializeObject(settings, typeof(SettingsConfig));
+                var config = (SettingsConfig)JsonConvert.DeserializeObject(settings, typeof(SettingsConfig));
+                config?.NormalizeTransparencyValue();
+                return config;
             }
             else return null;
         }

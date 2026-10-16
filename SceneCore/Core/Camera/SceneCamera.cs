@@ -68,11 +68,15 @@ namespace BazisGUI.Scene.Core.Camera
         /// </summary>
         public Matrix<float> GetProjectionMatrix() => projection.GetProjectionMatrix(viewport, ComputeDistance());
 
-        private float ComputeDistance()
-        {
-            var worldPos = new Point3D(-viewMatrix[0, 3], -viewMatrix[1, 3], -viewMatrix[2, 3]);
-            return Vector.GetVectorLength(worldPos);
-        }
+        /// <summary>
+        /// Дистанция камеры для параллельной проекции — сдвиг вида по оси Z.
+        /// В BaseForm.UpdateProjection бралась длина всего столбца переноса, но матрица проекции там
+        /// пересчитывалась только при смене размера/настроек, поэтому панорамирование её не меняло.
+        /// Здесь проекция считается на лету (и при отрисовке, и при выборе объектов), поэтому
+        /// панорамирование (X/Y столбца переноса) не должно менять масштаб: Move, Rotate, Scale и
+        /// SetOnPlane сдвиг по Z не меняют, и размер параллельной проекции остаётся постоянным.
+        /// </summary>
+        private float ComputeDistance() => Math.Abs(viewMatrix[2, 3]);
 
         public Point3D GetSceneCoordOfScreenVector(float x, float y)
         {

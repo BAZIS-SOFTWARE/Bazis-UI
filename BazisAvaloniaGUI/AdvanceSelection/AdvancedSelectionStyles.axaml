@@ -1,0 +1,98 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Styles.Resources>
+    <ControlTheme x:Key="SelectionRadioTheme" TargetType="RadioButton">
+      <Setter Property="Foreground" Value="#000000" />
+      <Setter Property="Template">
+        <ControlTemplate>
+          <StackPanel Orientation="Horizontal" Background="Transparent">
+            <Border Padding="3" VerticalAlignment="Center">
+              <Grid Width="16" Height="16">
+                <Ellipse Name="Indicator" />
+                <Ellipse Name="CheckGlyph" Width="8" Height="8" Fill="#000000" IsVisible="False" />
+              </Grid>
+            </Border>
+            <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Margin="3,0,0,0" VerticalAlignment="Center" />
+          </StackPanel>
+        </ControlTemplate>
+      </Setter>
+      <Style Selector="^ /template/ Ellipse#Indicator">
+        <Setter Property="Fill" Value="#FFFFFF" />
+        <Setter Property="Stroke" Value="#000000" />
+        <Setter Property="StrokeThickness" Value="1" />
+      </Style>
+      <Style Selector="^:checked /template/ Ellipse#CheckGlyph">
+        <Setter Property="IsVisible" Value="True" />
+      </Style>
+      <Style Selector="^:pointerover /template/ Ellipse#Indicator">
+        <Setter Property="StrokeThickness" Value="2" />
+      </Style>
+      <Style Selector="^:pressed /template/ Ellipse#Indicator">
+        <Setter Property="Fill" Value="#E5E5E5" />
+        <Setter Property="StrokeThickness" Value="3" />
+      </Style>
+      <Style Selector="^:disabled /template/ Ellipse#Indicator">
+        <Setter Property="Fill" Value="#F8F8F8" />
+        <Setter Property="Stroke" Value="#CACACA" />
+        <Setter Property="StrokeThickness" Value="1" />
+      </Style>
+      <Style Selector="^:disabled /template/ Ellipse#CheckGlyph">
+        <Setter Property="Fill" Value="#CACACA" />
+      </Style>
+      <Style Selector="^:disabled">
+        <Setter Property="Foreground" Value="#7B7B7B" />
+      </Style>
+    </ControlTheme>
+    <ControlTheme x:Key="SelectionCheckTheme" TargetType="CheckBox">
+      <Setter Property="Foreground" Value="#000000" />
+      <Setter Property="Template">
+        <ControlTemplate>
+          <StackPanel Orientation="Horizontal" Background="Transparent">
+            <Border Padding="2,3" VerticalAlignment="Center">
+              <Grid Width="16" Height="16">
+                <Border Name="Indicator" CornerRadius="0" />
+                <Path Name="CheckGlyph" Data="M 3,8 L 6,11 L 13,4" Stroke="#000000"
+                      StrokeThickness="2" IsVisible="False" />
+              </Grid>
+            </Border>
+            <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Margin="5,0,0,0" VerticalAlignment="Center" />
+          </StackPanel>
+        </ControlTemplate>
+      </Setter>
+      <Style Selector="^ /template/ Border#Indicator">
+        <Setter Property="Background" Value="#FFFFFF" />
+        <Setter Property="BorderBrush" Value="#000000" />
+        <Setter Property="BorderThickness" Value="1" />
+      </Style>
+      <Style Selector="^:checked /template/ Path#CheckGlyph">
+        <Setter Property="IsVisible" Value="True" />
+      </Style>
+      <Style Selector="^:pointerover /template/ Border#Indicator">
+        <Setter Property="BorderThickness" Value="2" />
+      </Style>
+      <Style Selector="^:pressed /template/ Border#Indicator">
+        <Setter Property="Background" Value="#E5E5E5" />
+        <Setter Property="BorderThickness" Value="3" />
+      </Style>
+      <Style Selector="^:disabled /template/ Border#Indicator">
+        <Setter Property="Background" Value="#F8F8F8" />
+        <Setter Property="BorderBrush" Value="#CACACA" />
+        <Setter Property="BorderThickness" Value="1" />
+      </Style>
+      <Style Selector="^:disabled /template/ Path#CheckGlyph">
+        <Setter Property="Stroke" Value="#CACACA" />
+      </Style>
+      <Style Selector="^:disabled">
+        <Setter Property="Foreground" Value="#7B7B7B" />
+      </Style>
+    </ControlTheme>
+  </Styles.Resources>
+  <Style Selector="RadioButton">
+    <Setter Property="Theme" Value="{StaticResource SelectionRadioTheme}" />
+  </Style>
+  <Style Selector="CheckBox">
+    <Setter Property="Theme" Value="{StaticResource SelectionCheckTheme}" />
+  </Style>
+</Styles>
