@@ -368,9 +368,10 @@ namespace BazisAvaloniaGUI.SettingsControls
             AddCell(tableLayoutPanel5, lblSolverPath, 0, 1);
 
             // tabPage1: язык
-            cmbLanguage = new ComboBox { Name = "cmbLanguage", Height = 20, MinHeight = 20, MinWidth = 200, HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Center };
+            cmbLanguage = new ComboBox { Name = "cmbLanguage", Height = 20, MinHeight = 20, HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Center };
             cmbLanguage.SelectionChanged += cmbLanguage_TextChanged;
             var tableLayoutPanel2 = Table(1);
+            tableLayoutPanel2.ColumnDefinitions = new ColumnDefinitions("2*,3*");
             AddCell(tableLayoutPanel2, Label("lblLanguage"), 0, 0);
             AddCell(tableLayoutPanel2, cmbLanguage, 0, 1);
 
