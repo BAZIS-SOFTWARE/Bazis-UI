@@ -26,34 +26,18 @@ namespace BazisAvaloniaGUI.Shell
                 if (!CheckProjectDataBeforeCreationTCF())
                     return;
 
-                var compDir = Path.Combine(WorkingDir, "ComputationData");
-
-                if (!Directory.Exists(compDir))
-                    Directory.CreateDirectory(compDir);
-
-                var result = new List<string>
-            {
-                $@"\\загрузка сетки и данных",
-                $@"загрузить проект {projectFilePath}",
-                /*
-                $@"\\загрузка материалов",
-                $@"загрузить материалы {project.Path}\{project.MaterialsDB}",
-                $@"\\загрузка функций",
-                $@"загрузить функции {project.Path}\{project.FunctionsDB}",
-                */
-                $@"\\расчет"
-            };
-
                 var tasks = new List<string>();
-                navigator.TrySearchNodes(NodeName.Calculations, out List<TreeNode> task);
-                foreach (TreeNode item in task[0].Nodes)
-                    tasks.Add("расчет " + item.Text);
+                if (!navigator.TrySearchNodes(NodeName.Calculations, out List<TreeNode> calculationNodes))
+                    throw new InvalidOperationException("The calculation queue is empty.");
+                foreach (TreeNode item in calculationNodes[0].Nodes)
+                {
+                    var path = GetInstructionPath(item.Text, out var status);
+                    var relativePath = Path.GetRelativePath(WorkingDir, path).Replace('\\', '/');
+                    var kind = GetInstructionType(item.Text);
+                    tasks.Add($"{kind} {relativePath} {status}");
+                }
 
-                result.AddRange(tasks);
-
-                var cmdFile = Path.Combine(compDir, "computation.tcf");
-
-                File.WriteAllLines(cmdFile, result);
+                var cmdFile = preProc.WriteCommandFile(projectFilePath, tasks);
 
                 console.PrintInfo($"{Resources.StartStopConp_FormCommandFile_Message} {cmdFile}", Color.Green);
 

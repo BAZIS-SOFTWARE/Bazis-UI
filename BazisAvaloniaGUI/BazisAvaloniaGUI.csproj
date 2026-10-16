@@ -12,12 +12,13 @@
     <PackageReference Include="Avalonia.Desktop" Version="12.1.0" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-    <PackageReference Include="OperationalController" Version="4.10.7" Condition="'$(UseBazisCoreSource)' != 'true'" />
-    <ProjectReference Include="$(BazisCoreSource)" Condition="'$(UseBazisCoreSource)' == 'true'" />
-    <PackageReference Include="PostProc" Version="2.2.8" />
-    <PackageReference Include="PreProc" Version="2.6.9" />
+    <PackageReference Include="OperationalController" Version="4.11.0" Condition="'$(UseBazisCoreSource)' != 'true'" />
+    <PackageReference Include="OperationalController" Version="4.11.0" />
+    <PackageReference Include="PostProc" Version="2.2.9" />
+    <PackageReference Include="PreProc" Version="2.7.1" Condition="'$(UseBazisCoreSource)' != 'true'" />
     <PackageReference Include="ClientLogicCP" Version="1.1.10" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="PreProc" Version="2.7.1" />
     <PackageReference Include="PropertiesCalculator" Version="1.1.2" />
     <Reference Include="LicenseInfo">
       <HintPath>..\Libs\LicenseInfo.dll</HintPath>

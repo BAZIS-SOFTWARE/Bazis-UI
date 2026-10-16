@@ -847,7 +847,7 @@
     <value>type&lt;|&gt;set#1&lt;|&gt;set#2</value>
   </data>
   <data name="OpenTSF.OpenInstructions.Message" xml:space="preserve">
-    <value>Task instructions are open from directory</value>
+    <value>Task instructions are open from</value>
   </data>
   <data name="Cond.General.Header.Trajectory" xml:space="preserve">
     <value>Trajectory</value>

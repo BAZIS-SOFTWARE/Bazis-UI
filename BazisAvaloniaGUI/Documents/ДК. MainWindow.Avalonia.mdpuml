@@ -22,6 +22,11 @@ end legend
 package "BazisAvaloniaGUI. MainWindow" {
   class MainWindow <<current>> {
     <<Window>>
+    - сформироватьИнструкцииToolStripMenuItem_Click(sender, e) : void
+    - открытьИнструкцииToolStripMenuItem_Click(sender, e) : void
+    + PresentCompDataOnTree(compData) : void
+    - запуститьToolStripMenuItem_Click(sender, e) : void
+    + StartComputation() : void
   }
   class MainWindowViewModel <<planned>> {
     + Menu : MainMenuViewModel
