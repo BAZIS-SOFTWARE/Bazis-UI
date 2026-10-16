@@ -14,6 +14,8 @@ namespace BazisAvaloniaGUI.Tests;
 
 public partial class ResourceLifetimeTests
 {
+    // Повторный запрос открытия во время загрузки должен игнорироваться:
+    // активный проект, его путь и заблокированное состояние окна сохраняются.
     [Test]
     public async Task OpenProject_DuplicateRequestDoesNotReplaceActiveProjectOrPath()
     {
@@ -33,6 +35,8 @@ public partial class ResourceLifetimeTests
         finally { window.Close(); }
     }
 
+    // Успешное открытие заменяет проект и его путь, снимает блокировку и флаг загрузки.
+    // Вкладка Ганта, отметка её показа и узел расчётов старого проекта удаляются.
     [Test]
     public void OpenProject_ReplacesProjectAndClosesOldGanttTab()
     {
@@ -71,6 +75,8 @@ public partial class ResourceLifetimeTests
         }
     }
 
+    // Ошибка открытия проекта или импорта сетки должна закрывать окно прогресса,
+    // даже если сама операция завершается с ошибкой из-за отсутствующего файла.
     [TestCase(false)]
     [TestCase(true)]
     public void LoadFailure_ClosesProgressWindow(bool importMesh)
@@ -90,6 +96,7 @@ public partial class ResourceLifetimeTests
         finally { owner.Close(); }
     }
 
+    // Пустой набор граничных условий допустим: его передача диаграмме Ганта не должна вызывать исключение.
     [Test]
     public void GanttChart_AcceptsEmptyConditions()
     {
@@ -97,6 +104,8 @@ public partial class ResourceLifetimeTests
         Assert.DoesNotThrow(() => Call(chart, "AddConds", (object)Array.Empty<ICondData>()));
     }
 
+    // Отсоединение сцены отменяет ожидающий захват кадра и сразу отменяет последующие запросы,
+    // чтобы задачи не оставались ждать кадр от сцены, которая больше не отображается.
     [Test]
     public void FrameCapture_DetachingSceneCancelsPendingAndFutureRequests()
     {
@@ -115,6 +124,8 @@ public partial class ResourceLifetimeTests
         finally { owner.Close(); }
     }
 
+    // Числовые результаты выбранных узлов и элементов должны отображаться одновременно, заменяя старые подписи.
+    // Отключение обоих видов подписей должно полностью очищать текстовый слой сцены.
     [Test]
     public void ShowResults_KeepsNodeAndElementLabelsTogetherAndClearsOldLabels()
     {

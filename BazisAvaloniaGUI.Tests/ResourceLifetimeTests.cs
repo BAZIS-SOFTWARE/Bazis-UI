@@ -9,6 +9,8 @@ using System.Runtime.CompilerServices;
 
 namespace BazisAvaloniaGUI.Tests;
 
+// Интеграционные проверки GUI выполняются в одном STA-потоке с общей headless-платформой Avalonia.
+// Части класса в соседних файлах проверяют ресурсы, файловые операции и сценарии регрессионных ошибок.
 [TestFixture]
 [SingleThreaded]
 [Apartment(ApartmentState.STA)]
@@ -17,6 +19,7 @@ public partial class ResourceLifetimeTests
     private const BindingFlags InstanceMembers = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
     private readonly Assembly gui = typeof(TabButtonControlService).Assembly;
 
+    // Создаёт платформу Avalonia без запуска приложения, чтобы тестировать окна и контролы с отрисовкой Skia.
     [OneTimeSetUp]
     public void InitializeAvalonia()
     {
@@ -26,6 +29,8 @@ public partial class ResourceLifetimeTests
             .SetupWithoutStarting();
     }
 
+    // Выявляет утечки вкладок баз данных: после удаления их должен собирать GC даже при живом главном окне.
+    // В частности, подписка на OnProjectLoaded не должна удерживать закрытые страницы.
     [TestCase("OpenMaterialsDB")]
     [TestCase("OpenFunctionsDB")]
     public void RemovedDatabasePages_CanBeCollectedWhileMainWindowLives(string openMethod)
@@ -64,6 +69,7 @@ public partial class ResourceLifetimeTests
         return reference;
     }
 
+    // При смене проекта открытая вкладка материалов или функций должна получить базу нового проекта.
     [TestCase("OpenMaterialsDB", "Materials", "MaterialsDB")]
     [TestCase("OpenFunctionsDB", "Functions", "FunctionsDB")]
     public void OpenDatabasePage_UpdatesWhenProjectChanges(string openMethod, string pageProperty, string projectProperty)
@@ -94,6 +100,8 @@ public partial class ResourceLifetimeTests
         }
     }
 
+    // Удаление проигрывателя из окна останавливает таймер и переводит его в состояние continuation;
+    // после возвращения контрола в окно воспроизведение можно запустить снова.
     [Test]
     public void Player_DetachStopsTimerAndAllowsContinuation()
     {
@@ -121,6 +129,8 @@ public partial class ResourceLifetimeTests
         }
     }
 
+    // Защищает от лишнего создания иконок при переключении воспроизведения: используются прежние Bitmap.
+    // Dispose останавливает таймер, снимает изображение и допускает повторный вызов.
     [Test]
     public void Player_StateChangesReuseIconsAndDisposeStopsTimer()
     {
@@ -148,6 +158,8 @@ public partial class ResourceLifetimeTests
         Assert.DoesNotThrow(() => ((IDisposable)player).Dispose());
     }
 
+    // Сцена должна иметь ровно одну подписку на сообщения проекта только пока находится в визуальном дереве.
+    // Повторный показ проекта не дублирует подписку, отсоединение и закрытие окна её снимают.
     [Test]
     public void Scene_ProjectSubscriptionFollowsVisualAttachment()
     {

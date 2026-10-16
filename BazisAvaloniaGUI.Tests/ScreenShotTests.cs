@@ -5,6 +5,8 @@ namespace BazisAvaloniaGUI.Tests;
 
 public partial class ResourceLifetimeTests
 {
+    // Для сохранённого проекта запрос снимка должен назначать screenShot.png в каталоге проекта без диалога,
+    // независимо от пути в строке состояния; проверяется назначенный путь, а не создание изображения.
     [Test]
     public async Task ScreenShot_UsesProjectDirectoryRatherThanStatusOrApplicationDirectory()
     {
@@ -28,6 +30,8 @@ public partial class ResourceLifetimeTests
         }
     }
 
+    // Для несохранённого проекта путь снимка выбирается через диалог: при необходимости добавляется .png.
+    // Проверяются кириллица и пробелы в имени, а также отсутствие назначенного пути при отмене диалога.
     [TestCase("снимок сцены.png")]
     [TestCase("снимок сцены")]
     [TestCase(null)]

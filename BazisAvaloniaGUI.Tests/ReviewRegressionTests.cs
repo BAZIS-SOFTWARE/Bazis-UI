@@ -10,6 +10,8 @@ namespace BazisAvaloniaGUI.Tests;
 
 public partial class ResourceLifetimeTests
 {
+    // Подтверждение выбора по E выполняется в UI-потоке: некорректный выбор оставляет ожидание активным,
+    // посторонняя клавиша его не подтверждает, а успешная повторная попытка возвращает результат и очищает состояние.
     [Test]
     public async Task InteractiveSelection_ConfirmsOnUiThreadAndRetriesInvalidSelection()
     {
@@ -39,6 +41,8 @@ public partial class ResourceLifetimeTests
         finally { window.Close(); }
     }
 
+    // Различает два способа прерывания выбора: Escape возвращает null, закрытие окна отменяет задачу.
+    // После закрытия ссылка на активный интерактивный выбор должна быть очищена.
     [Test]
     public async Task InteractiveSelection_EscapePreservesNullResultAndCloseCancelsWait()
     {
@@ -60,6 +64,8 @@ public partial class ResourceLifetimeTests
         finally { window.Close(); }
     }
 
+    // Окно фаски должно принадлежать вызывающему окну и закрываться вместе с ним:
+    // сервис освобождает ссылку, уведомляет о закрытии один раз и очищает предпросмотр операции.
     [Test]
     public void ChamferWindow_ClosesWithOwnerAndClearsServiceReference()
     {
@@ -83,6 +89,8 @@ public partial class ResourceLifetimeTests
         finally { owner.Close(); }
     }
 
+    // Сброс результатов очищает путь базы, временные шаги и коллекцию узла результатов,
+    // а также останавливает проигрыватель и обнуляет его конечный шаг, чтобы не использовать старые данные.
     [Test]
     public void ClearResultsState_RemovesOldResultsAndStopsPlayer()
     {
@@ -112,6 +120,8 @@ public partial class ResourceLifetimeTests
         finally { window.Close(); }
     }
 
+    // Устаревшие команды видимости контуров должны игнорироваться после нового запроса или смены проекта.
+    // Вызов с null вместо рендерера проверяет, что такая команда даже не обращается к нему.
     [Test]
     public void Contours_DiscardQueuedUpdatesAfterNewRequestAndProjectReplacement()
     {
@@ -128,6 +138,8 @@ public partial class ResourceLifetimeTests
         Assert.DoesNotThrow(() => staleProject(null), "An old project's action must not touch the renderer.");
     }
 
+    // Ошибка добавления сетки из отсутствующего файла должна завершить задачу с ошибкой,
+    // закрыть окно загрузки и снова включить главное окно, заблокированное на время операции.
     [Test]
     public void AppendMesh_FailureRestoresOwnerAndClosesProgress()
     {
@@ -153,6 +165,8 @@ public partial class ResourceLifetimeTests
         finally { window.Close(); }
     }
 
+    // Проверяет комплектность выходного каталога: базы материалов и функций загружаются и содержат записи,
+    // а PDF руководства пользователя присутствует в папке Help.
     [Test]
     public void Distribution_ContainsUsableDatabasesAndManual()
     {

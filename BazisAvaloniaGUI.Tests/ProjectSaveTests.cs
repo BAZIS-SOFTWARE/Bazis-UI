@@ -8,6 +8,8 @@ namespace BazisAvaloniaGUI.Tests;
 
 public partial class ResourceLifetimeTests
 {
+    // Защищает импортированный файл от перезаписи при отмене первого сохранения:
+    // диалог вызывается один раз, исходные данные сохраняются, путь проекта не назначается.
     [TestCase("part.stp")]
     [TestCase("mesh.stl")]
     [TestCase("mesh.inp")]
@@ -34,6 +36,8 @@ public partial class ResourceLifetimeTests
         }
     }
 
+    // Проверяет выбор расширения и запоминание пути при первом сохранении, в том числе для кириллицы и пробелов.
+    // Повторное сохранение использует этот путь без диалога, сохраняет исходную сетку и задаёт рабочий каталог проекта.
     [TestCase("result.bpf2")]
     [TestCase("result.bpf")]
     [TestCase("mesh.stl")]
@@ -68,6 +72,7 @@ public partial class ResourceLifetimeTests
         }
     }
 
+    // Отмена «Сохранить как» не должна менять текущий путь проекта и его отображение в строке состояния.
     [Test]
     public async Task SaveAsCancellation_KeepsExistingProjectDestination()
     {
@@ -92,6 +97,7 @@ public partial class ResourceLifetimeTests
         }
     }
 
+    // Ошибка записи в отсутствующий каталог не должна менять путь, имя проекта и строку состояния.
     [Test]
     public void SaveFailure_PreservesProjectPathAndName()
     {

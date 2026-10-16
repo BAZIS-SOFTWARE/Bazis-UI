@@ -8,6 +8,8 @@ namespace BazisAvaloniaGUI.Tests;
 
 public partial class ResourceLifetimeTests
 {
+    // Неудачная загрузка повреждённой, несовместимой, отсутствующей или пустой базы не должна терять текущие результаты:
+    // сохраняются путь, массив времён, узел навигатора и число его дочерних узлов; отсутствующий файл не создаётся.
     [TestCase("corrupt")]
     [TestCase("incompatible")]
     [TestCase("missing")]
@@ -53,6 +55,8 @@ public partial class ResourceLifetimeTests
         }
     }
 
+    // При открытии повреждённой базы через UI появляется диалог ошибки; после его закрытия задача завершается успешно,
+    // главное окно остаётся доступным, а путь результатов не назначается.
     [Test]
     public void InvalidResultsDatabase_ShowsErrorWithoutFaultingUiTask()
     {
@@ -83,6 +87,8 @@ public partial class ResourceLifetimeTests
         }
     }
 
+    // Повторная загрузка корректной базы заменяет путь и временные шаги данными новой базы,
+    // сохраняя единственный корневой узел результатов в навигаторе.
     [Test]
     public void ValidResultsDatabase_ReplacesPathTimesAndKeepsOneResultsRoot()
     {
