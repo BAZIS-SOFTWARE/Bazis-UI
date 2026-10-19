@@ -63,7 +63,7 @@ namespace BazisAvaloniaGUI.Chamfer.ViewModels
 
             // Окно не закрывается здесь: операция выполняется асинхронно (Post в UI-контекст),
             // и при ошибке пользователь должен иметь возможность поправить параметры.
-            // При успехе окно закрывает BaseForm.CreateChamfer через ChamferWindowService.Close.
+            // При успехе окно закрывает MainWindow.CreateChamfer через ChamferWindowService.Close.
         }
 
         [RelayCommand]

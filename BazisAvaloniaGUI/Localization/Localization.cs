@@ -1,13 +1,13 @@
 using BazisAvaloniaGUI.Navigator;
-using BazisAvaloniaGUI;
+using BazisAvaloniaGUI.Shell;
 using System.Resources;
 
 namespace BazisAvaloniaGUI.Localization;
 
 internal static class Localization
 {
-    // Аналог ComponentResourceManager(typeof(BaseForm)): ресурсы формы BaseForm.resx
-    private static readonly ResourceManager formResources = new("BazisAvaloniaGUI.BaseForm", typeof(BaseForm).Assembly);
+    // Аналог ComponentResourceManager(typeof(BaseForm)): ресурсы формы MainWindow.resx
+    private static readonly ResourceManager formResources = new("BazisAvaloniaGUI.Shell.MainWindow", typeof(MainWindow).Assembly);
 
     /// <summary>
     /// Получить подпись об отсутствии искомого файла на текущей языковой культуре
@@ -20,7 +20,7 @@ internal static class Localization
     }
 
     /// <summary>
-    /// Получение подписи элемента формы BaseForm (BaseForm.resx) на текущей языковой культуре
+    /// Получение подписи элемента формы BaseForm (MainWindow.resx) на текущей языковой культуре
     /// </summary>
     public static string GetFormText(string name)
     {

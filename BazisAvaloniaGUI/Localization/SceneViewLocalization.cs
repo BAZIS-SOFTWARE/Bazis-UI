@@ -1,4 +1,4 @@
-using BazisAvaloniaGUI;
+using BazisAvaloniaGUI.Shell;
 using BazisAvaloniaGUI.Utilities;
 using Model.Interfaces;
 
@@ -8,7 +8,7 @@ namespace BazisAvaloniaGUI.Localization
     /// Локализованные подписи элементов сцены.
     /// </summary>
     /// <remarks>
-    /// Класс является адаптером к ресурсам формы BaseForm (BaseForm.resx / BaseForm.ru.resx)
+    /// Класс является адаптером к ресурсам формы BaseForm (MainWindow.resx / MainWindow.ru.resx)
     /// и общим ресурсам приложения (Resources.resx — всплывающие подсказки кнопок, в WinForms их не было):
     /// подписи кнопок и пунктов контекстного меню сцены берутся по тем же ключам, что и в WinForms.
     /// Используется в разметке Avalonia через {x:Static}, так как класс Localization

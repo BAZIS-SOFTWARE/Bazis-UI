@@ -505,7 +505,7 @@
             <Setter Property="Opacity" Value="0.5"/>
         </Style>
 
-        <!-- Стили оболочки (Styles/BaseFormStyles.axaml) имеют приоритет над сеттерами ControlTheme и
+        <!-- Стили оболочки (Styles/ShellStyles.axaml) имеют приоритет над сеттерами ControlTheme и
              перебивают размеры элементов сцены: Padding="12,8" у Button не оставляет места иконке 28x28,
              ComboBox сжимается до 20px, у MenuItem появляются фон и отступы. Локальные стили ближе
              к элементам, поэтому возвращают значения тем сцены. -->
