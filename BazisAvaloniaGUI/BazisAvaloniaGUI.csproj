@@ -7,7 +7,22 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
+    <AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
+    <Configurations>Debug;Release;Debug-Linux;Release-Linux</Configurations>
   </PropertyGroup>
+
+  <!-- Если выбран профиль запуска через WSL -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug-Linux'">
+    <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+    <OutputPath>bin/Linux/Debug/</OutputPath>
+  </PropertyGroup>
+
+  <!-- Если выбран профиль запуска через WSL -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release-Linux'">
+    <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+    <OutputPath>bin/Linux/Release/</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Avalonia.Desktop" Version="12.1.0" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.0" />

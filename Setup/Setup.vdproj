@@ -240,12 +240,91 @@
                 }
             }
         }
+        "Debug-Linux"
+        {
+        "DisplayName" = "8:Debug-Linux"
+        "IsDebugOnly" = "11:FALSE"
+        "IsReleaseOnly" = "11:FALSE"
+        "OutputFilename" = "8:Debug-Linux\\Setup.msi"
+        "PackageFilesAs" = "3:2"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "Compression" = "3:2"
+        "SignOutput" = "11:FALSE"
+        "CertificateFile" = "8:"
+        "PrivateKeyFile" = "8:"
+        "TimeStampServer" = "8:"
+        "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.8"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.8 (x86 и x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.8"
+                    }
+                }
+            }
+        }
         "Release"
         {
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
         "OutputFilename" = "8:Release\\BazisGUISetup.msi"
+        "PackageFilesAs" = "3:2"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "Compression" = "3:2"
+        "SignOutput" = "11:FALSE"
+        "CertificateFile" = "8:"
+        "PrivateKeyFile" = "8:"
+        "TimeStampServer" = "8:"
+        "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.8.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.8.1 (x86 и x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.8.1"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.CoreRuntime.3.1.x64"
+                    {
+                    "Name" = "8:Среда выполнения .NET Core 3.1.32 (x64)"
+                    "ProductCode" = "8:Microsoft.NetCore.CoreRuntime.3.1.x64"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.CoreRuntime.8.0.x64"
+                    {
+                    "Name" = "8:Среда выполнения .NET 8.0.3 (x64)"
+                    "ProductCode" = "8:Microsoft.NetCore.CoreRuntime.8.0.x64"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.DesktopRuntime.8.0.x64"
+                    {
+                    "Name" = "8:Среда выполнения .NET для классических приложений 8.0.3 (x64)"
+                    "ProductCode" = "8:Microsoft.NetCore.DesktopRuntime.8.0.x64"
+                    }
+                }
+            }
+        }
+        "Release-Linux"
+        {
+        "DisplayName" = "8:Release-Linux"
+        "IsDebugOnly" = "11:FALSE"
+        "IsReleaseOnly" = "11:FALSE"
+        "OutputFilename" = "8:Release-Linux\\Setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -1760,7 +1839,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_566BC26F33134E439179C4CA3A447DDD"
             {
-            "SourcePath" = "8:..\\GUI\\obj\\Release\\net8.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\GUI\\obj\\Debug-Linux\\net8.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_8ED4E5FD4EB44AC8880E61F60AE90866"
@@ -1788,7 +1867,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_CFDF33F093614CCDB9719E5B41DB933C"
             {
-            "SourcePath" = "8:..\\InstallerAction\\obj\\Release\\InstallerAction.dll"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_8ED4E5FD4EB44AC8880E61F60AE90866"
