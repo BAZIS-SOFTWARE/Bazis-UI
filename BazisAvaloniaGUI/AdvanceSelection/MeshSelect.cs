@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml.Styling;
-using BazisAvaloniaGUI.Shell;
+using BazisAvaloniaGUI;
 using BazisAvaloniaGUI.Utilities;
 using Model.Interfaces;
 using System;

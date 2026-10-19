@@ -123,7 +123,7 @@ public partial class ResourceLifetimeTests
 
     private Window CreateProjectWindow(string statusPath)
     {
-        var window = (Window)Create("Shell.MainWindow");
+        var window = (Window)Create("BaseForm");
         var project = new ProjectController();
         project.CreateProject("newProject.bpf2");
         project.CreateTask();

@@ -15,7 +15,7 @@ public partial class ResourceLifetimeTests
     [Test]
     public async Task InteractiveSelection_ConfirmsOnUiThreadAndRetriesInvalidSelection()
     {
-        var window = (Window)Create("Shell.MainWindow");
+        var window = (Window)Create("BaseForm");
         var attempts = 0;
         var uiThread = Environment.CurrentManagedThreadId;
         Func<Tuple<bool, object>> confirm = () =>
@@ -46,7 +46,7 @@ public partial class ResourceLifetimeTests
     [Test]
     public async Task InteractiveSelection_EscapePreservesNullResultAndCloseCancelsWait()
     {
-        var window = (Window)Create("Shell.MainWindow");
+        var window = (Window)Create("BaseForm");
         window.Content = null;
         window.Show();
         try

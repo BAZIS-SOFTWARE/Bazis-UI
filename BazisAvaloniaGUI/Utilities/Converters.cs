@@ -1,12 +1,12 @@
 using BazisAvaloniaGUI.Localization;
-using BazisAvaloniaGUI.Shell;
+using BazisAvaloniaGUI;
 using Model.Interfaces;
 using Project.Interfaces.Tasks;
 using Project.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static BazisAvaloniaGUI.Shell.MainWindow;
+using static BazisAvaloniaGUI.BaseForm;
 
 namespace BazisAvaloniaGUI.Utilities
 {

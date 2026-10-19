@@ -35,7 +35,7 @@ public partial class ResourceLifetimeTests
     [TestCase("OpenFunctionsDB")]
     public void RemovedDatabasePages_CanBeCollectedWhileMainWindowLives(string openMethod)
     {
-        var window = (Window)Create("Shell.MainWindow");
+        var window = (Window)Create("BaseForm");
         GetField(window, "project").SetValue(window, new ProjectController
         {
             MaterialsDB = new MaterialDB.MaterialData.MaterialDBData(),
@@ -74,7 +74,7 @@ public partial class ResourceLifetimeTests
     [TestCase("OpenFunctionsDB", "Functions", "FunctionsDB")]
     public void OpenDatabasePage_UpdatesWhenProjectChanges(string openMethod, string pageProperty, string projectProperty)
     {
-        var window = (Window)Create("Shell.MainWindow");
+        var window = (Window)Create("BaseForm");
         var project = new ProjectController();
         var databaseProperty = project.GetType().GetProperty(projectProperty);
         var database = Activator.CreateInstance(databaseProperty.PropertyType);

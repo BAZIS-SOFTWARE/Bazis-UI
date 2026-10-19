@@ -4,7 +4,6 @@ using Avalonia.Themes.Fluent;
 using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Styling;
 using Avalonia.Threading;
-using BazisAvaloniaGUI.Shell;
 using System.Diagnostics;
 
 namespace BazisAvaloniaGUI;
@@ -16,12 +15,12 @@ internal class App : Application
         RequestedThemeVariant = ThemeVariant.Light;
         Resources.MergedDictionaries.Add(new ResourceInclude(new Uri("avares://BazisAvaloniaGUI/"))
         {
-            Source = new Uri("avares://BazisAvaloniaGUI/Styles/ShellResources.axaml")
+            Source = new Uri("avares://BazisAvaloniaGUI/Styles/BaseFormResources.axaml")
         });
         Styles.Add(new FluentTheme());
         Styles.Add(new StyleInclude(new Uri("avares://BazisAvaloniaGUI/"))
         {
-            Source = new Uri("avares://BazisAvaloniaGUI/Styles/ShellStyles.axaml")
+            Source = new Uri("avares://BazisAvaloniaGUI/Styles/BaseFormStyles.axaml")
         });
         Styles.Add(new StyleInclude(new Uri("avares://BazisAvaloniaGUI/"))
         {
@@ -44,7 +43,7 @@ internal class App : Application
         Dispatcher.UIThread.UnhandledException += OnUIThreadUnhandledException;
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            desktop.MainWindow = new MainWindow(desktop.Args ?? []);
+            desktop.MainWindow = new BaseForm(desktop.Args ?? []);
 
         base.OnFrameworkInitializationCompleted();
     }
