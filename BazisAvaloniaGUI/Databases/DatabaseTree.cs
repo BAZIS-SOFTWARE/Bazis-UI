@@ -47,6 +47,12 @@ internal sealed class TreeNode : TreeViewItem
     public TreeNode(string text)
     {
         Text = text; Nodes = new DatabaseNodes(this); ItemsSource = Nodes;
+        ContextRequested += (_, e) =>
+        {
+            // В WinForms меню принадлежит конкретному узлу. Не открываем меню
+            // родителя для категории/свойства, у которых собственного меню нет.
+            if (ContextMenu == null) e.Handled = true;
+        };
         AddHandler(RequestBringIntoViewEvent, (_, e) =>
         {
             if (e.TargetObject is not Control target) return;

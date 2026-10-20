@@ -136,6 +136,11 @@ namespace BazisAvaloniaGUI.Databases.MechanicalGUI
         {
             try
             {
+                if (cmbPhases.SelectedItem == null)
+                {
+                    await MessageBox.Show(this, DatabaseControlResources.Get("HardeningControl", "SelectPhase"));
+                    return;
+                }
                 var data = chbTemp.IsChecked == true ? CaclHardeningForTemp() : CaclHardeningForTemps();
                 graphContainer.CreateGraphData("Упрочнение", data, new AxisFormat(), new AxisFormat());
             }
