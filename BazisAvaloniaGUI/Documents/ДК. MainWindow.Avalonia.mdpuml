@@ -28,6 +28,11 @@ package "BazisAvaloniaGUI. MainWindow" {
     - запуститьToolStripMenuItem_Click(sender, e) : void
     + StartComputation() : void
   }
+  note right of MainWindow
+    Очередь показывает GeneralParameters.ToString().
+    Изменения параметров остаются в PreProc.
+    При запуске PreProc записывает TSF и TCF.
+  end note
   class MainWindowViewModel <<planned>> {
     + Menu : MainMenuViewModel
     + Navigator : NavigatorViewModel

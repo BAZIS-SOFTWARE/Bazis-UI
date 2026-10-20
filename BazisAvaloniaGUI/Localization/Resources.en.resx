@@ -2092,6 +2092,9 @@ Create variable?</value>
   <data name="TaskKind_Mechanical" xml:space="preserve">
     <value>Mechanical</value>
   </data>
+  <data name="TaskKind_Hydrodynamic" xml:space="preserve">
+    <value>Hydrodynamic</value>
+  </data>
   <data name="SceneView.CreateGroup.NothingSelected.Message" xml:space="preserve">
     <value>Group not created: no objects selected</value>
   </data>

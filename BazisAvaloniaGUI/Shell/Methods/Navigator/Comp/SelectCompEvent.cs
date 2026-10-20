@@ -17,9 +17,9 @@ namespace BazisAvaloniaGUI.Shell
         {
             try
             {
-                var path = GetInstructionPath(arg2, out var status);
-                var parameters = ReadTaskParametersFromFile(path);
-                var isExe = status == "выполнить";
+                var path = GetInstructionPath(arg2);
+                var parameters = preProc.ElementAt(navigator.SelectedNode.Index);
+                var isExe = parameters.Status == Project.TaskParameters.TaskStatus.выполнить;
                 List<RowProperty> rows = new List<RowProperty>();
                 rows.Add(new RowProperty(CompPropertyKeys.Execute.ToString(), Resources.Header_comp_Execute, isExe));
                 
@@ -348,9 +348,6 @@ namespace BazisAvaloniaGUI.Shell
 
             foreach (TreeNode instruction in calculations[0].Nodes)
             {
-                if (!instruction.Text.Contains(".tsf", StringComparison.OrdinalIgnoreCase))
-                    continue;
-
                 var path = GetInstructionPath(instruction.Text);
                 if (string.Equals(path, currentPath, StringComparison.OrdinalIgnoreCase))
                     break;
@@ -367,7 +364,7 @@ namespace BazisAvaloniaGUI.Shell
 
         private string GetInstructionType(string nodeText)
         {
-            var separator = nodeText.IndexOf(' ');
+            var separator = nodeText.IndexOfAny(new[] { ' ', '_' });
             return separator < 0 ? nodeText : nodeText[..separator];
         }
 

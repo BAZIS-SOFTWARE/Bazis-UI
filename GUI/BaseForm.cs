@@ -434,6 +434,8 @@ namespace BazisGUI
                 var folderName = dialog.SelectedPath;
 
                 project.Create(Path.Combine(folderName, "newProject.bpf2"));
+                preProc.Clear();
+                PresentCompDataOnTree();
                 requiresSaveAs = false;
                 // Геометрия прежнего проекта не должна переходить в новый (см. OpenProject)
                 if (project.IsGeometryInitialized)
@@ -502,6 +504,8 @@ namespace BazisGUI
                 else
                 {
                     await LoadModelWithProgress(filePath, false);
+                    preProc.Clear();
+                    PresentCompDataOnTree();
                     requiresSaveAs = ext != ".bpf" && ext != ".bpf2";
 
                     // До перехода на один ProjectController открытие проекта/сетки создавало новый контроллер

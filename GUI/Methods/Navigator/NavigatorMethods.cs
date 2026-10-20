@@ -1,17 +1,12 @@
 ﻿using BazisGUI.TasksControls;
 using Geometry;
 using Model.Interfaces;
-using Newtonsoft.Json;
 using Project.Interfaces.Tasks;
-using Project.TaskParameters;
 using Project.Tasks.Functions.FrameFunctions;
 using Project.Tasks.LocalFrames;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace BazisGUI
 {
@@ -81,70 +76,5 @@ namespace BazisGUI
         }
 
         
-        [Obsolete("Не используем, так как свойства редактируются через панель \"свойств\"")]
-        public void EditTSFFile(string fileName)
-        {
-            try
-            {
-                var parameters = ReadTaskParametersFromFile(fileName);
-
-                var cntr = new TaskControl();
-                cntr.BtnSave_ClickEvent += (arg) =>
-                {
-                    File.WriteAllText(fileName, arg);
-                    console.PrintInfo($"Файл {fileName} изменен", Color.Green);
-                };
-                cntr.InputData(parameters);
-
-                var location = PointToScreen(Point.Empty);
-
-                var form = new Form()
-                {
-                    Text = fileName,
-                    ShowIcon = false,
-                    ClientSize = cntr.Size,
-                    FormBorderStyle = FormBorderStyle.FixedSingle,
-                    Owner = Application.OpenForms[0],
-
-                };
-                form.Controls.Add(cntr);
-                form.Location = location;
-                form.Show();
-            }
-            catch (Exception ex)
-            {
-                console.PrintInfo(ex.Message, Color.Green);
-            }
-
-        }
-
-        public GeneralParameters ReadTaskParametersFromFile(string filePath)
-        {
-            var settingsSerializer = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto,
-                Formatting = Newtonsoft.Json.Formatting.Indented
-            };
-
-            var fileName = Path.GetFileNameWithoutExtension(filePath);
-            var taskName = fileName.Split('_')[0];
-
-            TaskKind taskKind;
-            Enum.TryParse(taskName, out taskKind);
-
-            if (taskKind == TaskKind.термическая)
-            {
-                return JsonConvert.DeserializeObject<TermalParameters>
-(File.ReadAllText(filePath), settingsSerializer);
-            }
-            else if (taskKind == TaskKind.механическая)
-            {
-                return JsonConvert.DeserializeObject<MechanicalParameters>
-(File.ReadAllText(filePath), settingsSerializer);
-            }
-            else return JsonConvert.DeserializeObject<ChemicalParameters>
-(File.ReadAllText(filePath), settingsSerializer);
-
-        }
     }
 }

@@ -1371,6 +1371,8 @@ internal class Resources
 
     internal static string TaskKind_Chemical => ResourceManager.GetString("TaskKind_Chemical", Culture);
 
+    internal static string TaskKind_Hydrodynamic => ResourceManager.GetString("TaskKind_Hydrodynamic", Culture);
+
     internal static string TaskKind_Mechanical => ResourceManager.GetString("TaskKind_Mechanical", Culture);
 
     internal static string TaskKind_Termal => ResourceManager.GetString("TaskKind_Termal", Culture);

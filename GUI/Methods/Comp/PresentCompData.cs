@@ -10,23 +10,23 @@ namespace BazisGUI
 {
     public partial class BaseForm
     {
-        public void PresentCompDataOnTree(List<string> compData)
+        public void PresentCompDataOnTree()
         {
             try
             {
                 List<TreeNode> comp;
                 var search = navigator.TrySearchNodes(NodeName.Calculations, out comp);
 
-                if (compData.Count() != 0)
+                if (preProc.Any())
                     if(search)
                     {
-                        NewMethod(compData, comp.First());
+                        NewMethod(comp.First());
                     }
                     else
                     {
                         var rn = navigator.CreateRealNode(NodeName.Calculations);
                         //navigator.SetContextMenu(rn);
-                        NewMethod(compData, rn);
+                        NewMethod(rn);
                         navigator.TrySearchNodes(NodeName.Project, out List<TreeNode> prNodes);
                         prNodes[0].Nodes.Add(rn);
                     }
@@ -42,14 +42,13 @@ namespace BazisGUI
             }
         }
 
-        private void NewMethod(List<string> compData, TreeNode compNode)
+        private void NewMethod(TreeNode compNode)
         {
             navigator.BeginUpdate();
             compNode.Nodes.Clear();
-            foreach (var item in compData)
+            foreach (var parameters in preProc)
             {
-                //var nodeName = item.Split(' ')[0].ToEnum<NodeName>();
-                var r = navigator.CreateRealNode(NodeName.Calculation, item);
+                var r = navigator.CreateRealNode(NodeName.Calculation, parameters.ToString());
 
                 compNode.Nodes.Add(r);
             }

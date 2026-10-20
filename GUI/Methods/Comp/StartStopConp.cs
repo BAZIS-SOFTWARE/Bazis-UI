@@ -26,18 +26,7 @@ namespace BazisGUI
                 if (!CheckProjectDataBeforeCreationTCF())
                     return;
 
-                var tasks = new List<string>();
-                if (!navigator.TrySearchNodes(NodeName.Calculations, out List<TreeNode> calculationNodes))
-                    throw new InvalidOperationException("The calculation queue is empty.");
-                foreach (TreeNode item in calculationNodes[0].Nodes)
-                {
-                    var path = GetInstructionPath(item.Text, out var status);
-                    var relativePath = Path.GetRelativePath(WorkingDir, path).Replace('\\', '/');
-                    var kind = GetInstructionType(item.Text);
-                    tasks.Add($"{kind} {relativePath} {status}");
-                }
-
-                var cmdFile = preProc.WriteCommandFile(lblStatus.Text, tasks);
+                var cmdFile = preProc.WriteInstructions(lblStatus.Text);
 
                 console.PrintInfo($"{Resources.StartStopConp_FormCommandFile_Message} {cmdFile}", Color.Green);
 

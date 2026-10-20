@@ -58,7 +58,7 @@ namespace BazisAvaloniaGUI.Shell
 
         private void ChangeCompProperties(Properties.PropertyChangedEventArgs obj, string nodeText)
         {
-            var parameters = ReadTaskParametersFromFile(GetInstructionPath(nodeText));
+            var parameters = preProc.ElementAt(navigator.SelectedNode.Index);
             if (parameters is ChemicalParameters cmp) 
                 ChangeChemicalTask(obj, cmp);
             else if (parameters is MechanicalParameters mhp) 
@@ -76,13 +76,7 @@ namespace BazisAvaloniaGUI.Shell
                     case CompPropertyKeys.Execute:
                         // TODO: проверить корректность работы с данными при их смене
                         var isExe = bool.Parse(obj.NewValue);
-                        var selectedInstruction = navigator.SelectedNode;
-                        if (isExe)
-                            selectedInstruction.Text = selectedInstruction.Text.Replace("пропустить", "выполнить");
-                        else
-                            selectedInstruction.Text = selectedInstruction.Text.Replace("выполнить", "пропустить");
-
-                        nodeText = selectedInstruction.Text;
+                        parameters.Status = isExe ? Project.TaskParameters.TaskStatus.выполнить : Project.TaskParameters.TaskStatus.пропустить;
                         break;
                     // Solver и MatrixStorage доступны только на чтение — настройки пересоздаются.
                     case CompPropertyKeys.Algorithm:
@@ -160,7 +154,8 @@ namespace BazisAvaloniaGUI.Shell
                 }
             }
 
-            SaveGeneralParametersToFile(parameters, nodeText);
+            navigator.SelectedNode.Text = parameters.ToString();
+            nodeText = navigator.SelectedNode.Text;
 
             // перерисовывает панель свойств, если изменился параметр, от которого зависит
             // состав строк или показанное значение отличается от введённого.
@@ -223,10 +218,9 @@ namespace BazisAvaloniaGUI.Shell
                     var selectedInstruction = task[0].Nodes.Cast<TreeNode>().FirstOrDefault(inst => inst.Text.Contains(name));
 
                     var isExe = bool.Parse(obj.NewValue);
-                    if (isExe)
-                        selectedInstruction.Text = selectedInstruction.Text.Replace("пропустить", "выполнить");
-                    else
-                        selectedInstruction.Text = selectedInstruction.Text.Replace("выполнить", "пропустить");
+                    var parameters = preProc.ElementAt(selectedInstruction.Index);
+                    parameters.Status = isExe ? Project.TaskParameters.TaskStatus.выполнить : Project.TaskParameters.TaskStatus.пропустить;
+                    selectedInstruction.Text = parameters.ToString();
                 }
                 Navigator_SelectCompsEvent();
             }
@@ -301,17 +295,13 @@ namespace BazisAvaloniaGUI.Shell
             {
                 var selectedNode = navigator.SelectedNode;
                 var compType = GetInstructionType(selectedNode.Text);
-                var sample = ReadTaskParametersFromFile(GetInstructionPath(selectedNode.Text));
+                var sample = preProc.ElementAt(selectedNode.Index);
 
-                var tasks = new List<string>();
                 navigator.TrySearchNodes(NodeName.Calculations, out List<TreeNode> task);
                 foreach (TreeNode item in task[0].Nodes)
-                    tasks.Add(item.Text);
-
-                foreach (var taskName in tasks)
-                    if (GetInstructionType(taskName) == compType)
+                    if (GetInstructionType(item.Text) == compType)
                     {
-                        var temp = ReadTaskParametersFromFile(GetInstructionPath(taskName));
+                        var temp = preProc.ElementAt(item.Index);
 
                         if(temp is TermalParameters term)
                         {
@@ -342,7 +332,6 @@ namespace BazisAvaloniaGUI.Shell
                         temp.TimeSettings.InitTimeStep = sample.TimeSettings.InitTimeStep;
                         temp.TimeSettings.MinTimeStep = sample.TimeSettings.MinTimeStep;
                         temp.TimeSettings.MaxTimeStep = sample.TimeSettings.MaxTimeStep;
-                        SaveGeneralParametersToFile(temp, taskName);
                     }
                         // TODO
                        
@@ -353,39 +342,27 @@ namespace BazisAvaloniaGUI.Shell
             }
         }
 
-        private void SaveGeneralParametersToFile(GeneralParameters parameters, string nodeText)
-        {
-            var settingsSerializer = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto,
-                Formatting = Newtonsoft.Json.Formatting.Indented
-            };
-
-            var parLine = JsonConvert.SerializeObject(parameters, settingsSerializer);
-            File.WriteAllText(GetInstructionPath(nodeText), parLine);
-        }
-
         /// <summary>
-        /// Путь к файлу инструкции из текста узла дерева «тип путь статус».
-        /// Путь может содержать пробелы, поэтому его границей служит расширение файла,
-        /// а не разбиение по пробелам.
+        /// Возвращает путь TSF по текстовому представлению GeneralParameters.
+        /// Старые узлы с явным путём поддерживаются при загрузке прежней очереди.
         /// </summary>
-        private string GetInstructionPath(string nodeText) => GetInstructionPath(nodeText, out _);
-
-        /// <inheritdoc cref="GetInstructionPath(string)"/>
-        /// <param name="status">Признак выполнения инструкции, идущий после пути.</param>
-        private string GetInstructionPath(string nodeText, out string status)
+        private string GetInstructionPath(string nodeText)
         {
             const string extension = ".tsf";
-
-            var start = nodeText.IndexOf(' ') + 1;
             var end = nodeText.LastIndexOf(extension, StringComparison.OrdinalIgnoreCase);
-            if (start <= 0 || end < start)
-                throw new ArgumentException($"Не удалось определить путь к файлу инструкции: «{nodeText}».");
+            if (end >= 0)
+            {
+                var start = nodeText.IndexOf(' ') + 1;
+                if (start <= 0 || end < start)
+                    throw new ArgumentException("The instruction path is invalid.", nameof(nodeText));
+                return nodeText[start..(end + extension.Length)].Trim();
+            }
 
-            end += extension.Length;
-            status = nodeText[end..].Trim();
-            return nodeText[start..end].Trim();
+            var separator = nodeText.LastIndexOf('_');
+            if (separator < 0 || !Enum.TryParse<Project.TaskParameters.TaskStatus>(nodeText[(separator + 1)..], out _))
+                throw new ArgumentException("The instruction text is invalid.", nameof(nodeText));
+            var fileName = nodeText[..separator] + extension;
+            return Path.Combine(WorkingDir, "InputData", fileName);
         }
 
         /// <summary>Возвращает внешний набор полей, не изменяя модель.</summary>

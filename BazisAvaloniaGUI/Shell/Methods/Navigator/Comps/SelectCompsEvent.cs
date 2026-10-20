@@ -4,7 +4,6 @@ using BazisAvaloniaGUI.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 
 namespace BazisAvaloniaGUI.Shell
@@ -30,11 +29,11 @@ namespace BazisAvaloniaGUI.Shell
                 List<RowProperty> rows = new List<RowProperty>();
                 rows.Add(new RowProperty(CompPropertyKeys.Type.ToString(), Resources.Header_comp_Type, new DropDownPropertyValue(selectInstruction, taskType)));
 
-                foreach (var taskName in tasks)
+                for (var index = 0; index < tasks.Count; index++)
                 {
-                    var path = GetInstructionPath(taskName, out var status);
-                    var isExe = status == "выполнить";
-                    var name = Path.GetFileName(path);
+                    var taskName = tasks[index];
+                    var isExe = preProc.ElementAt(index).Status == Project.TaskParameters.TaskStatus.выполнить;
+                    var name = taskName;
 
                     if (selectInstruction == "все")
                     {

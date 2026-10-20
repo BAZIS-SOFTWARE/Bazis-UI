@@ -53,6 +53,7 @@ namespace BazisAvaloniaGUI.Utilities
                 TaskKind.химическая => Resources.TaskKind_Chemical,
                 TaskKind.термическая => Resources.TaskKind_Termal,
                 TaskKind.механическая => Resources.TaskKind_Mechanical,
+                TaskKind.гидродинамическая => Resources.TaskKind_Hydrodynamic,
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
         }

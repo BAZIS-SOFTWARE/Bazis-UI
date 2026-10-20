@@ -12,6 +12,11 @@ namespace BazisAvaloniaGUI.Shell
         {
             try
             {
+                if (compData.Count == 0)
+                    preProc.Clear();
+                else if (compData.Count != preProc.Count())
+                    throw new InvalidOperationException("The displayed queue differs from the preprocessor queue.");
+
                 List<TreeNode> comp;
                 var search = navigator.TrySearchNodes(NodeName.Calculations, out comp);
 

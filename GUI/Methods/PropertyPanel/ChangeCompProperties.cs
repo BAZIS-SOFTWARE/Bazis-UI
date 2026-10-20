@@ -59,7 +59,7 @@ namespace BazisGUI
 
         private void ChangeCompProperties(PropertiesPanel.PropertyChangedEventArgs obj, string nodeText)
         {
-            var parameters = ReadTaskParametersFromFile(GetInstructionPath(nodeText));
+            var parameters = preProc.ElementAt(navigator.SelectedNode.Index);
             if (parameters is ChemicalParameters cmp) 
                 ChangeChemicalTask(obj, cmp);
             else if (parameters is MechanicalParameters mhp) 
@@ -75,15 +75,8 @@ namespace BazisGUI
                 switch (key)
                 {
                     case CompPropertyKeys.Execute:
-                        // TODO: проверить корректность работы с данными при их смене
                         var isExe = bool.Parse(obj.NewValue);
-                        var selectedInstruction = navigator.SelectedNode;
-                        if (isExe)
-                            selectedInstruction.Text = selectedInstruction.Text.Replace("пропустить", "выполнить");
-                        else
-                            selectedInstruction.Text = selectedInstruction.Text.Replace("выполнить", "пропустить");
-
-                        nodeText = selectedInstruction.Text;
+                        parameters.Status = isExe ? TaskStatus.выполнить : TaskStatus.пропустить;
                         break;
                     // Solver и MatrixStorage доступны только на чтение — настройки пересоздаются.
                     case CompPropertyKeys.Algorithm:
@@ -161,7 +154,9 @@ namespace BazisGUI
                 }
             }
 
-            SaveGeneralParametersToFile(parameters, nodeText);
+            navigator.SelectedNode.Text = parameters.ToString();
+            nodeText = navigator.SelectedNode.Text;
+            SaveGeneralParametersToFile(parameters);
 
             // перерисовывает панель свойств, если изменился параметр, от которого зависит
             // состав строк или показанное значение отличается от введённого.
@@ -218,16 +213,24 @@ namespace BazisGUI
                     selectInstruction = obj.NewValue;
                 else if (key == CompPropertyKeys.Execute)
                 {
-                    // obj.LocalizedHeader.Contains("Выполнять")
-                    var name = obj.LocalizedHeader.Split(' ')[1];
+                    var prefix = $"{Properties.Resources.Execute} ";
+                    if (!obj.LocalizedHeader.StartsWith(prefix, StringComparison.Ordinal))
+                        throw new InvalidOperationException("The calculation property does not identify a task.");
+                    var name = obj.LocalizedHeader[prefix.Length..];
                     navigator.TrySearchNodes(NodeName.Calculations, out List<TreeNode> task);
-                    var selectedInstruction = task[0].Nodes.Cast<TreeNode>().FirstOrDefault(inst => inst.Text.Contains(name));
-
                     var isExe = bool.Parse(obj.NewValue);
-                    if (isExe)
-                        selectedInstruction.Text = selectedInstruction.Text.Replace("пропустить", "выполнить");
-                    else
-                        selectedInstruction.Text = selectedInstruction.Text.Replace("выполнить", "пропустить");
+                    var index = 0;
+                    foreach (var parameters in preProc)
+                    {
+                        if ($"{parameters.FileStem}.tsf" == name)
+                        {
+                            parameters.Status = isExe ? TaskStatus.выполнить : TaskStatus.пропустить;
+                            task[0].Nodes[index].Text = parameters.ToString();
+                            SaveGeneralParametersToFile(parameters);
+                            break;
+                        }
+                        index++;
+                    }
                 }
                 Navigator_SelectCompsEvent();
             }
@@ -300,53 +303,45 @@ namespace BazisGUI
         {
             try
             {
-                var selectedNode = navigator.SelectedNode;
-                var compType = GetInstructionType(selectedNode.Text);
-                var sample = ReadTaskParametersFromFile(GetInstructionPath(selectedNode.Text));
-
-                var tasks = new List<string>();
-                navigator.TrySearchNodes(NodeName.Calculations, out List<TreeNode> task);
-                foreach (TreeNode item in task[0].Nodes)
-                    tasks.Add(item.Text);
-
-                foreach (var taskName in tasks)
-                    if (GetInstructionType(taskName) == compType)
+                var sample = preProc.ElementAt(navigator.SelectedNode.Index);
+                foreach (var temp in preProc)
+                    if (temp.TaskKind == sample.TaskKind)
                     {
-                        var temp = ReadTaskParametersFromFile(GetInstructionPath(taskName));
-
-                        if(temp is TermalParameters term)
+                        if (temp is TermalParameters term && sample is TermalParameters termSample)
                         {
-                            var _sample = sample as TermalParameters;
-                            term.TermalConvergence.Is_Switched_Tm = _sample.TermalConvergence.Is_Switched_Tm;
-                            term.TermalConvergence.Tm = _sample.TermalConvergence.Tm;
+                            term.TermalConvergence.Is_Switched_Tm = termSample.TermalConvergence.Is_Switched_Tm;
+                            term.TermalConvergence.Tm = termSample.TermalConvergence.Tm;
+                            term.MetallurgicalProcesses = new List<string>(termSample.MetallurgicalProcesses);
                         }
-                        else if (temp is MechanicalParameters mech)
+                        else if (temp is MechanicalParameters mech && sample is MechanicalParameters mechSample)
                         {
-                            var _sample = sample as MechanicalParameters;
-                            mech.MechanicalConvergence.DUm = _sample.MechanicalConvergence.DUm;
-                            mech.MechanicalConvergence.Is_Physically_NonLinear = _sample.MechanicalConvergence.Is_Physically_NonLinear;
-                            mech.MechanicalConvergence.Is_Switched_Um = _sample.MechanicalConvergence.Is_Switched_Um;
-                            mech.MechanicalConvergence.MaterialPlasticityCoeff = _sample.MechanicalConvergence.MaterialPlasticityCoeff;
-                            mech.MechanicalConvergence.Um = _sample.MechanicalConvergence.Um;
-                            mech.MechanicalConvergence.PlasticityCriterion = _sample.MechanicalConvergence.PlasticityCriterion;
-                            mech.MechanicalConvergence.SiStm = _sample.MechanicalConvergence.SiStm;
+                            mech.MechanicalConvergence.DUm = mechSample.MechanicalConvergence.DUm;
+                            mech.MechanicalConvergence.Is_Physically_NonLinear = mechSample.MechanicalConvergence.Is_Physically_NonLinear;
+                            mech.MechanicalConvergence.Is_Switched_Um = mechSample.MechanicalConvergence.Is_Switched_Um;
+                            mech.MechanicalConvergence.MaterialPlasticityCoeff = mechSample.MechanicalConvergence.MaterialPlasticityCoeff;
+                            mech.MechanicalConvergence.Um = mechSample.MechanicalConvergence.Um;
+                            mech.MechanicalConvergence.PlasticityCriterion = mechSample.MechanicalConvergence.PlasticityCriterion;
+                            mech.MechanicalConvergence.SiStm = mechSample.MechanicalConvergence.SiStm;
                         }
-
-                        if (temp is TermalParameters termTarget && sample is TermalParameters termSample)
-                            termTarget.MetallurgicalProcesses = termSample.MetallurgicalProcesses;
 
                         // Начальное состояние не переносится: PreProc задаёт его отдельно
                         // для каждой инструкции цепочки (файл рестарта предыдущей задачи).
                         temp.Iterations = sample.Iterations;
                         temp.SaveRate = sample.SaveRate;
-                        temp.SolverSettings = EnsureSolverSettings(sample);
+                        var solver = EnsureSolverSettings(sample);
+                        temp.SolverSettings = new SolverSettings(solver.Solver, solver.MatrixStorage)
+                        {
+                            MaxIter = solver.MaxIter,
+                            Precision = solver.Precision,
+                            Relaxation = solver.Relaxation,
+                            MaxRelaxation = solver.MaxRelaxation,
+                            Priority = solver.Priority
+                        };
                         temp.TimeSettings.InitTimeStep = sample.TimeSettings.InitTimeStep;
                         temp.TimeSettings.MinTimeStep = sample.TimeSettings.MinTimeStep;
                         temp.TimeSettings.MaxTimeStep = sample.TimeSettings.MaxTimeStep;
-                        SaveGeneralParametersToFile(temp, taskName);
+                        SaveGeneralParametersToFile(temp);
                     }
-                        // TODO
-                       
             }
             catch (Exception ex)
             {
@@ -354,7 +349,8 @@ namespace BazisGUI
             }
         }
 
-        private void SaveGeneralParametersToFile(GeneralParameters parameters, string nodeText)
+        /// <summary>Сохраняет параметры инструкции по имени, полученному из объекта очереди.</summary>
+        private void SaveGeneralParametersToFile(GeneralParameters parameters)
         {
             var settingsSerializer = new JsonSerializerSettings
             {
@@ -363,30 +359,8 @@ namespace BazisGUI
             };
 
             var parLine = JsonConvert.SerializeObject(parameters, settingsSerializer);
-            File.WriteAllText(GetInstructionPath(nodeText), parLine);
-        }
-
-        /// <summary>
-        /// Путь к файлу инструкции из текста узла дерева «тип путь статус».
-        /// Путь может содержать пробелы, поэтому его границей служит расширение файла,
-        /// а не разбиение по пробелам.
-        /// </summary>
-        private string GetInstructionPath(string nodeText) => GetInstructionPath(nodeText, out _);
-
-        /// <inheritdoc cref="GetInstructionPath(string)"/>
-        /// <param name="status">Признак выполнения инструкции, идущий после пути.</param>
-        private string GetInstructionPath(string nodeText, out string status)
-        {
-            const string extension = ".tsf";
-
-            var start = nodeText.IndexOf(' ') + 1;
-            var end = nodeText.LastIndexOf(extension, StringComparison.OrdinalIgnoreCase);
-            if (start <= 0 || end < start)
-                throw new ArgumentException($"Не удалось определить путь к файлу инструкции: «{nodeText}».");
-
-            end += extension.Length;
-            status = nodeText[end..].Trim();
-            return nodeText[start..end].Trim();
+            var path = Path.Combine(WorkingDir, "InputData", $"{parameters.FileStem}.tsf");
+            File.WriteAllText(path, parLine);
         }
 
         /// <summary>Возвращает внешний набор полей, не изменяя модель.</summary>

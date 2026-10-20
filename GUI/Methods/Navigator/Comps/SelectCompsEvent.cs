@@ -18,11 +18,6 @@ namespace BazisGUI
         {
             try
             {
-                var tasks = new List<string>();
-                navigator.TrySearchNodes(NodeName.Calculations, out List<TreeNode> task);
-                foreach (TreeNode item in task[0].Nodes)
-                    tasks.Add(item.Text);
-
                 var taskType = Enum.GetValues<TaskTypePropertyKeys>().Select(x => x.ToString()).ToList();
 
                 if (selectInstruction == string.Empty)
@@ -31,17 +26,16 @@ namespace BazisGUI
                 List<RowProperty> rows = new List<RowProperty>();
                 rows.Add(new RowProperty(CompPropertyKeys.Type.ToString(), Resources.Header_comp_Type, new DropDownPropertyValue(selectInstruction, taskType)));
 
-                foreach (var taskName in tasks)
+                foreach (var parameters in preProc)
                 {
-                    var path = GetInstructionPath(taskName, out var status);
-                    var isExe = status == "выполнить";
-                    var name = Path.GetFileName(path);
+                    var isExe = parameters.Status == Project.TaskParameters.TaskStatus.выполнить;
+                    var name = $"{parameters.FileStem}.tsf";
 
                     if (selectInstruction == "все")
                     {
                         rows.Add(new RowProperty(CompPropertyKeys.Execute.ToString(),$"{Resources.Execute} {name}", isExe));
                     }
-                    else if (GetInstructionType(taskName) == selectInstruction)
+                    else if (parameters.TaskKind.ToString() == selectInstruction)
                     {
                         rows.Add(new RowProperty(CompPropertyKeys.Execute.ToString(), $"{Resources.Execute} {name}", isExe));
                     }

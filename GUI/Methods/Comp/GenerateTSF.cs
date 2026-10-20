@@ -31,13 +31,11 @@ namespace BazisGUI
                     Formatting = Newtonsoft.Json.Formatting.Indented
                 };
                 var files = new Dictionary<string, string>();
-                var instructions = new List<string>();
                 foreach (var parameter in parameters)
                 {
-                    var path = Path.Combine(inputDir, $"{parameter}.tsf");
+                    var path = Path.Combine(inputDir, $"{parameter.FileStem}.tsf");
                     var contents = JsonConvert.SerializeObject(parameter, serializer);
                     files.Add(path, contents);
-                    instructions.Add($"{parameter.TaskKind} {path} {TaskStatus.выполнить}");
                 }
                 var oldTasks = Directory.GetFiles(inputDir, "*.tsf");
                 foreach (var oldTask in oldTasks)
@@ -45,7 +43,7 @@ namespace BazisGUI
                 foreach (var file in files)
                     File.WriteAllText(file.Key, file.Value, new UTF8Encoding(false));
 
-                PresentCompDataOnTree(instructions);
+                PresentCompDataOnTree();
 
                 console.PrintInfo($"{Resources.GenerateTSF_InstructionsFormed_Message} {inputDir}", Color.Green);
 

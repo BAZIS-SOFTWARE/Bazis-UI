@@ -18,9 +18,8 @@ namespace BazisGUI
         {
             try
             {
-                var path = GetInstructionPath(arg2, out var status);
-                var parameters = ReadTaskParametersFromFile(path);
-                var isExe = status == "выполнить";
+                var parameters = preProc.ElementAt(navigator.SelectedNode.Index);
+                var isExe = parameters.Status == TaskStatus.выполнить;
                 List<RowProperty> rows = new List<RowProperty>();
                 rows.Add(new RowProperty(CompPropertyKeys.Execute.ToString(), Properties.Resources.Header_comp_Execute, isExe));
                 
@@ -34,9 +33,8 @@ namespace BazisGUI
                 rows.AddRange(GetPropertySolverSettings(parameters));
                 rows.AddRange(GetPropertyBasic(parameters));
                 rows.AddRange(GetPropertyTimeSettings(parameters));
-                var taskType = GetInstructionType(arg2);
-                var availableResults = GetInstructionResultNames(path);
-                var availableInitialResults = GetInstructionResultNames(path, taskType);
+                var availableResults = GetInstructionResultNames(parameters);
+                var availableInitialResults = GetInstructionResultNames(parameters, parameters.TaskKind);
                 rows.AddRange(GetPropertyInitialState(parameters, availableInitialResults));
                 rows.AddRange(GetPropertyInputFields(parameters, availableResults));
                 rows.Add(new RowProperty(SelectCompKeys.ApplyForAll.ToString(), Properties.Resources.Header_comp_ApplyForAll, new ButtonPropertyValue(Properties.Resources.OK, () => ApplySettingsToAllInstructions())));
@@ -333,43 +331,22 @@ namespace BazisGUI
         }
 
         /// <summary>
-        /// Имена файлов результатов, на которые можно сослаться.
-        /// Файла ещё нет — он появится после решения задачи, — поэтому выбирается инструкция,
-        /// а имя её результата выводится из имени файла инструкции: так же его формирует PreProc
-        /// (см. PreProc.CreateFilesForSingleProcess, где .tsf и .db имеют общую основу имени).
+        /// Имена файлов результатов предыдущих инструкций, на которые можно сослаться.
         /// </summary>
-        /// <param name="currentPath">Файл текущей инструкции. В список попадают только предыдущие инструкции.</param>
-        /// <param name="taskType">Если указан, в список попадают только задачи того же типа.</param>
-        private List<string> GetInstructionResultNames(string currentPath, string taskType = null)
+        /// <param name="current">Текущая инструкция. В список попадают только предыдущие инструкции.</param>
+        /// <param name="taskKind">Если указан, в список попадают только задачи того же типа.</param>
+        private List<string> GetInstructionResultNames(GeneralParameters current, TaskKind? taskKind = null)
         {
             var names = new List<string> { string.Empty };
-
-            if (!navigator.TrySearchNodes(NodeName.Calculations, out List<TreeNode> calculations))
-                return names;
-
-            foreach (TreeNode instruction in calculations[0].Nodes)
+            foreach (var instruction in preProc)
             {
-                if (!instruction.Text.Contains(".tsf", StringComparison.OrdinalIgnoreCase))
-                    continue;
-
-                var path = GetInstructionPath(instruction.Text);
-                if (string.Equals(path, currentPath, StringComparison.OrdinalIgnoreCase))
+                if (instruction == current)
                     break;
-
-                if (taskType != null && !string.Equals(
-                    GetInstructionType(instruction.Text), taskType, StringComparison.OrdinalIgnoreCase))
+                if (taskKind.HasValue && instruction.TaskKind != taskKind.Value)
                     continue;
-
-                names.Add(Path.ChangeExtension(Path.GetFileName(path), ".db"));
+                names.Add($"{instruction.FileStem}.db");
             }
-
             return names;
-        }
-
-        private string GetInstructionType(string nodeText)
-        {
-            var separator = nodeText.IndexOf(' ');
-            return separator < 0 ? nodeText : nodeText[..separator];
         }
 
         /// <summary>
