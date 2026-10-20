@@ -68,6 +68,9 @@ namespace BazisAvaloniaGUI.Utilities
             if (displayName == Resources.TaskKind_Mechanical)
                 return TaskKind.механическая;
 
+            if (displayName == Resources.TaskKind_Hydrodynamic)
+                return TaskKind.гидродинамическая;
+
             throw new ArgumentOutOfRangeException(nameof(displayName), displayName, null);
         }
 
