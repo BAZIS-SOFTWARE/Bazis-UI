@@ -1,6 +1,6 @@
 using SceneCore.Camera;
 using SceneCore.Input;
-using WinGUI.Scene.EventsArgs;
+using SceneCore.EventsArgs;
 using Geometry;
 
 namespace SceneCore.Tests

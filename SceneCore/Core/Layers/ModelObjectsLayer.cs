@@ -1,7 +1,7 @@
 using System.Linq;
 using SceneCore.Rendering;
-using WinGUI.Scene.Interfaces;
-using WinGUI.Scene.VBO;
+using SceneCore.Interfaces;
+using SceneCore.VBO;
 using OpenTK.Graphics.OpenGL;
 
 namespace SceneCore.Layers

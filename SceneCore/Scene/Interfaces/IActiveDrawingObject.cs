@@ -1,6 +1,6 @@
-﻿using WinGUI.Scene.VBO;
+﻿using SceneCore.VBO;
 
-namespace WinGUI.Scene.Interfaces
+namespace SceneCore.Interfaces
 {
     /// <summary>
     /// Элемент который сейчас активен в интерфейсе IActiveDrawingObject

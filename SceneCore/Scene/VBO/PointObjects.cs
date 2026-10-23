@@ -1,7 +1,7 @@
-﻿using WinGUI.Scene.Interfaces;
+﻿using SceneCore.Interfaces;
 using OpenTK.Graphics.OpenGL;
 
-namespace WinGUI.Scene.VBO
+namespace SceneCore.VBO
 {
     /// <summary>
     /// PointObjects

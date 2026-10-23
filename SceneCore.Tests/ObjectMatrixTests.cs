@@ -1,4 +1,4 @@
-using WinGUI.Scene;
+using SceneCore;
 using SceneCore;
 using SceneCore.Camera;
 using Geometry;

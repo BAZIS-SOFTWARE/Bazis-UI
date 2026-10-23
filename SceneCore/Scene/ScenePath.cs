@@ -2,7 +2,7 @@
 using Geometry;
 using OpenTK.Graphics.OpenGL;
 
-namespace WinGUI.Scene
+namespace SceneCore
 {
     public class ScenePath
     {

@@ -17,9 +17,10 @@ namespace WinGUI
         public void SelectByRect(IEnumerable<ISetInfo> sets, RectangleBox selectionBox, bool isSelected)
         {
             var setList = sets.ToList();
+            var pickSets = GetPickSets(setList);
             pickHits.Clear();
 
-            sceneController.SelectByRect(setList, selectionBox, isSelected, project.GetVisible);
+            sceneController.SelectByRect(pickSets, selectionBox, isSelected);
 
             var counter = 0;
             ApplySelectionColor();

@@ -9,6 +9,7 @@
     <Nullable>disable</Nullable>
     <AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
     <Configurations>Debug;Release;Debug-Linux;Release-Linux</Configurations>
+    <Version>6.0.5</Version>
   </PropertyGroup>
 
   <!-- Если выбран профиль запуска через WSL -->

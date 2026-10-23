@@ -4,7 +4,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using AvaloniaGUI.Localization;
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 using Model.Interfaces;
 using Model.Interfaces.ObjectsCollections;
 using OperationalController;

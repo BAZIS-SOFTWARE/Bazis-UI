@@ -1,6 +1,6 @@
 ﻿using WinGUI.Properties;
 using WinGUI.Reflect;
-using WinGUI.Scene.VBO;
+using SceneCore.VBO;
 using Geometry;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Model.Interfaces;
 using WinGUI.DataBases;
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 using Newtonsoft.Json;
 using System.IO;
 

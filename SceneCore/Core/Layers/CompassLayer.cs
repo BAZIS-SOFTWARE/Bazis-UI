@@ -2,7 +2,7 @@ using System.Drawing;
 using SceneCore.Primitives;
 using SceneCore.Rendering;
 using SceneCore.Text;
-using WinGUI.Scene.VBO;
+using SceneCore.VBO;
 using Geometry;
 using MathNet.Numerics.LinearAlgebra;
 using OpenTK.Graphics.OpenGL;
@@ -117,7 +117,7 @@ namespace SceneCore.Layers
         public void Dispose()
         {
             foreach (var mesh in new[] { tipX, tipY, tipZ })
-                VBO.DeleteAllBuffers(mesh);
+                SceneCore.VBO.VBO.DeleteAllBuffers(mesh);
         }
 
         private void DrawLabel(string text, Color color, Point3D position, IRenderContext context)

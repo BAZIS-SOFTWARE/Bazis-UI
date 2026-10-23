@@ -1,4 +1,4 @@
-﻿using WinGUI.Scene.Interfaces;
+﻿using SceneCore.Interfaces;
 using System;
 using Geometry;
 using System.Drawing;

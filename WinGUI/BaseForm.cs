@@ -2,9 +2,9 @@
 using WinGUI.AvaloniaUI.Chamfer.Services;
 using WinGUI.Navigator;
 using WinGUI.Properties;
-using WinGUI.Scene;
 using SceneCore;
-using WinGUI.Scene.VBO;
+using SceneCore;
+using SceneCore.VBO;
 using WinGUI.SettingsControls;
 using ClientGUI;
 using ClientLogic;

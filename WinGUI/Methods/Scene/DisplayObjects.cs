@@ -1,6 +1,6 @@
-﻿using WinGUI.Scene;
-using WinGUI.Scene.Interfaces;
-using WinGUI.Scene.VBO;
+﻿using SceneCore;
+using SceneCore.Interfaces;
+using SceneCore.VBO;
 using OpenTK.Graphics.OpenGL;
 using System;
 using System.Drawing;

@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace WinGUI.Scene.Interfaces
+namespace SceneCore.Interfaces
 {
     /// <summary>
     /// IScaleItem

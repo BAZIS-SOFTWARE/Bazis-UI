@@ -4,7 +4,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
-using WinGUI.Scene;
+using SceneCore;
 using System;
 using System.Globalization;
 using System.Linq;

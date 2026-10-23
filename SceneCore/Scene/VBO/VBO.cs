@@ -1,9 +1,9 @@
 ﻿
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 using System;
 using OpenTK.Graphics.OpenGL;
 
-namespace WinGUI.Scene.VBO
+namespace SceneCore.VBO
 {
     /// <summary>
     /// VBO methods

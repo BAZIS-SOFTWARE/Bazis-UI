@@ -1,4 +1,4 @@
-﻿namespace WinGUI.Scene.Interfaces
+﻿namespace SceneCore.Interfaces
 {
     /// <summary>
     /// Transform

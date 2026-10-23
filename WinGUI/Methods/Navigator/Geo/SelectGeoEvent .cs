@@ -1,7 +1,7 @@
 ﻿using WinGUI.Extensions;
 using WinGUI.Properties;
 using WinGUI.PropertiesPanel;
-using WinGUI.Scene.VBO;
+using SceneCore.VBO;
 using Geometry;
 using GmshApi;
 using Model.GeometryObjects;

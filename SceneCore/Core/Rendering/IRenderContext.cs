@@ -1,4 +1,4 @@
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 
 namespace SceneCore.Rendering
 {

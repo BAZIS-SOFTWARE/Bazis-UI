@@ -1,7 +1,6 @@
 ﻿
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 using Geometry;
-using PostProc;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,14 +9,14 @@ using System.Linq;
 using OpenTK.Graphics.OpenGL;
 using System.Runtime.InteropServices;
 
-namespace WinGUI.Scene
+namespace SceneCore
 {
     /// <summary>
     /// SceneScale
     /// </summary>
     public class SceneScale : ISceneScale
     {
-        //private ItemRange [] items;
+        //private SceneScaleRange [] items;
         //private int intervals = 10;
         /// <inheritdoc/>
         public int FontBase { get; set; }//идентификатор нужен для корректного отображения шрифтов
@@ -34,7 +33,7 @@ namespace WinGUI.Scene
         /// <inheritdoc/>
         public int Coord_Y { get; set; } = 140;
 
-        //public SceneScale(ItemRange[] items, string genInfo, string subInfo)
+        //public SceneScale(SceneScaleRange[] items, string genInfo, string subInfo)
         //{
         //    Title = genInfo;
         //    Info = subInfo;
@@ -58,7 +57,7 @@ namespace WinGUI.Scene
             GL.PopMatrix();
         }
         /// <inheritdoc/>
-        //public void Display(int width, int height, ItemRange[] items, Graphics g, Font font)
+        //public void Display(int width, int height, SceneScaleRange[] items, Graphics g, Font font)
         //{
         //    Initialize_GUI_Plane(width, height);
 
@@ -91,7 +90,7 @@ namespace WinGUI.Scene
         //    Finish_GUI_Plane();
         //}
 
-        public void DisplayScale(int x, int y, int gap_Y, int cellSize_Y, int step_Y, IEnumerable<ItemRange> items)
+        public void DisplayScale(int x, int y, int gap_Y, int cellSize_Y, int step_Y, IEnumerable<SceneScaleRange> items)
         {
             GL.PushMatrix();
             GL.Translate(x, y, -5);

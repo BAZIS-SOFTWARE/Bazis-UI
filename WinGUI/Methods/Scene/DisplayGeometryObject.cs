@@ -1,8 +1,8 @@
-﻿using WinGUI.Scene.Interfaces;
+﻿using SceneCore.Interfaces;
 using System;
 using Geometry;
 using System.Drawing;
-using WinGUI.Scene;
+using SceneCore;
 using System.Linq;
 using OpenTK.Graphics.OpenGL;
 using static WinGUI.Methods.PlatformSpecific.PlatformSpecific;
@@ -131,7 +131,7 @@ namespace WinGUI
             {
                 var Coord_X = settingsConfig.Scale_X_Coord;
                 var Coord_Y = settingsConfig.Scale_Y_Coord;
-                var items = resultsController.GetItems();
+                var items = resultsController.GetItems().Select(item => new SceneScaleRange(item.Min, item.Max, item.Color));
 
                 Initialize_GUI_Plane(scene.Width, scene.Height);
 

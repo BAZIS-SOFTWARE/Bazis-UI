@@ -1,7 +1,7 @@
 ﻿using WinGUI;
 using WinGUI.Properties;
-using WinGUI.Scene.Interfaces;
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
+using SceneCore.Interfaces;
 using Geometry;
 using MathNet.Numerics.LinearAlgebra;
 using Model.Interfaces;

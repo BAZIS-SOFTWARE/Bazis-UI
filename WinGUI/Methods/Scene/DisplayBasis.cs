@@ -1,9 +1,9 @@
-﻿using WinGUI.Scene.Interfaces;
+﻿using SceneCore.Interfaces;
 using System;
 //using Tao.OpenGl;
 using Geometry;
 using System.Drawing;
-using WinGUI.Scene;
+using SceneCore;
 using MathNet.Numerics.LinearAlgebra;
 using OpenTK.Graphics.OpenGL;
 using static WinGUI.Methods.PlatformSpecific.PlatformSpecific;

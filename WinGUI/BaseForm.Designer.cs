@@ -1,6 +1,6 @@
 ﻿
 using WinGUI.Navigator;
-using WinGUI.Scene.EventsArgs;
+using SceneCore.EventsArgs;
 using WinGUI.SettingsControls;
 using System;
 using System.Collections.Generic;

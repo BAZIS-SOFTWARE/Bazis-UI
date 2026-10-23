@@ -1,5 +1,5 @@
 using System.Drawing;
-using WinGUI.Scene.VBO;
+using SceneCore.VBO;
 
 namespace SceneCore.Primitives
 {

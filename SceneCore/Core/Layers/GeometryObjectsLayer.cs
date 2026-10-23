@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SceneCore.Rendering;
-using WinGUI.Scene.VBO;
+using SceneCore.VBO;
 
 namespace SceneCore.Layers
 {
@@ -73,7 +73,7 @@ namespace SceneCore.Layers
                 return;
 
             foreach (var buffer in buffers)
-                VBO.DeleteAllBuffers(buffer);
+                SceneCore.VBO.VBO.DeleteAllBuffers(buffer);
             ownedBuffers.Remove(key);
         }
     }

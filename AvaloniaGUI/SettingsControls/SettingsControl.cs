@@ -6,7 +6,7 @@ using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Media;
 using Avalonia.Platform.Storage;
 using AvaloniaGUI.Properties;
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 using System;
 using System.Drawing;
 using System.Linq;

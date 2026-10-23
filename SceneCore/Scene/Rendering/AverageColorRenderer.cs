@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Drawing;
-using WinGUI.Scene.Interfaces;
-using WinGUI.Scene.VBO;
+using SceneCore.Interfaces;
+using SceneCore.VBO;
 using OpenTK.Graphics.OpenGL;
 
 
-namespace WinGUI.Scene
+namespace SceneCore
 {
     /// <summary>
     /// Класс для корректной визуализации прозрачных и непрозрачных объектов на сцене

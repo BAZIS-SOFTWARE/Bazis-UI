@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 using Geometry;
-using Model.Interfaces;
-using Model.Interfaces.ObjectsCollections;
 
 namespace SceneCore.Picking
 {
@@ -27,31 +25,28 @@ namespace SceneCore.Picking
             this.camera = camera;
         }
 
-        public bool SelectByPoint(IEnumerable<ISetInfo> sets, Point2D selectionPoint, bool isSelected, Func<ObjType, int, bool> isVisible = null)
+        public bool SelectByPoint(IEnumerable<Set> sets, Point2D selectionPoint, bool isSelected)
         {
             var selFlag = false;
             var tempNumbs = new List<int>();
-            ISetInfo tempSetInfo = null;
+            Set tempSetInfo = null;
             var curZDepth = 0.0f;
 
             foreach (var set in sets)
             {
-                foreach (var numb in set.GetNumbers())
+                foreach (var item in set.Objects)
                 {
-                    if (isVisible != null && !isVisible(set.ObjType, numb))
-                        continue;
-
                     var scrPoints = new List<Point2D>();
                     var scnPoints = new List<Point3D>();
 
-                    foreach (var point in set.GetCoords(numb))
+                    foreach (var point in item.Points)
                     {
                         var scnPoint = camera.GetSceenCoord(point);
                         scnPoints.Add(scnPoint);
                         scrPoints.Add(camera.GetScreenCoord(scnPoint));
                     }
 
-                    if (!IsObjectSelected(selectionPoint, set.ObjType, scrPoints))
+                    if (!IsObjectSelected(selectionPoint, set.Kind, scrPoints))
                         continue;
 
                     selFlag = true;
@@ -62,13 +57,13 @@ namespace SceneCore.Picking
                     var isObjectCloser = curZDepth == 0 || tempZDepth > curZDepth;
                     if (isObjectCloser)
                     {
-                        tempNumbs.Add(numb);
+                        tempNumbs.Add(item.Number);
                         tempSetInfo = set;
                         curZDepth = tempZDepth;
                     }
                     else
                     {
-                        tempNumbs.Insert(0, numb);
+                        tempNumbs.Insert(0, item.Number);
                     }
                 }
             }
@@ -79,20 +74,17 @@ namespace SceneCore.Picking
             return selFlag;
         }
 
-        public void SelectByRect(IEnumerable<ISetInfo> sets, RectangleBox selectionBox, bool isSelected, Func<ObjType, int, bool> isVisible = null)
+        public void SelectByRect(IEnumerable<Set> sets, RectangleBox selectionBox, bool isSelected)
         {
             var creator = new Hull2DCreator();
-            var selectedNumbers = new Dictionary<ISetInfo, List<int>>();
+            var selectedNumbers = new Dictionary<Set, List<int>>();
 
             foreach (var set in sets)
             {
-                foreach (var numb in set.GetNumbers())
+                foreach (var item in set.Objects)
                 {
-                    if (isVisible != null && !isVisible(set.ObjType, numb))
-                        continue;
-
                     var scrPoints = new HashSet<Point2D>();
-                    foreach (var point in set.GetCoords(numb))
+                    foreach (var point in item.Points)
                         scrPoints.Add(camera.GetScreenCoord(camera.GetSceenCoord(point)));
 
                     if (!CheckSelection(selectionBox, creator, scrPoints))
@@ -103,7 +95,7 @@ namespace SceneCore.Picking
                         numbers = new List<int>();
                         selectedNumbers.Add(set, numbers);
                     }
-                    numbers.Add(numb);
+                    numbers.Add(item.Number);
                 }
             }
 
@@ -111,11 +103,11 @@ namespace SceneCore.Picking
                 ObjectsHit?.Invoke(pair.Key.Name, pair.Value);
         }
 
-        private static bool IsObjectSelected(Point2D selectionPoint, ObjType objType, List<Point2D> scrPoints)
+        private static bool IsObjectSelected(Point2D selectionPoint, ScenePickKind kind, List<Point2D> scrPoints)
         {
-            if (objType == ObjType.Кривая)
+            if (kind == ScenePickKind.Curve)
                 return IsCurveSelected(selectionPoint, scrPoints);
-            if (objType == ObjType.Поверхность)
+            if (kind == ScenePickKind.Surface)
                 return IsSurfaceSelected(selectionPoint, scrPoints);
             return IsObjectSelected(selectionPoint, scrPoints);
         }

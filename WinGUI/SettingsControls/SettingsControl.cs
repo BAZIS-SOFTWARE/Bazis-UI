@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.Drawing;
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 using System.Linq;
 using WinGUI.Localization;
 using WinGUI.Properties;

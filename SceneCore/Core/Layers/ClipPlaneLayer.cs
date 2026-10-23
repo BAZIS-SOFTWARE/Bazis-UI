@@ -1,6 +1,6 @@
 using SceneCore.Rendering;
-using WinGUI.Scene;
-using WinGUI.Scene.VBO;
+using SceneCore;
+using SceneCore.VBO;
 using Geometry;
 using SceneCore;
 using SceneCore.Camera;

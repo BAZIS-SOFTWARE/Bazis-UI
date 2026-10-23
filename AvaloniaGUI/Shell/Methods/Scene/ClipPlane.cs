@@ -1,12 +1,12 @@
 using Avalonia.Controls;
 using ClipControl = AvaloniaGUI.Clip.ClipControl;
-using ObjView = WinGUI.Scene.Interfaces.ObjView;
+using ObjView = SceneCore.Interfaces.ObjView;
 using Avalonia.Threading;
 using AvaloniaGUI.Clip;
 using AvaloniaGUI.CrossSection;
-using WinGUI.Scene;
 using SceneCore;
-using WinGUI.Scene.VBO;
+using SceneCore;
+using SceneCore.VBO;
 using Geometry;
 using Model.GeometryObjects;
 using Model.Interfaces;

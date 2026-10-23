@@ -1,4 +1,4 @@
-﻿using WinGUI.Scene.Interfaces;
+﻿using SceneCore.Interfaces;
 using Geometry;
 using System;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Xml.Linq;
 using OpenTK.Graphics.OpenGL;
 
-namespace WinGUI.Scene.VBO
+namespace SceneCore.VBO
 {
     public class ClipPlane : SurfaceObjects
     {

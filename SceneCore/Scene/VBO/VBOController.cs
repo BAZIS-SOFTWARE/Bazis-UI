@@ -1,12 +1,12 @@
-﻿using WinGUI.Scene.EventsArgs;
-using WinGUI.Scene.Interfaces;
+﻿using SceneCore.EventsArgs;
+using SceneCore.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinGUI.Scene.VBO
+namespace SceneCore.VBO
 {
     public class VBOController
     {

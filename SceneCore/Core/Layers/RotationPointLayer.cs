@@ -1,7 +1,7 @@
 using System.Drawing;
 using SceneCore.Primitives;
 using SceneCore.Rendering;
-using WinGUI.Scene.VBO;
+using SceneCore.VBO;
 using OpenTK.Graphics.OpenGL;
 
 namespace SceneCore.Layers
@@ -34,6 +34,6 @@ namespace SceneCore.Layers
         }
 
         /// <summary>Освобождает GL-буферы меша слоя (вызывается при текущем GL-контексте).</summary>
-        public void Dispose() => VBO.DeleteAllBuffers(sphere);
+        public void Dispose() => SceneCore.VBO.VBO.DeleteAllBuffers(sphere);
     }
 }

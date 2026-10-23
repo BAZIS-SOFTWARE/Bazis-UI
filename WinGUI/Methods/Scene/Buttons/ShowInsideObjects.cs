@@ -1,8 +1,8 @@
 ﻿using WinGUI;
 using WinGUI.Properties;
-using WinGUI.Scene.Interfaces;
-using WinGUI.Scene.Interfaces;
-using WinGUI.Scene.VBO;
+using SceneCore.Interfaces;
+using SceneCore.Interfaces;
+using SceneCore.VBO;
 using Geometry;
 using MathNet.Numerics.LinearAlgebra;
 using Model.Interfaces;

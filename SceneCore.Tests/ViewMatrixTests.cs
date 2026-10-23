@@ -1,5 +1,5 @@
 using SceneCore.Camera;
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 using Geometry;
 using MathNet.Numerics.LinearAlgebra;
 

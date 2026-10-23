@@ -1,7 +1,7 @@
 using System;
 using SceneCore.Layers;
-using WinGUI.Scene.Interfaces;
-using WinGUI.Scene; // AverageColorRenderer, Advanced3DClipper (существующий переиспользуемый GL-слой)
+using SceneCore.Interfaces;
+using SceneCore; // AverageColorRenderer, Advanced3DClipper (существующий переиспользуемый GL-слой)
 using OpenTK.Graphics.OpenGL;
 
 namespace SceneCore.Rendering

@@ -1,6 +1,6 @@
 using System;
 using SceneCore.Camera;
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 
 namespace SceneCore.Tests
 {

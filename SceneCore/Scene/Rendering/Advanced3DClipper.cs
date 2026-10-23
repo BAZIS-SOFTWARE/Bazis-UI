@@ -1,10 +1,10 @@
 ﻿using System;
-using WinGUI.Scene.Interfaces;
-using WinGUI.Scene.VBO;
+using SceneCore.Interfaces;
+using SceneCore.VBO;
 using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
 
-namespace WinGUI.Scene
+namespace SceneCore
 {
     /// <summary>
     /// Режим отсечения, устанавливаемый при отрисовке модели

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
 
-namespace WinGUI.Scene
+namespace SceneCore
 {
     public class ScreenRectangle
     {

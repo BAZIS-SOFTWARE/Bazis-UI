@@ -1,7 +1,7 @@
-using WinGUI.Scene;
 using SceneCore;
-using WinGUI.Scene.Interfaces;
-using WinGUI.Scene.VBO;
+using SceneCore;
+using SceneCore.Interfaces;
+using SceneCore.VBO;
 using Model.Interfaces;
 using Model.Interfaces.ObjectsCollections;
 using OperationalController;

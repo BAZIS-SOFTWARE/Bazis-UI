@@ -10,7 +10,7 @@ using UserControlsEx.Graph;
 using Geometry;
 using Model.MeshObjects;
 using WinGUI.Console;
-using WinGUI.Scene.VBO;
+using SceneCore.VBO;
 
 namespace WinGUI
 {

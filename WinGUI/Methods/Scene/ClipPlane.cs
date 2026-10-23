@@ -1,7 +1,7 @@
 ﻿using System;
 using Geometry;
 using System.Linq;
-using WinGUI.Scene;
+using SceneCore;
 
 namespace WinGUI
 {

@@ -1,7 +1,7 @@
 ﻿using WinGUI.Extensions;
 using WinGUI.Navigator;
 using WinGUI.PropertiesPanel;
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 using Model.Interfaces;
 using Model.Interfaces.ObjectsCollections;
 using OperationalController;

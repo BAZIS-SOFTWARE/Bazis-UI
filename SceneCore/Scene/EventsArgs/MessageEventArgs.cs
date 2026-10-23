@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WinGUI.Scene.EventsArgs
+namespace SceneCore.EventsArgs
 {
     public class MessageEventArgs : EventArgs
     {

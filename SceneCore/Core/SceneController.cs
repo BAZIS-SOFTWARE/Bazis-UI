@@ -10,16 +10,13 @@ using SceneCore.Picking;
 using SceneCore.Primitives;
 using SceneCore.Rendering;
 using SceneCore.Text;
-using WinGUI.Scene.EventsArgs;
-using WinGUI.Scene.Interfaces;
-using WinGUI.Scene.VBO;
-using WinGUI.Scene; // AverageColorRenderer, Advanced3DClipper, ClipPlaneRenderer, SceneScale, ScenePath
+using SceneCore.EventsArgs;
+using SceneCore.Interfaces;
+using SceneCore.VBO;
+using SceneCore; // AverageColorRenderer, Advanced3DClipper, ClipPlaneRenderer, SceneScale, ScenePath
 using Geometry;
 using MathNet.Numerics.LinearAlgebra;
-using Model.Interfaces;
-using Model.Interfaces.ObjectsCollections;
 using OpenTK.Graphics.OpenGL;
-using PostProc;
 
 namespace SceneCore
 {
@@ -40,7 +37,7 @@ namespace SceneCore
         private readonly SceneInputController input;
         private readonly IQuadricMeshFactory meshFactory = new QuadricMeshFactory();
         private readonly ISceneTextRenderer textRenderer;
-        private readonly Dictionary<ISceneScale, List<ItemRange>> scaleItems = new Dictionary<ISceneScale, List<ItemRange>>();
+        private readonly Dictionary<ISceneScale, List<SceneScaleRange>> scaleItems = new Dictionary<ISceneScale, List<SceneScaleRange>>();
 
         private SceneLayerCollection layers;
         private SceneRenderer renderer;
@@ -421,14 +418,14 @@ namespace SceneCore
             textLayer.Labels.Add(new TextLabel { Text = str, Color = color, Position2D = coord, IsScreenSpace = true });
 
         /// <summary>
-        /// Разбиение диапазона [min, max] на ranges элементов ItemRange не было реализовано
+        /// Разбиение диапазона [min, max] на ranges элементов SceneScaleRange не было реализовано
         /// и в исходном коде (см. закомментированный SceneScale.Display/FillRange) — сюда не переносить нечего,
         /// возвращается объект шкалы без элементов легенды.
         /// </summary>
         public ISceneScale CreateScaleObject(float min, float max, decimal ranges, string title, string comments)
         {
             var scale = new SceneScale { Title = title, Info = comments };
-            scaleItems[scale] = new List<ItemRange>();
+            scaleItems[scale] = new List<SceneScaleRange>();
             return scale;
         }
 
@@ -436,8 +433,8 @@ namespace SceneCore
         /// Перенос BaseForm.DisplaySceneScale(title, info): интервалы шкалы берутся из
         /// ResultsController.GetItems(), положение — из настроек (Scale_X_Coord/Scale_Y_Coord).
         /// </summary>
-        public void DisplaySceneScale(string title, string info, IEnumerable<ItemRange> items, int x, int y) =>
-            sceneScaleLayer.Show(new SceneScale { Title = title, Info = info, Coord_X = x, Coord_Y = y }, items.ToList());
+        public void DisplaySceneScale(string title, string info, IEnumerable<SceneScaleRange> items, int x, int y) =>
+            sceneScaleLayer.Show(new SceneScale { Title = title, Info = info, Coord_X = x, Coord_Y = y }, items);
 
         public void DisplaySceneScale(ISceneScale scale)
         {
@@ -688,11 +685,11 @@ namespace SceneCore
         }
 
         /// <summary>Геометрический подбор без обращения к "project"/IModelView — см. ScenePicker.</summary>
-        public bool SelectByPoint(IEnumerable<ISetInfo> sets, Point2D point, bool isSelected, Func<ObjType, int, bool> isVisible = null) =>
-            picker.SelectByPoint(sets, point, isSelected, isVisible);
+        public bool SelectByPoint(IEnumerable<Set> sets, Point2D point, bool isSelected) =>
+            picker.SelectByPoint(sets, point, isSelected);
 
-        public void SelectByRect(IEnumerable<ISetInfo> sets, RectangleBox box, bool isSelected, Func<ObjType, int, bool> isVisible = null) =>
-            picker.SelectByRect(sets, box, isSelected, isVisible);
+        public void SelectByRect(IEnumerable<Set> sets, RectangleBox box, bool isSelected) =>
+            picker.SelectByRect(sets, box, isSelected);
 
         public byte[] CaptureScreenshot(IFrameGrabber grabber) => grabber.Capture(new Viewport(camera.Width, camera.Height));
 

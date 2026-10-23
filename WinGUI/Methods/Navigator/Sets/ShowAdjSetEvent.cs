@@ -1,5 +1,5 @@
 ﻿using WinGUI.Extensions;
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 using WinGUI.Utilities;
 using Model.Interfaces;
 using Model.Interfaces.ObjectsCollections;

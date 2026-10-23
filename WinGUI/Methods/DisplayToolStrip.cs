@@ -1,6 +1,6 @@
 ﻿using WinGUI.Console;
-using WinGUI.Scene.Interfaces;
-using WinGUI.Scene.VBO;
+using SceneCore.Interfaces;
+using SceneCore.VBO;
 using Model.Interfaces;
 using Model.Interfaces.MeshObjects;
 using Model.Interfaces.ObjectsCollections;

@@ -1,12 +1,12 @@
 ﻿using SceneCore;
 using SceneCore.Text;
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 using System;
 using System.Collections.Generic;
 using Geometry;
 using System.Drawing;
-using WinGUI.Scene.VBO;
-using WinGUI.Scene;
+using SceneCore.VBO;
+using SceneCore;
 using System.Reflection;
 using OpenTK.Graphics.OpenGL;
 using static WinGUI.Methods.PlatformSpecific.PlatformSpecific;

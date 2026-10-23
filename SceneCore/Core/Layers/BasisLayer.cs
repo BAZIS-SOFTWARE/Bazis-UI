@@ -1,7 +1,7 @@
 using System.Drawing;
 using SceneCore.Primitives;
 using SceneCore.Rendering;
-using WinGUI.Scene.VBO;
+using SceneCore.VBO;
 using OpenTK.Graphics.OpenGL;
 
 namespace SceneCore.Layers
@@ -104,7 +104,7 @@ namespace SceneCore.Layers
         public void Dispose()
         {
             foreach (var mesh in new[] { axisX, axisY, axisZ, tipX, tipY, tipZ, centre })
-                VBO.DeleteAllBuffers(mesh);
+                SceneCore.VBO.VBO.DeleteAllBuffers(mesh);
         }
     }
 }

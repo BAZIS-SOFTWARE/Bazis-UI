@@ -1,6 +1,6 @@
 ﻿using WinGUI.DataBases;
 using WinGUI.Properties;
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 using WinGUI.SettingsControls;
 using Model.Interfaces;
 using OpenTK.Graphics.OpenGL;

@@ -3,7 +3,7 @@ using AvaloniaGUI.Scene;
 using AvaloniaGUI.Utilities;
 using SceneCore;
 using SceneCore.Rendering;
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 using Geometry;
 using Model.Interfaces;
 using Model.Interfaces.ObjectsCollections;

@@ -1,8 +1,8 @@
-﻿using WinGUI.Scene.Interfaces;
+﻿using SceneCore.Interfaces;
 using System;
 using Geometry;
 using System.Drawing;
-using WinGUI.Scene;
+using SceneCore;
 using OpenTK.Graphics.OpenGL;
 using static WinGUI.Methods.PlatformSpecific.PlatformSpecific;
 

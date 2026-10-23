@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using WinGUI.Scene; // SceneScale (существующий переиспользуемый класс)
+using SceneCore; // SceneScale (существующий переиспользуемый класс)
 using SceneCore.Rendering;
 using SceneCore.Text;
 using Geometry;
 using OpenTK.Graphics.OpenGL;
-using PostProc;
 
 namespace SceneCore.Layers
 {
@@ -27,17 +26,17 @@ namespace SceneCore.Layers
 
         private readonly ISceneTextRenderer textRenderer;
         private SceneScale scale;
-        private IEnumerable<ItemRange> items;
+        private IReadOnlyList<SceneScaleRange> items;
 
         public SceneScaleLayer(ISceneTextRenderer textRenderer)
         {
             this.textRenderer = textRenderer;
         }
 
-        public void Show(SceneScale scale, IEnumerable<ItemRange> items)
+        public void Show(SceneScale scale, IEnumerable<SceneScaleRange> items)
         {
             this.scale = scale;
-            this.items = items;
+            this.items = items.ToList();
         }
 
         public void Clear()
@@ -51,7 +50,7 @@ namespace SceneCore.Layers
             if (scale == null || items == null)
                 return;
 
-            var itemList = items.ToList();
+            var itemList = items;
             if (itemList.Count == 0)
                 return;
 

@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using WinGUI.Scene.Interfaces;
-using WinGUI.Scene.VBO;
+using SceneCore.Interfaces;
+using SceneCore.VBO;
 using Geometry;
 
 namespace SceneCore.Primitives

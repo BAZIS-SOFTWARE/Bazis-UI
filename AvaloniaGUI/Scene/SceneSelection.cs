@@ -1,5 +1,6 @@
 using SceneCore;
-using WinGUI.Scene.EventsArgs;
+using SceneCore.EventsArgs;
+using SceneCore.Picking;
 using Geometry;
 using Model.Interfaces;
 using Model.Interfaces.ObjectsCollections;
@@ -22,6 +23,7 @@ internal class SceneSelection
             ? project.GetModelSetsInfo(selectedType.Value)
             : project.GetAllModelSetsInfo();
         var sets = new List<ISetInfo>(sourceSets);
+        var pickSets = GetPickSets(sets, project);
         var hits = new List<InfoObjectsEventArgs>();
         void CollectHit(object? sender, InfoObjectsEventArgs hit) => hits.Add(hit);
 
@@ -33,10 +35,10 @@ internal class SceneSelection
             {
                 var box = selection.SelectionBox;
                 var point = new Point2D((box.Left + box.Right) / 2, (box.Bottom + box.Top) / 2);
-                scene.SelectByPoint(sets, point, selection.IsSelected, project.GetVisible);
+                scene.SelectByPoint(pickSets, point, selection.IsSelected);
             }
             else
-                scene.SelectByRect(sets, selection.SelectionBox, selection.IsSelected, project.GetVisible);
+                scene.SelectByRect(pickSets, selection.SelectionBox, selection.IsSelected);
         }
         finally
         {
@@ -78,5 +80,35 @@ internal class SceneSelection
             }
         }
         return new SceneSelectionResult(count, selection.IsSelected, false, null, 0);
+    }
+
+    /// <summary>Лениво формирует наборы геометрических объектов для выбора на сцене.</summary>
+    private IEnumerable<Set> GetPickSets(IEnumerable<ISetInfo> sourceSets, IProjectController project)
+    {
+        foreach (var sourceSet in sourceSets)
+        {
+            var kind = sourceSet.ObjType switch
+            {
+                ObjType.Кривая => ScenePickKind.Curve,
+                ObjType.Поверхность => ScenePickKind.Surface,
+                _ => ScenePickKind.Other
+            };
+            var objects = GetVisibleObjects(sourceSet, project);
+            var name = sourceSet.Name;
+            yield return new Set(name, kind, objects);
+        }
+    }
+
+    /// <summary>Лениво перечисляет видимые объекты исходного набора.</summary>
+    private IEnumerable<ScenePickObject> GetVisibleObjects(ISetInfo sourceSet, IProjectController project)
+    {
+        foreach (var number in sourceSet.GetNumbers())
+        {
+            if (!project.GetVisible(sourceSet.ObjType, number))
+                continue;
+
+            var points = sourceSet.GetCoords(number);
+            yield return new ScenePickObject(number, points);
+        }
     }
 }

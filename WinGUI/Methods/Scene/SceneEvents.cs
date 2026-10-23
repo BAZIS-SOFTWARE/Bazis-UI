@@ -1,6 +1,6 @@
 ﻿using WinGUI.Extensions;
 using WinGUI.Properties;
-using WinGUI.Scene.VBO;
+using SceneCore.VBO;
 using Geometry;
 using Model.Interfaces;
 using Model.Utilities;

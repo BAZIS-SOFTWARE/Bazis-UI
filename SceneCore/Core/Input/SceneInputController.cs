@@ -1,8 +1,8 @@
 using System;
 using System.Drawing;
 using SceneCore.Camera;
-using WinGUI.Scene.EventsArgs;
-using WinGUI.Scene.Interfaces;
+using SceneCore.EventsArgs;
+using SceneCore.Interfaces;
 using Geometry;
 
 namespace SceneCore.Input
@@ -10,8 +10,8 @@ namespace SceneCore.Input
     /// <summary>
     /// Перенос BaseForm.GlControl_MouseMove/MouseDown/MouseUp/MouseWheel/KeyDown, без зависимости
     /// от System.Windows.Forms.MouseEventArgs/Keys — см. scene.avalonia.md, раздел 6.
-    /// Выбор объектов (ScenePicker.SelectByPoint/SelectByRect) требует данных модели
-    /// (IEnumerable&lt;ISetInfo&gt;), которых у Core нет — поэтому контроллер ввода только
+    /// Выбор объектов (ScenePicker.SelectByPoint/SelectByRect) требует подготовленных
+    /// наборов объектов, которых у контроллера ввода нет — поэтому он только
     /// вычисляет прямоугольник выделения и сообщает о жесте через SelectionRequested;
     /// сам подбор объектов выполняет вызывающий код через SceneController.SelectByPoint/SelectByRect.
     /// </summary>

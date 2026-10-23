@@ -1,5 +1,5 @@
 using SceneCore.Rendering;
-using WinGUI.Scene;
+using SceneCore;
 
 namespace SceneCore.Layers
 {

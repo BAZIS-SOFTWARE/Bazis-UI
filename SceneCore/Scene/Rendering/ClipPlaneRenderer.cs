@@ -1,10 +1,10 @@
 ﻿
-using WinGUI.Scene.VBO;
+using SceneCore.VBO;
 using Geometry;
 using OpenTK.Graphics.OpenGL;
 using System;
 
-namespace WinGUI.Scene
+namespace SceneCore
 {
     /// <summary>
     /// Класс для визуализации отсекающей плоскости

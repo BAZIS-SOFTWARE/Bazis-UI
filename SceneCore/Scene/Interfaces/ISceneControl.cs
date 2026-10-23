@@ -1,11 +1,11 @@
-﻿using WinGUI.Scene.VBO;
+﻿using SceneCore.VBO;
 using Geometry;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 
-namespace WinGUI.Scene.Interfaces
+namespace SceneCore.Interfaces
 {
     /// <summary>
     /// GLObj type

@@ -7,7 +7,7 @@ using System.Globalization;
 using UserControlsEx;
 using System.Collections.Generic;
 using WinGUI.Reflect;
-using WinGUI.Scene;
+using SceneCore;
 
 namespace WinGUI.Clip
 {

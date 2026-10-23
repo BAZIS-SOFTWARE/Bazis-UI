@@ -3,9 +3,9 @@ using WinGUI.Extensions;
 using WinGUI.Measurement;
 using WinGUI.Properties;
 using WinGUI.Reflect;
-using WinGUI.Scene;
-using WinGUI.Scene.Interfaces;
-using WinGUI.Scene.VBO;
+using SceneCore;
+using SceneCore.Interfaces;
+using SceneCore.VBO;
 using WinGUI.Utilities;
 using Geometry;
 using MathNet.Numerics;
@@ -442,7 +442,7 @@ namespace WinGUI
                     clipForm.Controls.Add(clip);
 
                     foreach (var item in project.GetModelSetsInfo(ObjType.Элемент3D))
-                        ChangeClipMode(Scene.ClipMode.Default, item.Name);
+                        ChangeClipMode(ClipMode.Default, item.Name);
 
                     clip.SwitchOnOff += (v) => 
                     {

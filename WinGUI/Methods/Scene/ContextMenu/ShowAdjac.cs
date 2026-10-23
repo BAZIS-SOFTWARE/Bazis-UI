@@ -1,4 +1,4 @@
-﻿using WinGUI.Scene.VBO;
+﻿using SceneCore.VBO;
 using Model.Interfaces;
 using Model.Utilities;
 using System;

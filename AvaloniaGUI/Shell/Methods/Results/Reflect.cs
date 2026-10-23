@@ -4,7 +4,7 @@ using Avalonia.Threading;
 using AvaloniaGUI.Reflect;
 using SceneCore;
 using SceneCore.Rendering;
-using WinGUI.Scene.VBO;
+using SceneCore.VBO;
 using Geometry;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;

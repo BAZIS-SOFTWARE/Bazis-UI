@@ -2,7 +2,7 @@ using Avalonia.Controls;
 using Avalonia.VisualTree;
 using AvaloniaGUI.Localization;
 using AvaloniaGUI.SettingsControls;
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 using Model.Interfaces;
 using System;
 using System.Linq;

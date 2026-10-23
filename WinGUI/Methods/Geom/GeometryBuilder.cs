@@ -1,6 +1,6 @@
 ﻿using WinGUI.Console.Enums;
 using WinGUI.Properties;
-using WinGUI.Scene.VBO;
+using SceneCore.VBO;
 using Model.Interfaces;
 using System;
 using System.Collections.Generic;

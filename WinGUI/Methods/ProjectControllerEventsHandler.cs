@@ -1,4 +1,4 @@
-﻿using WinGUI.Scene;
+﻿using SceneCore;
 using Model.Interfaces;
 using Model.Interfaces.ObjectsCollections;
 using OperationalController;

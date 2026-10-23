@@ -7,6 +7,7 @@ using Project.Interfaces.Tasks;
 using AvaloniaGUI.Navigator;
 using ResultDB;
 using ResultDB.IO;
+using SceneCore;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -201,7 +202,7 @@ namespace AvaloniaGUI.Shell
         /// </summary>
         public void DisplaySceneScale(string title, string info)
         {
-            var items = resultsController.GetItems().ToList();
+            var items = resultsController.GetItems().Select(item => new SceneScaleRange(item.Min, item.Max, item.Color));
             var x = settingsConfig.Scale_X_Coord;
             var y = settingsConfig.Scale_Y_Coord;
             scene.Surface.Invoke(sceneController => sceneController.DisplaySceneScale(title, info, items, x, y));

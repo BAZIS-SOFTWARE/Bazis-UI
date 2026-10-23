@@ -1,6 +1,6 @@
 ﻿using Geometry;
 
-namespace WinGUI.Scene.EventsArgs
+namespace SceneCore.EventsArgs
 {
     public class SelectObjectsEventArgs
     {

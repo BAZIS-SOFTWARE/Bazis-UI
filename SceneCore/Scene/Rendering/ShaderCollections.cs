@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinGUI.Scene
+namespace SceneCore
 {
     /// <summary>
     /// Класс для представления исходных кодов шейдеров в виде массива строк

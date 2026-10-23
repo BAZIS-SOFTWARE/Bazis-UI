@@ -1,5 +1,5 @@
 using System;
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace SceneCore.Camera

@@ -1,6 +1,6 @@
 using System;
 using System.Drawing;
-using WinGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 using Geometry;
 using MathNet.Numerics.LinearAlgebra;
 
