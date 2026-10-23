@@ -1,11 +1,11 @@
 using System;
 using System.Drawing;
-using BazisGUI.Scene.Core.Camera;
-using BazisGUI.Scene.EventsArgs;
-using BazisGUI.Scene.Interfaces;
+using SceneCore.Camera;
+using WinGUI.Scene.EventsArgs;
+using WinGUI.Scene.Interfaces;
 using Geometry;
 
-namespace BazisGUI.Scene.Core.Input
+namespace SceneCore.Input
 {
     /// <summary>
     /// Перенос BaseForm.GlControl_MouseMove/MouseDown/MouseUp/MouseWheel/KeyDown, без зависимости

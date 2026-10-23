@@ -1,4 +1,4 @@
-﻿using BazisGUI.Scene.Interfaces;
+﻿using WinGUI.Scene.Interfaces;
 using Geometry;
 using System;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Xml.Linq;
 using OpenTK.Graphics.OpenGL;
 
-namespace BazisGUI.Scene.VBO
+namespace WinGUI.Scene.VBO
 {
     public class ClipPlane : SurfaceObjects
     {

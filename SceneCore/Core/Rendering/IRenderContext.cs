@@ -1,6 +1,6 @@
-using BazisGUI.Scene.Interfaces;
+using WinGUI.Scene.Interfaces;
 
-namespace BazisGUI.Scene.Core.Rendering
+namespace SceneCore.Rendering
 {
     public interface IRenderContext
     {

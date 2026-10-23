@@ -1,5 +1,5 @@
 ﻿
-using BazisGUI.Scene.Interfaces;
+using WinGUI.Scene.Interfaces;
 using Geometry;
 using PostProc;
 using System;
@@ -10,7 +10,7 @@ using System.Linq;
 using OpenTK.Graphics.OpenGL;
 using System.Runtime.InteropServices;
 
-namespace BazisGUI.Scene
+namespace WinGUI.Scene
 {
     /// <summary>
     /// SceneScale

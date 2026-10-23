@@ -1,8 +1,8 @@
-﻿using BazisGUI.Scene.Interfaces;
+﻿using WinGUI.Scene.Interfaces;
 using System;
 using OpenTK.Graphics.OpenGL;
 
-namespace BazisGUI.Scene.VBO
+namespace WinGUI.Scene.VBO
 {
     /// <summary>
     /// SurfaceObjects class

@@ -2,7 +2,7 @@
 using Geometry;
 using OpenTK.Graphics.OpenGL;
 
-namespace BazisGUI.Scene
+namespace WinGUI.Scene
 {
     public class ScenePath
     {

@@ -1,4 +1,4 @@
-namespace BazisGUI.Scene.Core.Input
+namespace SceneCore.Input
 {
     public enum SceneKey
     {

@@ -1,4 +1,4 @@
-using BazisGUI.Scene.Core.Picking;
+using SceneCore.Picking;
 using Geometry;
 using Model.Interfaces;
 using Model.Interfaces.ObjectsCollections;

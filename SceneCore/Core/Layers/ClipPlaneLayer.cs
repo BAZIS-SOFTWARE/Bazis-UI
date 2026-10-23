@@ -1,10 +1,11 @@
-using BazisGUI.Scene.Core.Rendering;
-using BazisGUI.Scene.VBO;
+using SceneCore.Rendering;
+using WinGUI.Scene;
+using WinGUI.Scene.VBO;
 using Geometry;
-using BazisGUI.Scene.Core;
-using BazisGUI.Scene.Core.Camera;
+using SceneCore;
+using SceneCore.Camera;
 
-namespace BazisGUI.Scene.Core.Layers
+namespace SceneCore.Layers
 {
     /// <summary>
     /// Не рисует объект "ClipPlane" сам — он triangle-типа и уже попадает в общий перебор

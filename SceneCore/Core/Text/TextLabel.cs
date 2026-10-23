@@ -1,7 +1,7 @@
 using System.Drawing;
 using Geometry;
 
-namespace BazisGUI.Scene.Core.Text
+namespace SceneCore.Text
 {
     public class TextLabel
     {

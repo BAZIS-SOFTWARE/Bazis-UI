@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BazisGUI.Scene.Interfaces
+namespace WinGUI.Scene.Interfaces
 {
     /// <summary>
     /// ISceneCamera

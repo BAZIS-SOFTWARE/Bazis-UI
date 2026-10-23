@@ -4,7 +4,7 @@ using System.Linq;
 using OpenTK.Graphics.OpenGL;
 using SkiaSharp;
 
-namespace BazisGUI.Scene.Core.Text
+namespace SceneCore.Text
 {
     /// <summary>
     /// Растеризует глифы SkiaSharp'ом в текстурный атлас (вместо wglUseFontBitmapsW),

@@ -1,6 +1,6 @@
-using BazisGUI.Scene.Core.Rendering;
+using SceneCore.Rendering;
 
-namespace BazisGUI.Scene.Core.Layers
+namespace SceneCore.Layers
 {
     /// <summary>
     /// Заменяет поля-события DisplayBasisEvent/DisplayCompassEvent/... — у слоя есть имя

@@ -1,8 +1,8 @@
-using BazisGUI.Scene.Core.Rendering;
+using SceneCore.Rendering;
 using Geometry;
 using OpenTK.Graphics.OpenGL;
 
-namespace BazisGUI.Scene.Core.Layers
+namespace SceneCore.Layers
 {
     /// <summary>Перенос BaseForm.DisplayReflectionPlane(float[] coeff).</summary>
     public class ReflectionPlaneLayer : ISceneLayer

@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BazisGUI.Scene.Interfaces;
+using WinGUI.Scene.Interfaces;
 using Geometry;
 using Model.Interfaces;
 using Model.Interfaces.ObjectsCollections;
 
-namespace BazisGUI.Scene.Core.Picking
+namespace SceneCore.Picking
 {
     /// <summary>
     /// Перенос BaseForm.SelectByPoint/SelectByRect почти без правок в геометрии отбора

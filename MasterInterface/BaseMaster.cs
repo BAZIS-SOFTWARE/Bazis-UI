@@ -1,4 +1,4 @@
-﻿using BazisGUI.Masters.Args;
+﻿using WinGUI.Masters.Args;
 using MasterInterface.Interfaces;
 
 namespace MasterInterface

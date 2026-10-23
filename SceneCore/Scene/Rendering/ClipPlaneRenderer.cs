@@ -1,10 +1,10 @@
 ﻿
-using BazisGUI.Scene.VBO;
+using WinGUI.Scene.VBO;
 using Geometry;
 using OpenTK.Graphics.OpenGL;
 using System;
 
-namespace BazisGUI.Scene
+namespace WinGUI.Scene
 {
     /// <summary>
     /// Класс для визуализации отсекающей плоскости

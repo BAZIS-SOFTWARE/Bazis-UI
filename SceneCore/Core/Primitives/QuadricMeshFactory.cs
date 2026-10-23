@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using BazisGUI.Scene.Interfaces;
-using BazisGUI.Scene.VBO;
+using WinGUI.Scene.Interfaces;
+using WinGUI.Scene.VBO;
 using Geometry;
 
-namespace BazisGUI.Scene.Core.Primitives
+namespace SceneCore.Primitives
 {
     /// <summary>
     /// Строит меши примитивов вручную (без gluNewQuadric/gluCylinder/gluSphere), см. IQuadricMeshFactory.

@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using BazisGUI.Scene; // SceneScale (существующий переиспользуемый класс)
-using BazisGUI.Scene.Core.Rendering;
-using BazisGUI.Scene.Core.Text;
+using WinGUI.Scene; // SceneScale (существующий переиспользуемый класс)
+using SceneCore.Rendering;
+using SceneCore.Text;
 using Geometry;
 using OpenTK.Graphics.OpenGL;
 using PostProc;
 
-namespace BazisGUI.Scene.Core.Layers
+namespace SceneCore.Layers
 {
     /// <summary>
     /// Перенос BaseForm.DisplaySceneScale(title, info) поверх переиспользуемого SceneScale

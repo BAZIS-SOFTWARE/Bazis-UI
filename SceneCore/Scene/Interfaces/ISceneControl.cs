@@ -1,11 +1,11 @@
-﻿using BazisGUI.Scene.VBO;
+﻿using WinGUI.Scene.VBO;
 using Geometry;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 
-namespace BazisGUI.Scene.Interfaces
+namespace WinGUI.Scene.Interfaces
 {
     /// <summary>
     /// GLObj type

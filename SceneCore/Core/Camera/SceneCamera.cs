@@ -1,10 +1,10 @@
 using System;
 using System.Drawing;
-using BazisGUI.Scene.Interfaces;
+using WinGUI.Scene.Interfaces;
 using Geometry;
 using MathNet.Numerics.LinearAlgebra;
 
-namespace BazisGUI.Scene.Core.Camera
+namespace SceneCore.Camera
 {
     /// <summary>
     /// Видовая матрица хранится в поле, а не в стеке GL_MODELVIEW (как раньше в BaseForm) —

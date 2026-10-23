@@ -1,6 +1,6 @@
 ﻿using Geometry;
 
-namespace BazisGUI.Scene.EventsArgs
+namespace WinGUI.Scene.EventsArgs
 {
     public class SelectObjectsEventArgs
     {

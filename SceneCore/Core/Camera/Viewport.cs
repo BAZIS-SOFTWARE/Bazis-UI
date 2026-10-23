@@ -1,4 +1,4 @@
-namespace BazisGUI.Scene.Core.Camera
+namespace SceneCore.Camera
 {
     public struct Viewport
     {

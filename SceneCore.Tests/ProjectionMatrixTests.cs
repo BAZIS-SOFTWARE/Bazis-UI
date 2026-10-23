@@ -1,6 +1,6 @@
 using System;
-using BazisGUI.Scene.Core.Camera;
-using BazisGUI.Scene.Interfaces;
+using SceneCore.Camera;
+using WinGUI.Scene.Interfaces;
 
 namespace SceneCore.Tests
 {

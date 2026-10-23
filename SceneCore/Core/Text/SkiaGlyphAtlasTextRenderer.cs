@@ -1,9 +1,9 @@
 using System;
-using BazisGUI.Scene.Core.Rendering;
+using SceneCore.Rendering;
 using Geometry;
 using OpenTK.Graphics.OpenGL;
 
-namespace BazisGUI.Scene.Core.Text
+namespace SceneCore.Text
 {
     /// <summary>
     /// Целевая кросс-платформенная реализация текста: глифы растеризуются в текстурный атлас

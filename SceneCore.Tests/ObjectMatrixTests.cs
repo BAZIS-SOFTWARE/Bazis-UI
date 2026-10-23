@@ -1,6 +1,6 @@
-using BazisGUI.Scene;
-using BazisGUI.Scene.Core;
-using BazisGUI.Scene.Core.Camera;
+using WinGUI.Scene;
+using SceneCore;
+using SceneCore.Camera;
 using Geometry;
 using MathNet.Numerics.LinearAlgebra;
 

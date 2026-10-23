@@ -1,6 +1,6 @@
-using BazisGUI.Scene.Core.Rendering;
+using SceneCore.Rendering;
 
-namespace BazisGUI.Scene.Core.Text
+namespace SceneCore.Text
 {
     public interface ISceneTextRenderer
     {

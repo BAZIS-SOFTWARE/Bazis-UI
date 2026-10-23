@@ -2,7 +2,7 @@ using System;
 using Geometry;
 using MathNet.Numerics.LinearAlgebra;
 
-namespace BazisGUI.Scene.Core.Camera
+namespace SceneCore.Camera
 {
     /// <summary>
     /// Точечная замена GL.Translate/Rotate/Scale/LoadMatrix, оперирующая матрицей

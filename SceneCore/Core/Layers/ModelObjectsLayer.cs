@@ -1,10 +1,10 @@
 using System.Linq;
-using BazisGUI.Scene.Core.Rendering;
-using BazisGUI.Scene.Interfaces;
-using BazisGUI.Scene.VBO;
+using SceneCore.Rendering;
+using WinGUI.Scene.Interfaces;
+using WinGUI.Scene.VBO;
 using OpenTK.Graphics.OpenGL;
 
-namespace BazisGUI.Scene.Core.Layers
+namespace SceneCore.Layers
 {
     /// <summary>Перенос BaseForm.DisplayModelObjects().</summary>
     public class ModelObjectsLayer : ISceneLayer

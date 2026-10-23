@@ -2,18 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using BazisGUI.Scene.Core.Camera;
-using BazisGUI.Scene.Core.Capture;
-using BazisGUI.Scene.Core.Input;
-using BazisGUI.Scene.Core.Layers;
-using BazisGUI.Scene.Core.Picking;
-using BazisGUI.Scene.Core.Primitives;
-using BazisGUI.Scene.Core.Rendering;
-using BazisGUI.Scene.Core.Text;
-using BazisGUI.Scene.EventsArgs;
-using BazisGUI.Scene.Interfaces;
-using BazisGUI.Scene.VBO;
-using BazisGUI.Scene; // AverageColorRenderer, Advanced3DClipper, ClipPlaneRenderer, SceneScale, ScenePath
+using SceneCore.Camera;
+using SceneCore.Capture;
+using SceneCore.Input;
+using SceneCore.Layers;
+using SceneCore.Picking;
+using SceneCore.Primitives;
+using SceneCore.Rendering;
+using SceneCore.Text;
+using WinGUI.Scene.EventsArgs;
+using WinGUI.Scene.Interfaces;
+using WinGUI.Scene.VBO;
+using WinGUI.Scene; // AverageColorRenderer, Advanced3DClipper, ClipPlaneRenderer, SceneScale, ScenePath
 using Geometry;
 using MathNet.Numerics.LinearAlgebra;
 using Model.Interfaces;
@@ -21,7 +21,7 @@ using Model.Interfaces.ObjectsCollections;
 using OpenTK.Graphics.OpenGL;
 using PostProc;
 
-namespace BazisGUI.Scene.Core
+namespace SceneCore
 {
     /// <summary>
     /// Заменяет ~40 partial-файлов GUI/Methods/Scene/*.cs и реализацию ISceneControl,

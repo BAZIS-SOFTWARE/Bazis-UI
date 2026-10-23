@@ -1,7 +1,7 @@
 using System.Drawing;
-using BazisGUI.Scene.VBO;
+using WinGUI.Scene.VBO;
 
-namespace BazisGUI.Scene.Core.Primitives
+namespace SceneCore.Primitives
 {
     /// <summary>
     /// Заменяет gluNewQuadric/gluCylinder/gluSphere (Win32 P/Invoke из glu32.dll) генерацией

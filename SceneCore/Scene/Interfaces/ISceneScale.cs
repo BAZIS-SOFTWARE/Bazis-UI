@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace BazisGUI.Scene.Interfaces
+namespace WinGUI.Scene.Interfaces
 {
     /// <summary>
     /// ISceneScale

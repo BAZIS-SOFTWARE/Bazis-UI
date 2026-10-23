@@ -1,8 +1,8 @@
 using System;
-using BazisGUI.Scene.Interfaces;
+using WinGUI.Scene.Interfaces;
 using MathNet.Numerics.LinearAlgebra;
 
-namespace BazisGUI.Scene.Core.Camera
+namespace SceneCore.Camera
 {
     /// <summary>
     /// Заменяет BaseForm.UpdateProjection() и P/Invoke glu32.gluPerspective:

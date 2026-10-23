@@ -1,6 +1,6 @@
-using BazisGUI.Scene.Core.Camera;
-using BazisGUI.Scene.Core.Input;
-using BazisGUI.Scene.EventsArgs;
+using SceneCore.Camera;
+using SceneCore.Input;
+using WinGUI.Scene.EventsArgs;
 using Geometry;
 
 namespace SceneCore.Tests

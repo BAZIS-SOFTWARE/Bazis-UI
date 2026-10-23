@@ -1,10 +1,10 @@
 using System;
 using System.Runtime.InteropServices;
-using BazisGUI.Scene.Core.Camera;
+using SceneCore.Camera;
 using OpenTK.Graphics.OpenGL;
 using SkiaSharp;
 
-namespace BazisGUI.Scene.Core.Capture
+namespace SceneCore.Capture
 {
     /// <summary>
     /// Заменяет System.Drawing.Image.Save(path, ImageFormat.Bmp) из btnMakeScreenShot_Click:

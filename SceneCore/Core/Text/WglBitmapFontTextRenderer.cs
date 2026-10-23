@@ -1,10 +1,10 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Security;
-using BazisGUI.Scene.Core.Rendering;
+using SceneCore.Rendering;
 using OpenTK.Graphics.OpenGL;
 
-namespace BazisGUI.Scene.Core.Text
+namespace SceneCore.Text
 {
     /// <summary>
     /// Перенос текущего кода (wglUseFontBitmapsW, GL.GenLists, GL.ListBase, GL.CallLists) —

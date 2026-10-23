@@ -13,7 +13,7 @@
     <RootNamespace>BazisGUI.Scene</RootNamespace>
     <AssemblyName>SceneCore</AssemblyName>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\GUI\BazisGUIKey.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\WinGUI\BazisGUIKey.snk</AssemblyOriginatorKeyFile>
     <Configurations>Debug;Release;Debug-Linux;Release-Linux</Configurations>
   </PropertyGroup>
 

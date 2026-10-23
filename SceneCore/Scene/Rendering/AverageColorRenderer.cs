@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Drawing;
-using BazisGUI.Scene.Interfaces;
-using BazisGUI.Scene.VBO;
+using WinGUI.Scene.Interfaces;
+using WinGUI.Scene.VBO;
 using OpenTK.Graphics.OpenGL;
 
 
-namespace BazisGUI.Scene
+namespace WinGUI.Scene
 {
     /// <summary>
     /// Класс для корректной визуализации прозрачных и непрозрачных объектов на сцене
