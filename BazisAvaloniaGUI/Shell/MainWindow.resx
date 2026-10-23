@@ -147,6 +147,18 @@
   <data name="остановитьToolStripMenuItem.Text" xml:space="preserve">
     <value>Stop</value>
   </data>
+  <data name="статусToolStripMenuItem.Text" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="solverStatus.NotStarted" xml:space="preserve">
+    <value>Solver has not been started.</value>
+  </data>
+  <data name="solverStatus.Running" xml:space="preserve">
+    <value>Solver is running.</value>
+  </data>
+  <data name="solverStatus.Exited" xml:space="preserve">
+    <value>Solver has exited. Exit code: {0}.</value>
+  </data>
   <data name="расчетыToolStripMenuItem.Text" xml:space="preserve">
     <value>Calculations</value>
   </data>

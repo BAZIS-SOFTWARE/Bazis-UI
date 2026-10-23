@@ -16,10 +16,15 @@ namespace BazisGUI
 {
     public partial class BaseForm
     {
+        private Process solverProcess;
+
         private void запуститьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
+                if (solverProcess != null && !solverProcess.HasExited)
+                    throw new InvalidOperationException("Solver is already running.");
+
                 project.Save(lblStatus.Text);
                 console.PrintInfo($"{Resources.StartStopConp_SaveProjectInto_Message} {WorkingDir}", Color.Black);
 
@@ -67,15 +72,34 @@ namespace BazisGUI
         {
             try
             {
+                if (solverProcess != null)
+                {
+                    if (!solverProcess.HasExited)
+                        throw new InvalidOperationException("Solver is already running.");
+
+                    solverProcess.Dispose();
+                    solverProcess = null;
+                }
+
                 var myProcess = new Process();
+                try
+                {
+                    myProcess.StartInfo.FileName = settingsConfig.SolverPath;
 
-                myProcess.StartInfo.FileName = settingsConfig.SolverPath;
+                    var cmdFile = Path.Combine(WorkingDir, "ComputationData", "computation.tcf");
 
-                var cmdFile = Path.Combine(WorkingDir, "ComputationData", "computation.tcf");
+                    myProcess.StartInfo.ArgumentList.Add(cmdFile);
+                    myProcess.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+                    if (!myProcess.Start())
+                        throw new InvalidOperationException("Solver process did not start.");
 
-                myProcess.StartInfo.ArgumentList.Add(cmdFile);
-                myProcess.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
-                myProcess.Start();
+                    solverProcess = myProcess;
+                }
+                catch
+                {
+                    myProcess.Dispose();
+                    throw;
+                }
             }
             catch (Exception ex)
             {
@@ -86,21 +110,16 @@ namespace BazisGUI
 
         private void остановитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var runProc = Process.GetProcessesByName("BazisSolverCP");
-
-            if (runProc.Length != 0)
+            try
             {
-                var process = new Process();
-                var startInfo = new ProcessStartInfo
-                {
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    FileName = "cmd.exe",
-                    //Arguments = $"/C sc stop BazisSolver",
-                    Arguments = $"/C taskkill /pid {runProc[0].Id} /f",
-                    Verb = "runas"
-                };
-                process.StartInfo = startInfo;
-                process.Start();
+                if (solverProcess == null || solverProcess.HasExited)
+                    return;
+
+                solverProcess.Kill(entireProcessTree: true);
+            }
+            catch (Exception ex)
+            {
+                console.PrintInfo(ex.Message, Color.Red);
             }
         }
     }

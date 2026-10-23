@@ -129,6 +129,18 @@
   <data name="остановитьToolStripMenuItem.Text" xml:space="preserve">
     <value>Остановить</value>
   </data>
+  <data name="статусToolStripMenuItem.Text" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="solverStatus.NotStarted" xml:space="preserve">
+    <value>Решатель не запускался.</value>
+  </data>
+  <data name="solverStatus.Running" xml:space="preserve">
+    <value>Решатель работает.</value>
+  </data>
+  <data name="solverStatus.Exited" xml:space="preserve">
+    <value>Решатель завершил работу. Код выхода: {0}.</value>
+  </data>
   <data name="расчетыToolStripMenuItem.Text" xml:space="preserve">
     <value>Расчеты</value>
   </data>

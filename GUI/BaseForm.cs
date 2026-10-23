@@ -402,6 +402,7 @@ namespace BazisGUI
 
         private void BaseForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            solverProcess?.Dispose();
             if (serverConnectionPing != null)
             {
                 serverConnectionPing.Abort();

@@ -62,6 +62,7 @@ namespace BazisAvaloniaGUI.Shell
         private MenuItem сформироватьИнструкцииToolStripMenuItem;
         private MenuItem запуститьToolStripMenuItem;
         private MenuItem остановитьToolStripMenuItem;
+        private MenuItem статусToolStripMenuItem;
         private MenuItem результатыMenuItem;
         private MenuItem открытьToolStripMenuItem1;
         private MenuItem объединитьToolStripMenuItem;
@@ -237,8 +238,9 @@ namespace BazisAvaloniaGUI.Shell
             сформироватьИнструкцииToolStripMenuItem = Item("сформироватьИнструкцииToolStripMenuItem", сформироватьИнструкцииToolStripMenuItem_Click);
             запуститьToolStripMenuItem = Item("запуститьToolStripMenuItem", запуститьToolStripMenuItem_Click);
             остановитьToolStripMenuItem = Item("остановитьToolStripMenuItem", остановитьToolStripMenuItem_Click);
+            статусToolStripMenuItem = Item("статусToolStripMenuItem", статусToolStripMenuItem_Click);
             расчетыToolStripMenuItem = Item("расчетыToolStripMenuItem", null, открытьИнструкцииToolStripMenuItem,
-                сформироватьИнструкцииToolStripMenuItem, запуститьToolStripMenuItem, остановитьToolStripMenuItem);
+                сформироватьИнструкцииToolStripMenuItem, запуститьToolStripMenuItem, остановитьToolStripMenuItem, статусToolStripMenuItem);
             расчетыToolStripMenuItem.IsEnabled = false;
 
             открытьToolStripMenuItem1 = Item("открытьToolStripMenuItem1", открытьToolStripMenuItem1_Click);

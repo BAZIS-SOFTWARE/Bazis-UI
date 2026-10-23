@@ -26,7 +26,7 @@ namespace BazisAvaloniaGUI
 
         public SettingsConfig LoadConfig()
         {
-            var folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments,Environment.SpecialFolderOption.Create);
             var fullPath = Path.Combine(folder, "settingsConfig.json");
 
             if (File.Exists(fullPath))

@@ -188,7 +188,10 @@ namespace BazisAvaloniaGUI.SettingsControls
             var dialog = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 AllowMultiple = false,
-                FileTypeFilter = new[] { new FilePickerFileType("(*.exe)") { Patterns = new[] { "*.exe" } } }
+                // Исполняемый файл Linux не имеет обязательного расширения.
+                FileTypeFilter = OperatingSystem.IsWindows()
+                    ? [new FilePickerFileType("(*.exe)") { Patterns = ["*.exe"] }]
+                    : null
             });
 
             // Файл не из локальной ФС (нет пути) — путь к решателю не меняется, а не сбрасывается в null.
