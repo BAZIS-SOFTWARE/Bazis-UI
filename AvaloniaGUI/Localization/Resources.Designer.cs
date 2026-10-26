@@ -7,7 +7,7 @@ internal class Resources
     private static System.Resources.ResourceManager resourceMan;
 
     internal static System.Resources.ResourceManager ResourceManager =>
-        resourceMan ??= new System.Resources.ResourceManager("BazisAvaloniaGUI.Localization.Resources", typeof(Resources).Assembly);
+        resourceMan ??= new System.Resources.ResourceManager(typeof(Resources));
 
     internal static System.Globalization.CultureInfo Culture { get; set; }
 

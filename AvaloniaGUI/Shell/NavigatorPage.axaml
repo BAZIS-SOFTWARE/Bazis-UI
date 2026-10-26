@@ -1,9 +1,9 @@
 <Grid xmlns="https://github.com/avaloniaui"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:navigator="using:BazisAvaloniaGUI.Navigator"
-      xmlns:properties="using:BazisAvaloniaGUI.Properties"
-      xmlns:player="using:BazisAvaloniaGUI.Player"
-      x:Class="BazisAvaloniaGUI.Shell.NavigatorPage">
+      xmlns:navigator="using:AvaloniaGUI.Navigator"
+      xmlns:properties="using:AvaloniaGUI.Properties"
+      xmlns:player="using:AvaloniaGUI.Player"
+      x:Class="AvaloniaGUI.Shell.NavigatorPage">
   <Grid.RowDefinitions>
     <RowDefinition Height="298*" MinHeight="25"/>
     <RowDefinition Height="8"/>

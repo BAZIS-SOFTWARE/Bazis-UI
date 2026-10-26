@@ -3,22 +3,22 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using BazisAvaloniaGUI.Console;
-using BazisAvaloniaGUI.Navigator;
-using BazisAvaloniaGUI.Properties;
-using BazisAvaloniaGUI.Scene;
+using AvaloniaGUI.Console;
+using AvaloniaGUI.Navigator;
+using AvaloniaGUI.Properties;
+using AvaloniaGUI.Scene;
 using System;
 using System.Resources;
 
-namespace BazisAvaloniaGUI.Shell
+namespace AvaloniaGUI.Shell
 {
     internal partial class MainWindow
     {
-        private static readonly ResourceManager resources = new("BazisAvaloniaGUI.Shell.MainWindow", typeof(MainWindow).Assembly);
+        private static readonly ResourceManager resources = new("AvaloniaGUI.Shell.MainWindow", typeof(MainWindow).Assembly);
 
         private NavigatorControl navigator;
         private PropertiesPanelControl propertiesPanel;
-        private BazisAvaloniaGUI.Player.PlayerControl checkPlayerControl;
+        private AvaloniaGUI.Player.PlayerControl checkPlayerControl;
         private Grid cntrНавигатор;
         private GridLength panel1Width;
         private GridLength panel2Height;
@@ -133,7 +133,7 @@ namespace BazisAvaloniaGUI.Shell
             cntrНавигатор = new NavigatorPage();
             navigator = cntrНавигатор.FindControl<NavigatorControl>("navigator");
             propertiesPanel = cntrНавигатор.FindControl<PropertiesPanelControl>("propertiesPanel");
-            checkPlayerControl = cntrНавигатор.FindControl<BazisAvaloniaGUI.Player.PlayerControl>("checkPlayerControl");
+            checkPlayerControl = cntrНавигатор.FindControl<AvaloniaGUI.Player.PlayerControl>("checkPlayerControl");
             Title = resources.GetString("$this.Text");
             lblStatus.Text = resources.GetString("lblStatus.Text");
             foreach (var item in menuStrip.Items)

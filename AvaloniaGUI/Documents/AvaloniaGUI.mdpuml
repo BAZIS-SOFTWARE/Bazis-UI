@@ -43,6 +43,11 @@ package "AvaloniaGUI. Данные" {
   }
   class SettingsConfig
 }
+package "AvaloniaGUI. Локализация" {
+  class Localization <<AvaloniaGUI-5>> {
+    + GetFormText(name) : string
+  }
+}
 package "OperationalController. Проект" {
   class ProjectController <<внешний>>
 }
@@ -62,6 +67,7 @@ note bottom of MainWindow
   Навигатор: [[AvaloniaGUI-2.mdpuml AvaloniaGUI-2]]
   Свойства и консоль: [[AvaloniaGUI-3.mdpuml AvaloniaGUI-3]]
   Действия навигатора: [[AvaloniaGUI-4.mdpuml AvaloniaGUI-4]]
+  Локализация: [[AvaloniaGUI-5.mdpuml AvaloniaGUI-5]]
 end note
 note bottom of ProjectController
   Внешний проект: показана только точка входа.

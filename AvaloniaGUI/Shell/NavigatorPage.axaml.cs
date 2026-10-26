@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace BazisAvaloniaGUI.Shell;
+namespace AvaloniaGUI.Shell;
 
 internal partial class NavigatorPage : Grid
 {
