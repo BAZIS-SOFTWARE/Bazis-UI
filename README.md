@@ -1,41 +1,65 @@
 # BazisGUI
 
-BazisGUI — графическое приложение для подготовки и анализа инженерных расчётов на базе библиотек BazisCORE. В нём можно открыть или создать проект, работать с геометрией и сеткой, задать условия задачи, подготовить инструкции для внешнего решателя и исследовать результаты. Основной клиент решения — `AvaloniaGUI`; `WinGUI` сохраняется как прежняя оболочка.
+BazisGUI — графический клиент для подготовки расчётной модели, запуска CAE-расчёта и просмотра результатов на базе BazisCORE. Основное приложение — `AvaloniaGUI`. Прежний клиент `WinGUI` остаётся в решении и поддерживается. Численный расчёт выполняет отдельный решатель, путь к которому задаётся в настройках приложения.
 
-Подробнее: [бизнес-задачи](Documents/BusinessTasks.md), [функции и ограничения](Documents/Features.md), [архитектура](Documents/Architecture.md), [реализация](Documents/Implementation.md).
+## Возможности
 
-## Основные компоненты
+- Создание, открытие и сохранение проектов `.bpf`/`.bpf2`, импорт CAD и сетки.
+- Работа с геометрией, сеткой, физическими задачами, свойствами и граничными условиями.
+- Отображение модели и выбор видимых объектов в трёхмерной сцене.
+- Формирование инструкций расчёта, запуск и остановка внешнего решателя.
+- Просмотр полей результатов, графиков и анимации.
 
-| Компонент | Назначение |
+Наличие команды в интерфейсе не означает поддержки любого формата или физической задачи. Реализованные пути и их ограничения перечислены в [каталоге функций](Documents/Features.md).
+
+## Состав решения
+
+| Проект | Назначение |
 | --- | --- |
-| [AvaloniaGUI](AvaloniaGUI/AvaloniaGUI.csproj) | Окно приложения, навигатор, свойства, команды проекта и отображение сцены |
-| [SceneCore](SceneCore/SceneCore.csproj) | Камера, OpenGL-рендеринг, ввод, слои и геометрический выбор объектов |
-| [WinGUI](WinGUI/WinGUI.csproj) | Прежний клиент Windows, использующий общий `SceneCore` |
-| BazisCORE | Внешние библиотеки модели, проекта, CAD, препроцессора и результатов |
-| [Тесты](SceneCore.Tests/SceneCore.Tests.csproj) | Отдельные проекты `SceneCore.Tests`, `AvaloniaGUI.Tests` и `WinGUI.Tests` |
+| [AvaloniaGUI](AvaloniaGUI/AvaloniaGUI.csproj) | Основной клиент: окно, навигатор, свойства, команды проекта и отображение сцены |
+| [SceneCore](SceneCore/SceneCore.csproj) | Общие для двух клиентов камера, ввод, OpenGL-отрисовка, слои и геометрический выбор |
+| [WinGUI](WinGUI/WinGUI.csproj) | Поддерживаемый прежний клиент на Windows Forms |
+| [MasterInterface](MasterInterface/MasterInterface.csproj), [UserControlsEx](UserControlEx/UserControlsEx.csproj) | Компоненты прежнего клиента |
+| [ProjectConverter](ProjectConverter/ProjectConverter.csproj) | Вспомогательное приложение для Windows |
+| [InstallerAction](InstallerAction/InstallerAction.csproj), [Setup](Setup/Setup.vdproj) | Компоненты установщика Windows |
+| [SceneCore.Tests](SceneCore.Tests/SceneCore.Tests.csproj), [AvaloniaGUI.Tests](AvaloniaGUI.Tests/AvaloniaGUI.Tests.csproj), [WinGUI.Tests](WinGUI.Tests/WinGUI.Tests.csproj) | Тестовые проекты |
 
-`SceneCore` не зависит от пакета `Model`: GUI передаёт ему координаты видимых объектов через `Set`. Вычисление попадания и глубины остаётся в сцене ([ScenePicker.cs](SceneCore/Core/Picking/ScenePicker.cs)).
+Инженерные данные и операции над ними предоставляет BazisCORE: геометрия, модель и сетка, проектные свойства и условия, препроцессор и постпроцессор. `SceneCore` получает координаты отображаемых объектов через собственные структуры и не зависит от пакета `Model`; применение выбора к проекту остаётся в GUI. Связи компонентов подробнее показаны в [архитектуре решения](Documents/Architecture.md).
 
-## Сборка и запуск
+## Требования и запуск
 
-Нужен .NET SDK 8 и доступ к пакетам, указанным в файлах проектов. Для CAD-операций нужна совместимая нативная библиотека Gmsh, а для расчёта — отдельно настроенный исполняемый решатель. Графическая сцена требует совместимого контекста OpenGL. Точка входа `AvaloniaGUI` настраивает WGL на Windows и GLX/EGL на Linux ([Program.cs](AvaloniaGUI/Program.cs)).
+Для сборки основного клиента нужен .NET SDK 8 и доступ к NuGet-пакетам из файлов проектов. В решении также используются библиотеки из каталога `Libs`. Для отображения сцены требуется графическое окружение с совместимым OpenGL-контекстом: [точка входа AvaloniaGUI](AvaloniaGUI/Program.cs) настраивает WGL на Windows и GLX/EGL на Linux. CAD-операциям нужна совместимая нативная библиотека Gmsh (`.dll` на Windows или `.so` на Linux). Для запуска расчёта нужно указать путь к исполняемому решателю в настройках приложения.
 
-Из корня репозитория:
+Из корня репозитория соберите и запустите основной клиент:
 
 ```powershell
 dotnet build AvaloniaGUI/AvaloniaGUI.csproj
 dotnet run --project AvaloniaGUI/AvaloniaGUI.csproj
-dotnet test SceneCore.Tests/SceneCore.Tests.csproj
 ```
 
-`WinGUI` ориентирован на `net8.0-windows`; его можно собрать отдельно командой `dotnet build WinGUI/WinGUI.csproj` на Windows. Состав всего решения приведён в [BazisGUI.sln](BazisGUI.sln). Проверка полной сборки решения включает также вспомогательные проекты и установщик.
+На Linux в [проекте AvaloniaGUI](AvaloniaGUI/AvaloniaGUI.csproj) предусмотрены конфигурации `Debug-Linux` и `Release-Linux` с идентификатором среды `linux-x64`:
 
-## Работа приложения
+```bash
+dotnet build AvaloniaGUI/AvaloniaGUI.csproj -c Debug-Linux
+dotnet run --project AvaloniaGUI/AvaloniaGUI.csproj -c Debug-Linux
+```
 
-Проект можно создать, открыть или сохранить в `.bpf`/`.bpf2`; импорт CAD и сетки обрабатывается отдельно ([MainWindow.cs](AvaloniaGUI/Shell/MainWindow.cs)). Команды геометрии и генерации сетки обращаются к контроллеру BazisCORE. Перед запуском расчёта приложение сохраняет проект, проверяет связанные файлы, формирует инструкции и запускает внешний процесс по пути из настроек ([StartStopConp.cs](AvaloniaGUI/Shell/Methods/Comp/StartStopConp.cs)). Результаты читаются из базы и могут быть показаны на сцене, в графике или анимации.
+Проверка отдельных частей решения:
 
-Наличие команды в интерфейсе не означает поддержки всех видов физических задач и входных форматов. Подтверждённые пути и ограничения перечислены в [Features.md](Documents/Features.md).
+```powershell
+dotnet test SceneCore.Tests/SceneCore.Tests.csproj
+dotnet test AvaloniaGUI.Tests/AvaloniaGUI.Tests.csproj
+```
+
+`WinGUI`, `WinGUI.Tests` и `ProjectConverter` используют `net8.0-windows`. Проекты `MasterInterface` и `UserControlsEx` используют .NET Framework 4.8, а `Setup` — проект установщика Visual Studio. Поэтому сборку всего [BazisGUI.sln](BazisGUI.sln) следует рассматривать отдельно от сборки основного клиента.
+
+## Документация
+
+- [Бизнес-задачи](Documents/BusinessTasks.md), [функции и ограничения](Documents/Features.md), [архитектура](Documents/Architecture.md), [пути реализации](Documents/Implementation.md).
+- [Основные потоки AvaloniaGUI](AvaloniaGUI/Documents/Overview.md) и [диаграммы классов AvaloniaGUI](AvaloniaGUI/Documents/AvaloniaGUI.mdpuml).
+- [Основные потоки WinGUI](WinGUI/Documents/Overview.md) и [диаграммы классов WinGUI](WinGUI/Documents/WinGUI.mdpuml).
+- [Диаграммы SceneCore](SceneCore/Documents/SceneCore.mdpuml).
 
 ## Лицензия
 
-Условия распространения находятся в [LICENSE.txt](LICENSE.txt) — GNU Affero General Public License v3.
+Условия распространения приведены в [LICENSE.txt](LICENSE.txt): GNU Affero General Public License v3.
