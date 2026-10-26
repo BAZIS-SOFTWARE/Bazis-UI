@@ -16,10 +16,19 @@ package "SceneCore. Геометрия" {
   }
   class ScenePath {
     + Length : double [get]
-    + Display(position: Point3D) : void
+    + Display(position: ModelPoint3D) : void
   }
 }
 package "SceneCore. Выбор" {
+  class Set {
+    + Name : string [get]
+    + Kind : ScenePickKind [get]
+    + Objects : IEnumerable<ScenePickObject> [get]
+  }
+  class ScenePickObject {
+    + Number : int [get]
+    + Points : IEnumerable<ModelPoint3D> [get]
+  }
   class RectangleBox {
     + Left : int [get, set]
     + Right : int [get, set]
@@ -41,6 +50,8 @@ package "SceneCore. Выбор" {
   interface "ISceneCamera\nSceneCore-1" as ISceneCamera <<ссылка>> [[SceneCore-1.mdpuml SceneCore-1]]
 }
 package "SceneCore. Координаты" {
+  class "CameraPoint3D\nSceneCore-1" as CameraPoint3D <<ссылка>> [[SceneCore-1.mdpuml SceneCore-1]]
+  class "ModelPoint3D\nSceneCore-1" as ModelPoint3D <<ссылка>> [[SceneCore-1.mdpuml SceneCore-1]]
   class ViewportPoint <<record>> {
     + X : double [get]
     + Y : double [get]
@@ -66,7 +77,12 @@ package "Geometry. Координаты" {
 
 BoundingBox --> Point3D
 ScenePath --> Point3D
+ScenePath --> ModelPoint3D
+Set --> ScenePickObject
+ScenePickObject --> ModelPoint3D
+ScenePicker --> Set
 ScenePicker --> ISceneCamera
+ScenePicker --> CameraPoint3D
 ScenePicker --> RectangleBox
 ScenePicker --> Point2D : геометрические алгоритмы
 RectangleBox --> ViewportPoint

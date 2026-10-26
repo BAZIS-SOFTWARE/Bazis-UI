@@ -1,5 +1,4 @@
 using System;
-using Geometry;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace SceneCore.Camera
@@ -63,13 +62,6 @@ namespace SceneCore.Camera
             r[2, 2] = t * z * z + c;
 
             return r;
-        }
-
-        public static Point3D Transform(Matrix<float> m, double x, double y, double z, float w)
-        {
-            var v = Vector<float>.Build.DenseOfArray(new[] { (float)x, (float)y, (float)z, w });
-            m.Multiply(v, v);
-            return new Point3D(v[0], v[1], v[2]);
         }
     }
 }

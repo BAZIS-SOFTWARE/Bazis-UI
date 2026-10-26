@@ -40,13 +40,19 @@ package "AvaloniaGUI. Сцена" {
   }
   class SceneSelection {
     + Apply(project, scene, selectedType, selection) : SceneSelectionResult
+    - GetVisibleObjects(sourceSet, project) : IEnumerable<ScenePickObject>
   }
   class SceneSelectionResult <<record>>
 }
 package "SceneCore. Сцена" {
   class SceneController <<внешний>>
 }
+package "SceneCore. Выбор" {
+  class ScenePickObject <<внешний>>
+}
 package "SceneCore. Координаты" {
+  class ModelPoint3D <<внешний>>
+  class CameraPoint3D <<внешний>>
   class ViewportPoint <<внешний>>
 }
 package "OperationalController. Проект" {
@@ -58,8 +64,11 @@ SceneSurface *-- SceneProjectPresenter
 SceneSurface *-- SceneSelection
 SceneSelection --> SceneSelectionResult
 SceneSurface --> SceneController
+SceneSurface --> ModelPoint3D : точка модели для камеры
+SceneSurface --> CameraPoint3D : глубина выбора
 SceneProjectPresenter --> SceneController
 SceneSelection --> SceneController
+SceneSelection --> ScenePickObject : точки ModelPoint3D
 SceneSelection --> ViewportPoint : выбор точкой
 SceneProjectPresenter --> IProjectController
 SceneSelection --> IProjectController

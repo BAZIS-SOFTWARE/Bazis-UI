@@ -1,4 +1,4 @@
-﻿using SceneCore.Interfaces;
+using SceneCore.Interfaces;
 using System;
 using Geometry;
 using System.Drawing;
@@ -18,7 +18,7 @@ namespace WinGUI
             DisplayGeometryObjectEvent += new Action(() =>
             {
                 GL.PushMatrix();
-                GL.Translate(-Position._x, -Position._y, -Position._z);
+                GL.Translate(-Position.X, -Position.Y, -Position.Z);
 
                 GL.LineWidth(1.5f);
                 GL.Begin(PrimitiveType.Lines);
@@ -57,7 +57,7 @@ namespace WinGUI
             var met = new Action(() =>
             {
                 GL.PushMatrix();
-                GL.Translate(-Position._x, -Position._y, -Position._z);
+                GL.Translate(-Position.X, -Position.Y, -Position.Z);
                 GL.Color3(1f, 0, 0);
                 GL.LineWidth(5.0f);
                 GL.Begin(PrimitiveType.Lines);
@@ -103,7 +103,7 @@ namespace WinGUI
             {
                 GL.PushMatrix();
 
-                GL.Translate(-Position._x, -Position._y, -Position._z);
+                GL.Translate(-Position.X, -Position.Y, -Position.Z);
                 GL.Translate(posit._x, posit._y, posit._z);
                 GL.Scale(1 / ScaleFactor, 1 / ScaleFactor, 1 / ScaleFactor);
 
@@ -171,7 +171,7 @@ namespace WinGUI
             DisplayGeometryObjectEvent += new Action(() =>
             {
                 GL.PushMatrix();
-                GL.Translate(-Position._x, -Position._y, -Position._z);
+                GL.Translate(-Position.X, -Position.Y, -Position.Z);
                 GL.Color3(objColor.R, objColor.G, objColor.B);
                 GL.LineWidth(5.0f);
                 GL.Begin(PrimitiveType.Lines);
@@ -199,7 +199,7 @@ namespace WinGUI
                 GL.Color3(1f, 0, 0);
                 GL.PolygonMode(TriangleFace.FrontAndBack, PolygonMode.Line);
 
-                GL.Translate(-Position._x, -Position._y, -Position._z);
+                GL.Translate(-Position.X, -Position.Y, -Position.Z);
 
                 //shifting
                 GL.Translate(frame.Centre._x, frame.Centre._y, frame.Centre._z);
@@ -236,7 +236,7 @@ namespace WinGUI
                 GL.PushMatrix();
                 GL.PolygonMode(TriangleFace.FrontAndBack, PolygonMode.Line);
                 GL.Color3(1f, 0, 0);
-                GL.Translate(-Position._x, -Position._y, -Position._z);
+                GL.Translate(-Position.X, -Position.Y, -Position.Z);
 
                 GL.Translate(frame.Centre._x, frame.Centre._y, frame.Centre._z);
 

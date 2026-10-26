@@ -197,7 +197,8 @@ namespace SceneCore
         public float ShadowAngle { get; set; }
         public bool IsSmoothShadow { get; set; }
 
-        public Point3D GetSceneCoordOfScreenVector(float x, float y) => camera.GetSceneCoordOfScreenVector(x, y);
+        /// <summary>Преобразует вектор в плоскости камеры в вектор координат модели.</summary>
+        public ModelVector3D GetSceneCoordOfScreenVector(float x, float y) => camera.GetSceneVectorOfScreenVector(x, y);
 
         public ViewProjection Projection
         {
@@ -323,7 +324,8 @@ namespace SceneCore
         public float LightTranslateZ { get; set; }
         public float LightAttenuation { get; set; }
 
-        public void SetRotationCentre(Point3D modelPoint) => camera.SetRotationCentre(modelPoint);
+        /// <summary>Устанавливает центр вращения в координатах модели.</summary>
+        public void SetRotationCentre(ModelPoint3D modelPoint) => camera.SetRotationCentre(modelPoint);
 
         public bool IsVBObjectShown(string objsName) => vboController.IsVBObjectShown(objsName);
         public void SwitchOffVBObject(string objsName) => vboController.SwitchVBObject(objsName, false);
@@ -340,7 +342,8 @@ namespace SceneCore
                 {
                     foreach (var corner in obj.BoundingBox.GetCornerPoints())
                     {
-                        var sceneCorner = camera.GetSceenCoord(corner);
+                        var modelCorner = new ModelPoint3D(corner._x, corner._y, corner._z);
+                        var sceneCorner = camera.GetSceneCoord(modelCorner);
                         var scr = camera.GetScreenCoord(sceneCorner);
                         var rad = (float)Math.Sqrt(scr.X * scr.X + scr.Y * scr.Y);
                         if (rad > maxRad) maxRad = rad;
@@ -452,7 +455,7 @@ namespace SceneCore
             {
                 var position = ctx.Camera.Position;
                 GL.PushMatrix();
-                GL.Translate(-position._x, -position._y, -position._z);
+                GL.Translate(-position.X, -position.Y, -position.Z);
                 GL.LineWidth(1.5f);
                 GL.Begin(PrimitiveType.Lines);
 
@@ -501,7 +504,7 @@ namespace SceneCore
                 var position = ctx.Camera.Position;
                 var scale = 1 / ctx.ScaleFactor;
                 GL.PushMatrix();
-                GL.Translate(-position._x, -position._y, -position._z);
+                GL.Translate(-position.X, -position.Y, -position.Z);
                 GL.Translate(posit._x, posit._y, posit._z);
                 GL.Scale(scale, scale, scale);
                 GL.Color3(objColor.R, objColor.G, objColor.B);
@@ -527,7 +530,7 @@ namespace SceneCore
             {
                 var position = ctx.Camera.Position;
                 GL.PushMatrix();
-                GL.Translate(-position._x, -position._y, -position._z);
+                GL.Translate(-position.X, -position.Y, -position.Z);
                 GL.Color3(objColor.R, objColor.G, objColor.B);
                 GL.LineWidth(5.0f);
                 GL.Begin(PrimitiveType.Lines);
@@ -547,7 +550,7 @@ namespace SceneCore
             {
                 var position = ctx.Camera.Position;
                 GL.PushMatrix();
-                GL.Translate(-position._x, -position._y, -position._z);
+                GL.Translate(-position.X, -position.Y, -position.Z);
                 GL.Translate(frame.Centre._x, frame.Centre._y, frame.Centre._z);
 
                 var angle = (float)(Math.Acos(Vector.GetCosAngleVectors(new Point3D(0, 0, 1), frame.Dir_Z)) * 180 / Math.PI);
@@ -567,7 +570,7 @@ namespace SceneCore
             {
                 var position = ctx.Camera.Position;
                 GL.PushMatrix();
-                GL.Translate(-position._x, -position._y, -position._z);
+                GL.Translate(-position.X, -position.Y, -position.Z);
                 GL.Translate(frame.Centre._x, frame.Centre._y, frame.Centre._z);
 
                 var angle = (float)(Math.Acos(Vector.GetCosAngleVectors(new Point3D(0, 0, 1), frame.Dir_Z)) * 180 / Math.PI);
@@ -590,7 +593,7 @@ namespace SceneCore
             {
                 var position = ctx.Camera.Position;
                 GL.PushMatrix();
-                GL.Translate(-position._x, -position._y, -position._z);
+                GL.Translate(-position.X, -position.Y, -position.Z);
                 GL.Translate(centre._x, centre._y, centre._z);
                 mesh.Load();
                 GL.PopMatrix();
@@ -603,7 +606,7 @@ namespace SceneCore
             {
                 var position = ctx.Camera.Position;
                 GL.PushMatrix();
-                GL.Translate(-position._x, -position._y, -position._z);
+                GL.Translate(-position.X, -position.Y, -position.Z);
                 GL.Color3(1f, 0, 0);
                 GL.LineWidth(5.0f);
                 GL.Begin(PrimitiveType.Lines);

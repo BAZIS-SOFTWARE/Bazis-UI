@@ -128,7 +128,7 @@ namespace AvaloniaGUI.Shell
             var position = context.Camera.Position;
             GL.MatrixMode(MatrixMode.Modelview);
             GL.PushMatrix();
-            GL.Translate(-position._x, -position._y, -position._z);
+            GL.Translate(-position.X, -position.Y, -position.Z);
             GL.MultMatrix(vbo.ModelMatrix);
             GL.Color3(0, 1f, 0);
 

@@ -54,17 +54,6 @@ namespace SceneCore.Tests
             Assert.That(m[2, 2], Is.EqualTo(1f).Within(1e-5));
         }
 
-        [Test]
-        public void Transform_AppliesMatrixToVector()
-        {
-            var m = GlMatrix.Translate(GlMatrix.Identity(), 5, 0, 0);
-
-            var p = GlMatrix.Transform(m, 1, 2, 3, 1);
-
-            Assert.That(p._x, Is.EqualTo(6f).Within(1e-5));
-            Assert.That(p._y, Is.EqualTo(2f).Within(1e-5));
-            Assert.That(p._z, Is.EqualTo(3f).Within(1e-5));
-        }
     }
 
     /// <summary>

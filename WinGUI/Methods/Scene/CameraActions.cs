@@ -1,6 +1,7 @@
 ﻿using SceneCore.Camera;
 using SceneCore.Interfaces;
 using Geometry;
+using SceneCore.Coordinates;
 using System.Drawing;
 
 namespace WinGUI
@@ -10,7 +11,7 @@ namespace WinGUI
     // Сигнатуры методов оставлены прежними, чтобы не трогать вызывающий код (Buttons/ViewToolStrip.cs и т.д.).
     public partial class BaseForm
     {
-        public Point3D Position
+        public ModelPoint3D Position
         {
             get => sceneController.GetCamera().Position;
             set => sceneController.GetCamera().Position = value;
