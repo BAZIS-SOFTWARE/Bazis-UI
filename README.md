@@ -1,6 +1,6 @@
 # BazisGUI
 
-BazisGUI — графический клиент для подготовки расчётной модели, запуска CAE-расчёта и просмотра результатов на базе BazisCORE. Основное приложение — `AvaloniaGUI`. Прежний клиент `WinGUI` остаётся в решении и поддерживается. Численный расчёт выполняет отдельный решатель, путь к которому задаётся в настройках приложения.
+BazisGUI — графический клиент для подготовки расчётной модели, запуска CAE-расчёта и просмотра результатов на базе [BazisCORE](https://github.com/ONEGOCH/ModelSolution/blob/Master_dev/BazisCore.sln). Основное приложение — `AvaloniaGUI`. Прежний клиент `WinGUI` остаётся в решении и поддерживается. Численный расчёт выполняет отдельный решатель, путь к которому задаётся в настройках приложения.
 
 ## Возможности
 
@@ -26,9 +26,68 @@ BazisGUI — графический клиент для подготовки р�
 
 Инженерные данные и операции над ними предоставляет BazisCORE: геометрия, модель и сетка, проектные свойства и условия, препроцессор и постпроцессор. `SceneCore` получает координаты отображаемых объектов через собственные структуры и не зависит от пакета `Model`; применение выбора к проекту остаётся в GUI. Связи компонентов подробнее показаны в [архитектуре решения](Documents/Architecture.md).
 
+## Диаграмма классов AvaloniaGUI
+
+Ниже показаны основные классы оболочки и их связи. Полная схема с событиями, методами и дочерними диаграммами находится в [AvaloniaGUI.mdpuml](AvaloniaGUI/Documents/AvaloniaGUI.mdpuml).
+
+```mermaid
+classDiagram
+    direction LR
+    class MainWindow {
+        +StartComputation()
+        +OnProjectLoaded
+    }
+    class SceneView {
+        +Surface
+        +UpdateSets(project)
+    }
+    class SceneSurface {
+        +ShowProject(project)
+        +Redraw()
+    }
+    class NavigatorControl {
+        +SelectNode(node)
+        +SelectResultEvent
+    }
+    class PropertiesPanelControl {
+        +DrawTable(rows)
+        +PropertyUpdateEvent
+    }
+    class ConsoleControl {
+        +PrintInfo(message, color)
+        +ConsoleCommandEnteredEvent
+    }
+    class IODataController {
+        +OpenProject(path)
+        +ImportMesh(path)
+    }
+    class SettingsConfig {
+        +SolverPath
+    }
+    class ProjectController {
+        <<external>>
+    }
+
+    MainWindow --> SceneView
+    SceneView *-- SceneSurface
+    MainWindow --> NavigatorControl
+    MainWindow --> PropertiesPanelControl
+    MainWindow --> ConsoleControl
+    MainWindow --> IODataController
+    MainWindow --> ProjectController
+    IODataController --> SettingsConfig
+    IODataController --> ProjectController
+```
+
 ## Требования и запуск
 
 Для сборки основного клиента нужен .NET SDK 8 и доступ к NuGet-пакетам из файлов проектов. В решении также используются библиотеки из каталога `Libs`. Для отображения сцены требуется графическое окружение с совместимым OpenGL-контекстом: [точка входа AvaloniaGUI](AvaloniaGUI/Program.cs) настраивает WGL на Windows и GLX/EGL на Linux. CAD-операциям нужна совместимая нативная библиотека Gmsh (`.dll` на Windows или `.so` на Linux). Для запуска расчёта нужно указать путь к исполняемому решателю в настройках приложения.
+
+### Запуск решателя
+
+При команде запуска `AvaloniaGUI` сохраняет проект, проверяет наличие файла проекта и связанных баз материалов и функций. Затем `PreProc.WriteInstructions` записывает файлы задач в `InputData` и командный файл `ComputationData/computation.tcf`. GUI запускает исполняемый файл по пути `SolverPath`, передаёт ему путь к `computation.tcf` единственным аргументом и устанавливает рабочим каталогом каталог проекта. Остановка завершает дерево процесса; в интерфейсе можно проверить его состояние и код завершения ([StartStopConp.cs](AvaloniaGUI/Shell/Methods/Comp/StartStopConp.cs)).
+
+Решатель может быть любой реализации. Для прямого запуска из GUI он должен понимать переданный командный файл и создавать результаты в формате базы данных, доступном компоненту `ResultDB` BazisCORE; альтернативный решатель может преобразовывать свой вывод в этот формат. Сейчас `AvaloniaGUI` открывает файлы результатов `.db` и проверяет наличие таблицы `nodes` со значениями времени `Time` ([ResultsMainMenuEvents.cs](AvaloniaGUI/Shell/Methods/Results/ResultsMainMenuEvents.cs)). Совместимое хранение результатов позволяет использовать постпроцессор BazisCORE для их просмотра.
 
 Из корня репозитория соберите и запустите основной клиент:
 
