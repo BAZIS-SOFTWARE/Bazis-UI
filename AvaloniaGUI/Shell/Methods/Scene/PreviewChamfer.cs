@@ -112,16 +112,16 @@ namespace AvaloniaGUI.Shell
 
         private Point3D GetOffsetDirection(int surfaceTag, int volumeTag, Point3D edgeMiddle, Point3D tangent)
         {
-            var point = new[] { (double)edgeMiddle._x, edgeMiddle._y, edgeMiddle._z };
+            var point = new[] { edgeMiddle._x, edgeMiddle._y, edgeMiddle._z };
             var outwardNormal = ToPoint3D(GetOutwardNormal(surfaceTag, volumeTag, point));
             var direction = Normalize(
                 Vector.CrossProd(outwardNormal, tangent),
                 string.Format(Resources.ChamferPreview_OffsetDirectionUnavailable, surfaceTag));
             var (x, y, z) = project.GetCenterOfMass(2, surfaceTag);
             var toSurfaceCenter = new Point3D(
-                (float)x - edgeMiddle._x,
-                (float)y - edgeMiddle._y,
-                (float)z - edgeMiddle._z);
+                x - edgeMiddle._x,
+                y - edgeMiddle._y,
+                z - edgeMiddle._z);
 
             return Vector.DotProd(direction, toSurfaceCenter) < 0 ? direction.Mult(-1) : direction;
         }
@@ -171,13 +171,13 @@ namespace AvaloniaGUI.Shell
             if (coordinates == null || coordinates.Length != 3)
                 throw new InvalidOperationException(Resources.ChamferPreview_InvalidGeometryCoordinates);
 
-            return new Point3D((float)coordinates[0], (float)coordinates[1], (float)coordinates[2]);
+            return new Point3D(coordinates[0], coordinates[1], coordinates[2]);
         }
 
         private Point3D Normalize(Point3D vector, string errorMessage)
         {
             var vectorLength = Vector.GetVectorLength(vector);
-            if (!float.IsFinite(vectorLength) || vectorLength == 0)
+            if (!double.IsFinite(vectorLength) || vectorLength == 0)
                 throw new InvalidOperationException(errorMessage);
 
             return vector.Mult(1.0f / vectorLength);

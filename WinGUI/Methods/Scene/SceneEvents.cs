@@ -216,7 +216,7 @@ namespace WinGUI
                 {
                     // добавление прямоугольника выбора по параллелограмму объекта
                     var scrPoints = glObj.BoundingBox.GetCornerPoints().
-                        Select(c => GetSceenCoord(c._x, c._y, c._z)).
+                        Select(c => GetSceenCoord(c)).
                         Select(s => GetScreenCoord(s));
 
                     var rect = new RectangleBox(scrPoints);

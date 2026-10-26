@@ -63,7 +63,7 @@ namespace SceneCore.Interfaces
         /// <param name="y"></param>
         /// <param name="z"></param>
         /// <returns></returns>
-        Point3D GetSceenCoord(float x, float y, float z);
+        Point3D GetSceenCoord(double x, double y, double z);
         /// <summary>
         /// GetSceenCoord
         /// </summary>

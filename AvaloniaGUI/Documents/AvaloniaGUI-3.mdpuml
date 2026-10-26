@@ -1,0 +1,41 @@
+@startuml
+title AvaloniaGUI-3 — свойства и консоль
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "AvaloniaGUI. Панель свойств" {
+  class PropertiesPanelControl {
+    + ClearTable() : void
+    + DrawTable(rows, objInfo, tag) : void
+    + CellValueChanged(rowIndex, key) : void
+    + {event} PropertyUpdateEvent
+    + {event} ReDrawEvent
+    + {event} ValidateValue
+  }
+  class RowProperty
+}
+package "AvaloniaGUI. Консоль" {
+  class ConsoleControl {
+    + PrintInfo(text, color) : void
+    + PrintHistory(text) : void
+    + {event} ConsoleCommandEnteredEvent
+    + {event} CommandsListRequestedEvent
+    + {event} ControlCollapseEvent
+  }
+  class ConsoleMessage <<record>>
+}
+package "AvaloniaGUI. Оболочка" {
+  class "MainWindow (обработчики панелей)" as MainWindow
+}
+
+PropertiesPanelControl --> RowProperty : строки
+PropertiesPanelControl --> MainWindow : изменение данных
+ConsoleControl --> ConsoleMessage : сообщения
+ConsoleControl --> MainWindow : команды
+
+note bottom of MainWindow
+  [[AvaloniaGUI.mdpuml Назад к AvaloniaGUI]]
+  [[AvaloniaGUI-2.mdpuml Навигатор AvaloniaGUI-2]]
+end note
+@enduml

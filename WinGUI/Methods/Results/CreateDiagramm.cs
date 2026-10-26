@@ -39,7 +39,7 @@ namespace WinGUI
                 var tables = new List<string>() { ResultType.nodes.ToString() };
 
                 var pathPoints = new List<Point3D>();
-                var path = 0.0f;
+                var path = 0.0;
                 var grPoints = new List<GraphPoint>();
                 
                 var result = loader.GetResult(ResultDbPath, tables, time);
@@ -60,7 +60,7 @@ namespace WinGUI
                         pathPoints.Add(obj.CalcCentr());
 
                         var res = result.GetValue(ResultType.nodes.ToString(), obj.Number, resDes);
-                        var grPoint = new GraphPoint(path, res);
+                        var grPoint = new GraphPoint((float)path, res);
                         grPoints.Add(grPoint);
                     }
                 }

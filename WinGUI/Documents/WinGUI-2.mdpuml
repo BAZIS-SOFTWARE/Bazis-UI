@@ -1,0 +1,44 @@
+@startuml
+title WinGUI-2 — навигатор и события оболочки
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "WinGUI. Навигатор" {
+  class NavigatorControl {
+    + SelectNode(node) : void
+    + CreateRealNode(name) : TreeNode
+    + CreateVirtualNode(name) : TreeNode
+    + ActionMenu(node, index) : void
+    + TrySearchNodes(name, nodes) : bool
+    + BeginUpdate() : void
+    + EndUpdate() : void
+    + {event} SelectSetEvent
+    + {event} SelectGroupEvent
+    + {event} SelectObjectEvent
+    + {event} SelectCondEvent
+    + {event} SelectTaskEvent
+    + {event} SelectGeoEvent
+    + {event} SelectMeshEvent
+    + {event} SelectResultsEvent
+    + {event} SelectCompEvent
+    + {event} SelectCompsEvent
+    + {event} SelectGeneralInfoEvent
+    + {event} SelectTimeEvent
+    + {event} SelectResultEvent
+  }
+}
+package "WinGUI. Оболочка" {
+  class "BaseForm (обработчики Navigator)" as BaseForm
+}
+
+NavigatorControl --> BaseForm : пользовательские действия
+BaseForm --> NavigatorControl : обновление дерева
+
+note bottom of NavigatorControl
+  События объявлены в NavigatorControl.cs.
+  [[WinGUI.mdpuml Назад к WinGUI]]
+  [[WinGUI-4.mdpuml Действия навигатора WinGUI-4]]
+  [[WinGUI-3.mdpuml Панели WinGUI-3]]
+end note
+@enduml

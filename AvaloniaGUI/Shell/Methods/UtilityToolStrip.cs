@@ -134,7 +134,7 @@ namespace AvaloniaGUI.Shell
             var message = @"Идет построение пути...";
             console.PrintInfo(message, Color.Black);
 
-            var path = 0.0f;
+            var path = 0.0;
             while (true)
             {
                 message = $@"Выберите {ObjType.Узел} и нажмите на клавишу ""E"" для подтверждения или клавишу ""ESC"" для отмены";

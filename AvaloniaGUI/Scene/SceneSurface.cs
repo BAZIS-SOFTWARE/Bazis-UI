@@ -464,7 +464,7 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
 
                 var camera = controller.GetCamera();
 
-                var candidates = new List<(Point3D Model, float Depth)>();
+                var candidates = new List<(Point3D Model, double Depth)>();
                 foreach (var vbo in controller.VboController.GetVBObjs())
                 {
                     var coords = vbo.PointsCoords;

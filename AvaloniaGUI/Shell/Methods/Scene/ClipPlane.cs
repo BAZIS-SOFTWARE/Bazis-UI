@@ -423,11 +423,8 @@ namespace AvaloniaGUI.Shell
             var mP1 = selObjs[1].CalcCentr();
             var mP2 = selObjs[2].CalcCentr();
 
-            var p0 = new Vector3(mP0._x, mP0._y, mP0._z);
-            var p1 = new Vector3(mP1._x, mP1._y, mP1._z);
-            var p2 = new Vector3(mP2._x, mP2._y, mP2._z);
-
-            ShowSection(CreateSectionPlane(p0, p1, p2));
+            var plane = new Geometry.Plane(mP0, mP1, mP2);
+            ShowSection(plane);
         }
 
         public Geometry.Plane CreateSectionPlane(Vector3 p0, Vector3 p1, Vector3 p2)

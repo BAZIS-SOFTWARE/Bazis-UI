@@ -145,7 +145,7 @@ namespace WinGUI
             var message = @"Идет построение пути...";
             console.PrintInfo(message, Color.Black);
 
-            var path = 0.0f;
+            var path = 0.0;
             while (true)
             {
                 message = $@"Выберите {ObjType.Узел} и нажмите на клавишу ""E"" для подтверждения или клавишу ""ESC"" для отмены";
@@ -371,11 +371,7 @@ namespace WinGUI
             var mP1 = selObjs[1].CalcCentr();
             var mP2 = selObjs[2].CalcCentr();
 
-            var p0 = new Vector3(mP0._x, mP0._y, mP0._z);
-            var p1 = new Vector3(mP1._x, mP1._y, mP1._z);
-            var p2 = new Vector3(mP2._x, mP2._y, mP2._z);
-
-            var plane = CreateSectionPlane(p0, p1, p2);
+            var plane = new Geometry.Plane(mP0, mP1, mP2);
 
             var surface = project.GetSectionSurfaces(plane);
             var sections = new List<SurfaceFigure> { surface };

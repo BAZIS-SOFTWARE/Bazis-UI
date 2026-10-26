@@ -123,7 +123,7 @@ namespace AvaloniaGUI.Shell
                 var tables = new List<string>() { ResultType.nodes.ToString() };
 
                 var pathPoints = new List<Point3D>();
-                var path = 0.0f;
+                var path = 0.0;
                 var grPoints = new List<GraphPoint>();
 
                 var result = loader.GetResult(ResultDbPath, tables, time);
@@ -144,7 +144,7 @@ namespace AvaloniaGUI.Shell
                         pathPoints.Add(obj.CalcCentr());
 
                         var res = result.GetValue(ResultType.nodes.ToString(), obj.Number, resDes);
-                        grPoints.Add(new GraphPoint(path, res));
+                        grPoints.Add(new GraphPoint((float)path, res));
                     }
                 }
 

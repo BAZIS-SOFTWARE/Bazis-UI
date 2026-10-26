@@ -155,7 +155,7 @@ namespace WinGUI
         private string ExtrudeRotate(int numberSurface, float angle, int originPoint, Vector3 rotAxis, bool transfinite)
         {
             var point = project.GetModelPoint(originPoint);
-            Vector3 origin = new Vector3(point._x, point._y, point._z);
+            var origin = new Vector3((float)point._x, (float)point._y, (float)point._z);
             return project.ExtrudeElement3DRotate(numberSurface, angle, origin, rotAxis, transfinite);
         }
 

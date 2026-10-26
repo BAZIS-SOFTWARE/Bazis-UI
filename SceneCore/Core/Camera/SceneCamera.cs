@@ -123,7 +123,7 @@ namespace SceneCore.Camera
             viewMatrix[1, 3] = 0;
         }
 
-        public Point3D GetSceenCoord(float x, float y, float z)
+        public Point3D GetSceenCoord(double x, double y, double z)
         {
             return GlMatrix.Transform(viewMatrix, x - Position._x, y - Position._y, z - Position._z, 1);
         }
@@ -164,7 +164,7 @@ namespace SceneCore.Camera
             }
             else
             {
-                var v = Vector<float>.Build.DenseOfArray(new[] { coord._x, coord._y, coord._z, 1 });
+                var v = Vector<float>.Build.DenseOfArray(new[] { (float)coord._x, (float)coord._y, (float)coord._z, 1f });
                 GetProjectionMatrix().Multiply(v, v);
 
                 var screenX = v[0] * 0.5f * viewport.Width;

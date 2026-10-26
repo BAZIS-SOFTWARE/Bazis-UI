@@ -230,7 +230,7 @@ namespace WinGUI
         //    }
         //}
 
-        private static void GetReflectionData(Geometry.Plane plane, out float[,] reflection, out float[] t)
+        private static void GetReflectionData(Geometry.Plane plane, out double[,] reflection, out double[] t)
         {
             var n = Geometry.Vector.GetVectorLength(plane.Normal);
 
@@ -239,8 +239,8 @@ namespace WinGUI
             var nz = plane.Normal._z / n;
             var d = plane.Shifting / n;
 
-            reflection = new float[3, 3];
-            t = new float[3];
+            reflection = new double[3, 3];
+            t = new double[3];
             reflection[0, 0] = 1 - 2 * nx * nx;
             reflection[1, 0] = -2 * nx * ny;
             reflection[2, 0] = -2 * nx * nz;
@@ -265,21 +265,21 @@ namespace WinGUI
             var y = -plane.Normal._y;
             var z = -plane.Normal._z;
             var d = plane.Shifting;
-            reflection[0] = 1 - 2 * x * x;
-            reflection[1] = -2 * x * y;
-            reflection[2] = -2 * x * z;
+            reflection[0] = (float)(1 - 2 * x * x);
+            reflection[1] = (float)(-2 * x * y);
+            reflection[2] = (float)(-2 * x * z);
             reflection[3] = 0.0f;
-            reflection[4] = -2 * x * y;
-            reflection[5] = 1 - 2 * y * y;
-            reflection[6] = -2 * y * z;
+            reflection[4] = (float)(-2 * x * y);
+            reflection[5] = (float)(1 - 2 * y * y);
+            reflection[6] = (float)(-2 * y * z);
             reflection[7] = 0.0f;
-            reflection[8] = -2 * x * z;
-            reflection[9] = -2 * y * z;
-            reflection[10] = 1 - 2 * z * z;
+            reflection[8] = (float)(-2 * x * z);
+            reflection[9] = (float)(-2 * y * z);
+            reflection[10] = (float)(1 - 2 * z * z);
             reflection[11] = 0.0f;
-            reflection[12] = -2 * x * d;
-            reflection[13] = -2 * y * d;
-            reflection[14] = -2 * z * d;
+            reflection[12] = (float)(-2 * x * d);
+            reflection[13] = (float)(-2 * y * d);
+            reflection[14] = (float)(-2 * z * d);
             reflection[15] = 1.0f;
             return reflection;
         }

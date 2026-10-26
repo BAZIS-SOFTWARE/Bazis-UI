@@ -1,0 +1,59 @@
+@startuml
+title SceneCore-2 — геометрия, выбор и буферы
+left to right direction
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "SceneCore. Геометрия" {
+  class BoundingBox {
+    + LeftUpNear : Point3D [get]
+    + RightDownFar : Point3D [get]
+    + GetSqrCoordsSum() : double
+    + GetDiagonalLength() : double
+    + GetCornerPoints() : IEnumerable<Point3D>
+    + Merge(other: BoundingBox) : BoundingBox
+  }
+  class ScenePath {
+    + Length : double [get]
+    + Display(position: Point3D) : void
+  }
+}
+package "SceneCore. Выбор" {
+  class ScenePicker {
+    + {event} ObjectsHit
+    + SelectByPoint(sets, point, isSelected) : bool
+    + SelectByRect(sets, box, isSelected) : void
+  }
+  interface "ISceneCamera\nSceneCore-1" as ISceneCamera <<ссылка>> [[SceneCore-1.mdpuml SceneCore-1]]
+}
+package "SceneCore. Буферы" {
+  class ClipPlane {
+    + ViewMatrix : float[] [get, set]
+    + CreateBoundingBoxPlanes(box: BoundingBox) : Tuple<int[], float[], float[]>
+    + Draw() : void
+    + Load() : void
+  }
+  class QuadricMeshFactory {
+    + CreateCylinder(baseR: double, topR: double, height: double, color) : VBObject
+    + CreateCone(baseR: double, height: double, color) : VBObject
+    + CreateSphere(radius: double, color) : VBObject
+  }
+}
+package "Geometry. Координаты" {
+  class Point3D <<внешний>>
+}
+
+BoundingBox --> Point3D
+ScenePath --> Point3D
+ScenePicker --> ISceneCamera
+ClipPlane --> BoundingBox
+QuadricMeshFactory --> Point3D
+
+note bottom of ClipPlane
+  Координаты Point3D хранятся как double;
+  в массивы вершин OpenGL записывается float.
+  [[SceneCore.mdpuml Назад к SceneCore]]
+  [[SceneCore-1.mdpuml Камера SceneCore-1]]
+end note
+@enduml

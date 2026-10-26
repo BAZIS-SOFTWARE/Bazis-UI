@@ -30,7 +30,7 @@ namespace SceneCore.Picking
             var selFlag = false;
             var tempNumbs = new List<int>();
             Set tempSetInfo = null;
-            var curZDepth = 0.0f;
+            var curZDepth = 0.0;
 
             foreach (var set in sets)
             {

@@ -1,0 +1,49 @@
+@startuml
+title WinGUI-3 — свойства, консоль и панели задач
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "WinGUI. Панель свойств" {
+  class PropertiesPanelControl {
+    + ClearTable() : void
+    + DrawTable(rows, objInfo, tag) : void
+    + CellValueChanged(cell, key) : void
+    + {event} PropertyUpdateEvent
+    + {event} ReDrawEvent
+    + {event} ValidateValue
+  }
+  class RowProperty
+}
+package "WinGUI. Консоль" {
+  class ConsoleControl {
+    + PrintInfo(text, color) : void
+    + PrintHistory(text) : void
+    + {event} ConsoleCommandEnteredEvent
+    + {event} CommandsListRequestedEvent
+  }
+}
+package "WinGUI. Задачи" {
+  interface ITaskControl {
+    + GetValidationResult() : bool
+    + {event} BtnSave_ClickEvent
+  }
+  class TaskControl {
+    + InputData(parameters) : void
+  }
+}
+package "WinGUI. Оболочка" {
+  class "BaseForm (обработчики панелей)" as BaseForm
+}
+
+PropertiesPanelControl --> RowProperty : строки
+PropertiesPanelControl --> BaseForm : изменение данных
+ConsoleControl --> BaseForm : команды
+TaskControl ..|> ITaskControl
+BaseForm --> TaskControl : параметры задачи
+
+note bottom of BaseForm
+  [[WinGUI.mdpuml Назад к WinGUI]]
+  [[WinGUI-2.mdpuml Навигатор WinGUI-2]]
+end note
+@enduml

@@ -1,0 +1,20 @@
+# Реализация функций BazisGUI
+
+Документ связывает функции из [Features.md](Features.md) с существующими путями исполнения. Исходники — источник фактического поведения; здесь описаны существенные связи и ограничения.
+
+| ID | Вход и путь реализации | Результат и существенная граница |
+| --- | --- | --- |
+| F01 | [MainWindow.OpenProject](../AvaloniaGUI/Shell/MainWindow.cs) различает файлы проекта, CAD и сетки. `SaveProjectAsync` выбирает `.bpf`/`.bpf2`, затем вызывает сохранение проекта | Открытый проект заменяет состояние окна и сцены; для сохранения связанных баз при смене каталога используется копирование файлов |
+| F02 | Для CAD `MainWindow` инициализирует геометрию при необходимости и вызывает `ImportCAD`; для сетки обращается к `dataController.ImportMesh` | CAD требует нативной библиотеки Gmsh; успешный импорт обновляет текущий проект |
+| F03 | [GeometryBuilder](../AvaloniaGUI/Shell/Methods/Geom/GeometryBuilder.cs) направляет команды точек, линий и поверхностей в контроллер; обработчики сетки вызывают `GenerateMesh(2)` или `GenerateMesh(3)` | GUI обновляет отображение и дерево после создания данных; построение сетки выполняется CORE/Gmsh |
+| F04 | [SceneProjectPresenter](../AvaloniaGUI/Scene/SceneProjectPresenter.cs) запрашивает презентаторы видимых наборов и строит буферы. [SceneSelection](../AvaloniaGUI/Scene/SceneSelection.cs) формирует наборы для выбора через `yield return` и фильтрует по `project.GetVisible` | [ScenePicker](../SceneCore/Core/Picking/ScenePicker.cs) делает проекцию и поиск попаданий; выбор в модели применяет GUI |
+| F05 | Обработчики [задач](../AvaloniaGUI/Shell/Methods/Tasks/Create.cs) и [панели свойств](../AvaloniaGUI/Shell/Methods/PropertyPanel/ChangeCompProperties.cs) преобразуют действия пользователя в операции проекта | Набор доступных физических сценариев ограничен текущими контрактами и реализацией BazisCORE |
+| F06 | [GenerateTSF](../AvaloniaGUI/Shell/Methods/Comp/GenerateTSF.cs) получает данные условий и вызывает `PreProc.CalcCompDataV2` | Полученные инструкции показываются в дереве; их расчётное исполнение — отдельный шаг |
+| F07 | [StartStopConp](../AvaloniaGUI/Shell/Methods/Comp/StartStopConp.cs) сохраняет проект, проверяет проектный файл и базы, вызывает `PreProc.WriteInstructions`, запускает процесс из `SolverPath` | GUI может остановить процесс и показать его состояние; корректность результата зависит от внешнего решателя |
+| F08 | [ResultsMainMenuEvents](../AvaloniaGUI/Shell/Methods/Results/ResultsMainMenuEvents.cs) и [SelectResultsEvent](../AvaloniaGUI/Shell/Methods/Navigator/Results/SelectResultsEvent.cs) читают результат, создают отображаемые фигуры и интервалы шкалы | Сцена показывает подготовленные поля; формат и доступность данных определяются базой результатов |
+| F09 | [CreatePlot](../AvaloniaGUI/Shell/Methods/Results/CreatePlot.cs) получает временные значения выбранной величины для узлов; [CreateAnimation](../AvaloniaGUI/Shell/Methods/Results/CreateAnimation.cs) читает временные срезы и делает GIF | Сценарии требуют выбранного результата и корректной базы; смена проекта во время асинхронного создания анимации отменяет операцию |
+| F10 | [SceneCore](../SceneCore/SceneCore.csproj) отделяет камеру и геометрический выбор от обеих оболочек; [SceneCore.Tests](../SceneCore.Tests/SceneCore.Tests.csproj) проверяет основные преобразования и ввод | Покрытие тестами не означает проверки полного GUI или производительности на большой модели |
+
+## Сборка и проверка
+
+Для основного клиента используется `dotnet build AvaloniaGUI/AvaloniaGUI.csproj`; для сцены — `dotnet test SceneCore.Tests/SceneCore.Tests.csproj`; для прежней оболочки — `dotnet build WinGUI/WinGUI.csproj` на Windows. Команды выполняются из корня репозитория при доступных зависимостях. Полная сборка `BazisGUI.sln` дополнительно включает проекты установщика, поэтому не равнозначна сборке одного клиента.

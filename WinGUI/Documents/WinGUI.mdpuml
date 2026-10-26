@@ -1,0 +1,69 @@
+@startuml
+title WinGUI — состав проекта и точки входа
+left to right direction
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "WinGUI. Оболочка" {
+  class BaseForm <<WinGUI-1..4>> {
+    + HandleArgs(args) : void
+    + RequestRedraw() : void
+    + RenderNow() : void
+    + {event} OnProjectLoaded
+    + {event} OnGroupCreated
+    + {event} OnGroupRenamed
+    + {event} OnGroupDeleted
+    + {event} OnChangeMaterials
+    + {event} OnChangeFunctions
+  }
+  class TabButtonControlService {
+    + AddControl(name, control) : void
+    + RemoveControl(name) : void
+    + GetControl(name) : Control
+  }
+}
+
+package "WinGUI. Панели" {
+  class NavigatorControl <<WinGUI-2, WinGUI-4>>
+  class PropertiesPanelControl <<WinGUI-3>>
+  class ConsoleControl <<WinGUI-3>>
+}
+
+package "WinGUI. Данные" {
+  class IODataController {
+    + LoadConfig() : SettingsConfig
+    + GetGmshLibraryPath() : string
+    + ExportMesh(project) : Task<string>
+  }
+  class SettingsConfig
+}
+
+package "SceneCore. Сцена" {
+  class SceneController <<внешний>> {
+    + DisplayObjects() : void
+  }
+}
+package "OperationalController. Проект" {
+  class ProjectController <<внешний>>
+}
+
+BaseForm *-- TabButtonControlService
+BaseForm --> NavigatorControl
+BaseForm --> PropertiesPanelControl
+BaseForm --> ConsoleControl
+BaseForm --> IODataController
+BaseForm --> ProjectController
+BaseForm --> SceneController
+IODataController --> SettingsConfig
+
+note bottom of SceneController
+  Внешний проект: показана только точка входа.
+end note
+note bottom of BaseForm
+  Детали сцены: [[WinGUI-1.mdpuml WinGUI-1]]
+  Панели и события: [[WinGUI-2.mdpuml WinGUI-2]]
+  Действия навигатора: [[WinGUI-4.mdpuml WinGUI-4]]
+  Свойства и консоль: [[WinGUI-3.mdpuml WinGUI-3]]
+end note
+@enduml

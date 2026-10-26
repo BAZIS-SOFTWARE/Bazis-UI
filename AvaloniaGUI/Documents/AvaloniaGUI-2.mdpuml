@@ -1,0 +1,60 @@
+@startuml
+title AvaloniaGUI-2 — навигатор проекта
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "AvaloniaGUI. Навигатор" {
+  class NavigatorControl {
+    + SelectNode(node) : void
+    + CreateRealNode(name) : TreeNode
+    + CreateVirtualNode(name) : TreeNode
+    + ActionMenu(node, index) : void
+    + TrySearchNodes(name, nodes) : bool
+    + BeginUpdate() : void
+    + EndUpdate() : void
+    + {event} SelectSetEvent
+    + {event} SelectGroupEvent
+    + {event} SelectObjectEvent
+    + {event} SelectCondEvent
+    + {event} SelectTaskEvent
+    + {event} SelectGeoEvent
+    + {event} SelectMeshEvent
+    + {event} SelectResultsEvent
+    + {event} SelectCompEvent
+    + {event} SelectCompsEvent
+    + {event} SelectGeneralInfoEvent
+    + {event} SelectTimeEvent
+    + {event} SelectResultEvent
+  }
+  class TreeNode {
+    + Name : string
+    + Text : string
+    + Nodes : TreeNodeCollection
+    + Expand() : void
+    + Collapse() : void
+    + Remove() : void
+  }
+  class TreeNodeCollection {
+    + Add(node) : int
+    + AddRange(nodes) : void
+    + Clear() : void
+    + Find(key, searchAllChildren) : TreeNode[]
+  }
+}
+package "AvaloniaGUI. Оболочка" {
+  class "MainWindow (обработчики Navigator)" as MainWindow
+}
+
+NavigatorControl --> TreeNode
+TreeNode *-- TreeNodeCollection
+NavigatorControl --> MainWindow : пользовательские действия
+MainWindow --> NavigatorControl : обновление дерева
+
+note bottom of NavigatorControl
+  События объявлены в NavigatorControl.cs.
+  [[AvaloniaGUI.mdpuml Назад к AvaloniaGUI]]
+  [[AvaloniaGUI-4.mdpuml Действия навигатора AvaloniaGUI-4]]
+  [[AvaloniaGUI-3.mdpuml Панели AvaloniaGUI-3]]
+end note
+@enduml

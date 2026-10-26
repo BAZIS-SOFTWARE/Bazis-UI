@@ -1,0 +1,70 @@
+@startuml
+title AvaloniaGUI-1 — сцена и представление проекта
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "AvaloniaGUI. Сцена" {
+  class SceneView {
+    + Surface : SceneSurface
+    + UpdateSets(project, resetSelection) : void
+    + {event} ScreenShotRequested
+    + {event} AdvancedSelectionRequested
+  }
+  class SceneSurface {
+    + Invoke(action) : void
+    + InvokeAsync(func) : Task<T>
+    + CaptureFrameAsync() : Task<byte[]>
+    + Redraw() : void
+    + ShowProject(project) : void
+    + RefreshSets(sets) : void
+    + SetViewMode(mode) : void
+    + ClearSelection() : void
+    - SetRotationPoint() : void
+    + {event} ProjectShown
+    + {event} ProjectDisplayFailed
+    + {event} SelectionApplied
+    + {event} SelectionReset
+    + {event} GroupCreated
+    + {event} ObjectsRemoved
+    + {event} MessageReported
+    + {event} ControllerRecreated
+    + {event} SelectedObjectTypeChanged
+  }
+  class SceneProjectPresenter {
+    + Display(project, scene, fitToScreen) : void
+    + Refresh(project, scene, sets) : void
+    + RefreshShown(project, scene, sets) : void
+    + Recolor(project, scene, sets) : void
+    + DeleteAll(scene) : void
+  }
+  class SceneSelection {
+    + Apply(project, scene, selectedType, selection) : SceneSelectionResult
+  }
+  class SceneSelectionResult <<record>>
+}
+package "SceneCore. Сцена" {
+  class SceneController <<внешний>>
+}
+package "OperationalController. Проект" {
+  class IProjectController <<внешний>>
+}
+
+SceneView *-- SceneSurface
+SceneSurface *-- SceneProjectPresenter
+SceneSurface *-- SceneSelection
+SceneSelection --> SceneSelectionResult
+SceneSurface --> SceneController
+SceneProjectPresenter --> SceneController
+SceneSelection --> SceneController
+SceneProjectPresenter --> IProjectController
+SceneSelection --> IProjectController
+
+note bottom of SceneSurface
+  Действия над GL передаются в очередь Invoke
+  и выполняются во время OnOpenGlRender.
+  Глубина выбора вычисляется как double;
+  входные данные VBO остаются float.
+  [[AvaloniaGUI.mdpuml Назад к AvaloniaGUI]]
+end note
+@enduml

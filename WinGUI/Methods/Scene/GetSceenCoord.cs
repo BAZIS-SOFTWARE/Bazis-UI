@@ -6,7 +6,7 @@ namespace WinGUI
     // см. GUI/Documents/scene.avalonia.md, раздел 6.
     public partial class BaseForm
     {
-        public Point3D GetSceenCoord(float x, float y, float z) => sceneController.GetCamera().GetSceenCoord(x, y, z);
+        public Point3D GetSceenCoord(double x, double y, double z) => sceneController.GetCamera().GetSceenCoord(x, y, z);
 
         /// <inheritdoc/>
         public Point3D GetSceenCoord(Point3D point) => sceneController.GetCamera().GetSceenCoord(point);

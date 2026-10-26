@@ -1,0 +1,43 @@
+@startuml
+title SceneCore — координаты сцены и граница рендера
+left to right direction
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "SceneCore. Камера" {
+  class SceneCamera <<SceneCore-1>>
+  class GlMatrix <<SceneCore-1>>
+}
+package "SceneCore. Геометрия" {
+  class BoundingBox <<SceneCore-2>>
+  class ScenePath <<SceneCore-2>>
+}
+package "SceneCore. Выбор" {
+  class ScenePicker <<SceneCore-2>>
+}
+package "SceneCore. Буферы" {
+  class ClipPlane <<SceneCore-2>>
+  class QuadricMeshFactory <<SceneCore-2>>
+}
+package "Geometry. Координаты" {
+  class Point3D <<внешний>>
+}
+
+SceneCamera --> GlMatrix
+ScenePicker --> SceneCamera
+ScenePath --> Point3D
+BoundingBox --> Point3D
+ClipPlane --> BoundingBox
+QuadricMeshFactory --> Point3D
+
+note bottom of SceneCamera
+  Камера и преобразования: [[SceneCore-1.mdpuml SceneCore-1]].
+end note
+note bottom of BoundingBox
+  Геометрия, выбор и буферы: [[SceneCore-2.mdpuml SceneCore-2]].
+end note
+note bottom of Point3D
+  Внешняя геометрия BazisCore: мировые координаты double.
+end note
+@enduml

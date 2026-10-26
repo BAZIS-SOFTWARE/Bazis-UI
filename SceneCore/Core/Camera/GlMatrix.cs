@@ -13,12 +13,12 @@ namespace SceneCore.Camera
     {
         public static Matrix<float> Identity() => Matrix<float>.Build.DenseIdentity(4);
 
-        public static Matrix<float> Translate(Matrix<float> m, float x, float y, float z)
+        public static Matrix<float> Translate(Matrix<float> m, double x, double y, double z)
         {
             var t = Identity();
-            t[0, 3] = x;
-            t[1, 3] = y;
-            t[2, 3] = z;
+            t[0, 3] = (float)x;
+            t[1, 3] = (float)y;
+            t[2, 3] = (float)z;
             return m * t;
         }
 
@@ -31,9 +31,9 @@ namespace SceneCore.Camera
             return m * s;
         }
 
-        public static Matrix<float> Rotate(Matrix<float> m, float angleDeg, float x, float y, float z)
+        public static Matrix<float> Rotate(Matrix<float> m, float angleDeg, double x, double y, double z)
         {
-            return m * RotationMatrix(angleDeg, x, y, z);
+            return m * RotationMatrix(angleDeg, (float)x, (float)y, (float)z);
         }
 
         public static Matrix<float> RotationMatrix(float angleDeg, float x, float y, float z)
@@ -65,9 +65,9 @@ namespace SceneCore.Camera
             return r;
         }
 
-        public static Point3D Transform(Matrix<float> m, float x, float y, float z, float w)
+        public static Point3D Transform(Matrix<float> m, double x, double y, double z, float w)
         {
-            var v = Vector<float>.Build.DenseOfArray(new[] { x, y, z, w });
+            var v = Vector<float>.Build.DenseOfArray(new[] { (float)x, (float)y, (float)z, w });
             m.Multiply(v, v);
             return new Point3D(v[0], v[1], v[2]);
         }
