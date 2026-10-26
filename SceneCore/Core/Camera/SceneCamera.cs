@@ -1,10 +1,11 @@
 using System;
 using System.Drawing;
-using BazisGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
+using SceneCore.Coordinates;
 using Geometry;
 using MathNet.Numerics.LinearAlgebra;
 
-namespace BazisGUI.Scene.Core.Camera
+namespace SceneCore.Camera
 {
     /// <summary>
     /// Видовая матрица хранится в поле, а не в стеке GL_MODELVIEW (как раньше в BaseForm) —
@@ -88,8 +89,9 @@ namespace BazisGUI.Scene.Core.Camera
             var dx = new_mousePosition.X - mousePosition.X;
             var dy = new_mousePosition.Y - mousePosition.Y;
 
-            var pos = new Point2D(-dx, -dy);
-            var crd = GetSceenCoord(pos, -5, scaleFactor);
+            var deltaX = -dx;
+            var deltaY = -dy;
+            var crd = GetSceenCoord(deltaX, deltaY, -5, scaleFactor);
 
             viewMatrix = GlMatrix.Translate(viewMatrix, crd._x, crd._y, crd._z);
         }
@@ -123,7 +125,7 @@ namespace BazisGUI.Scene.Core.Camera
             viewMatrix[1, 3] = 0;
         }
 
-        public Point3D GetSceenCoord(float x, float y, float z)
+        public Point3D GetSceenCoord(double x, double y, double z)
         {
             return GlMatrix.Transform(viewMatrix, x - Position._x, y - Position._y, z - Position._z, 1);
         }
@@ -134,13 +136,14 @@ namespace BazisGUI.Scene.Core.Camera
             return GlMatrix.Transform(viewMatrix, shift._x, shift._y, shift._z, 1);
         }
 
-        public Point3D GetSceenCoord(Point2D point2D, float depth, float scaleFactor)
+        /// <summary>Преобразует смещение в физических пикселях окна просмотра в вектор сцены.</summary>
+        public Point3D GetSceenCoord(int deltaX, int deltaY, float depth, float scaleFactor)
         {
             var viewPortKoeff = (float)viewport.Height / viewport.Width;
             var tan = (float)Math.Tan(AngleOfProjection * 3.14f / 180);
 
-            var xs = point2D._x * tan * depth / viewPortKoeff / viewport.Width;
-            var ys = point2D._y * tan * depth / viewport.Height;
+            var xs = (double)deltaX * tan * depth / viewPortKoeff / viewport.Width;
+            var ys = (double)deltaY * tan * depth / viewport.Height;
 
             xs = xs / scaleFactor / scaleFactor;
             ys = ys / scaleFactor / scaleFactor;
@@ -148,7 +151,8 @@ namespace BazisGUI.Scene.Core.Camera
             return GetSceneCoordOfScreenVector((float)xs, (float)ys);
         }
 
-        public Point2D GetScreenCoord(Point3D coord)
+        /// <summary>Проецирует точку сцены в физические пиксели относительно центра окна просмотра.</summary>
+        public ViewportPoint GetScreenCoord(Point3D coord)
         {
             if (Projection == ViewProjection.Perspective)
             {
@@ -160,17 +164,17 @@ namespace BazisGUI.Scene.Core.Camera
                 var xScr = xn * viewPortKoeff * (viewport.Width / tan);
                 var yScr = yn * (viewport.Height / tan);
 
-                return new Point2D(xScr, yScr);
+                return new ViewportPoint(xScr, yScr);
             }
             else
             {
-                var v = Vector<float>.Build.DenseOfArray(new[] { coord._x, coord._y, coord._z, 1 });
+                var v = Vector<float>.Build.DenseOfArray(new[] { (float)coord._x, (float)coord._y, (float)coord._z, 1f });
                 GetProjectionMatrix().Multiply(v, v);
 
                 var screenX = v[0] * 0.5f * viewport.Width;
                 var screenY = v[1] * 0.5f * viewport.Height;
 
-                return new Point2D(screenX, screenY);
+                return new ViewportPoint(screenX, screenY);
             }
         }
 

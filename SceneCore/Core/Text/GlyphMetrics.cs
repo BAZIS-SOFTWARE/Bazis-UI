@@ -1,4 +1,4 @@
-namespace BazisGUI.Scene.Core.Text
+namespace SceneCore.Text
 {
     public struct GlyphMetrics
     {

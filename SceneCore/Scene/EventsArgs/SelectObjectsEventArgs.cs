@@ -1,6 +1,8 @@
 ﻿using Geometry;
 
-namespace BazisGUI.Scene.EventsArgs
+using RectangleBox = SceneCore.Picking.RectangleBox;
+
+namespace SceneCore.EventsArgs
 {
     public class SelectObjectsEventArgs
     {

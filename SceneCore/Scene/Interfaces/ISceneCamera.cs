@@ -1,5 +1,6 @@
 ﻿using Geometry;
 using MathNet.Numerics.LinearAlgebra;
+using SceneCore.Coordinates;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BazisGUI.Scene.Interfaces
+namespace SceneCore.Interfaces
 {
     /// <summary>
     /// ISceneCamera
@@ -63,7 +64,7 @@ namespace BazisGUI.Scene.Interfaces
         /// <param name="y"></param>
         /// <param name="z"></param>
         /// <returns></returns>
-        Point3D GetSceenCoord(float x, float y, float z);
+        Point3D GetSceenCoord(double x, double y, double z);
         /// <summary>
         /// GetSceenCoord
         /// </summary>
@@ -71,19 +72,18 @@ namespace BazisGUI.Scene.Interfaces
         /// <returns></returns>
         Point3D GetSceenCoord(Point3D point);
         /// <summary>
-        /// GetSceenCoord
+        /// Преобразует смещение в физических пикселях окна просмотра в вектор сцены.
         /// </summary>
-        /// <param name="point2D"></param>
+        /// <param name="deltaX">Горизонтальное смещение в пикселях.</param>
+        /// <param name="deltaY">Вертикальное смещение в пикселях, ось направлена вверх.</param>
         /// <param name="depth"></param>
         /// <param name="scaleFactor"></param>
         /// <returns></returns>
-        Point3D GetSceenCoord(Point2D point2D, float depth, float scaleFactor);
-        /// <summary>
-        /// 
-        /// </summary>
+        Point3D GetSceenCoord(int deltaX, int deltaY, float depth, float scaleFactor);
+        /// <summary>Проецирует точку сцены в координаты окна просмотра с началом в центре.</summary>
         /// <param name="coord"></param>
         /// <returns></returns>
-        Point2D GetScreenCoord(Point3D coord);
+        ViewportPoint GetScreenCoord(Point3D coord);
         /// <summary>
         /// Rotate
         /// </summary>

@@ -1,4 +1,4 @@
-namespace BazisGUI.Scene.Core.Rendering
+namespace SceneCore.Rendering
 {
     public interface ISceneRenderer
     {

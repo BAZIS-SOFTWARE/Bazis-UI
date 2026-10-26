@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BazisGUI.Scene.EventsArgs
+namespace SceneCore.EventsArgs
 {
     public class InfoObjectsEventArgs : EventArgs
     {

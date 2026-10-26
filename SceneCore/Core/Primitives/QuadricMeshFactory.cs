@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using BazisGUI.Scene.Interfaces;
-using BazisGUI.Scene.VBO;
+using SceneCore.Interfaces;
+using SceneCore.VBO;
 using Geometry;
 
-namespace BazisGUI.Scene.Core.Primitives
+namespace SceneCore.Primitives
 {
     /// <summary>
     /// Строит меши примитивов вручную (без gluNewQuadric/gluCylinder/gluSphere), см. IQuadricMeshFactory.
@@ -60,7 +60,7 @@ namespace BazisGUI.Scene.Core.Primitives
             var x = radius * Math.Cos(phi) * Math.Cos(theta);
             var y = radius * Math.Cos(phi) * Math.Sin(theta);
             var z = radius * Math.Sin(phi);
-            return new Point3D((float)x, (float)y, (float)z);
+            return new Point3D(x, y, z);
         }
 
         private static VBObject BuildCylinder(double baseR, double topR, double height, Color color, string name)
@@ -72,10 +72,10 @@ namespace BazisGUI.Scene.Core.Primitives
                 var a0 = 2 * Math.PI * i / Slices;
                 var a1 = 2 * Math.PI * (i + 1) / Slices;
 
-                var b0 = new Point3D((float)(baseR * Math.Cos(a0)), (float)(baseR * Math.Sin(a0)), 0f);
-                var b1 = new Point3D((float)(baseR * Math.Cos(a1)), (float)(baseR * Math.Sin(a1)), 0f);
-                var t0 = new Point3D((float)(topR * Math.Cos(a0)), (float)(topR * Math.Sin(a0)), (float)height);
-                var t1 = new Point3D((float)(topR * Math.Cos(a1)), (float)(topR * Math.Sin(a1)), (float)height);
+                var b0 = new Point3D(baseR * Math.Cos(a0), baseR * Math.Sin(a0), 0);
+                var b1 = new Point3D(baseR * Math.Cos(a1), baseR * Math.Sin(a1), 0);
+                var t0 = new Point3D(topR * Math.Cos(a0), topR * Math.Sin(a0), height);
+                var t1 = new Point3D(topR * Math.Cos(a1), topR * Math.Sin(a1), height);
 
                 triangles.Add(b0); triangles.Add(b1); triangles.Add(t1);
                 triangles.Add(b0); triangles.Add(t1); triangles.Add(t0);
@@ -112,13 +112,13 @@ namespace BazisGUI.Scene.Core.Primitives
                     var v = triangles[i + k];
                     var vi = i + k;
 
-                    coords[vi * 3 + 0] = v._x;
-                    coords[vi * 3 + 1] = v._y;
-                    coords[vi * 3 + 2] = v._z;
+                    coords[vi * 3 + 0] = (float)v._x;
+                    coords[vi * 3 + 1] = (float)v._y;
+                    coords[vi * 3 + 2] = (float)v._z;
 
-                    normals[vi * 3 + 0] = normNormal._x;
-                    normals[vi * 3 + 1] = normNormal._y;
-                    normals[vi * 3 + 2] = normNormal._z;
+                    normals[vi * 3 + 0] = (float)normNormal._x;
+                    normals[vi * 3 + 1] = (float)normNormal._y;
+                    normals[vi * 3 + 2] = (float)normNormal._z;
 
                     colors[vi * 4 + 0] = r;
                     colors[vi * 4 + 1] = g;

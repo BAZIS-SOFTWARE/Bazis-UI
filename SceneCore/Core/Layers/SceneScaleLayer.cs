@@ -1,14 +1,13 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using BazisGUI.Scene; // SceneScale (существующий переиспользуемый класс)
-using BazisGUI.Scene.Core.Rendering;
-using BazisGUI.Scene.Core.Text;
+using SceneCore; // SceneScale (существующий переиспользуемый класс)
+using SceneCore.Rendering;
+using SceneCore.Text;
 using Geometry;
 using OpenTK.Graphics.OpenGL;
-using PostProc;
 
-namespace BazisGUI.Scene.Core.Layers
+namespace SceneCore.Layers
 {
     /// <summary>
     /// Перенос BaseForm.DisplaySceneScale(title, info) поверх переиспользуемого SceneScale
@@ -27,17 +26,17 @@ namespace BazisGUI.Scene.Core.Layers
 
         private readonly ISceneTextRenderer textRenderer;
         private SceneScale scale;
-        private IEnumerable<ItemRange> items;
+        private IReadOnlyList<SceneScaleRange> items;
 
         public SceneScaleLayer(ISceneTextRenderer textRenderer)
         {
             this.textRenderer = textRenderer;
         }
 
-        public void Show(SceneScale scale, IEnumerable<ItemRange> items)
+        public void Show(SceneScale scale, IEnumerable<SceneScaleRange> items)
         {
             this.scale = scale;
-            this.items = items;
+            this.items = items.ToList();
         }
 
         public void Clear()
@@ -51,7 +50,7 @@ namespace BazisGUI.Scene.Core.Layers
             if (scale == null || items == null)
                 return;
 
-            var itemList = items.ToList();
+            var itemList = items;
             if (itemList.Count == 0)
                 return;
 

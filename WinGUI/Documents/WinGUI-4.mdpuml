@@ -1,0 +1,45 @@
+@startuml
+title WinGUI-4 — запросы данных и действия навигатора
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "WinGUI. Навигатор" {
+  class "NavigatorControl (продолжение)" as NavigatorControl {
+    + {event} GetSetsInfoEvent
+    + {event} GetObjectsInfoEvent
+    + {event} GetObjectInfoEvent
+    + {event} GetResultInfoEvent
+    + {event} DelSetEvent
+    + {event} DelGroupEvent
+    + {event} DelObjectEvent
+    + {event} DelCondEvent
+    + {event} HideResultsEvent
+    + {event} RemoveResultsEvent
+    + {event} RemoveAllConditionsEvent
+    + {event} DelAllGroupsEvent
+    + {event} ShowAllGroupsEvent
+    + {event} HideAllGroupsEvent
+    + {event} ChangeAllGeoViewStateEvent
+    + {event} DelAllGeoEvent
+    + {event} DelAllMeshEvent
+    + {event} ChangeAllMeshViewStateEvent
+    + {event} ShowSetEvent
+    + {event} HideSetEvent
+    + {event} HideGroupEvent
+    + {event} ShowGroupEvent
+    + {event} EditGroupEvent
+    + {event} InfoGroupEvent
+    + {event} ShowObjectEvent
+    + {event} HideObjectEvent
+  }
+}
+package "WinGUI. Оболочка" {
+  class "BaseForm (обработчики Navigator)" as BaseForm
+}
+NavigatorControl --> BaseForm : события
+note bottom of NavigatorControl
+  [[WinGUI-2.mdpuml Выбор объектов WinGUI-2]]
+  [[WinGUI.mdpuml Назад к WinGUI]]
+end note
+@enduml

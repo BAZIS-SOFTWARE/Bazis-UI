@@ -1,10 +1,10 @@
 using System.Drawing;
-using BazisGUI.Scene.Core.Primitives;
-using BazisGUI.Scene.Core.Rendering;
-using BazisGUI.Scene.VBO;
+using SceneCore.Primitives;
+using SceneCore.Rendering;
+using SceneCore.VBO;
 using OpenTK.Graphics.OpenGL;
 
-namespace BazisGUI.Scene.Core.Layers
+namespace SceneCore.Layers
 {
     /// <summary>
     /// Перенос BaseForm.DisplayBasis(): три оси + сфера в центре. Вместо gluCylinder/gluSphere
@@ -104,7 +104,7 @@ namespace BazisGUI.Scene.Core.Layers
         public void Dispose()
         {
             foreach (var mesh in new[] { axisX, axisY, axisZ, tipX, tipY, tipZ, centre })
-                VBO.VBO.DeleteAllBuffers(mesh);
+                SceneCore.VBO.VBO.DeleteAllBuffers(mesh);
         }
     }
 }

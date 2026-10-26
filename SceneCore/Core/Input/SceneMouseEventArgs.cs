@@ -1,6 +1,6 @@
 using Geometry;
 
-namespace BazisGUI.Scene.Core.Input
+namespace SceneCore.Input
 {
     public class SceneMouseEventArgs
     {

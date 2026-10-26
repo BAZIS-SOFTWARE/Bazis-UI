@@ -2,11 +2,11 @@
 using Geometry;
 using OpenTK.Graphics.OpenGL;
 
-namespace BazisGUI.Scene
+namespace SceneCore
 {
     public class ScenePath
     {
-        public float Length { get; }
+        public double Length { get; }
 
         Point3D [] coords { get; }
 
@@ -17,7 +17,7 @@ namespace BazisGUI.Scene
 
         public ScenePath(Point3D[] Coords)
         {
-            var path = 0.0f;
+            var path = 0.0;
             coords = new Point3D[Coords.Length];
             for (int i = 0; i < Coords.Length - 1; i++)
             {

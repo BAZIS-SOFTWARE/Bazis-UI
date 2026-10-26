@@ -1,8 +1,8 @@
-using BazisGUI.Scene.Core.Rendering;
-using BazisGUI.Scene.Core.Text;
+using SceneCore.Rendering;
+using SceneCore.Text;
 using OpenTK.Graphics.OpenGL;
 
-namespace BazisGUI.Scene.Core.Layers
+namespace SceneCore.Layers
 {
     /// <summary>Заменяет DisplayText3DEvent/DisplayText2DEvent.</summary>
     public class TextLayer : ISceneLayer

@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using OpenTK.Graphics.OpenGL;
 
-namespace BazisGUI.Scene
+namespace SceneCore
 {
     /// <summary>
     /// Класс - GLSL программа для хранения шейдеров

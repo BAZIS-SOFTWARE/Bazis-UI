@@ -1,4 +1,4 @@
-﻿using BazisGUI.Scene.Interfaces;
+﻿using SceneCore.Interfaces;
 using Geometry;
 using System;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Xml.Linq;
 using OpenTK.Graphics.OpenGL;
 
-namespace BazisGUI.Scene.VBO
+namespace SceneCore.VBO
 {
     public class ClipPlane : SurfaceObjects
     {
@@ -25,7 +25,7 @@ namespace BazisGUI.Scene.VBO
             Gl_LineWidth = 2.5f;
             GL_ObjType = GLObjType.triangle;
 
-            normalSize = Vector.GetVectorLength(BoundingBox.LeftUpNear.Sub(BoundingBox.RightDownFar)) * 0.125f;
+            normalSize = (float)(Vector.GetVectorLength(BoundingBox.LeftUpNear.Sub(BoundingBox.RightDownFar)) * 0.125);
         }
         /// <summary>
         /// Создает VBO-массивы для 6 плоскостей из паралелепипеда
@@ -68,9 +68,9 @@ namespace BazisGUI.Scene.VBO
             points[17] = new Point3D(rightDown._x, leftUp._y, rightDown._z);//Up right far
             for (var i = 0; i < points.Length; ++i)
             {
-                glCoords[i * 3] = points[i]._x;
-                glCoords[i * 3 + 1] = points[i]._y;
-                glCoords[i * 3 + 2] = points[i]._z;
+                glCoords[i * 3] = (float)points[i]._x;
+                glCoords[i * 3 + 1] = (float)points[i]._y;
+                glCoords[i * 3 + 2] = (float)points[i]._z;
 
                 glColors[i * 4] = 0;
                 glColors[i * 4 + 1] = 1;

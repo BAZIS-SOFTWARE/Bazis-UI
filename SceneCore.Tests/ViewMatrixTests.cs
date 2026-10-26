@@ -1,5 +1,5 @@
-using BazisGUI.Scene.Core.Camera;
-using BazisGUI.Scene.Interfaces;
+using SceneCore.Camera;
+using SceneCore.Interfaces;
 using Geometry;
 using MathNet.Numerics.LinearAlgebra;
 
@@ -54,6 +54,24 @@ namespace SceneCore.Tests
             Assert.That(result._x, Is.EqualTo(1f).Within(1e-5));
             Assert.That(result._y, Is.EqualTo(2f).Within(1e-5));
             Assert.That(result._z, Is.EqualTo(-2f).Within(1e-5)); // 3 + (-5)
+        }
+
+        /// <summary>Проверяет сохранение малого смещения относительно удалённого центра вращения.</summary>
+        [Test]
+        public void GetSceenCoord_PreservesLocalOffsetAtLargeWorldPosition()
+        {
+            var camera = new SceneCamera();
+            camera.SetRotationCentre(new Point3D(1000000000, -1000000000, 1000000000));
+
+            var result = camera.GetSceenCoord(new Point3D(1000000000.125, -999999999.75, 1000000000.375));
+            var resultFromCoordinates = camera.GetSceenCoord(1000000000.125, -999999999.75, 1000000000.375);
+
+            Assert.That(result._x, Is.EqualTo(0.125).Within(1e-6));
+            Assert.That(result._y, Is.EqualTo(0.25).Within(1e-6));
+            Assert.That(result._z, Is.EqualTo(0.375).Within(1e-6));
+            Assert.That(resultFromCoordinates._x, Is.EqualTo(0.125).Within(1e-6));
+            Assert.That(resultFromCoordinates._y, Is.EqualTo(0.25).Within(1e-6));
+            Assert.That(resultFromCoordinates._z, Is.EqualTo(0.375).Within(1e-6));
         }
 
         [Test]

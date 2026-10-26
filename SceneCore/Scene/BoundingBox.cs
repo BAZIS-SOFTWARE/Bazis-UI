@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BazisGUI.Scene
+namespace SceneCore
 {
     /// <summary>
     /// Структура хранения координат ограничивающего параллелепипеда
@@ -115,7 +115,7 @@ namespace BazisGUI.Scene
         /// GetVolume
         /// </summary>
         /// <returns></returns>
-        public float GetSqrCoordsSum()
+        public double GetSqrCoordsSum()
         {
             var dx = LeftUpNear._x - RightDownFar._x;
             var dy = LeftUpNear._y - RightDownFar._y;
@@ -138,7 +138,7 @@ namespace BazisGUI.Scene
         /// Возвращает диагональ параллелепипеда
         /// </summary>
         /// <returns>Диагональ параллелепипеда</returns>
-        public float GetDiagonalLength()
+        public double GetDiagonalLength()
         {
             var vec = LeftUpNear.Sub(RightDownFar);
             return Vector.GetVectorLength(vec);

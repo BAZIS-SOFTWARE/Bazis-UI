@@ -1,6 +1,6 @@
 using System;
 
-namespace BazisGUI.Scene.Core.Input
+namespace SceneCore.Input
 {
     [Flags]
     public enum SceneModifierKeys

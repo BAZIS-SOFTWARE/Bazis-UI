@@ -1,9 +1,9 @@
-﻿using BazisGUI.Scene.Interfaces;
+﻿using SceneCore.Interfaces;
 using OpenTK.Graphics.OpenGL;
 using System;
 
 
-namespace BazisGUI.Scene.VBO
+namespace SceneCore.VBO
 {
     /// <summary>
     /// VBOjects class

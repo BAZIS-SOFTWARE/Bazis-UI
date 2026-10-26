@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BazisGUI.Scene.EventsArgs
+namespace SceneCore.EventsArgs
 {
     public class MessageEventArgs : EventArgs
     {

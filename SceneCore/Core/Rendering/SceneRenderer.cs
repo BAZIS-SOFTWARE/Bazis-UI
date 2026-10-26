@@ -1,10 +1,10 @@
 using System;
-using BazisGUI.Scene.Core.Layers;
-using BazisGUI.Scene.Interfaces;
-using BazisGUI.Scene; // AverageColorRenderer, Advanced3DClipper (существующий переиспользуемый GL-слой)
+using SceneCore.Layers;
+using SceneCore.Interfaces;
+using SceneCore; // AverageColorRenderer, Advanced3DClipper (существующий переиспользуемый GL-слой)
 using OpenTK.Graphics.OpenGL;
 
-namespace BazisGUI.Scene.Core.Rendering
+namespace SceneCore.Rendering
 {
     /// <summary>
     /// Замена BaseForm.DisplayObjects(): не вызывает SwapBuffers — буферами владеет

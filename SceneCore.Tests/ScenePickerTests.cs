@@ -1,61 +1,58 @@
-using BazisGUI.Scene.Core.Picking;
+using SceneCore.Picking;
+using SceneCore.Camera;
+using SceneCore.Interfaces;
+using SceneCore.Coordinates;
 using Geometry;
-using Model.Interfaces;
-using Model.Interfaces.ObjectsCollections;
 using System.Collections.Generic;
+
+using RectangleBox = SceneCore.Picking.RectangleBox;
 
 namespace SceneCore.Tests
 {
     public class ScenePickerTests
     {
+        /// <summary>Проверяет выбор ближайшего объекта при совпадении экранных координат.</summary>
         [Test]
-        public void SelectByPoint_IgnoresHiddenObject()
+        public void SelectByPoint_ChoosesClosestObject()
         {
-            var picker = new ScenePicker(null);
-            var setInfo = new TestSetInfo(ObjType.Узел, 1);
+            var camera = new SceneCamera { Viewport = new Viewport(100, 100) };
+            camera.Initialize(0, 0, -5);
+            var picker = new ScenePicker(camera);
             var hits = new List<int>();
             picker.ObjectsHit += (name, numbers) => hits.AddRange(numbers);
-
-            var isSelected = picker.SelectByPoint([setInfo], new Point2D(0, 0), true, (objType, number) => false);
-
-            Assert.That(isSelected, Is.False);
-            Assert.That(hits, Is.Empty);
-        }
-
-        [Test]
-        public void SelectByRect_IgnoresHiddenObject()
-        {
-            var picker = new ScenePicker(null);
-            var setInfo = new TestSetInfo(ObjType.Узел, 1);
-            var hits = new List<int>();
-            picker.ObjectsHit += (name, numbers) => hits.AddRange(numbers);
-            var selectionBox = new RectangleBox(0, 1, 0, 1);
-
-            picker.SelectByRect([setInfo], selectionBox, true, (objType, number) => false);
-
-            Assert.That(hits, Is.Empty);
-        }
-
-        private class TestSetInfo : ISetInfo
-        {
-            readonly int number;
-
-            public TestSetInfo(ObjType objType, int number)
+            var objects = new[]
             {
-                ObjType = objType;
-                this.number = number;
-            }
+                new ScenePickObject(1, [new Point3D(0, 0, 0)]),
+                new ScenePickObject(2, [new Point3D(0, 0, 1)])
+            };
+            var sets = new[] { new Set("nodes", ScenePickKind.Other, objects) };
 
-            public string Name => "test";
-            public int Number { get; set; }
-            public ObjType ObjType { get; }
-            public int NumberOfObjects => 1;
+            var isSelected = picker.SelectByPoint(sets, new ViewportPoint(0, 0), true);
 
-            public string GetObjectInfo(int number) => string.Empty;
-            public IEnumerable<string> GetObjectsInfo() => [];
-            public IEnumerable<Point3D> GetCoords(int number) => throw new AssertionException("Hidden object must not be processed.");
-            public Point3D GetCentr(int number) => throw new AssertionException("Hidden object must not be processed.");
-            public IEnumerable<int> GetNumbers() => [number];
+            Assert.That(isSelected, Is.True);
+            Assert.That(hits, Is.EqualTo(new[] { 2 }));
+        }
+
+        /// <summary>Проверяет, что выбор рамкой возвращает только попавшие в неё объекты.</summary>
+        [Test]
+        public void SelectByRect_ReturnsObjectsInsideRectangle()
+        {
+            var camera = new SceneCamera { Viewport = new Viewport(100, 100) };
+            camera.Initialize(0, 0, -5);
+            var picker = new ScenePicker(camera);
+            var hits = new List<int>();
+            picker.ObjectsHit += (name, numbers) => hits.AddRange(numbers);
+            var objects = new[]
+            {
+                new ScenePickObject(1, [new Point3D(0, 0, 0)]),
+                new ScenePickObject(2, [new Point3D(100, 0, 0)])
+            };
+            var sets = new[] { new Set("nodes", ScenePickKind.Other, objects) };
+            var selectionBox = new RectangleBox(-1, 1, -1, 1);
+
+            picker.SelectByRect(sets, selectionBox, true);
+
+            Assert.That(hits, Is.EqualTo(new[] { 1 }));
         }
     }
 }

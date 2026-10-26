@@ -1,4 +1,4 @@
-﻿namespace BazisGUI.Scene.Interfaces
+﻿namespace SceneCore.Interfaces
 {
     /// <summary>
     /// Transform

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BazisGUI.Scene.Core.Rendering;
-using BazisGUI.Scene.VBO;
+using SceneCore.Rendering;
+using SceneCore.VBO;
 
-namespace BazisGUI.Scene.Core.Layers
+namespace SceneCore.Layers
 {
     /// <summary>
     /// Заменяет DisplayGeometryObjectEvent. В старом коде рисование добавлялось и снималось
@@ -73,7 +73,7 @@ namespace BazisGUI.Scene.Core.Layers
                 return;
 
             foreach (var buffer in buffers)
-                VBO.VBO.DeleteAllBuffers(buffer);
+                SceneCore.VBO.VBO.DeleteAllBuffers(buffer);
             ownedBuffers.Remove(key);
         }
     }

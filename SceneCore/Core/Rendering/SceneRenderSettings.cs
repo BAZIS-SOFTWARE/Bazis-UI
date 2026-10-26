@@ -1,7 +1,7 @@
 using System.Drawing;
 using Geometry;
 
-namespace BazisGUI.Scene.Core.Rendering
+namespace SceneCore.Rendering
 {
     /// <summary>
     /// Настройки рендера, выделенные из SettingsConfig — там сейчас смешаны настройки

@@ -1,6 +1,6 @@
-using BazisGUI.Scene.Core.Camera;
-using BazisGUI.Scene.Core.Input;
-using BazisGUI.Scene.EventsArgs;
+using SceneCore.Camera;
+using SceneCore.Input;
+using SceneCore.EventsArgs;
 using Geometry;
 
 namespace SceneCore.Tests
@@ -74,6 +74,29 @@ namespace SceneCore.Tests
             input.OnPointerReleased(new SceneMouseEventArgs { Button = SceneMouseButton.Left, Position = new Point2D(10, 10) });
 
             Assert.That(selection, Is.Not.Null);
+        }
+
+        /// <summary>Проверяет перевод позиции указателя в координаты выбора относительно центра окна.</summary>
+        [TestCase(200, 150, -5, 5, -5, 5)]
+        [TestCase(100, 100, -105, -95, 45, 55)]
+        public void OnPointerReleased_ConvertsPointerPositionToViewport(int pointerX, int pointerY, int left, int right, int bottom, int top)
+        {
+            var (_, input) = Create();
+            SelectObjectsEventArgs selection = null;
+            input.SelectionRequested += (_, e) => selection = e;
+            var position = new Point2D(pointerX, pointerY);
+
+            input.OnPointerPressed(new SceneMouseEventArgs { Button = SceneMouseButton.Left, Position = position });
+            input.OnPointerReleased(new SceneMouseEventArgs { Button = SceneMouseButton.Left, Position = position });
+
+            Assert.That(selection, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(selection.SelectionBox.Left, Is.EqualTo(left));
+                Assert.That(selection.SelectionBox.Right, Is.EqualTo(right));
+                Assert.That(selection.SelectionBox.Bottom, Is.EqualTo(bottom));
+                Assert.That(selection.SelectionBox.Top, Is.EqualTo(top));
+            });
         }
     }
 }

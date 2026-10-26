@@ -1,6 +1,6 @@
-using BazisGUI.Scene.Interfaces;
+using SceneCore.Interfaces;
 
-namespace BazisGUI.Scene.Core.Rendering
+namespace SceneCore.Rendering
 {
     public class GlRenderContext : IRenderContext
     {

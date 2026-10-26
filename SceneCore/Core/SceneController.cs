@@ -2,26 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using BazisGUI.Scene.Core.Camera;
-using BazisGUI.Scene.Core.Capture;
-using BazisGUI.Scene.Core.Input;
-using BazisGUI.Scene.Core.Layers;
-using BazisGUI.Scene.Core.Picking;
-using BazisGUI.Scene.Core.Primitives;
-using BazisGUI.Scene.Core.Rendering;
-using BazisGUI.Scene.Core.Text;
-using BazisGUI.Scene.EventsArgs;
-using BazisGUI.Scene.Interfaces;
-using BazisGUI.Scene.VBO;
-using BazisGUI.Scene; // AverageColorRenderer, Advanced3DClipper, ClipPlaneRenderer, SceneScale, ScenePath
+using SceneCore.Camera;
+using SceneCore.Capture;
+using SceneCore.Input;
+using SceneCore.Layers;
+using SceneCore.Picking;
+using SceneCore.Primitives;
+using SceneCore.Rendering;
+using SceneCore.Text;
+using SceneCore.EventsArgs;
+using SceneCore.Interfaces;
+using SceneCore.VBO;
+using SceneCore; // AverageColorRenderer, Advanced3DClipper, ClipPlaneRenderer, SceneScale, ScenePath
 using Geometry;
+using SceneCore.Coordinates;
 using MathNet.Numerics.LinearAlgebra;
-using Model.Interfaces;
-using Model.Interfaces.ObjectsCollections;
 using OpenTK.Graphics.OpenGL;
-using PostProc;
 
-namespace BazisGUI.Scene.Core
+using RectangleBox = SceneCore.Picking.RectangleBox;
+
+namespace SceneCore
 {
     /// <summary>
     /// Заменяет ~40 partial-файлов GUI/Methods/Scene/*.cs и реализацию ISceneControl,
@@ -40,7 +40,7 @@ namespace BazisGUI.Scene.Core
         private readonly SceneInputController input;
         private readonly IQuadricMeshFactory meshFactory = new QuadricMeshFactory();
         private readonly ISceneTextRenderer textRenderer;
-        private readonly Dictionary<ISceneScale, List<ItemRange>> scaleItems = new Dictionary<ISceneScale, List<ItemRange>>();
+        private readonly Dictionary<ISceneScale, List<SceneScaleRange>> scaleItems = new Dictionary<ISceneScale, List<SceneScaleRange>>();
 
         private SceneLayerCollection layers;
         private SceneRenderer renderer;
@@ -340,8 +340,9 @@ namespace BazisGUI.Scene.Core
                 {
                     foreach (var corner in obj.BoundingBox.GetCornerPoints())
                     {
-                        var scr = camera.GetScreenCoord(camera.GetSceenCoord(corner));
-                        var rad = (float)Math.Sqrt(scr._x * scr._x + scr._y * scr._y);
+                        var sceneCorner = camera.GetSceenCoord(corner);
+                        var scr = camera.GetScreenCoord(sceneCorner);
+                        var rad = (float)Math.Sqrt(scr.X * scr.X + scr.Y * scr.Y);
                         if (rad > maxRad) maxRad = rad;
                     }
                 }
@@ -421,14 +422,14 @@ namespace BazisGUI.Scene.Core
             textLayer.Labels.Add(new TextLabel { Text = str, Color = color, Position2D = coord, IsScreenSpace = true });
 
         /// <summary>
-        /// Разбиение диапазона [min, max] на ranges элементов ItemRange не было реализовано
+        /// Разбиение диапазона [min, max] на ranges элементов SceneScaleRange не было реализовано
         /// и в исходном коде (см. закомментированный SceneScale.Display/FillRange) — сюда не переносить нечего,
         /// возвращается объект шкалы без элементов легенды.
         /// </summary>
         public ISceneScale CreateScaleObject(float min, float max, decimal ranges, string title, string comments)
         {
             var scale = new SceneScale { Title = title, Info = comments };
-            scaleItems[scale] = new List<ItemRange>();
+            scaleItems[scale] = new List<SceneScaleRange>();
             return scale;
         }
 
@@ -436,8 +437,8 @@ namespace BazisGUI.Scene.Core
         /// Перенос BaseForm.DisplaySceneScale(title, info): интервалы шкалы берутся из
         /// ResultsController.GetItems(), положение — из настроек (Scale_X_Coord/Scale_Y_Coord).
         /// </summary>
-        public void DisplaySceneScale(string title, string info, IEnumerable<ItemRange> items, int x, int y) =>
-            sceneScaleLayer.Show(new SceneScale { Title = title, Info = info, Coord_X = x, Coord_Y = y }, items.ToList());
+        public void DisplaySceneScale(string title, string info, IEnumerable<SceneScaleRange> items, int x, int y) =>
+            sceneScaleLayer.Show(new SceneScale { Title = title, Info = info, Coord_X = x, Coord_Y = y }, items);
 
         public void DisplaySceneScale(ISceneScale scale)
         {
@@ -688,11 +689,11 @@ namespace BazisGUI.Scene.Core
         }
 
         /// <summary>Геометрический подбор без обращения к "project"/IModelView — см. ScenePicker.</summary>
-        public bool SelectByPoint(IEnumerable<ISetInfo> sets, Point2D point, bool isSelected, Func<ObjType, int, bool> isVisible = null) =>
-            picker.SelectByPoint(sets, point, isSelected, isVisible);
+        public bool SelectByPoint(IEnumerable<Set> sets, ViewportPoint point, bool isSelected) =>
+            picker.SelectByPoint(sets, point, isSelected);
 
-        public void SelectByRect(IEnumerable<ISetInfo> sets, RectangleBox box, bool isSelected, Func<ObjType, int, bool> isVisible = null) =>
-            picker.SelectByRect(sets, box, isSelected, isVisible);
+        public void SelectByRect(IEnumerable<Set> sets, RectangleBox box, bool isSelected) =>
+            picker.SelectByRect(sets, box, isSelected);
 
         public byte[] CaptureScreenshot(IFrameGrabber grabber) => grabber.Capture(new Viewport(camera.Width, camera.Height));
 

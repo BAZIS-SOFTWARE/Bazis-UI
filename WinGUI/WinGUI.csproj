@@ -1,0 +1,295 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>BazisGUI</RootNamespace>
+    <BazisCoreSource>$(MSBuildThisFileDirectory)..\..\BazisComponents\BazisCore\OperationalController\OperationalController.csproj</BazisCoreSource>
+    <UseBazisCoreSource Condition="'$(UseBazisCoreSource)' == '' and Exists('$(BazisCoreSource)')">true</UseBazisCoreSource>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <Version>5.2.48</Version>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>BazisGUIKey.snk</AssemblyOriginatorKeyFile>
+    <SignManifests>false</SignManifests>
+    <ApplicationIcon>IconShort_32.ico</ApplicationIcon>
+    <Configurations>Debug;Release;Debug-Linux;Release-Linux</Configurations>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Linux|x64'">
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Linux|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Console\consoleBtn_x16\**" />
+    <Compile Remove="DataBases\Resources\**" />
+    <EmbeddedResource Remove="Console\consoleBtn_x16\**" />
+    <EmbeddedResource Remove="DataBases\Resources\**" />
+    <EmbeddedResource Remove="Methods\DisplayToolStrip.resx" />
+    <None Remove="Console\consoleBtn_x16\**" />
+    <None Remove="DataBases\Resources\**" />
+  </ItemGroup>
+	<ItemGroup>
+		<AvaloniaResource Include="Resources\*.png" />
+	</ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Localization\ILocalizableHeaderControl.cs" />
+    <Compile Remove="Methods\MeshMainMenuEvents.cs" />
+    <Compile Remove="Methods\Navigator\Cond\GetHeatProperty.cs" />
+    <Compile Remove="Methods\Navigator\Object\SelectAdjacencies.cs" />
+    <Compile Remove="Methods\Navigator\Object\ShowAdjacencies.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="DataBases\Functions\functions_draft.txt" />
+    <None Remove="DataBases\Materials\materials_draft.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Desktop" Version="12.1.0" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.0" />
+    <PackageReference Include="Avalonia.Win32.Interoperability" Version="12.1.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="OperationalController" Version="4.11.0" Condition="'$(UseBazisCoreSource)' != 'true'" />
+    <PackageReference Include="OperationalController" Version="4.11.3" />
+    <PackageReference Include="PostProc" Version="2.3.1" />
+    <PackageReference Include="PreProc" Version="2.7.1" Condition="'$(UseBazisCoreSource)' != 'true'" />
+    <PackageReference Include="PreProc" Version="2.7.5" />
+    <Reference Include="ClientGUI">
+      <HintPath>..\Libs\ClientGUI.dll</HintPath>
+    </Reference>
+    <Reference Include="LicenseInfo">
+      <HintPath>..\Libs\LicenseInfo.dll</HintPath>
+    </Reference>
+    <PackageReference Include="ClientLogicCP" Version="1.1.10" />
+    <PackageReference Include="MathNet.Numerics.Signed" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="OpenTK.GLControl" Version="4.0.2" />
+    <PackageReference Include="PropertiesCalculator" Version="1.1.2" />
+    <PackageReference Include="System.Buffers" Version="4.5.1" />
+    <PackageReference Include="System.Collections.Immutable" Version="9.0.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.Memory" Version="4.5.5" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="7.0.0" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="AboutLicenseControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="AboutProgrammControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="AdvanceSelection\AdvanceSelectionSet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Animation\AnimationPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Clip\ClipControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Console\ConsoleControl.cs" />
+    <Compile Update="DataBases\DataBasePage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="DataBases\FunctionDataBasePage.cs" />
+    <Compile Update="DataBases\MaterialsDataBasePage.cs" />
+    <Compile Update="DataBases\MechanicalGUI\CreepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="DataBases\MechanicalGUI\HardeningControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="DataBases\MetallurgyGUI\CCTControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="DataBases\MetallurgyGUI\DiagramControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="DataBases\MetallurgyGUI\TTTControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="DataBases\ReactionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Measurement\MeasuringSet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="MessageBoxEx\MessageBoxEx.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Methods\Console\MergeElementSets.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Methods\Console\NodesShiftCoordinate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Methods\License\LicenseModule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Methods\Navigator\Cond\GetCondProperty.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Methods\Results\Reflect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Methods\Scene\DisplayBoundingBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Navigator\NavigatorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PinnedControl\PinnedPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Player\PlayerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropertiesPanel\DataGridViewNumericUpDown\DataGridViewNumericUpDownEditingControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="PropertiesPanel\PropertiesPanelControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Update="Reflect\ReflectControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="CrossSection\CrossSectionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="WelcomeScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="SettingsControls\SettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="SettingsControls\LightingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="TasksControls\BasicControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="TasksControls\ChemicalControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="TasksControls\TaskControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="TasksControls\HeatTaskControl_v2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="TasksControls\MechTaskControl_v2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="TasksControls\SolverSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="TasksControls\TimeSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AboutBanner.jpg" />
+    <Content Include="DataBases\Functions\functions_draft.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DataBases\Materials\materials_draft.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IconShort_16.ico" />
+    <Content Include="IconShort_32.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AvaloniaUI\Documents\" />
+    <Folder Include="Projects\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MasterInterface\MasterInterface.csproj" />
+    <ProjectReference Include="..\UserControlEx\UserControlsEx.csproj" />
+    <ProjectReference Include="..\SceneCore\SceneCore.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.8 %28x86 и x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.ru.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="DataBases\Functions\functions.jsf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="DataBases\Materials\Materials_v4.jsf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="DataBases\Materials\Materials_v6.jsf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Help\ПО Bazis 5.2. Руководство пользователя.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Help\ПО Bazis. Руководство пользователя.chm">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="ReleaseNotes\ReleaseNotes.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

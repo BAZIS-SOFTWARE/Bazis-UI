@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BazisGUI.Scene.Core.Layers
+namespace SceneCore.Layers
 {
     public class SceneLayerCollection
     {

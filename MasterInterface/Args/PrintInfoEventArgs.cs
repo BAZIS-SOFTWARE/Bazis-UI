@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BazisGUI.Masters.Args
+namespace WinGUI.Masters.Args
 {
     public class PrintInfoEventArgs : EventArgs
     {

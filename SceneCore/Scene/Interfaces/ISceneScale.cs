@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace BazisGUI.Scene.Interfaces
+namespace SceneCore.Interfaces
 {
     /// <summary>
     /// ISceneScale
@@ -24,7 +24,7 @@ namespace BazisGUI.Scene.Interfaces
         /// <param name="items"></param>
         /// <param name="g"></param>
         /// <param name="font"></param>
-        //void Display(int width, int height, ItemRange[] items,Graphics g, Font font);
+        //void Display(int width, int height, SceneScaleRange[] items,Graphics g, Font font);
         /// <summary>
         /// X coord
         /// </summary>

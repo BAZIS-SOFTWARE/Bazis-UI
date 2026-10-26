@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms.VisualStyles;
 
-namespace BazisGUI.Masters.Args
+namespace WinGUI.Masters.Args
 {
     public class GenerateConditionsEventArgs : EventArgs
     {

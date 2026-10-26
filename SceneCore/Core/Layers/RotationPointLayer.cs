@@ -1,10 +1,10 @@
 using System.Drawing;
-using BazisGUI.Scene.Core.Primitives;
-using BazisGUI.Scene.Core.Rendering;
-using BazisGUI.Scene.VBO;
+using SceneCore.Primitives;
+using SceneCore.Rendering;
+using SceneCore.VBO;
 using OpenTK.Graphics.OpenGL;
 
-namespace BazisGUI.Scene.Core.Layers
+namespace SceneCore.Layers
 {
     /// <summary>
     /// Перенос BaseForm.CreateRotationPoint(). Видимость переключается снаружи
@@ -34,6 +34,6 @@ namespace BazisGUI.Scene.Core.Layers
         }
 
         /// <summary>Освобождает GL-буферы меша слоя (вызывается при текущем GL-контексте).</summary>
-        public void Dispose() => VBO.VBO.DeleteAllBuffers(sphere);
+        public void Dispose() => SceneCore.VBO.VBO.DeleteAllBuffers(sphere);
     }
 }

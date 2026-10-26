@@ -1,13 +1,13 @@
 using System.Drawing;
-using BazisGUI.Scene.Core.Primitives;
-using BazisGUI.Scene.Core.Rendering;
-using BazisGUI.Scene.Core.Text;
-using BazisGUI.Scene.VBO;
+using SceneCore.Primitives;
+using SceneCore.Rendering;
+using SceneCore.Text;
+using SceneCore.VBO;
 using Geometry;
 using MathNet.Numerics.LinearAlgebra;
 using OpenTK.Graphics.OpenGL;
 
-namespace BazisGUI.Scene.Core.Layers
+namespace SceneCore.Layers
 {
     /// <summary>Перенос BaseForm.DisplayCompass().</summary>
     public class CompassLayer : ISceneLayer, System.IDisposable
@@ -117,7 +117,7 @@ namespace BazisGUI.Scene.Core.Layers
         public void Dispose()
         {
             foreach (var mesh in new[] { tipX, tipY, tipZ })
-                VBO.VBO.DeleteAllBuffers(mesh);
+                SceneCore.VBO.VBO.DeleteAllBuffers(mesh);
         }
 
         private void DrawLabel(string text, Color color, Point3D position, IRenderContext context)

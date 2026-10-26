@@ -1,0 +1,45 @@
+@startuml
+title AvaloniaGUI-4 — запросы данных и действия навигатора
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "AvaloniaGUI. Навигатор" {
+  class "NavigatorControl (продолжение)" as NavigatorControl {
+    + {event} GetSetsInfoEvent
+    + {event} GetObjectsInfoEvent
+    + {event} GetObjectInfoEvent
+    + {event} GetResultInfoEvent
+    + {event} DelSetEvent
+    + {event} DelGroupEvent
+    + {event} DelObjectEvent
+    + {event} DelCondEvent
+    + {event} HideResultsEvent
+    + {event} RemoveResultsEvent
+    + {event} RemoveAllConditionsEvent
+    + {event} DelAllGroupsEvent
+    + {event} ShowAllGroupsEvent
+    + {event} HideAllGroupsEvent
+    + {event} ChangeAllGeoViewStateEvent
+    + {event} DelAllGeoEvent
+    + {event} DelAllMeshEvent
+    + {event} ChangeAllMeshViewStateEvent
+    + {event} ShowSetEvent
+    + {event} HideSetEvent
+    + {event} HideGroupEvent
+    + {event} ShowGroupEvent
+    + {event} EditGroupEvent
+    + {event} InfoGroupEvent
+    + {event} ShowObjectEvent
+    + {event} HideObjectEvent
+  }
+}
+package "AvaloniaGUI. Оболочка" {
+  class "MainWindow (обработчики Navigator)" as MainWindow
+}
+NavigatorControl --> MainWindow : события
+note bottom of NavigatorControl
+  [[AvaloniaGUI-2.mdpuml Выбор объектов AvaloniaGUI-2]]
+  [[AvaloniaGUI.mdpuml Назад к AvaloniaGUI]]
+end note
+@enduml

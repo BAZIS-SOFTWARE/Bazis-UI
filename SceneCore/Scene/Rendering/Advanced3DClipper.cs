@@ -1,10 +1,10 @@
 ﻿using System;
-using BazisGUI.Scene.Interfaces;
-using BazisGUI.Scene.VBO;
+using SceneCore.Interfaces;
+using SceneCore.VBO;
 using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
 
-namespace BazisGUI.Scene
+namespace SceneCore
 {
     /// <summary>
     /// Режим отсечения, устанавливаемый при отрисовке модели

@@ -1,6 +1,6 @@
-﻿using BazisGUI.Scene.VBO;
+﻿using SceneCore.VBO;
 
-namespace BazisGUI.Scene.Interfaces
+namespace SceneCore.Interfaces
 {
     /// <summary>
     /// Элемент который сейчас активен в интерфейсе IActiveDrawingObject

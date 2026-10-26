@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
 
-namespace BazisGUI.Scene
+namespace SceneCore
 {
     public class ScreenRectangle
     {

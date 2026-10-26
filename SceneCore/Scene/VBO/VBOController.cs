@@ -1,12 +1,12 @@
-﻿using BazisGUI.Scene.EventsArgs;
-using BazisGUI.Scene.Interfaces;
+﻿using SceneCore.EventsArgs;
+using SceneCore.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BazisGUI.Scene.VBO
+namespace SceneCore.VBO
 {
     public class VBOController
     {

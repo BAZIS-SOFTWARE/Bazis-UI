@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace BazisGUI.Scene.Core.Text
+namespace SceneCore.Text
 {
     public class TextLabelCollection : IEnumerable<TextLabel>
     {

@@ -1,6 +1,7 @@
-using BazisGUI.Scene.Core.Rendering;
+using SceneCore.Rendering;
+using SceneCore;
 
-namespace BazisGUI.Scene.Core.Layers
+namespace SceneCore.Layers
 {
     /// <summary>Перенос выделения рамкой (selectionRectangle в BaseForm), см. RubberBandSelection.</summary>
     public class SelectionRectangleLayer : ISceneLayer

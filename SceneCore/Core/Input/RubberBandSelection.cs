@@ -1,6 +1,6 @@
 using Geometry;
 
-namespace BazisGUI.Scene.Core.Input
+namespace SceneCore.Input
 {
     /// <summary>Отслеживает состояние выделения рамкой между PointerPressed и PointerReleased.</summary>
     public class RubberBandSelection

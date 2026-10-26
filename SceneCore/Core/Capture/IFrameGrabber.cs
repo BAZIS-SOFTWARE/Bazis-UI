@@ -1,6 +1,6 @@
-using BazisGUI.Scene.Core.Camera;
+using SceneCore.Camera;
 
-namespace BazisGUI.Scene.Core.Capture
+namespace SceneCore.Capture
 {
     public interface IFrameGrabber
     {
