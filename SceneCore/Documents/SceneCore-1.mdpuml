@@ -17,8 +17,8 @@ package "SceneCore. Контракты" {
     + Move(newMousePosition, mousePosition, scaleFactor) : void
     + GetSceenCoord(x: double, y: double, z: double) : Point3D
     + GetSceenCoord(point: Point3D) : Point3D
-    + GetSceenCoord(point: Point2D, depth: float, scaleFactor: float) : Point3D
-    + GetScreenCoord(coord: Point3D) : Point2D
+    + GetSceenCoord(deltaX: int, deltaY: int, depth: float, scaleFactor: float) : Point3D
+    + GetScreenCoord(coord: Point3D) : ViewportPoint
     + Rotate(axis: ViewAxis, angle: float) : void
     + Rotate(dx: float, dy: float, axis: ViewAxis, angle: float) : void
     + SetOnPlane(plane: ViewPlane, scaleFactor: float) : void
@@ -43,10 +43,14 @@ package "SceneCore. Камера" {
 package "Geometry. Координаты" {
   class Point3D <<внешний>>
 }
+package "SceneCore. Координаты" {
+  class "ViewportPoint\nSceneCore-2" as ViewportPoint <<ссылка>> [[SceneCore-2.mdpuml SceneCore-2]]
+}
 
 SceneCamera ..|> ISceneCamera
 SceneCamera --> GlMatrix
 SceneCamera --> Point3D
+ISceneCamera --> ViewportPoint
 
 note bottom of GlMatrix
   Входные координаты double; матрица OpenGL остаётся float.

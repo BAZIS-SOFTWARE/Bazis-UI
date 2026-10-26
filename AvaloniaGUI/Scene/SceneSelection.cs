@@ -1,6 +1,7 @@
 using SceneCore;
 using SceneCore.EventsArgs;
 using SceneCore.Picking;
+using SceneCore.Coordinates;
 using Geometry;
 using Model.Interfaces;
 using Model.Interfaces.ObjectsCollections;
@@ -34,7 +35,7 @@ internal class SceneSelection
             if (isPoint)
             {
                 var box = selection.SelectionBox;
-                var point = new Point2D((box.Left + box.Right) / 2, (box.Bottom + box.Top) / 2);
+                var point = new ViewportPoint((box.Left + box.Right) / 2.0, (box.Bottom + box.Top) / 2.0);
                 scene.SelectByPoint(pickSets, point, selection.IsSelected);
             }
             else

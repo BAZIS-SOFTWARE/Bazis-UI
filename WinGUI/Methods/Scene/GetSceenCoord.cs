@@ -1,5 +1,7 @@
 ﻿using Geometry;
 
+using SceneCore.Coordinates;
+
 namespace WinGUI
 {
     // Пересчёт экранных/сценовых координат теперь делает SceneCamera —
@@ -11,11 +13,12 @@ namespace WinGUI
         /// <inheritdoc/>
         public Point3D GetSceenCoord(Point3D point) => sceneController.GetCamera().GetSceenCoord(point);
 
-        /// <inheritdoc/>
-        public Point3D GetSceenCoord(Point2D point2D, float depth, float ScaleFactor) =>
-            sceneController.GetCamera().GetSceenCoord(point2D, depth, ScaleFactor);
+        /// <summary>Преобразует смещение в физических пикселях окна просмотра в вектор сцены.</summary>
+        public Point3D GetSceenCoord(int deltaX, int deltaY, float depth, float scaleFactor) =>
+            sceneController.GetCamera().GetSceenCoord(deltaX, deltaY, depth, scaleFactor);
 
         /// <inheritdoc/>
-        public Point2D GetScreenCoord(Point3D coord) => sceneController.GetCamera().GetScreenCoord(coord);
+        /// <summary>Возвращает координаты точки сцены относительно центра окна просмотра.</summary>
+        public ViewportPoint GetScreenCoord(Point3D coord) => sceneController.GetCamera().GetScreenCoord(coord);
     }
 }

@@ -2,6 +2,9 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using SceneCore.Coordinates;
+
+using RectangleBox = SceneCore.Picking.RectangleBox;
 
 namespace WinGUI
 {
@@ -112,13 +115,13 @@ namespace WinGUI
                     {
                         var p = selectionBox.GetPoints();
 
-                        var cx = (p[3]._x + p[1]._x) / 2.0f;
-                        var cy = (p[3]._y + p[1]._y) / 2.0f;
+                        var cx = (p[3].X + p[1].X) / 2.0;
+                        var cy = (p[3].Y + p[1].Y) / 2.0;
 
                         if (ModifierKeys != Keys.Shift)
-                            SelectObjects(new Point2D(cx,cy) , true);
+                            SelectObjects(new ViewportPoint(cx, cy), true);
                         else
-                            SelectObjects(new Point2D(cx, cy), false);
+                            SelectObjects(new ViewportPoint(cx, cy), false);
                     }
                     else
                     {

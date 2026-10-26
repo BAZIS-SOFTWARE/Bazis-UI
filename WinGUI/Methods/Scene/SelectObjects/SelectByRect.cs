@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
+using RectangleBox = SceneCore.Picking.RectangleBox;
+
 namespace WinGUI
 {
     // См. комментарий в SelectByPoint.cs: геометрию подбора считает ScenePicker внутри

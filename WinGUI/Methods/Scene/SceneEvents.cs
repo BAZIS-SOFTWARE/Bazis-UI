@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using SceneCore.Coordinates;
+
+using RectangleBox = SceneCore.Picking.RectangleBox;
 
 namespace WinGUI
 {
@@ -264,7 +267,7 @@ namespace WinGUI
 
         private void GlControl_Resize(object sender, EventArgs e) => sceneController.Resize(scene.Width, scene.Height);
 
-        private void SelectObjects(Point2D point, bool isSelected)
+        private void SelectObjects(ViewportPoint point, bool isSelected)
         {
             try
             {

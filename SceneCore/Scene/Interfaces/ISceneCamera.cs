@@ -1,5 +1,6 @@
 ﻿using Geometry;
 using MathNet.Numerics.LinearAlgebra;
+using SceneCore.Coordinates;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -71,19 +72,18 @@ namespace SceneCore.Interfaces
         /// <returns></returns>
         Point3D GetSceenCoord(Point3D point);
         /// <summary>
-        /// GetSceenCoord
+        /// Преобразует смещение в физических пикселях окна просмотра в вектор сцены.
         /// </summary>
-        /// <param name="point2D"></param>
+        /// <param name="deltaX">Горизонтальное смещение в пикселях.</param>
+        /// <param name="deltaY">Вертикальное смещение в пикселях, ось направлена вверх.</param>
         /// <param name="depth"></param>
         /// <param name="scaleFactor"></param>
         /// <returns></returns>
-        Point3D GetSceenCoord(Point2D point2D, float depth, float scaleFactor);
-        /// <summary>
-        /// 
-        /// </summary>
+        Point3D GetSceenCoord(int deltaX, int deltaY, float depth, float scaleFactor);
+        /// <summary>Проецирует точку сцены в координаты окна просмотра с началом в центре.</summary>
         /// <param name="coord"></param>
         /// <returns></returns>
-        Point2D GetScreenCoord(Point3D coord);
+        ViewportPoint GetScreenCoord(Point3D coord);
         /// <summary>
         /// Rotate
         /// </summary>

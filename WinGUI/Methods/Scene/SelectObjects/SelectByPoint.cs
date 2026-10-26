@@ -3,6 +3,7 @@ using WinGUI.PropertiesPanel;
 using WinGUI.Utilities;
 using Geometry;
 using Model.Interfaces;
+using SceneCore.Coordinates;
 using Model.Interfaces.ObjectsCollections;
 using Model.MeshObjects;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace WinGUI
     // в SceneInitialization.cs.
     public partial class BaseForm
     {
-        public bool SelectByPoint(IEnumerable<ISetInfo> sets, Point2D selectionPoint, bool isSelected)
+        public bool SelectByPoint(IEnumerable<ISetInfo> sets, ViewportPoint selectionPoint, bool isSelected)
         {
             var setList = sets.ToList();
             var pickSets = GetPickSets(setList);

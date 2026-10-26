@@ -21,6 +21,8 @@ using OperationalController.ModelScenePresentator;
 using System.Collections.Concurrent;
 using DrawingColor = System.Drawing.Color;
 
+using RectangleBox = SceneCore.Picking.RectangleBox;
+
 namespace AvaloniaGUI.Scene;
 
 /// <summary>

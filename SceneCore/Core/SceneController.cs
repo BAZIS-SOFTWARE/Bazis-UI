@@ -15,8 +15,11 @@ using SceneCore.Interfaces;
 using SceneCore.VBO;
 using SceneCore; // AverageColorRenderer, Advanced3DClipper, ClipPlaneRenderer, SceneScale, ScenePath
 using Geometry;
+using SceneCore.Coordinates;
 using MathNet.Numerics.LinearAlgebra;
 using OpenTK.Graphics.OpenGL;
+
+using RectangleBox = SceneCore.Picking.RectangleBox;
 
 namespace SceneCore
 {
@@ -337,8 +340,9 @@ namespace SceneCore
                 {
                     foreach (var corner in obj.BoundingBox.GetCornerPoints())
                     {
-                        var scr = camera.GetScreenCoord(camera.GetSceenCoord(corner));
-                        var rad = (float)Math.Sqrt(scr._x * scr._x + scr._y * scr._y);
+                        var sceneCorner = camera.GetSceenCoord(corner);
+                        var scr = camera.GetScreenCoord(sceneCorner);
+                        var rad = (float)Math.Sqrt(scr.X * scr.X + scr.Y * scr.Y);
                         if (rad > maxRad) maxRad = rad;
                     }
                 }
@@ -685,7 +689,7 @@ namespace SceneCore
         }
 
         /// <summary>Геометрический подбор без обращения к "project"/IModelView — см. ScenePicker.</summary>
-        public bool SelectByPoint(IEnumerable<Set> sets, Point2D point, bool isSelected) =>
+        public bool SelectByPoint(IEnumerable<Set> sets, ViewportPoint point, bool isSelected) =>
             picker.SelectByPoint(sets, point, isSelected);
 
         public void SelectByRect(IEnumerable<Set> sets, RectangleBox box, bool isSelected) =>

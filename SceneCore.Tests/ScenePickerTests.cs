@@ -1,8 +1,11 @@
 using SceneCore.Picking;
 using SceneCore.Camera;
 using SceneCore.Interfaces;
+using SceneCore.Coordinates;
 using Geometry;
 using System.Collections.Generic;
+
+using RectangleBox = SceneCore.Picking.RectangleBox;
 
 namespace SceneCore.Tests
 {
@@ -24,7 +27,7 @@ namespace SceneCore.Tests
             };
             var sets = new[] { new Set("nodes", ScenePickKind.Other, objects) };
 
-            var isSelected = picker.SelectByPoint(sets, new Point2D(0, 0), true);
+            var isSelected = picker.SelectByPoint(sets, new ViewportPoint(0, 0), true);
 
             Assert.That(isSelected, Is.True);
             Assert.That(hits, Is.EqualTo(new[] { 2 }));

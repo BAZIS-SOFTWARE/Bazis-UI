@@ -11,6 +11,10 @@ package "WinGUI. Сцена" {
     + RenderNow() : void
     + GetSceenCoord(x: double, y: double, z: double) : Point3D
     + GetSceenCoord(point: Point3D) : Point3D
+    + GetSceenCoord(deltaX: int, deltaY: int, depth: float, scaleFactor: float) : Point3D
+    + GetScreenCoord(coord: Point3D) : ViewportPoint
+    + SelectByPoint(sets, point: ViewportPoint, isSelected) : bool
+    - SelectObjects(point: ViewportPoint, isSelected: bool) : void
     - DisplayObjects() : void
     + {event} DisplayGeometryObjectEvent
     + {event} DisplayText3DEvent
@@ -24,11 +28,15 @@ package "SceneCore. Сцена" {
     + {event} InfoRequested
   }
 }
+package "SceneCore. Координаты" {
+  class ViewportPoint <<внешний>>
+}
 package "OperationalController. Проект" {
   class ProjectController <<внешний>>
 }
 
 BaseForm --> SceneController : инициализация и кадр
+BaseForm --> ViewportPoint : выбор с экрана
 BaseForm --> ProjectController : модель и представление
 
 note right of BaseForm

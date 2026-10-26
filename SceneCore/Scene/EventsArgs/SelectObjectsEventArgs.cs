@@ -1,5 +1,7 @@
 ﻿using Geometry;
 
+using RectangleBox = SceneCore.Picking.RectangleBox;
+
 namespace SceneCore.EventsArgs
 {
     public class SelectObjectsEventArgs
