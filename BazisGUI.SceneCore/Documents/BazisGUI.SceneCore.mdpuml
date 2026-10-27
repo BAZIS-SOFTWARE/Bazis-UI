@@ -18,6 +18,7 @@ package "BazisGUI.SceneCore. Выбор" {
   class RectangleBox <<BazisGUI.SceneCore-2>> [[BazisGUI.SceneCore-2.mdpuml BazisGUI.SceneCore-2]]
   class Set <<BazisGUI.SceneCore-2>> [[BazisGUI.SceneCore-2.mdpuml BazisGUI.SceneCore-2]]
   class ScenePickObject <<BazisGUI.SceneCore-2>> [[BazisGUI.SceneCore-2.mdpuml BazisGUI.SceneCore-2]]
+  class ViewportTriangle <<BazisGUI.SceneCore-2>> [[BazisGUI.SceneCore-2.mdpuml BazisGUI.SceneCore-2]]
 }
 package "BazisGUI.SceneCore. Координаты" {
   class ModelPoint3D <<BazisGUI.SceneCore-1>> [[BazisGUI.SceneCore-1.mdpuml BazisGUI.SceneCore-1]]
@@ -42,6 +43,7 @@ ScenePicker --> Set
 Set --> ScenePickObject
 ScenePickObject --> ModelPoint3D
 ScenePicker --> RectangleBox
+ScenePicker --> ViewportTriangle
 RectangleBox --> ViewportPoint
 ScenePath --> Point3D
 ScenePath --> ModelPoint3D

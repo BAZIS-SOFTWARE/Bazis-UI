@@ -8,6 +8,8 @@ namespace BazisGUI.SceneCore.Picking
     /// <summary>Описывает прямоугольник выбора объектов в экранных координатах.</summary>
     public class RectangleBox
     {
+        private const double IntersectionTolerance = 1e-7;
+
         public int Left { get; set; }
         public int Right { get; set; }
         public int Top { get; set; }
@@ -106,6 +108,79 @@ namespace BazisGUI.SceneCore.Picking
             }
             else
                 return false;
+        }
+
+        /// <summary>Проверяет пересечение замкнутой рамки с отрезком.</summary>
+        internal bool IntersectsSegment(ViewportPoint first, ViewportPoint second)
+        {
+            if (Contains(first) && Contains(second))
+                return true;
+
+            var corners = GetPoints();
+            for (var index = 0; index < corners.Length; index++)
+            {
+                var next = (index + 1) % corners.Length;
+                if (SegmentsIntersect(first, second, corners[index], corners[next]))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>Проверяет пересечение замкнутой рамки с одним треугольником.</summary>
+        internal bool IntersectsTriangle(ViewportTriangle triangle)
+        {
+            var area = (triangle.Second.X - triangle.First.X) * (triangle.Third.Y - triangle.First.Y) -
+                       (triangle.Second.Y - triangle.First.Y) * (triangle.Third.X - triangle.First.X);
+            if (Math.Abs(area) < 1e-9)
+                return false;
+
+            if (Contains(triangle.First) && Contains(triangle.Second) && Contains(triangle.Third))
+                return true;
+
+            if (IntersectsSegment(triangle.First, triangle.Second) ||
+                IntersectsSegment(triangle.Second, triangle.Third) ||
+                IntersectsSegment(triangle.Third, triangle.First))
+                return true;
+
+            var corners = GetPoints();
+            foreach (var corner in corners)
+            {
+                if (!triangle.Contains(corner))
+                    return false;
+            }
+            return true;
+        }
+
+        /// <summary>Проверяет попадание точки в замкнутую рамку с малым численным допуском.</summary>
+        internal bool Contains(ViewportPoint point) => point.X >= Left - IntersectionTolerance && point.X <= Right + IntersectionTolerance &&
+                                                     point.Y >= Bottom - IntersectionTolerance && point.Y <= Top + IntersectionTolerance;
+
+        /// <summary>Проверяет пересечение двух замкнутых отрезков, включая касание и наложение.</summary>
+        private bool SegmentsIntersect(ViewportPoint first, ViewportPoint second, ViewportPoint third, ViewportPoint fourth)
+        {
+            var firstX = second.X - first.X;
+            var firstY = second.Y - first.Y;
+            var secondX = fourth.X - third.X;
+            var secondY = fourth.Y - third.Y;
+            var denominator = firstX * secondY - firstY * secondX;
+            var offsetX = third.X - first.X;
+            var offsetY = third.Y - first.Y;
+
+            if (Math.Abs(denominator) < 1e-9)
+            {
+                var cross = offsetX * firstY - offsetY * firstX;
+                if (Math.Abs(cross) >= 1e-9)
+                    return false;
+                return Math.Max(first.X, second.X) + IntersectionTolerance >= Math.Min(third.X, fourth.X) &&
+                       Math.Max(third.X, fourth.X) + IntersectionTolerance >= Math.Min(first.X, second.X) &&
+                       Math.Max(first.Y, second.Y) + IntersectionTolerance >= Math.Min(third.Y, fourth.Y) &&
+                       Math.Max(third.Y, fourth.Y) + IntersectionTolerance >= Math.Min(first.Y, second.Y);
+            }
+
+            var firstParameter = (offsetX * secondY - offsetY * secondX) / denominator;
+            var secondParameter = (offsetX * firstY - offsetY * firstX) / denominator;
+            return firstParameter >= -IntersectionTolerance && firstParameter <= 1 + IntersectionTolerance &&
+                   secondParameter >= -IntersectionTolerance && secondParameter <= 1 + IntersectionTolerance;
         }
     }
 }

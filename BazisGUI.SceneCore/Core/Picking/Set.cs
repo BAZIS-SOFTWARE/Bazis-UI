@@ -5,8 +5,11 @@ namespace BazisGUI.SceneCore.Picking
 {
     public enum ScenePickKind
     {
+        /// <summary>Отдельная точка модели или узел сетки.</summary>
         Other,
+        /// <summary>Упорядоченные вершины ломаной; соседние пары образуют сегменты.</summary>
         Curve,
+        /// <summary>Последовательность троек вершин независимых треугольников.</summary>
         Surface
     }
 
@@ -27,7 +30,7 @@ namespace BazisGUI.SceneCore.Picking
 
     public sealed class ScenePickObject
     {
-        /// <summary>Создаёт объект с номером и координатами для выбора на сцене.</summary>
+        /// <summary>Создаёт объект с номером и координатами примитивов в порядке, заданном видом набора.</summary>
         public ScenePickObject(int number, IEnumerable<ModelPoint3D> points)
         {
             Number = number;

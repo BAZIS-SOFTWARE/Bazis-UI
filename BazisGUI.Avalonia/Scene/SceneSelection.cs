@@ -1,9 +1,11 @@
+using System;
 using BazisGUI.SceneCore;
 using BazisGUI.SceneCore.EventsArgs;
 using BazisGUI.SceneCore.Picking;
 using BazisGUI.SceneCore.Coordinates;
 using Geometry;
 using Model.Interfaces;
+using Model.Interfaces.MeshObjects;
 using Model.Interfaces.ObjectsCollections;
 using OperationalController;
 
@@ -86,31 +88,83 @@ internal class SceneSelection
     /// <summary>Лениво формирует наборы геометрических объектов для выбора на сцене.</summary>
     private IEnumerable<Set> GetPickSets(IEnumerable<ISetInfo> sourceSets, IProjectController project)
     {
+        var elements2D = new Lazy<Dictionary<int, ISurfaceElement>>(() => project.GetModelSurfaceElements(2).ToDictionary(element => element.Number));
+        var elements3D = new Lazy<Dictionary<int, ISurfaceElement>>(() => project.GetModelSurfaceElements(3).ToDictionary(element => element.Number));
+
         foreach (var sourceSet in sourceSets)
         {
             var kind = sourceSet.ObjType switch
             {
-                ObjType.Кривая => ScenePickKind.Curve,
-                ObjType.Поверхность => ScenePickKind.Surface,
+                ObjType.Кривая or ObjType.Элемент1D => ScenePickKind.Curve,
+                ObjType.Поверхность or ObjType.Элемент2D or ObjType.Элемент3D => ScenePickKind.Surface,
                 _ => ScenePickKind.Other
             };
-            var objects = GetVisibleObjects(sourceSet, project);
+            var elementByNumber = sourceSet.ObjType switch
+            {
+                ObjType.Элемент2D => elements2D.Value,
+                ObjType.Элемент3D => elements3D.Value,
+                _ => null
+            };
+            var objects = GetVisibleObjects(sourceSet, project, elementByNumber);
             var name = sourceSet.Name;
             yield return new Set(name, kind, objects);
         }
     }
 
-    /// <summary>Лениво перечисляет видимые объекты исходного набора.</summary>
-    private IEnumerable<ScenePickObject> GetVisibleObjects(ISetInfo sourceSet, IProjectController project)
+    /// <summary>Лениво перечисляет видимые объекты исходного набора с подготовленными примитивами выбора.</summary>
+    private IEnumerable<ScenePickObject> GetVisibleObjects(ISetInfo sourceSet, IProjectController project, IReadOnlyDictionary<int, ISurfaceElement>? elementByNumber)
     {
         foreach (var number in sourceSet.GetNumbers())
         {
             if (!project.GetVisible(sourceSet.ObjType, number))
                 continue;
 
-            var points = sourceSet.GetCoords(number);
+            var points = sourceSet.ObjType switch
+            {
+                ObjType.Поверхность => GetCadSurfacePoints(number, project),
+                ObjType.Элемент2D or ObjType.Элемент3D => GetElementSurfacePoints(elementByNumber![number], project),
+                _ => sourceSet.GetCoords(number)
+            };
             var modelPoints = points.Select(point => new ModelPoint3D(point._x, point._y, point._z));
             yield return new ScenePickObject(number, modelPoints);
+        }
+    }
+
+    /// <summary>Лениво триангулирует грани CAD-поверхности в порядке отображения.</summary>
+    private IEnumerable<Point3D> GetCadSurfacePoints(int number, IProjectController project)
+    {
+        var figure = project.GetModelSurface(number);
+        foreach (var surface in figure.GetSurfaces())
+        {
+            var first = surface[0].Position;
+            for (var index = 1; index < surface.NumberOfPoints - 1; index++)
+            {
+                yield return first;
+                yield return surface[index].Position;
+                yield return surface[index + 1].Position;
+            }
+        }
+    }
+
+    /// <summary>Лениво триангулирует видимые выпуклые грани конечного элемента.</summary>
+    private IEnumerable<Point3D> GetElementSurfacePoints(ISurfaceElement element, IProjectController project)
+    {
+        foreach (var surface in element.GetSurfaces())
+        {
+            if (project.HideInsideSurfaces && surface.IsInner)
+            {
+                var visibleNeighbour = surface.GetElements().Any(owner => owner.Number != element.Number && project.GetVisible(owner.ObjType, owner.Number));
+                if (visibleNeighbour)
+                    continue;
+            }
+
+            var first = surface[0].Position;
+            for (var index = 1; index < surface.NumberOfPoints - 1; index++)
+            {
+                yield return first;
+                yield return surface[index].Position;
+                yield return surface[index + 1].Position;
+            }
         }
     }
 }

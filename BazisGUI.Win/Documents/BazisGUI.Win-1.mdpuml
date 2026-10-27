@@ -17,7 +17,9 @@ package "BazisGUI.Win. Сцена" {
     + GetScreenCoord(coord: CameraPoint3D) : ViewportPoint
     + SetRotationCentre(modelPoint: ModelPoint3D) : void
     + SelectByPoint(sets, point: ViewportPoint, isSelected) : bool
-    - GetVisiblePickObjects(sourceSet) : IEnumerable<ScenePickObject>
+    - GetVisiblePickObjects(sourceSet, elementByNumber) : IEnumerable<ScenePickObject>
+    - GetCadSurfacePoints(number: int) : IEnumerable<Point3D>
+    - GetElementSurfacePoints(element: ISurfaceElement) : IEnumerable<Point3D>
     - SelectObjects(point: ViewportPoint, isSelected: bool) : void
     - DisplayObjects() : void
     + {event} DisplayGeometryObjectEvent
@@ -44,6 +46,12 @@ package "BazisGUI.SceneCore. Координаты" {
 package "OperationalController. Проект" {
   class ProjectController <<внешний>>
 }
+package "Model. Поверхностные элементы" {
+  interface ISurfaceElement <<внешний>>
+}
+package "Geometry. Координаты" {
+  class Point3D <<внешний>>
+}
 
 BaseForm --> SceneController : инициализация и кадр
 BaseForm --> ScenePickObject : точки ModelPoint3D
@@ -52,6 +60,8 @@ BaseForm --> CameraPoint3D : проекция и выбор
 BaseForm --> ModelVector3D : перенос камеры
 BaseForm --> ViewportPoint : выбор с экрана
 BaseForm --> ProjectController : модель и представление
+BaseForm --> ISurfaceElement : триангуляция граней
+BaseForm --> Point3D : входные координаты
 
 note right of BaseForm
   RequestRedraw ставит перерисовку в очередь UI.

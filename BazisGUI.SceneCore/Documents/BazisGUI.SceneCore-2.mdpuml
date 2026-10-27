@@ -20,6 +20,11 @@ package "BazisGUI.SceneCore. Геометрия" {
   }
 }
 package "BazisGUI.SceneCore. Выбор" {
+  enum ScenePickKind {
+    Other
+    Curve
+    Surface
+  }
   class Set {
     + Name : string [get]
     + Kind : ScenePickKind [get]
@@ -41,6 +46,15 @@ package "BazisGUI.SceneCore. Выбор" {
     + IsIntersectWithOther(other: RectangleBox) : bool
     + IsPointInside(point: ViewportPoint) : bool
     + IsPointsInside(points: ViewportPoint[]) : bool
+    ~ Contains(point: ViewportPoint) : bool
+    ~ IntersectsSegment(first: ViewportPoint, second: ViewportPoint) : bool
+    ~ IntersectsTriangle(triangle: ViewportTriangle) : bool
+  }
+  class ViewportTriangle <<readonly struct>> {
+    + First : ViewportPoint [get]
+    + Second : ViewportPoint [get]
+    + Third : ViewportPoint [get]
+    + Contains(point: ViewportPoint) : bool
   }
   class ScenePicker {
     + {event} ObjectsHit
@@ -71,7 +85,6 @@ package "BazisGUI.SceneCore. Буферы" {
   }
 }
 package "Geometry. Координаты" {
-  class Point2D <<внешний>>
   class Point3D <<внешний>>
 }
 
@@ -79,13 +92,16 @@ BoundingBox --> Point3D
 ScenePath --> Point3D
 ScenePath --> ModelPoint3D
 Set --> ScenePickObject
+Set --> ScenePickKind
 ScenePickObject --> ModelPoint3D
 ScenePicker --> Set
 ScenePicker --> ISceneCamera
 ScenePicker --> CameraPoint3D
 ScenePicker --> RectangleBox
-ScenePicker --> Point2D : геометрические алгоритмы
+ScenePicker --> ViewportTriangle
 RectangleBox --> ViewportPoint
+RectangleBox --> ViewportTriangle
+ViewportTriangle --> ViewportPoint
 ClipPlane --> BoundingBox
 QuadricMeshFactory --> Point3D
 

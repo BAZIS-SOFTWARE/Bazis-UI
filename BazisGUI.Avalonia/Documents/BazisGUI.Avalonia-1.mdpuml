@@ -40,7 +40,9 @@ package "BazisGUI.Avalonia. Сцена" {
   }
   class SceneSelection {
     + Apply(project, scene, selectedType, selection) : SceneSelectionResult
-    - GetVisibleObjects(sourceSet, project) : IEnumerable<ScenePickObject>
+    - GetVisibleObjects(sourceSet, project, elementByNumber) : IEnumerable<ScenePickObject>
+    - GetCadSurfacePoints(number: int, project) : IEnumerable<Point3D>
+    - GetElementSurfacePoints(element: ISurfaceElement, project) : IEnumerable<Point3D>
   }
   class SceneSelectionResult <<record>>
 }
@@ -58,6 +60,12 @@ package "BazisGUI.SceneCore. Координаты" {
 package "OperationalController. Проект" {
   class IProjectController <<внешний>>
 }
+package "Model. Поверхностные элементы" {
+  interface ISurfaceElement <<внешний>>
+}
+package "Geometry. Координаты" {
+  class Point3D <<внешний>>
+}
 
 SceneView *-- SceneSurface
 SceneSurface *-- SceneProjectPresenter
@@ -72,6 +80,8 @@ SceneSelection --> ScenePickObject : точки ModelPoint3D
 SceneSelection --> ViewportPoint : выбор точкой
 SceneProjectPresenter --> IProjectController
 SceneSelection --> IProjectController
+SceneSelection --> ISurfaceElement : триангуляция граней
+SceneSelection --> Point3D : входные координаты
 
 note bottom of SceneSurface
   Действия над GL передаются в очередь Invoke

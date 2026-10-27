@@ -3,17 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using BazisGUI.SceneCore.Interfaces;
 using BazisGUI.SceneCore.Coordinates;
-using Geometry;
 
 namespace BazisGUI.SceneCore.Picking
 {
     /// <summary>
-    /// Перенос BaseForm.SelectByPoint/SelectByRect почти без правок в геометрии отбора
-    /// (см. scene.avalonia.md, раздел 6). Из него убраны побочные эффекты — console.PrintInfo,
-    /// propertiesPanel.DrawTable, project.ModelView.Select/Deselect, DispatchSelection —
-    /// ScenePicker не знает о "project"/IModelView. Вместо них он сообщает о найденных
-    /// объектах через ObjectsHit; SceneController превращает это в события SelectionChanged
-    /// и InfoRequested, а фактический выбор в модели выполняет вызывающий код.
+    /// Выбирает объекты сцены по экранным точкам, сегментам и треугольникам.
+    /// О найденных объектах сообщает через ObjectsHit; выбор в модели выполняет вызывающий код.
     /// </summary>
     public class ScenePicker
     {
@@ -77,14 +72,13 @@ namespace BazisGUI.SceneCore.Picking
 
         public void SelectByRect(IEnumerable<Set> sets, RectangleBox selectionBox, bool isSelected)
         {
-            var creator = new Hull2DCreator();
             var selectedNumbers = new Dictionary<Set, List<int>>();
 
             foreach (var set in sets)
             {
                 foreach (var item in set.Objects)
                 {
-                    var scrPoints = new HashSet<ViewportPoint>();
+                    var scrPoints = new List<ViewportPoint>();
                     foreach (var point in item.Points)
                     {
                         var scenePoint = camera.GetSceneCoord(point);
@@ -92,7 +86,7 @@ namespace BazisGUI.SceneCore.Picking
                         scrPoints.Add(screenPoint);
                     }
 
-                    if (!CheckSelection(selectionBox, creator, scrPoints))
+                    if (!CheckSelection(selectionBox, set.Kind, scrPoints))
                         continue;
 
                     if (!selectedNumbers.TryGetValue(set, out var numbers))
@@ -119,22 +113,14 @@ namespace BazisGUI.SceneCore.Picking
 
         private static bool IsSurfaceSelected(ViewportPoint selectionPoint, List<ViewportPoint> scrPoints)
         {
-            var rect = new RectangleBox(scrPoints);
-            if (!rect.IsPointInside(selectionPoint))
-                return false;
+            if (scrPoints.Count % 3 != 0)
+                throw new ArgumentException("Surface points must form complete triangles.", nameof(scrPoints));
 
-            var creator = new Hull2DCreator();
-            var geometrySelectionPoint = new Point2D(selectionPoint.X, selectionPoint.Y);
             var count = scrPoints.Count / 3;
             for (var i = 0; i < count; i++)
             {
-                var triangle = new[]
-                {
-                    new Point2D(scrPoints[3 * i + 0].X, scrPoints[3 * i + 0].Y),
-                    new Point2D(scrPoints[3 * i + 1].X, scrPoints[3 * i + 1].Y),
-                    new Point2D(scrPoints[3 * i + 2].X, scrPoints[3 * i + 2].Y)
-                };
-                if (creator.TryCreateHullGraham(triangle, out var polygon) && polygon.IsPointInsidePolygon(geometrySelectionPoint))
+                var triangle = new ViewportTriangle(scrPoints[3 * i], scrPoints[3 * i + 1], scrPoints[3 * i + 2]);
+                if (triangle.Contains(selectionPoint))
                     return true;
             }
             return false;
@@ -142,26 +128,20 @@ namespace BazisGUI.SceneCore.Picking
 
         private static bool IsCurveSelected(ViewportPoint selectionPoint, List<ViewportPoint> scrPoints)
         {
-            var rect = new RectangleBox(scrPoints);
-            if (!rect.IsPointInside(selectionPoint))
-                return false;
-
-            var geometrySelectionPoint = new Point2D(selectionPoint.X, selectionPoint.Y);
-            if (scrPoints.Count == 2)
+            for (var i = 1; i < scrPoints.Count; i++)
             {
-                var start = new Point2D(scrPoints[0].X, scrPoints[0].Y);
-                var end = new Point2D(scrPoints[1].X, scrPoints[1].Y);
-                var segment = new Segment2D(start, end);
-                return segment.IsPointBelongSegment(geometrySelectionPoint, 5);
-            }
-
-            var count = scrPoints.Count / 2;
-            for (var i = 0; i < count; i++)
-            {
-                var start = new Point2D(scrPoints[2 * i + 0].X, scrPoints[2 * i + 0].Y);
-                var end = new Point2D(scrPoints[2 * i + 1].X, scrPoints[2 * i + 1].Y);
-                var seg = new Segment2D(start, end);
-                if (seg.IsPointBelongSegment(geometrySelectionPoint, 5))
+                var start = scrPoints[i - 1];
+                var end = scrPoints[i];
+                var deltaX = end.X - start.X;
+                var deltaY = end.Y - start.Y;
+                var lengthSquared = deltaX * deltaX + deltaY * deltaY;
+                var projection = lengthSquared == 0 ? 0 : ((selectionPoint.X - start.X) * deltaX + (selectionPoint.Y - start.Y) * deltaY) / lengthSquared;
+                var fraction = Math.Clamp(projection, 0, 1);
+                var nearestX = start.X + fraction * deltaX;
+                var nearestY = start.Y + fraction * deltaY;
+                var distanceX = selectionPoint.X - nearestX;
+                var distanceY = selectionPoint.Y - nearestY;
+                if (distanceX * distanceX + distanceY * distanceY <= 25)
                     return true;
             }
             return false;
@@ -169,53 +149,40 @@ namespace BazisGUI.SceneCore.Picking
 
         private static bool IsObjectSelected(ViewportPoint selectionPoint, List<ViewportPoint> scrPoints)
         {
-            if (scrPoints.Count == 1)
-            {
-                return scrPoints[0].X > selectionPoint.X - 10 && scrPoints[0].X < selectionPoint.X + 5
-                    && scrPoints[0].Y > selectionPoint.Y - 5 && scrPoints[0].Y < selectionPoint.Y + 5;
-            }
-
-            var rect = new RectangleBox(scrPoints);
-            if (!rect.IsPointInside(selectionPoint))
+            if (scrPoints.Count != 1)
                 return false;
-
-            var creator = new Hull2DCreator();
-            var geometryPoints = scrPoints.Select(point => new Point2D(point.X, point.Y)).ToArray();
-            var geometrySelectionPoint = new Point2D(selectionPoint.X, selectionPoint.Y);
-            return creator.TryCreateHullGraham(geometryPoints, out var polygon) && polygon.IsPointInsidePolygon(geometrySelectionPoint);
+            return scrPoints[0].X > selectionPoint.X - 10 && scrPoints[0].X < selectionPoint.X + 5
+                && scrPoints[0].Y > selectionPoint.Y - 5 && scrPoints[0].Y < selectionPoint.Y + 5;
         }
 
-        private static bool CheckSelection(RectangleBox selectionBox, Hull2DCreator creator, HashSet<ViewportPoint> scrPoints)
+        /// <summary>Проверяет примитивы объекта по очереди до первого попадания в рамку.</summary>
+        private static bool CheckSelection(RectangleBox selectionBox, ScenePickKind kind, List<ViewportPoint> scrPoints)
         {
-            if (scrPoints.Count == 1)
-                return selectionBox.IsPointInside(scrPoints.First());
-
-            if (scrPoints.Count == 2)
-                return scrPoints.Any(selectionBox.IsPointInside);
-
-            var polygonBox = new RectangleBox(scrPoints);
-            if (polygonBox.IsInnerOther(selectionBox))
-                return true;
-
-            if (!polygonBox.IsIntersectWithOther(selectionBox))
-                return false;
-
-            if (selectionBox.Left <= polygonBox.Left && selectionBox.Right >= polygonBox.Right)
-                return true;
-            if (selectionBox.Bottom <= polygonBox.Bottom && selectionBox.Top >= polygonBox.Top)
-                return true;
-
-            var geometryPoints = scrPoints.Select(point => new Point2D(point.X, point.Y)).ToArray();
-            if (creator.TryCreateHullGraham(geometryPoints, out var polygon))
+            if (kind == ScenePickKind.Curve)
             {
-                var rectanglePoints = selectionBox.GetPoints();
-                var geometryRectanglePoints = rectanglePoints.Select(point => new Point2D(point.X, point.Y));
-                if (geometryRectanglePoints.Any(p => polygon.IsPointInsidePolygon(p)))
-                    return true;
-                if (polygon.GetPoints().Any(point => selectionBox.IsPointInside(new ViewportPoint(point._x, point._y))))
-                    return true;
+                for (var i = 1; i < scrPoints.Count; i++)
+                {
+                    if (selectionBox.IntersectsSegment(scrPoints[i - 1], scrPoints[i]))
+                        return true;
+                }
+                return false;
             }
-            return false;
+
+            if (kind == ScenePickKind.Surface)
+            {
+                if (scrPoints.Count % 3 != 0)
+                    throw new ArgumentException("Surface points must form complete triangles.", nameof(scrPoints));
+
+                for (var i = 0; i < scrPoints.Count; i += 3)
+                {
+                    var triangle = new ViewportTriangle(scrPoints[i], scrPoints[i + 1], scrPoints[i + 2]);
+                    if (selectionBox.IntersectsTriangle(triangle))
+                        return true;
+                }
+                return false;
+            }
+
+            return scrPoints.Count == 1 && selectionBox.Contains(scrPoints[0]);
         }
     }
 }
