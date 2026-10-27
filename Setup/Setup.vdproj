@@ -153,6 +153,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_C31617D66C184470998F0CF12FD87350"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_CBB293BADF9849D89415ABD67444A4D1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -535,7 +541,7 @@
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_223296FF519E4DAFBE8F42E81A50E6D7"
             {
-            "SourcePath" = "8:..\\WinGUI\\Projects\\HeatTreatment\\Project.zip"
+            "SourcePath" = "8:..\\BazisGUI.Win\\Projects\\HeatTreatment\\Project.zip"
             "TargetName" = "8:Project.zip"
             "Tag" = "8:"
             "Folder" = "8:_61BC1FE226594F47811656A5600E4331"
@@ -595,7 +601,7 @@
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_31EFB92964A3455EA4E2E33E93E5EA61"
             {
-            "SourcePath" = "8:..\\WinGUI\\Help\\ПО Bazis 5.2. Руководство пользователя.pdf"
+            "SourcePath" = "8:..\\BazisGUI.Win\\Help\\ПО Bazis 5.2. Руководство пользователя.pdf"
             "TargetName" = "8:ПО Bazis 5.2. Руководство пользователя.pdf"
             "Tag" = "8:"
             "Folder" = "8:_D038A6EC588A4A65BAB327E0DFC39BC8"
@@ -635,7 +641,7 @@
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6A7B98F4396145F388F93CC1A91C7402"
             {
-            "SourcePath" = "8:..\\WinGUI\\DataBases\\Functions\\functions_draft.txt"
+            "SourcePath" = "8:..\\BazisGUI.Win\\DataBases\\Functions\\functions_draft.txt"
             "TargetName" = "8:functions_draft.txt"
             "Tag" = "8:"
             "Folder" = "8:_D1E434C130BE42E1AEE8D65AF0642946"
@@ -815,7 +821,7 @@
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A3A078E4D8694A8B93C5A6487524C49B"
             {
-            "SourcePath" = "8:..\\WinGUI\\Projects\\Welding\\Project.zip"
+            "SourcePath" = "8:..\\BazisGUI.Win\\Projects\\Welding\\Project.zip"
             "TargetName" = "8:Project.zip"
             "Tag" = "8:"
             "Folder" = "8:_54F198CEF6AD4F47AC900FE2B028B029"
@@ -855,7 +861,7 @@
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C2195A3937874A13B6F5E52330EE50DF"
             {
-            "SourcePath" = "8:..\\WinGUI\\DataBases\\Materials\\materials_draft.txt"
+            "SourcePath" = "8:..\\BazisGUI.Win\\DataBases\\Materials\\materials_draft.txt"
             "TargetName" = "8:materials_draft.txt"
             "Tag" = "8:"
             "Folder" = "8:_165B5CC7B486452D86FB1790B789B641"
@@ -1831,9 +1837,37 @@
         }
         "ProjectOutput"
         {
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C31617D66C184470998F0CF12FD87350"
+            {
+            "SourcePath" = "8:..\\BazisGUI.Avalonia\\obj\\Release\\net8.0\\apphost.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_8ED4E5FD4EB44AC8880E61F60AE90866"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:PublishItems"
+            "OutputProjectGuid" = "8:{E4EC0E94-C1F9-D545-417F-05A1CFA068F3}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_CFDF33F093614CCDB9719E5B41DB933C"
             {
-            "SourcePath" = "8:..\\InstallerAction\\obj\\Debug\\InstallerAction.dll"
+            "SourcePath" = "8:..\\InstallerAction\\obj\\Release\\InstallerAction.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_8ED4E5FD4EB44AC8880E61F60AE90866"

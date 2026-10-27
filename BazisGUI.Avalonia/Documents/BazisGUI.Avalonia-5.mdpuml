@@ -1,0 +1,45 @@
+@startuml
+title BazisGUI.Avalonia-5 — строковые ресурсы интерфейса
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "BazisGUI.Avalonia. Оболочка" {
+  class MainWindow {
+    - InitializeComponent() : void
+  }
+}
+package "BazisGUI.Avalonia. Сцена" {
+  class SceneView
+}
+package "BazisGUI.Avalonia. Локализация" {
+  class Localization {
+    + GetFormText(name) : string
+    + GetErrorCaption() : string
+  }
+  class Resources {
+    + ResourceManager : ResourceManager
+  }
+  class SceneViewLocalization {
+    + CreateGroup : string
+    + Select : string
+  }
+}
+package "BazisGUI.Avalonia. Базы данных" {
+  class DatabaseControlResources {
+    + Get(control, key) : string
+  }
+}
+
+MainWindow --> Resources : общие подписи
+SceneView --> SceneViewLocalization
+SceneViewLocalization --> Localization
+SceneViewLocalization --> Resources
+Localization --> Resources : общие подписи
+
+note bottom of Localization
+  ResourceManager читает
+  BazisGUI.Avalonia.Shell.MainWindow.resources.
+  [[BazisGUI.Avalonia.mdpuml Назад к BazisGUI.Avalonia]]
+end note
+@enduml

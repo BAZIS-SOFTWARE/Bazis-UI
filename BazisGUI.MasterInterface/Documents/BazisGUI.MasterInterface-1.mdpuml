@@ -1,0 +1,54 @@
+@startuml
+title BazisGUI.MasterInterface-1 — данные и дополнительные контракты
+skinparam packageStyle rectangle
+top to bottom direction
+
+package "BazisGUI.MasterInterface. Контракты" {
+  interface IMasterInterface <<ссылка>> [[BazisGUI.MasterInterface.mdpuml BazisGUI.MasterInterface]]
+  interface IMaterialsHandling {
+    + {event} OnMaterialsRequested : EventHandler<EventArgs>
+    + SetMaterials(IEnumerable<string>) : void
+  }
+  interface IFunctionsHandling {
+    + {event} OnFunctionsRequested : EventHandler<EventArgs>
+    + SetFunctions(IEnumerable<string>) : void
+  }
+  interface IPreparedDataLoader {
+    + {event} PreparedDataLoaded : EventHandler<EventArgs>
+    + SetDataFromConditionsStrings(IEnumerable<string>) : void
+  }
+  interface IGroupHandling {
+    + {event} OnGroupsRequested : EventHandler<EventArgs>
+    + AddGroup(GroupType, int, string) : void
+    + RenameGroup(GroupType, int, string) : void
+    + DeleteGroup(GroupType, int) : void
+    + DeleteAllGroups() : void
+    + InitialGroupFilling(Dictionary<GroupType, Dictionary<int, string>>) : void
+  }
+}
+
+package "BazisGUI.MasterInterface. Служебные типы" {
+  enum GroupType {
+    Узел
+    Элемент1D
+    Элемент2D
+    Элемент3D
+  }
+  class Converter {
+    + GetGroupTypeFromString(string) : GroupType
+  }
+  class WarningAttribute {
+    + Message : string { get; private set; }
+    + WarningAttribute(string)
+  }
+}
+
+IMasterInterface <|-- IMaterialsHandling
+IMasterInterface <|-- IFunctionsHandling
+IMasterInterface <|-- IPreparedDataLoader
+IGroupHandling ..> GroupType
+Converter ..> GroupType
+note bottom
+  [[BazisGUI.MasterInterface.mdpuml Назад к BazisGUI.MasterInterface]].
+end note
+@enduml

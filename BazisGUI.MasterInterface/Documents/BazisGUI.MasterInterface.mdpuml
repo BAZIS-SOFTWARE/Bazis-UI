@@ -1,0 +1,56 @@
+@startuml
+title BazisGUI.MasterInterface — базовый контракт мастера
+skinparam packageStyle rectangle
+top to bottom direction
+
+package "BazisGUI.MasterInterface. Контракты" {
+  interface IMasterInterface
+  interface IBaseMaster {
+    + {event} PrintInfoEvent : EventHandler<PrintInfoEventArgs>
+    + {event} GenerateConditionsEvent : EventHandler<GenerateConditionsEventArgs>
+    + {event} UpdateSceneEvent : EventHandler<UpdateSceneEventArgs>
+    + {event} OnMasterLoaded : EventHandler<EventArgs>
+    + MasterName : string { get; }
+    + SetCommandExecutor(Func<string, Task<string>>) : void
+    + SendCommandAsync(string) : Task<string>
+  }
+  interface IAvaloniaMaster {
+    + CreateView() : Control
+  }
+}
+
+package "BazisGUI.MasterInterface. Реализация" {
+  class BaseMaster {
+    + BaseMaster()
+    # RaiseGenerateConditionsEvent(string[]) : void
+    # RaisePrintInfoEvent(string, Color) : void
+    # RaiseUpdateSceneEvent() : void
+  }
+}
+
+package "BazisGUI.MasterInterface. Аргументы" {
+  class PrintInfoEventArgs {
+    + Message : string { get; }
+    + Color : Color { get; }
+    + PrintInfoEventArgs(string, Color)
+  }
+  class GenerateConditionsEventArgs {
+    + InputStrings : string[] { get; }
+    + GenerateConditionsEventArgs(string[])
+  }
+  class UpdateSceneEventArgs
+}
+
+class "System.Windows.Forms.UserControl" as UserControl <<внешний>>
+IMasterInterface <|-- IBaseMaster
+IBaseMaster <|-- IAvaloniaMaster
+IBaseMaster <|.. BaseMaster
+UserControl <|-- BaseMaster
+IBaseMaster ..> PrintInfoEventArgs
+IBaseMaster ..> GenerateConditionsEventArgs
+IBaseMaster ..> UpdateSceneEventArgs
+
+note bottom
+  Остальные интерфейсы и служебные типы: [[BazisGUI.MasterInterface-1.mdpuml BazisGUI.MasterInterface-1]].
+end note
+@enduml

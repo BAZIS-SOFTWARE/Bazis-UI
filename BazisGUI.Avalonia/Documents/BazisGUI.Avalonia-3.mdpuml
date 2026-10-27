@@ -1,0 +1,55 @@
+@startuml
+title BazisGUI.Avalonia-3 — свойства и консоль
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "BazisGUI.Avalonia. Панель свойств" {
+  class PropertiesPanelControl {
+    + ClearTable() : void
+    + DrawTable(rows, objInfo, tag) : void
+    + CellValueChanged(rowIndex, key) : void
+    + {event} PropertyUpdateEvent
+    + {event} ReDrawEvent
+    + {event} ValidateValue
+  }
+  class RowProperty
+}
+package "BazisGUI.Avalonia. Консоль" {
+  class ConsoleControl {
+    + PrintInfo(text, color) : void
+    + PrintHistory(text) : void
+    + {event} ConsoleCommandEnteredEvent
+    + {event} CommandsListRequestedEvent
+    + {event} ControlCollapseEvent
+  }
+  class ConsoleMessage <<record>>
+}
+package "BazisGUI.Avalonia. Плеер" {
+  class PlayerControl {
+    + CurrentValue : int
+    + StartValue : int
+    + StopValue : int
+    + SpeedValue : int
+    + StopChecking() : void
+    + {event} CheckingEvent
+    + {event} StopCheckingEvent
+    + {event} StartCheckingEvent
+    + {event} PauseCheckingEvent
+  }
+}
+package "BazisGUI.Avalonia. Оболочка" {
+  class "MainWindow (обработчики панелей)" as MainWindow
+}
+
+PropertiesPanelControl --> RowProperty : строки
+PropertiesPanelControl --> MainWindow : изменение данных
+ConsoleControl --> ConsoleMessage : сообщения
+ConsoleControl --> MainWindow : команды
+PlayerControl --> MainWindow : состояние и шаги
+
+note bottom of MainWindow
+  [[BazisGUI.Avalonia.mdpuml Назад к BazisGUI.Avalonia]]
+  [[BazisGUI.Avalonia-2.mdpuml Навигатор BazisGUI.Avalonia-2]]
+end note
+@enduml

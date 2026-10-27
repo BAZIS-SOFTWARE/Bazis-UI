@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Ядро 3D-сцены: net8.0 без суффикса "-windows" и без UseWindowsForms.
+    Это намеренно — компилятор не даёт случайно затащить сюда WinForms,
+    System.Drawing.Common или Win32 P/Invoke обратно в BazisGUI.
+    См. GUI/Documents/scene.avalonia.md, раздел 3.
+  -->
+  <PropertyGroup>
+    <BazisCoreGeometrySource>$(MSBuildThisFileDirectory)..\..\BazisComponents\BazisCore\PrGeometry\Geometry.csproj</BazisCoreGeometrySource>
+    <UseBazisCoreSource Condition="'$(UseBazisCoreSource)' == '' and Exists('$(BazisCoreGeometrySource)')">true</UseBazisCoreSource>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <RootNamespace>BazisGUI.SceneCore</RootNamespace>
+    <AssemblyName>BazisGUI.SceneCore</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\BazisGUI.Win\BazisGUIKey.snk</AssemblyOriginatorKeyFile>
+    <Configurations>Debug;Release;Debug-Linux;Release-Linux</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Linux|x64'">
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Linux|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Geometry" Version="2.2.8" />
+    <PackageReference Include="OpenTK.Graphics" Version="4.9.3" />
+    <PackageReference Include="MathNet.Numerics.Signed" Version="5.0.0" />
+    <PackageReference Include="Geometry" Version="2.2.7" Condition="'$(UseBazisCoreSource)' != 'true'" />
+    <PackageReference Include="SkiaSharp" Version="3.119.4" />
+  </ItemGroup>
+
+</Project>

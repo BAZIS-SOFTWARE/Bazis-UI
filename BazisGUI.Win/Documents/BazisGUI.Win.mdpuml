@@ -1,0 +1,69 @@
+@startuml
+title BazisGUI.Win — состав проекта и точки входа
+left to right direction
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "BazisGUI.Win. Оболочка" {
+  class BaseForm <<BazisGUI.Win-1..4>> {
+    + HandleArgs(args) : void
+    + RequestRedraw() : void
+    + RenderNow() : void
+    + {event} OnProjectLoaded
+    + {event} OnGroupCreated
+    + {event} OnGroupRenamed
+    + {event} OnGroupDeleted
+    + {event} OnChangeMaterials
+    + {event} OnChangeFunctions
+  }
+  class TabButtonControlService {
+    + AddControl(name, control) : void
+    + RemoveControl(name) : void
+    + GetControl(name) : Control
+  }
+}
+
+package "BazisGUI.Win. Панели" {
+  class NavigatorControl <<BazisGUI.Win-2, BazisGUI.Win-4>>
+  class PropertiesPanelControl <<BazisGUI.Win-3>>
+  class ConsoleControl <<BazisGUI.Win-3>>
+}
+
+package "BazisGUI.Win. Данные" {
+  class IODataController {
+    + LoadConfig() : SettingsConfig
+    + GetGmshLibraryPath() : string
+    + ExportMesh(project) : Task<string>
+  }
+  class SettingsConfig
+}
+
+package "BazisGUI.SceneCore. Сцена" {
+  class SceneController <<внешний>> {
+    + DisplayObjects() : void
+  }
+}
+package "OperationalController. Проект" {
+  class ProjectController <<внешний>>
+}
+
+BaseForm *-- TabButtonControlService
+BaseForm --> NavigatorControl
+BaseForm --> PropertiesPanelControl
+BaseForm --> ConsoleControl
+BaseForm --> IODataController
+BaseForm --> ProjectController
+BaseForm --> SceneController
+IODataController --> SettingsConfig
+
+note bottom of SceneController
+  Внешний проект: показана только точка входа.
+end note
+note bottom of BaseForm
+  Детали сцены: [[BazisGUI.Win-1.mdpuml BazisGUI.Win-1]]
+  Панели и события: [[BazisGUI.Win-2.mdpuml BazisGUI.Win-2]]
+  Действия навигатора: [[BazisGUI.Win-4.mdpuml BazisGUI.Win-4]]
+  Свойства и консоль: [[BazisGUI.Win-3.mdpuml BazisGUI.Win-3]]
+end note
+@enduml

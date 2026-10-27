@@ -1,0 +1,110 @@
+@startuml
+
+title Сетка, геометрия, инструменты и результаты — DisplayObjects-2
+
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam nodesep 25
+skinparam ranksep 55
+skinparam packageStyle rectangle
+
+legend top left
+  <b>Стереотипы</b>
+  <<new>>     — добавить
+  <<reuse>>   — существующий класс, не меняется
+  <<caller>>  — явный DisplayObjects() заменяется на RequestRedraw()
+  <<drop>>    — явный DisplayObjects() удаляется: кадр уже запрашивает ModelView.Changed
+  <<sync>>    — кадр нужен до выхода из метода: RenderNow()
+  <<next>>    — следующий шаг перехода (SceneController.RenderRequested)
+end legend
+
+package "BazisGUI.Win. Источники запроса кадра" {
+
+  class "Сетка и геометрия" as MeshGeomCallers <<caller>> {
+    {method} GenerateMesh2DEvent / GenerateMesh3DEvent
+    {method} GreateBoundaryMesh.CreateBoundaryMesh()
+    {method} QuadMesh / RefineMesh
+    {method} GeometryBuilder.GeometryParser() / PresentExtrude()
+    {method} CreateChamfer.CreateChamfer() / ClearChamferPreview()
+    {method} PreviewChamfer.UpdateChamferPreview()
+    {method} ChangeMeshObjectProperty.ChangeNode/ElementProperty()
+  }
+
+  class "Инструменты и результаты" as ToolCallers <<caller>> {
+    {method} UtilityToolStrip: измерения  ×5
+    {method} UtilityToolStrip: сечение  ×3
+    {method} UtilityToolStrip: отсечение плоскостью  ×3, CaptureData()
+    {method} Reflect.отзеркаливание...()  ×4
+    {method} CreatePlot.построитьГрафик...()  ×2, SelectContainerAsync()  ×2
+    {method} CreateDiagramm.построитьДиаграмму...()
+    {method} CreateAnimation: FormClosed
+    {method} Checking.CheckPlayerControl_StopCheckingEvent()
+    {method} BasePage.AsyncMethodContainer()  ×2
+  }
+
+  class "BaseForm: жизненный цикл проекта" as ProjectCallers <<caller>> {
+    {method} BaseForm_Load()
+    {method} создатьToolStripMenuItem_Click()
+    {method} OpenProject()
+    {method} добавитьСеткуToolStripMenuItem_Click()
+  }
+
+  class "Изменения только представления" as DropCallers <<drop>> {
+    {method} SelectMeshEvent: «Показать» / «Скрыть»  ×6
+    {method} SelectMeshEvent: «Удалить»  ×3 (дубль DelElements)
+    {method} ShowHideElementsEvent.ShowElements()
+    {method} SelectCondEvent.Navigator_SelectCondEvent()
+    {method} SelectSetEvent: «Показать смежные»
+    {method} SelectByRect.SelectByRect()
+    {method} AdvanceSelection.SelectionControl_SelectInSet()
+    {method} AdvanceSelection.SelectionControl_SelectInGeom()
+    {method} AdvanceSelection.BackColorToAllObjects()
+    {method} SelectObjects.SelectedObjects (set)
+  }
+
+  class "Кадр нужен сразу" as SyncCallers <<sync>> {
+    {method} CreateAnimation.CreateGIFAnimation()
+    ..
+    {method} ShowResults() → RenderNow() → CreateScreenShot()
+  }
+}
+
+package "BazisGUI.Win. Хост WinForms" {
+  class BaseForm <<boundary>> {
+    + RequestRedraw() : void
+    + RenderNow() : void
+  }
+}
+package "OperationalController. CAD" {
+  interface IModelView <<boundary>> {
+    + {event} Changed : EventHandler
+  }
+}
+
+MeshGeomCallers   ..> BaseForm : RequestRedraw()
+ToolCallers       ..> BaseForm : RequestRedraw()
+ProjectCallers    ..> BaseForm : RequestRedraw()
+SyncCallers       ..> BaseForm : RenderNow()
+
+' ---------------- представление модели ----------------
+DropCallers       ..> IModelView : Select / SetVisible / ClearSelection
+IModelView        --> BaseForm : Changed → ModelView_Changed()\nRefreshModelViewBuffers() + RequestRedraw()
+
+note bottom of DropCallers
+  Эти обработчики меняют только IModelView.
+  Кадр уже запрашивает ModelView_Changed,
+  поэтому явный вызов удаляется, а не
+  заменяется на RequestRedraw().
+end note
+
+note bottom of SyncCallers
+  CreateScreenShot() снимает экран через
+  CopyFromScreen. С Invalidate() кадр ещё не
+  нарисован — все кадры GIF окажутся одинаковыми.
+end note
+
+note right of BaseForm
+  Ввод и панели: [[DisplayObjects-1.mdpuml DisplayObjects-1]]
+  Путь отрисовки: [[DisplayObjects.mdpuml DisplayObjects]]
+end note
+@enduml

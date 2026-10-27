@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="BazisGUI.Avalonia.Console.ConsoleControl"
+             FontFamily="Microsoft Sans Serif" FontSize="11">
+  <Border BorderBrush="DarkGray" BorderThickness="1">
+    <Grid RowDefinitions="15,*" ColumnDefinitions="*,Auto">
+      <Grid Grid.ColumnSpan="2" Background="Gainsboro">
+        <TextBlock x:Name="headerText" Foreground="Black" Margin="15,0,0,0"/>
+        <Button x:Name="ControlCollapse" Classes="console-close"
+                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,3,6,0">
+          <Path Data="M0.5,0.5 H8.5 V8.5 H0.5 Z M1.5,1.5 L7.5,7.5 M1.5,7.5 L7.5,1.5"
+                Stroke="Black" StrokeThickness="1"/>
+        </Button>
+      </Grid>
+      <Border x:Name="rtxbField" Grid.Row="1" Background="#F0F0F0" Cursor="Ibeam">
+        <ScrollViewer x:Name="tlscOut" HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Auto">
+          <StackPanel>
+            <ItemsControl x:Name="lines"/>
+            <TextBox x:Name="rtxbInput" Classes="console-input" AcceptsReturn="False"
+                     AutomationProperties.Name="Команда консоли"/>
+          </StackPanel>
+        </ScrollViewer>
+      </Border>
+      <StackPanel Grid.Row="1" Grid.Column="1" Background="#F0F0F0">
+        <Button x:Name="spbDictionary" Classes="console-action">
+          <Image Source="avares://BazisGUI.Avalonia/Console/Assets/dictionary.png" Width="16" Height="16" Stretch="Fill"/>
+        </Button>
+        <Button x:Name="toolStripButton1" Classes="console-action">
+          <Image Source="avares://BazisGUI.Avalonia/Console/Assets/background.png" Width="16" Height="16" Stretch="Fill"/>
+        </Button>
+        <Button x:Name="toolStripButton2" Classes="console-action">
+          <Image Source="avares://BazisGUI.Avalonia/Console/Assets/clear.png" Width="16" Height="16" Stretch="Fill"/>
+        </Button>
+        <Button x:Name="btnStartMacro" Classes="console-action">
+          <Image Source="avares://BazisGUI.Avalonia/Console/Assets/start-macro.png" Width="16" Height="16" Stretch="Fill"/>
+        </Button>
+      </StackPanel>
+    </Grid>
+  </Border>
+</UserControl>

@@ -1,0 +1,103 @@
+@startuml
+title BazisGUI.SceneCore-2 — геометрия, выбор и буферы
+left to right direction
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "BazisGUI.SceneCore. Геометрия" {
+  class BoundingBox {
+    + LeftUpNear : Point3D [get]
+    + RightDownFar : Point3D [get]
+    + GetSqrCoordsSum() : double
+    + GetDiagonalLength() : double
+    + GetCornerPoints() : IEnumerable<Point3D>
+    + Merge(other: BoundingBox) : BoundingBox
+  }
+  class ScenePath {
+    + Length : double [get]
+    + Display(position: ModelPoint3D) : void
+  }
+}
+package "BazisGUI.SceneCore. Выбор" {
+  class Set {
+    + Name : string [get]
+    + Kind : ScenePickKind [get]
+    + Objects : IEnumerable<ScenePickObject> [get]
+  }
+  class ScenePickObject {
+    + Number : int [get]
+    + Points : IEnumerable<ModelPoint3D> [get]
+  }
+  class RectangleBox {
+    + Left : int [get, set]
+    + Right : int [get, set]
+    + Bottom : int [get, set]
+    + Top : int [get, set]
+    + RectangleBox(points: IEnumerable<ViewportPoint>)
+    + RectangleBox(left: int, right: int, bottom: int, top: int)
+    + GetPoints() : ViewportPoint[]
+    + IsInnerOther(other: RectangleBox) : bool
+    + IsIntersectWithOther(other: RectangleBox) : bool
+    + IsPointInside(point: ViewportPoint) : bool
+    + IsPointsInside(points: ViewportPoint[]) : bool
+  }
+  class ScenePicker {
+    + {event} ObjectsHit
+    + SelectByPoint(sets, point: ViewportPoint, isSelected) : bool
+    + SelectByRect(sets, box, isSelected) : void
+  }
+  interface "ISceneCamera\nSceneCore-1" as ISceneCamera <<ссылка>> [[BazisGUI.SceneCore-1.mdpuml BazisGUI.SceneCore-1]]
+}
+package "BazisGUI.SceneCore. Координаты" {
+  class "CameraPoint3D\nSceneCore-1" as CameraPoint3D <<ссылка>> [[BazisGUI.SceneCore-1.mdpuml BazisGUI.SceneCore-1]]
+  class "ModelPoint3D\nSceneCore-1" as ModelPoint3D <<ссылка>> [[BazisGUI.SceneCore-1.mdpuml BazisGUI.SceneCore-1]]
+  class ViewportPoint <<record>> {
+    + X : double [get]
+    + Y : double [get]
+  }
+}
+package "BazisGUI.SceneCore. Буферы" {
+  class ClipPlane {
+    + ViewMatrix : float[] [get, set]
+    + CreateBoundingBoxPlanes(box: BoundingBox) : Tuple<int[], float[], float[]>
+    + Draw() : void
+    + Load() : void
+  }
+  class QuadricMeshFactory {
+    + CreateCylinder(baseR: double, topR: double, height: double, color) : VBObject
+    + CreateCone(baseR: double, height: double, color) : VBObject
+    + CreateSphere(radius: double, color) : VBObject
+  }
+}
+package "Geometry. Координаты" {
+  class Point2D <<внешний>>
+  class Point3D <<внешний>>
+}
+
+BoundingBox --> Point3D
+ScenePath --> Point3D
+ScenePath --> ModelPoint3D
+Set --> ScenePickObject
+ScenePickObject --> ModelPoint3D
+ScenePicker --> Set
+ScenePicker --> ISceneCamera
+ScenePicker --> CameraPoint3D
+ScenePicker --> RectangleBox
+ScenePicker --> Point2D : геометрические алгоритмы
+RectangleBox --> ViewportPoint
+ClipPlane --> BoundingBox
+QuadricMeshFactory --> Point3D
+
+note right of ViewportPoint
+  Физические пиксели; начало в центре окна,
+  X вправо, Y вверх.
+end note
+
+note bottom of ClipPlane
+  Координаты Point3D хранятся как double;
+  в массивы вершин OpenGL записывается float.
+  [[BazisGUI.SceneCore.mdpuml Назад к BazisGUI.SceneCore]]
+  [[BazisGUI.SceneCore-1.mdpuml Камера BazisGUI.SceneCore-1]]
+end note
+@enduml

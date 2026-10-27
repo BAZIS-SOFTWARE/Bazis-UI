@@ -1,0 +1,124 @@
+@startuml
+
+title BazisGUI.Avalonia — главное окно, главное меню и сервисы оболочки\nПлан переноса из BazisGUI. Панели — ДК. Panels.Avalonia, сцена и сеанс — ДК. Scene.Avalonia.Detail
+
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam nodesep 24
+skinparam ranksep 40
+set namespaceSeparator none
+
+legend top left
+  <<current>>  — существует в коде
+  <<planned>>  — предлагается, пока не реализовано
+  <<reuse>>    — переносится из BazisGUI почти без изменений
+  <<boundary>> — описан на другой диаграмме, здесь показан свёрнуто
+  Пункты меню — команды (IRelayCommand / IAsyncRelayCommand).
+  «нет обработчика» — пункт есть в меню BazisGUI, но Click не назначен.
+end legend
+
+
+package "BazisGUI.Avalonia. MainWindow" {
+  class MainWindow <<current>> {
+    <<Window>>
+    - сформироватьИнструкцииToolStripMenuItem_Click(sender, e) : void
+    - открытьИнструкцииToolStripMenuItem_Click(sender, e) : void
+    + PresentCompDataOnTree(compData) : void
+    - запуститьToolStripMenuItem_Click(sender, e) : void
+    + StartComputation() : void
+  }
+  note right of MainWindow
+    Очередь показывает GeneralParameters.ToString().
+    Изменения параметров остаются в PreProc.
+    При запуске PreProc записывает TSF и TCF.
+  end note
+  class MainWindowViewModel <<planned>> {
+    + Menu : MainMenuViewModel
+    + Navigator : NavigatorViewModel
+    + Properties : PropertiesPanelViewModel
+    + Console : ConsoleViewModel
+    + Player : PlayerViewModel
+    + Masters : MasterAreaViewModel
+    + Layout : ShellLayout
+    + Status : string
+  }
+  class ShellLayout <<planned>> {
+    + IsNavigatorVisible : bool
+    + IsConsoleVisible : bool
+    + IsGanttVisible : bool
+  }
+  class PlayerViewModel <<planned>> {
+    + Start : IRelayCommand
+    + Pause : IRelayCommand
+    + Stop : IRelayCommand
+    + SetPlayback(playback : ICondPlayback) : void
+  }
+  class MasterAreaViewModel <<planned>> {
+    + Open(master : IAvaloniaMaster) : void
+  }
+  class NavigatorViewModel <<boundary>>
+  class PropertiesPanelViewModel <<boundary>>
+  class ConsoleViewModel <<boundary>>
+}
+
+package "BazisGUI.Avalonia. MainMenu" {
+  class MainMenuViewModel <<boundary>>
+}
+note right of MainMenuViewModel
+  Команды и разделы меню:
+  [[ДК.%20MainWindow.Avalonia-1.mdpuml ДК. MainWindow.Avalonia-1]]
+end note
+
+package "BazisGUI.Avalonia. Services" {
+  class MessageLog <<boundary>>
+}
+note right of MessageLog
+  Сервисы оболочки:
+  [[ДК.%20MainWindow.Avalonia-2.mdpuml ДК. MainWindow.Avalonia-2]]
+end note
+
+package "BazisGUI.Avalonia. ProjectSession" {
+  class ProjectSession <<boundary>>
+  class ResultsSession <<boundary>>
+}
+
+package "BazisGUI.Avalonia. SceneView" {
+  class SceneView <<boundary>>
+  interface ISceneTools <<planned>> {
+    + Measure() : void
+    + HideWithPlane() : void
+    + CutWithPlane() : void
+    + FitToScreen() : void
+  }
+  interface ICondPlayback <<boundary>>
+}
+
+package "BazisGUI.MasterInterface. Контракты" {
+  interface IAvaloniaMaster <<reuse>>
+}
+
+' =====================================================================
+' окно
+MainWindow --> MainWindowViewModel : DataContext
+MainWindow *-- SceneView : размещает
+MainWindowViewModel *-- MainMenuViewModel
+MainWindowViewModel *-- ShellLayout
+MainWindowViewModel *-- PlayerViewModel
+MainWindowViewModel *-- MasterAreaViewModel
+MainWindowViewModel *-- NavigatorViewModel
+MainWindowViewModel *-- PropertiesPanelViewModel
+MainWindowViewModel *-- ConsoleViewModel
+MainWindowViewModel --> ProjectSession : сеанс из App
+PlayerViewModel --> ICondPlayback
+MasterAreaViewModel --> IAvaloniaMaster
+
+note top of MainWindowViewModel
+  Корень композиции — App: создаёт ProjectSession, MessageLog,
+  AppSettings, IDialogService, IOperationRunner, IUiDispatcher
+  и передаёт их в MainWindowViewModel через конструктор.
+  Локализация — отдельная сборка net8.0
+  вместо Properties.Resources BazisGUI.
+end note
+
+@enduml

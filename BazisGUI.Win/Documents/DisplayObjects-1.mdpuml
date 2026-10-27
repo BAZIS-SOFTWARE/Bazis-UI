@@ -1,0 +1,94 @@
+@startuml
+
+title Ввод, панели, настройки, навигатор и консоль — DisplayObjects-1
+
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam nodesep 25
+skinparam ranksep 55
+skinparam packageStyle rectangle
+
+legend top left
+  <b>Стереотипы</b>
+  <<new>>     — добавить
+  <<reuse>>   — существующий класс, не меняется
+  <<caller>>  — явный DisplayObjects() заменяется на RequestRedraw()
+  <<drop>>    — явный DisplayObjects() удаляется: кадр уже запрашивает ModelView.Changed
+  <<sync>>    — кадр нужен до выхода из метода: RenderNow()
+  <<next>>    — следующий шаг перехода (SceneController.RenderRequested)
+end legend
+
+package "BazisGUI.Win. Источники запроса кадра" {
+
+  class "Сцена: ввод мышью и клавиатурой" as SceneInput <<caller>> {
+    {method} MouseEvents.GlControl_MouseMove()  ×3
+    {method} MouseEvents.GlControl_MouseWheel()
+    {method} MouseEvents.GlControl_MouseUp()  ×2
+    {method} SceneEvents.GlControl_KeyDown()  Esc, C, F
+    {method} SceneEvents.menuItem_SetRotPoint_Click()
+  }
+
+  class "Сцена: панели инструментов" as SceneTools <<caller>> {
+    {method} ViewToolStrip.btnXY/ZX/ZY_Click()  ×3
+    {method} ViewToolStrip.btnRotX/Y/Z_Click()  ×3
+    {method} ViewToolStrip.btnRotHor90/Vert90_Click()  ×2
+    {method} FitToScreen.btnFitToScreen_Click()
+    {method} ShowBasis.btnBazis_Click()
+    {method} ShowCountours.btnBorder_Click()
+    {method} DisplayToolStrip.btnShowNormals_Click()
+    {method} AdvanceSelection.DispatchSelection()
+    {method} ColorObjects.ColorObjects()
+  }
+
+  class "Настройки" as SettingsCallers <<caller>> {
+    {method} MainMenuEvents.SetSettingsToConfig()  ×6
+    ..
+    {method} фон, освещение, прозрачность,
+    {method} проекция, интенсивность, источник света
+  }
+
+  class "Навигатор" as NavigatorCallers <<caller>> {
+    {method} DelSetEvent.navigator_DelSetEvent()
+    {method} DelElementsEvent.DelElements()
+    {method} DelAllObjectsEvent.navigator_DelAllObjectsEvent()
+    {method} ShowHideDelObject.navigator_DelObjectEvent()
+    {method} NavigatorEvents.navigator_RemoveResultsEvent()
+    {method} NavigatorEvents.navigator_HideResultsEvent()
+    {method} SelectGeoEvent: кнопки «Показать номера»  ×4
+    {method} SelectGeoEvent.ShowNodesOnCurves()  ×2
+    {method} GetSurfaceProperty: номера точек поверхности
+    {method} SelectTimeEvent.ShowResults()
+  }
+
+  class "Консоль" as ConsoleCallers <<caller>> {
+    {method} ConsoleEvents.CreateMesh2DPoligon()
+    {method} ConsoleEvents.console_ModelShiftCoordinateEvent()
+    {method} ConsoleEvents.console_ModelRotateEvent()
+    {method} BeamConnection.BeamConnection()
+    {method} FindCoincidentNodes.FindCoincidentNodes()
+    {method} NodesShiftCoordinate.console_NodesShiftCoordinate()
+    {method} MergeElementSets.MergeElementSets()  (вызова нет — добавить)
+  }
+
+
+}
+
+package "BazisGUI.Win. Хост WinForms" {
+  class BaseForm <<boundary>> {
+    + RequestRedraw() : void
+    + RenderNow() : void
+  }
+}
+
+' ---------------- источники → запрос кадра ----------------
+SceneInput        ..> BaseForm : RequestRedraw()
+SceneTools        ..> BaseForm : RequestRedraw()
+SettingsCallers   ..> BaseForm : RequestRedraw()
+NavigatorCallers  ..> BaseForm : RequestRedraw()
+ConsoleCallers    ..> BaseForm : RequestRedraw()
+
+note right of BaseForm
+  Другие источники: [[DisplayObjects-2.mdpuml DisplayObjects-2]]
+  Путь отрисовки: [[DisplayObjects.mdpuml DisplayObjects]]
+end note
+@enduml

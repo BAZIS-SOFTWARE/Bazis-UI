@@ -1,0 +1,44 @@
+@startuml
+title BazisGUI.Win-2 — навигатор и события оболочки
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "BazisGUI.Win. Навигатор" {
+  class NavigatorControl {
+    + SelectNode(node) : void
+    + CreateRealNode(name) : TreeNode
+    + CreateVirtualNode(name) : TreeNode
+    + ActionMenu(node, index) : void
+    + TrySearchNodes(name, nodes) : bool
+    + BeginUpdate() : void
+    + EndUpdate() : void
+    + {event} SelectSetEvent
+    + {event} SelectGroupEvent
+    + {event} SelectObjectEvent
+    + {event} SelectCondEvent
+    + {event} SelectTaskEvent
+    + {event} SelectGeoEvent
+    + {event} SelectMeshEvent
+    + {event} SelectResultsEvent
+    + {event} SelectCompEvent
+    + {event} SelectCompsEvent
+    + {event} SelectGeneralInfoEvent
+    + {event} SelectTimeEvent
+    + {event} SelectResultEvent
+  }
+}
+package "BazisGUI.Win. Оболочка" {
+  class "BaseForm (обработчики Navigator)" as BaseForm
+}
+
+NavigatorControl --> BaseForm : пользовательские действия
+BaseForm --> NavigatorControl : обновление дерева
+
+note bottom of NavigatorControl
+  События объявлены в NavigatorControl.cs.
+  [[BazisGUI.Win.mdpuml Назад к BazisGUI.Win]]
+  [[BazisGUI.Win-4.mdpuml Действия навигатора BazisGUI.Win-4]]
+  [[BazisGUI.Win-3.mdpuml Панели BazisGUI.Win-3]]
+end note
+@enduml

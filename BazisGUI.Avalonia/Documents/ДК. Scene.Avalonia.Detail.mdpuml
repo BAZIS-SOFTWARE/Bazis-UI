@@ -1,0 +1,135 @@
+@startuml
+
+title BazisGUI.Avalonia — 3D-сцена и сеанс проекта\nТекущая реализация и план развития
+
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam nodesep 32
+skinparam ranksep 42
+set namespaceSeparator none
+
+legend top left
+  <<current>> — существует в коде
+  <<planned>> — предлагается, пока не реализовано
+  Окно, меню и сервисы — ДК. MainWindow.Avalonia
+  Навигатор, свойства, консоль — ДК. Panels.Avalonia
+end legend
+
+package "BazisGUI.Avalonia. Application" {
+  class Program <<current>> {
+    - Main(args : string[]) : void
+  }
+  class App <<current>> {
+    + OnFrameworkInitializationCompleted() : void
+  }
+}
+
+package "BazisGUI.Avalonia. MainWindow" {
+  class MainWindow <<current>> {
+    - scene : SceneView
+    - LoadProject() : Task
+  }
+  class MainWindowViewModel <<planned>>
+}
+
+package "BazisGUI.Avalonia. ProjectSession" {
+  class ProjectSession <<boundary>>
+}
+note right of ProjectSession
+  Сеанс проекта и данные:
+  [[ДК.%20Scene.Avalonia.Detail-1.mdpuml ДК. Scene.Avalonia.Detail-1]]
+end note
+
+package "BazisGUI.Avalonia. SceneView" {
+  class SceneView <<current>> {
+    <<OpenGlControlBase>>
+    - controller : SceneController
+    - presenter : SceneProjectPresenter
+    - selection : SceneSelection
+    - project : IProjectController
+    + HideInsideSurfaces : bool
+    + {event} ProjectDisplayFailed : EventHandler<Exception>
+    + {event} SelectionApplied : Action<int, bool>
+    + ShowProject(project : IProjectController) : void
+    - OnProjectMessage(sender : object, e : ProjectMessageEventArgs) : void
+    # OnOpenGlRender(...) : void
+  }
+  class SceneProjectPresenter <<current>> {
+    + Display(project : IProjectController, scene : SceneController) : void
+    + Refresh(project : IProjectController, scene : SceneController, sets : IEnumerable<ISetInfo>) : void
+  }
+  class SceneSelection <<current>> {
+    + Apply(project : IProjectController, scene : SceneController, ...) : int
+  }
+  class AvaloniaGlBindingsContext <<current>> {
+    <<IBindingsContext>>
+  }
+  interface ISceneTools <<planned>> {
+    + Measure() : void
+    + HideWithPlane() : void
+    + CutWithPlane() : void
+    + FitToScreen() : void
+  }
+  class CondView <<planned>> {
+    + ShowSelected(data : ICondData) : void
+    + Show(conds : IEnumerable<ICondData>, time : float) : void
+    + Clear() : void
+  }
+}
+
+package "BazisGUI.SceneCore. SceneController" {
+  class SceneController <<current>> {
+    + {event} RenderRequested : Action
+    + {event} SelectionChanged : EventHandler
+    + VboController : VBOController
+    + DisplayObjects(framebuffer : int) : void
+    + FitObjectsToScreen() : void
+  }
+  note bottom of SceneController
+    SceneCore также содержит камеру, ввод, выбор объектов,
+    слои рендера, VBO, текст и снимок кадра.
+  end note
+}
+
+package "OperationalController. ProjectController" {
+  interface IProjectController <<boundary>>
+  class ProjectController <<boundary>>
+  class ProjectMessageEventArgs <<boundary>>
+}
+
+Program --> App : запускает
+App *-- MainWindow : создаёт
+App *-- ProjectSession : владеет на время работы (план)
+MainWindow *-- SceneView : размещает
+MainWindow ..> ProjectController : загружает (сейчас)
+MainWindow ..> SceneView : ShowProject()
+MainWindow --> MainWindowViewModel : DataContext (план)
+MainWindowViewModel --> ProjectSession : использует сеанс
+
+
+SceneView *-- SceneController : владеет
+SceneView *-- SceneProjectPresenter
+SceneView *-- SceneSelection
+SceneView ..> AvaloniaGlBindingsContext : создаёт для OpenGL
+SceneView --> IProjectController : отображает и вызывает команды
+SceneView ..> ProjectMessageEventArgs : подписка Message
+SceneView --> ProjectSession : ProjectChanged / DataChanged (план)
+ISceneTools <|.. SceneView
+SceneView *-- CondView : (план)
+CondView --> IProjectController : цвета условий (план)
+CondView --> SceneController : слой условий
+
+
+note bottom of SceneView
+  Сейчас SceneView хранит свою ссылку на IProjectController.
+  В плане проект берётся из ProjectSession по ProjectChanged,
+  собственная ссылка не держится.
+end note
+
+note bottom of CondView
+  См. GUI/Documents/CondView.md.
+  Отрисовку выполняет слой ConditionsLayer : ISceneLayer.
+end note
+
+@enduml

@@ -1,0 +1,108 @@
+@startuml
+
+title BazisGUI.Avalonia — сеанс проекта и контроллер\nДК. Scene.Avalonia.Detail-1
+
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam nodesep 32
+skinparam ranksep 42
+set namespaceSeparator none
+
+legend top left
+  <<current>> — существует в коде
+  <<planned>> — предлагается, пока не реализовано
+  Окно, меню и сервисы — ДК. MainWindow.Avalonia
+  Навигатор, свойства, консоль — ДК. Panels.Avalonia
+end legend
+
+package "BazisGUI.Avalonia. ProjectSession" {
+  class ProjectSession <<planned>> {
+    + CurrentProject : IProjectController
+    + ProjectPath : string
+    + Results : ResultsSession
+    + {event} ProjectChanged : EventHandler
+    + {event} DataChanged : EventHandler<ProjectDataChangedEventArgs>
+    + NotifyDataChanged(kind : ProjectDataKind) : void
+    + OpenAsync(path : string) : Task
+    + Create(path : string) : void
+    + Save() : void
+    + SaveAs(path : string) : void
+    + Close() : void
+  }
+  enum ProjectDataKind <<planned>> {
+    <<Flags>>
+    Geometry
+    Mesh
+    Sets
+    Groups
+    Conditions
+    Calculations
+    Results
+  }
+  class ResultsSession <<planned>> {
+    + DbPath : string
+    + Open(path : string) : void
+    + GetTimes() : IEnumerable<float>
+  }
+}
+
+package "OperationalController. ProjectController" {
+  interface IProjectController <<current>> {
+    + {event} Message : EventHandler<ProjectMessageEventArgs>
+    + HideInsideSurfaces : bool
+    + GetVisible(type : ObjType, number : int) : bool
+    + SetHideInsideSurfaces(hide : bool) : void
+    + BeginViewUpdate() : IDisposable
+    + Select(type : ObjType, numbers : IEnumerable<int>) : void
+    + Deselect(type : ObjType, numbers : IEnumerable<int>) : void
+  }
+  class ProjectController <<current>> {
+    + Load(path : string) : void
+  }
+  class ProjectMessageEventArgs <<current>> {
+    + Changes : IReadOnlyList<ChangeMessage>
+  }
+  class ViewChange <<current>> {
+    + AffectedSets : IEnumerable<ISetInfo>
+  }
+}
+
+package "BazisGUI.Avalonia. Application" {
+  class App <<boundary>>
+}
+package "BazisGUI.Avalonia. MainWindow" {
+  class MainWindowViewModel <<boundary>>
+}
+package "BazisGUI.Avalonia. SceneView" {
+  class SceneView <<boundary>>
+}
+
+ProjectSession *-- "0..1" ProjectController : владеет текущим проектом
+ProjectSession *-- "0..1" ResultsSession
+ProjectSession ..> ProjectDataKind
+IProjectController <|.. ProjectController
+ProjectController ..> ProjectMessageEventArgs : Message
+ProjectMessageEventArgs --> ViewChange : содержит
+
+App *-- ProjectSession : владеет сеансом
+MainWindowViewModel --> ProjectSession : использует
+SceneView --> ProjectSession : ProjectChanged / DataChanged
+
+note right of ProjectSession
+  При открытии создаётся новый ProjectController.
+  CurrentProject меняется только после успешной загрузки.
+  ProjectChanged уведомляет оболочку в UI-потоке.
+  При замене проекта подписчики переключают ProjectController.Message,
+  а сеанс освобождает связанные с прежним проектом ресурсы.
+  DataChanged — изменились данные проекта (геометрия, сетка,
+  наборы, группы, условия, расчёты, результаты); поднимают
+  операции меню, консоли и панели свойств через NotifyDataChanged.
+  Данные модели и задач в сеансе не дублируются.
+end note
+
+note right of SceneView
+  Подробности сцены:
+  [[ДК.%20Scene.Avalonia.Detail.mdpuml ДК. Scene.Avalonia.Detail]]
+end note
+@enduml

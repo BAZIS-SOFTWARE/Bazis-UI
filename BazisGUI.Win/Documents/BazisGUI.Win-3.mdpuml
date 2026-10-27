@@ -1,0 +1,49 @@
+@startuml
+title BazisGUI.Win-3 — свойства, консоль и панели задач
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "BazisGUI.Win. Панель свойств" {
+  class PropertiesPanelControl {
+    + ClearTable() : void
+    + DrawTable(rows, objInfo, tag) : void
+    + CellValueChanged(cell, key) : void
+    + {event} PropertyUpdateEvent
+    + {event} ReDrawEvent
+    + {event} ValidateValue
+  }
+  class RowProperty
+}
+package "BazisGUI.Win. Консоль" {
+  class ConsoleControl {
+    + PrintInfo(text, color) : void
+    + PrintHistory(text) : void
+    + {event} ConsoleCommandEnteredEvent
+    + {event} CommandsListRequestedEvent
+  }
+}
+package "BazisGUI.Win. Задачи" {
+  interface ITaskControl {
+    + GetValidationResult() : bool
+    + {event} BtnSave_ClickEvent
+  }
+  class TaskControl {
+    + InputData(parameters) : void
+  }
+}
+package "BazisGUI.Win. Оболочка" {
+  class "BaseForm (обработчики панелей)" as BaseForm
+}
+
+PropertiesPanelControl --> RowProperty : строки
+PropertiesPanelControl --> BaseForm : изменение данных
+ConsoleControl --> BaseForm : команды
+TaskControl ..|> ITaskControl
+BaseForm --> TaskControl : параметры задачи
+
+note bottom of BaseForm
+  [[BazisGUI.Win.mdpuml Назад к BazisGUI.Win]]
+  [[BazisGUI.Win-2.mdpuml Навигатор BazisGUI.Win-2]]
+end note
+@enduml

@@ -1,0 +1,128 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:scene="using:BazisGUI.Avalonia.Scene"
+        xmlns:console="using:BazisGUI.Avalonia.Console"
+        x:Class="BazisGUI.Avalonia.Shell.MainWindow"
+        Width="942" Height="625" MinWidth="415" MinHeight="320"
+        WindowState="Maximized" Background="#F0F0F0"
+        RequestedThemeVariant="Light" FontFamily="Microsoft Sans Serif"
+        FontSize="11" Foreground="Black">
+  <Grid RowDefinitions="Auto,*,Auto">
+    <Menu x:Name="menuStrip" Height="24" Background="#F0F0F0"
+          FontFamily="Segoe UI" FontSize="11">
+      <Menu.Resources>
+        <CornerRadius x:Key="OverlayCornerRadius">0</CornerRadius>
+      </Menu.Resources>
+      <MenuItem x:Name="файлToolStripMenuItem">
+        <MenuItem x:Name="создатьToolStripMenuItem" InputGesture="Ctrl+N"/>
+        <MenuItem x:Name="открытьToolStripMenuItem" InputGesture="Ctrl+O"/>
+        <MenuItem x:Name="добавитьToolStripMenuItem"/>
+        <Separator/>
+        <MenuItem x:Name="сохранитьToolStripMenuItem" InputGesture="Ctrl+S"/>
+        <MenuItem x:Name="сохранитькакToolStripMenuItem"/>
+        <Separator/>
+        <Separator/>
+        <MenuItem x:Name="выходToolStripMenuItem"/>
+      </MenuItem>
+      <MenuItem x:Name="viewMenuItem">
+        <MenuItem x:Name="toolStripMenuItem2" ToggleType="CheckBox" IsChecked="True"/>
+        <MenuItem x:Name="toolStripMenuItem3" ToggleType="CheckBox" IsChecked="True"/>
+      </MenuItem>
+      <MenuItem x:Name="геометрияToolStripMenuItem" IsEnabled="false">
+        <MenuItem x:Name="создатьТочкуToolStripMenuItem" IsVisible="False"/>
+        <MenuItem x:Name="создатьЛиниюToolStripMenuItem" IsVisible="False"/>
+        <MenuItem x:Name="создатьПлоскостьToolStripMenuItem" IsVisible="False"/>
+        <MenuItem x:Name="создатьОбъемToolStripMenuItem" IsVisible="false"/>
+        <MenuItem x:Name="addChamferToolStripMenuItem" ToggleType="CheckBox"/>
+      </MenuItem>
+      <MenuItem x:Name="сеткаToolStripMenuItem" IsEnabled="false">
+        <MenuItem x:Name="загрузитьgeoToolStripMenuItem"/>
+        <MenuItem x:Name="сформироватьgeoToolStripMenuItem"/>
+        <MenuItem x:Name="dToolStripMenuItem">
+          <MenuItem x:Name="наToolStripMenuItem"/>
+        </MenuItem>
+        <MenuItem x:Name="dToolStripMenuItem1">
+          <MenuItem x:Name="уплотнитьToolStripMenuItem" IsEnabled="false"/>
+          <MenuItem x:Name="наПоверхности3DToolStripMenuItem"/>
+          <MenuItem x:Name="наПоверхностиГеометрииToolStripMenuItem"/>
+          <MenuItem x:Name="квадратизацияСуществующейToolStripMenuItem" IsEnabled="false"/>
+        </MenuItem>
+        <MenuItem x:Name="dToolStripMenuItem2"/>
+      </MenuItem>
+      <MenuItem x:Name="dataBasesMenuItem" IsEnabled="false">
+        <MenuItem x:Name="материалыMenuItem" ToggleType="CheckBox"/>
+        <MenuItem x:Name="функцииMenuItem" ToggleType="CheckBox"/>
+      </MenuItem>
+      <MenuItem x:Name="tasksMenuItem" IsEnabled="false">
+        <MenuItem x:Name="создатьToolStripMenuItem1"/>
+        <MenuItem x:Name="мастерToolStripMenuItem">
+          <Separator/>
+          <MenuItem x:Name="загрузитьМастерToolStripMenuItem" IsEnabled="false"/>
+          <Separator/>
+        </MenuItem>
+        <MenuItem x:Name="показатьНаДиаграммеToolStripMenuItem" ToggleType="CheckBox"/>
+      </MenuItem>
+      <MenuItem x:Name="расчетыToolStripMenuItem" IsEnabled="false">
+        <MenuItem x:Name="открытьИнструкцииToolStripMenuItem"/>
+        <MenuItem x:Name="сформироватьИнструкцииToolStripMenuItem"/>
+        <MenuItem x:Name="запуститьToolStripMenuItem"/>
+        <MenuItem x:Name="остановитьToolStripMenuItem"/>
+      </MenuItem>
+      <MenuItem x:Name="результатыMenuItem" IsEnabled="false">
+        <MenuItem x:Name="открытьToolStripMenuItem1"/>
+        <MenuItem x:Name="объединитьToolStripMenuItem" IsEnabled="false"/>
+        <MenuItem x:Name="построитьГрафикToolStripMenuItem"/>
+        <MenuItem x:Name="построитьДиаграммуToolStripMenuItem"/>
+        <MenuItem x:Name="создатьАнимациюToolStripMenuItem" ToggleType="CheckBox"/>
+        <MenuItem x:Name="экспортироватьРезультатыToolStripMenuItem" IsEnabled="false"/>
+        <MenuItem x:Name="toolStripMenuItem4" ToggleType="CheckBox"/>
+      </MenuItem>
+      <MenuItem x:Name="инструментыToolStripMenuItem" IsEnabled="false">
+        <MenuItem x:Name="измеритьToolStripMenuItem" ToggleType="CheckBox"/>
+        <MenuItem x:Name="скрытьПлоскостьюToolStripMenuItem" ToggleType="CheckBox"/>
+        <MenuItem x:Name="рассечьПлоскостьюToolStripMenuItem" ToggleType="CheckBox" IsEnabled="false"/>
+      </MenuItem>
+      <MenuItem x:Name="настройкиToolStripMenuItem" ToggleType="CheckBox"/>
+      <MenuItem x:Name="справкаToolStripMenuItem">
+        <MenuItem x:Name="содержаниеToolStripMenuItem"/>
+        <MenuItem x:Name="опрограммеToolStripMenuItem"/>
+      </MenuItem>
+      <MenuItem x:Name="лицензияToolStripMenuItem">
+        <MenuItem x:Name="сведенияMenuItem"/>
+      </MenuItem>
+    </Menu>
+    <Grid x:Name="splitContainer3" Grid.Row="1" MinHeight="0" Margin="5">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="304" MinWidth="300"/>
+        <ColumnDefinition Width="8"/>
+        <ColumnDefinition Width="*" MinWidth="25"/>
+      </Grid.ColumnDefinitions>
+      <Grid x:Name="splitContainer3Panel1" ColumnDefinitions="30,*">
+        <StackPanel x:Name="tabButtonsPanel"/>
+        <Grid x:Name="tabPagesPanel" Grid.Column="1"/>
+      </Grid>
+      <GridSplitter x:Name="splitContainer3Splitter" Grid.Column="1"
+                    Width="8" ResizeDirection="Columns" Background="#F0F0F0"/>
+      <Grid x:Name="splitContainer2" Grid.Column="2" MinWidth="0">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*" MinHeight="25"/>
+          <RowDefinition Height="8"/>
+          <RowDefinition Height="140" MinHeight="150"/>
+        </Grid.RowDefinitions>
+        <scene:SceneView x:Name="scene"/>
+        <GridSplitter x:Name="splitContainer2Splitter" Grid.Row="1"
+                      Height="8" ResizeDirection="Rows" Background="#F0F0F0"/>
+        <console:ConsoleControl x:Name="console" Grid.Row="2"/>
+      </Grid>
+    </Grid>
+    <Border Grid.Row="2" Height="32" Padding="5,3" Background="#F0F0F0">
+      <DockPanel LastChildFill="True">
+        <TextBlock x:Name="lblVersion" DockPanel.Dock="Right" Margin="12,0,0,0"
+                   VerticalAlignment="Center"/>
+        <TextBlock x:Name="lblStatus" VerticalAlignment="Center"
+                   TextTrimming="CharacterEllipsis"/>
+      </DockPanel>
+    </Border>
+  </Grid>
+</Window>
+

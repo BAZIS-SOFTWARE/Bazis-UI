@@ -1,0 +1,68 @@
+﻿@startuml
+left to right direction
+scale max 1800 width
+
+title 3D-сцена BazisGUI — хосты и SceneController\nТекущая интеграция WinForms и целевая интеграция Avalonia
+
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam nodesep 18
+skinparam ranksep 25
+
+legend bottom
+  <<current>> — реализовано сейчас
+  <<planned>> — запланировано
+end legend
+
+package "BazisGUI.Win. WinForms-хост" {
+  class "BaseForm\n(WinForms GL-хост)" as BaseForm <<current>>
+  class "OpenTK.GLControl" as GLControl <<current>>
+}
+
+package "BazisGUI.SceneCore. Логика сцены" {
+  class SceneController <<current>>
+  class SceneCamera <<current>>
+  class SceneRenderer <<current>>
+  class SceneInputController <<current>>
+  class ScenePicker <<current>>
+  class SceneLayerCollection <<current>>
+  class SceneRenderSettings <<current>>
+}
+
+package "BazisGUI.Win. GL-слой" {
+  class VBOController <<current>>
+  class AverageColorRenderer <<current>>
+  class Advanced3DClipper <<current>>
+}
+
+package "BazisGUI.Avalonia. Целевой хост" {
+  class SceneView <<planned>>
+  class MainWindow <<planned>>
+  class WinFormsSceneHost <<planned>>
+}
+
+BaseForm --> GLControl : GL-контекст
+BaseForm --> SceneController : создаёт и вызывает
+SceneView --> SceneController : использует
+WinFormsSceneHost --> SceneView : временно размещает
+MainWindow --> SceneView : размещает
+
+SceneController *-- SceneCamera
+SceneController *-- SceneRenderer
+SceneController *-- SceneInputController
+SceneController *-- ScenePicker
+SceneController *-- SceneLayerCollection
+SceneController *-- SceneRenderSettings
+SceneController --> VBOController : объекты сцены
+SceneRenderer --> SceneLayerCollection : слои
+SceneRenderer --> AverageColorRenderer : прозрачность
+SceneRenderer --> Advanced3DClipper : сечение
+SceneInputController --> ScenePicker : выбор
+
+note bottom of BaseForm
+  Пока обрабатывает ввод WinForms, часть отрисовки
+  геометрии и текста, а также SwapBuffers().
+end note
+
+@enduml

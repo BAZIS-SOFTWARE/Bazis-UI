@@ -1,0 +1,45 @@
+@startuml
+title BazisGUI.Win-4 — запросы данных и действия навигатора
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "BazisGUI.Win. Навигатор" {
+  class "NavigatorControl (продолжение)" as NavigatorControl {
+    + {event} GetSetsInfoEvent
+    + {event} GetObjectsInfoEvent
+    + {event} GetObjectInfoEvent
+    + {event} GetResultInfoEvent
+    + {event} DelSetEvent
+    + {event} DelGroupEvent
+    + {event} DelObjectEvent
+    + {event} DelCondEvent
+    + {event} HideResultsEvent
+    + {event} RemoveResultsEvent
+    + {event} RemoveAllConditionsEvent
+    + {event} DelAllGroupsEvent
+    + {event} ShowAllGroupsEvent
+    + {event} HideAllGroupsEvent
+    + {event} ChangeAllGeoViewStateEvent
+    + {event} DelAllGeoEvent
+    + {event} DelAllMeshEvent
+    + {event} ChangeAllMeshViewStateEvent
+    + {event} ShowSetEvent
+    + {event} HideSetEvent
+    + {event} HideGroupEvent
+    + {event} ShowGroupEvent
+    + {event} EditGroupEvent
+    + {event} InfoGroupEvent
+    + {event} ShowObjectEvent
+    + {event} HideObjectEvent
+  }
+}
+package "BazisGUI.Win. Оболочка" {
+  class "BaseForm (обработчики Navigator)" as BaseForm
+}
+NavigatorControl --> BaseForm : события
+note bottom of NavigatorControl
+  [[BazisGUI.Win-2.mdpuml Выбор объектов BazisGUI.Win-2]]
+  [[BazisGUI.Win.mdpuml Назад к BazisGUI.Win]]
+end note
+@enduml

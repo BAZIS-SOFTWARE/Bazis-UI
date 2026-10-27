@@ -1,9 +1,0 @@
-<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="AvaloniaGUI.Properties.PropertiesPanelControl"
-             Classes="properties-table" Background="#F0F0F0"
-             FontFamily="Microsoft Sans Serif" FontSize="11">
-  <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-    <Grid x:Name="dataGridView1" ColumnDefinitions="*,*"/>
-  </ScrollViewer>
-</UserControl>

@@ -1,0 +1,105 @@
+@startuml
+
+title Перерисовка сцены BazisGUI через RequestRedraw()\nКто запрашивает кадр, кто его рисует. Пояснения, номера строк и порядок перехода — DisplayObjects.md
+
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam nodesep 25
+skinparam ranksep 55
+skinparam packageStyle rectangle
+
+legend top left
+  <b>Стереотипы</b>
+  <<new>>     — добавить
+  <<reuse>>   — существующий класс, не меняется
+  <<caller>>  — явный DisplayObjects() заменяется на RequestRedraw()
+  <<drop>>    — явный DisplayObjects() удаляется: кадр уже запрашивает ModelView.Changed
+  <<sync>>    — кадр нужен до выхода из метода: RenderNow()
+  <<next>>    — следующий шаг перехода (SceneController.RenderRequested)
+end legend
+
+package "BazisGUI.Win. Источники запроса кадра" {
+  class "Обработчики и команды" as RequestSources <<caller>>
+  class "Изменения представления" as ViewChanges <<drop>>
+  class "Захват кадра" as CaptureFrame <<sync>>
+}
+note right of RequestSources
+  Подробные источники запроса кадра:
+  [[DisplayObjects-1.mdpuml DisplayObjects-1]] и [[DisplayObjects-2.mdpuml DisplayObjects-2]]
+end note
+
+package "OperationalController. CAD" {
+  interface IModelView <<reuse>> {
+    + {event} Changed : EventHandler
+    + Select() / Deselect() / SetSelection()
+    + SetVisible() / HideSelected() / ShowAll()
+    + BeginUpdate() : IDisposable
+  }
+}
+
+' =====================================================================
+package "BazisGUI.Win. Хост WinForms" {
+
+  class BaseForm <<partial>> {
+    + RequestRedraw() : void <<new>>
+    + RenderNow() : void <<new>>
+    - DisplayObjects() : void
+    - ModelView_Changed(sender, e) : void
+    - RefreshModelViewBuffers() : void
+    - SceneInitialization(sender, args) : void
+  }
+
+  class GLControl <<reuse>> {
+    + {event} Paint
+    + Invalidate() : void
+    + Refresh() : void
+    + SwapBuffers() : void
+  }
+}
+
+' =====================================================================
+package "BazisGUI.SceneCore. Сцена" {
+  class SceneController <<reuse>> {
+    + {event} RenderRequested : Action
+    + DisplayObjects() : void
+  }
+
+  class SceneRenderer <<reuse>> {
+    + Render(context : IRenderContext) : void
+  }
+}
+
+RequestSources ..> BaseForm : RequestRedraw()
+CaptureFrame ..> BaseForm : RenderNow()
+ViewChanges ..> IModelView : Select / SetVisible / ClearSelection
+
+IModelView        --> BaseForm : Changed → ModelView_Changed()\nRefreshModelViewBuffers() + RequestRedraw()
+
+' ---------------- единственный путь отрисовки ----------------
+BaseForm          --> GLControl : RequestRedraw → Invalidate()\nRenderNow → Refresh()
+GLControl         --> BaseForm : Paint → DisplayObjects()
+BaseForm          --> SceneController : DisplayObjects()
+SceneController   --> SceneRenderer : Render(BuildContext())
+
+' ---------------- следующий шаг ----------------
+SceneController   ..> BaseForm : <<next>> RenderRequested → RequestRedraw()
+
+note right of BaseForm
+  RequestRedraw() — только помечает сцену
+  «грязной» (Invalidate). Несколько запросов
+  до ближайшего WM_PAINT склеиваются в один кадр.
+  Безопасен из любого потока (BeginInvoke).
+
+  RenderNow() — Refresh(): Paint выполняется
+  синхронно, до возврата из метода. Только
+  для захвата кадра с экрана.
+
+  DisplayObjects() становится private и
+  вызывается только из scene.Paint.
+  SwapBuffers() остаётся внутри него.
+end note
+
+note bottom of ViewChanges
+  Подробности: [[DisplayObjects-1.mdpuml DisplayObjects-1]] и [[DisplayObjects-2.mdpuml DisplayObjects-2]]
+end note
+@enduml

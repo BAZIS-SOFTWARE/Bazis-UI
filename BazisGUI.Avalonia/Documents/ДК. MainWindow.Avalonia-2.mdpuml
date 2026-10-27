@@ -1,0 +1,92 @@
+@startuml
+
+title BazisGUI.Avalonia — сервисы оболочки\nДК. MainWindow.Avalonia-2
+
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam nodesep 24
+skinparam ranksep 40
+set namespaceSeparator none
+
+legend top left
+  <<current>>  — существует в коде
+  <<planned>>  — предлагается, пока не реализовано
+  <<reuse>>    — переносится из BazisGUI почти без изменений
+  <<boundary>> — описан на другой диаграмме, здесь показан свёрнуто
+  Пункты меню — команды (IRelayCommand / IAsyncRelayCommand).
+  «нет обработчика» — пункт есть в меню BazisGUI, но Click не назначен.
+end legend
+
+
+package "BazisGUI.Avalonia. Services" {
+  class MessageLog <<planned>> {
+    + {event} EntryAdded : EventHandler<LogEntry>
+    + Info(text : string) : void
+    + Warning(text : string) : void
+    + Error(text : string) : void
+    + GetEntries() : IEnumerable<LogEntry>
+  }
+  class LogEntry <<planned>> {
+    + Text : string
+    + Level : MessageLevel
+    + Time : DateTime
+  }
+  enum MessageLevel <<planned>> {
+    Info
+    Success
+    Warning
+    Error
+  }
+  class SessionLogFile <<planned>> {
+    + Path : string
+  }
+  class AppSettings <<planned>> {
+    + SelectObjectColor : Color
+    + SelectGroupColor : Color
+    + Transparency : int
+    + CheckCondValue : bool
+    + {event} Changed : EventHandler
+    + Load() : void
+    + Save() : void
+  }
+  interface IDialogService <<planned>> {
+    + OpenFileAsync(filter : FileFilter) : Task<string>
+    + SaveFileAsync(filter : FileFilter) : Task<string>
+    + ShowMessageAsync(text : string) : Task
+    + ShowDialogAsync(content : object) : Task
+  }
+  interface IOperationRunner <<planned>> {
+    + RunAsync(title : string, work : Func<Task>) : Task
+  }
+  interface IUiDispatcher <<planned>> {
+    + Post(action : Action) : void
+  }
+  interface ILicenseService <<planned>>
+}
+
+MessageLog *-- LogEntry
+LogEntry --> MessageLevel
+SessionLogFile --> MessageLog : EntryAdded → файл сеанса
+IOperationRunner ..> MessageLog : ход и ошибки
+IOperationRunner ..> IUiDispatcher : завершение в UI-потоке
+
+note bottom of MessageLog
+  Заменяет console.PrintInfo(text, Color) — вызывается из 20 файлов Methods.
+  Пишут меню, навигатор, свойства, команды; показывает ConsoleViewModel.
+end note
+
+note bottom of AppSettings
+  Заменяет SettingsConfig и IODataController.LoadConfig
+  из конструктора BaseForm. Сборка без WinForms.
+end note
+
+note bottom of ILicenseService
+  ClientGUI.dll и LicenseInfo.dll — без исходников,
+  под Linux не проверены.
+end note
+
+note right of MessageLog
+  Окно: [[ДК.%20MainWindow.Avalonia.mdpuml ДК. MainWindow.Avalonia]]
+end note
+@enduml
