@@ -331,8 +331,14 @@ namespace AvaloniaGUI.Databases
                 MessageBox.Show(this, Resources.SelectMaterial);
                 return;
             }
-            Materials.Remove(TreeView.SelectedNode.Text);
-            RemoveNode(TreeView.SelectedNode);
+            var node = TreeView.SelectedNode;
+            // Фиксируем правку и очищаем представление до удаления данных.
+            DataGridView.DataSource = null;
+            shownPath = null;
+            GraphContainer.ClearData();
+            TreeView.SelectedNode = null;
+            Materials.Remove(node.Text);
+            RemoveNode(node);
             OnMutationEvent?.Invoke();
         }
 
@@ -408,8 +414,13 @@ namespace AvaloniaGUI.Databases
 
             var reacAr = TreeView.SelectedNode.FullPath.Split('\\', ',');
 
+            var node = TreeView.SelectedNode;
+            DataGridView.DataSource = null;
+            shownPath = null;
+            GraphContainer.ClearData();
+            TreeView.SelectedNode = null;
             Materials[reacAr[0]]["Металлургия"].PropertyData.Remove(reacAr[2]);
-            RemoveNode(TreeView.SelectedNode);
+            RemoveNode(node);
         }
 
         private void RenameMatItem_Click(object sender, EventArgs e)

@@ -33,6 +33,7 @@ package "AvaloniaGUI. Панели" {
   class NavigatorControl <<AvaloniaGUI-2, AvaloniaGUI-4>>
   class PropertiesPanelControl <<AvaloniaGUI-3>>
   class ConsoleControl <<AvaloniaGUI-3>>
+  class PlayerControl <<AvaloniaGUI-3>>
 }
 package "AvaloniaGUI. Данные" {
   class IODataController {
@@ -43,6 +44,11 @@ package "AvaloniaGUI. Данные" {
   }
   class SettingsConfig
 }
+package "AvaloniaGUI. Локализация" {
+  class Localization <<AvaloniaGUI-5>> {
+    + GetFormText(name) : string
+  }
+}
 package "OperationalController. Проект" {
   class ProjectController <<внешний>>
 }
@@ -52,6 +58,7 @@ SceneView *-- SceneSurface
 MainWindow --> NavigatorControl
 MainWindow --> PropertiesPanelControl
 MainWindow --> ConsoleControl
+MainWindow --> PlayerControl
 MainWindow --> IODataController
 MainWindow --> ProjectController
 IODataController --> SettingsConfig
@@ -60,8 +67,9 @@ IODataController --> ProjectController
 note bottom of MainWindow
   Сцена: [[AvaloniaGUI-1.mdpuml AvaloniaGUI-1]]
   Навигатор: [[AvaloniaGUI-2.mdpuml AvaloniaGUI-2]]
-  Свойства и консоль: [[AvaloniaGUI-3.mdpuml AvaloniaGUI-3]]
+  Свойства, консоль и плеер: [[AvaloniaGUI-3.mdpuml AvaloniaGUI-3]]
   Действия навигатора: [[AvaloniaGUI-4.mdpuml AvaloniaGUI-4]]
+  Локализация: [[AvaloniaGUI-5.mdpuml AvaloniaGUI-5]]
 end note
 note bottom of ProjectController
   Внешний проект: показана только точка входа.

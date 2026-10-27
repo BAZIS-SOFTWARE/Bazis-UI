@@ -7,7 +7,7 @@ namespace AvaloniaGUI.Databases
     {
         public static string Get(string control, string key)
         {
-            var resources = new ResourceManager($"BazisAvaloniaGUI.Databases.{control}", typeof(DatabaseControlResources).Assembly);
+            var resources = new ResourceManager($"{typeof(DatabaseControlResources).Namespace}.{control}", typeof(DatabaseControlResources).Assembly);
             return resources.GetString(key, CultureInfo.CurrentUICulture) ?? resources.GetString(key, CultureInfo.InvariantCulture) ?? key;
         }
     }

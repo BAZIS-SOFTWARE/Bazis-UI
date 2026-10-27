@@ -13,7 +13,7 @@ namespace AvaloniaGUI.Navigator
     /// Иконки действий входят в саму строку (аналог DrawImages в treeView_DrawNode), поэтому
     /// они исчезают вместе со строкой при сворачивании и не выходят за её высоту.
     /// </summary>
-    internal sealed class NavigatorRow : Grid
+    internal sealed partial class NavigatorRow : Grid
     {
         internal const double RowHeight = 18;
         private const double LevelIndent = 16;
@@ -21,22 +21,13 @@ namespace AvaloniaGUI.Navigator
         private static readonly Avalonia.Media.Geometry ExpandedGlyph = Avalonia.Media.Geometry.Parse("M 0,2 L 4,6 L 8,2");
 
         private readonly NavigatorControl navigator;
-        private readonly Border expander = new() { Width = 16, Height = RowHeight, Background = Brushes.Transparent, Cursor = new Cursor(StandardCursorType.Hand) };
-        private readonly Avalonia.Controls.Shapes.Path glyph = new() { Stroke = Brush.Parse("#606060"), StrokeThickness = 1.2, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
-        private readonly Image image = new() { Width = 16, Height = 16, Margin = new Thickness(0, 0, 4, 0), VerticalAlignment = VerticalAlignment.Center };
-        private readonly TextBlock text = new() { VerticalAlignment = VerticalAlignment.Center, TextTrimming = TextTrimming.CharacterEllipsis, Foreground = Brushes.Black };
-        private readonly StackPanel actions = new() { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(4, 0, 4, 0) };
         private TreeNode node;
         private string actionsNodeName;
 
         public NavigatorRow(NavigatorControl navigator)
         {
             this.navigator = navigator;
-            Height = RowHeight;
-            Background = Brushes.Transparent;
-            ColumnDefinitions = new ColumnDefinitions("Auto,Auto,*,Auto");
-
-            expander.Child = glyph;
+            InitializeComponent();
             expander.PointerPressed += (_, e) =>
             {
                 // Как в WinForms: щелчок по стрелке только раскрывает/сворачивает узел, не выделяя его.
@@ -53,14 +44,6 @@ namespace AvaloniaGUI.Navigator
                 node?.Toggle();
             };
 
-            SetColumn(expander, 0);
-            SetColumn(image, 1);
-            SetColumn(text, 2);
-            SetColumn(actions, 3);
-            Children.Add(expander);
-            Children.Add(image);
-            Children.Add(text);
-            Children.Add(actions);
         }
 
         protected override void OnDataContextChanged(System.EventArgs e)

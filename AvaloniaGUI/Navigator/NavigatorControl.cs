@@ -45,7 +45,7 @@ namespace AvaloniaGUI.Navigator
         Time
     }
 
-    internal sealed class NavigatorControl : UserControl
+    internal sealed partial class NavigatorControl : UserControl
     {
         // Avalonia: перекрывает StyledElement.Resources, чтобы Resources.X ссылался на строковые ресурсы.
         private new class Resources : Localization.Resources { }
@@ -140,12 +140,6 @@ namespace AvaloniaGUI.Navigator
         // Avalonia: вместо System.Windows.Forms.TreeView — плоский виртуализируемый список видимых узлов.
         // Avalonia TreeView создаёт контейнер на каждый узел без виртуализации вложенных уровней,
         // из-за чего раскрытие и сворачивание наборов с тысячами объектов заметно тормозило.
-        private readonly ListBox treeView = new()
-        {
-            Background = Brush.Parse("#F0F0F0"),
-            FontFamily = new FontFamily("Microsoft Sans Serif"),
-            FontSize = 10.6667 // WinForms treeView: 8 pt at 96 DPI
-        };
         private readonly AvaloniaList<TreeNode> rows = new();
         private readonly Dictionary<int, Bitmap> imageList = new();
         private readonly Dictionary<int, Bitmap> helpImageList_loc = new();
@@ -156,6 +150,7 @@ namespace AvaloniaGUI.Navigator
         public NavigatorControl()
         {
             InitializeComponent();
+            ConfigureTreeView();
             Nodes = new TreeNodeCollection(null) { OwnerControl = this };
 
             genImgDict = new Dictionary<NodeName, int>()
@@ -562,16 +557,10 @@ namespace AvaloniaGUI.Navigator
 
         // ---- Avalonia: видимые строки, раскрытие узлов и иконки действий (DrawImages) ----
 
-        private void InitializeComponent()
+        private void ConfigureTreeView()
         {
-            Background = Brush.Parse("#F0F0F0");
-            treeView.Classes.Add("navigator-tree");
-            treeView.SelectionMode = SelectionMode.Single;
             treeView.ItemsSource = rows;
             treeView.ItemTemplate = new FuncDataTemplate<TreeNode>((_, _) => new NavigatorRow(this), true);
-            // Иконки действий прижаты к правому краю видимой области, как в DrawImages WinForms.
-            treeView.SetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
-            Content = treeView;
 
             treeView.SelectionChanged += (_, _) =>
             {

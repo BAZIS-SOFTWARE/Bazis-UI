@@ -2,7 +2,6 @@ using Avalonia;
 using Avalonia.Automation;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Layout;
 using Avalonia.Media;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +14,6 @@ namespace AvaloniaGUI
     /// </summary>
     public class TabButtonControlService
     {
-        private Grid container;
         private StackPanel buttonsPanel;
         private Grid pagesPanel;
         private Dictionary<string, Button> buttons;
@@ -23,16 +21,11 @@ namespace AvaloniaGUI
 
         public TabButtonControlService(Grid container)
         {
-            this.container = container;
             buttons = new();
             controls = new();
 
-            container.ColumnDefinitions = new ColumnDefinitions("30,*");
-            buttonsPanel = new StackPanel();
-            pagesPanel = new Grid();
-            Grid.SetColumn(pagesPanel, 1);
-            container.Children.Add(buttonsPanel);
-            container.Children.Add(pagesPanel);
+            buttonsPanel = container.FindControl<StackPanel>("tabButtonsPanel");
+            pagesPanel = container.FindControl<Grid>("tabPagesPanel");
         }
 
         public Button GetButton(string name) => buttons[name];
@@ -76,20 +69,8 @@ namespace AvaloniaGUI
 
         public Button CreateTabButton(string name)
         {
-            var btn = new Button
-            {
-                Width = 27,
-                MinHeight = 130,
-                Padding = new Thickness(0),
-                Margin = new Thickness(0, 0, 0, 3),
-                HorizontalContentAlignment = HorizontalAlignment.Center,
-                VerticalContentAlignment = VerticalAlignment.Center,
-                Content = new LayoutTransformControl
-                {
-                    LayoutTransform = new RotateTransform(-90),
-                    Child = new TextBlock { Text = name, TextAlignment = TextAlignment.Center }
-                }
-            };
+            var btn = new Button { Content = name };
+            btn.Classes.Add("shell-tab");
             btn.Tag = true;
             btn.Name = $"btnTab{name}";
             AutomationProperties.SetName(btn, name);

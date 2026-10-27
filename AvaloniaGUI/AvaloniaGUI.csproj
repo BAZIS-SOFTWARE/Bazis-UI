@@ -28,7 +28,6 @@
     <PackageReference Include="Avalonia.Desktop" Version="12.1.0" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-    <PackageReference Include="OperationalController" Version="4.11.0" Condition="'$(UseBazisCoreSource)' != 'true'" />
     <PackageReference Include="OperationalController" Version="4.11.3" />
     <PackageReference Include="PostProc" Version="2.3.1" />
     <PackageReference Include="PreProc" Version="2.7.1" Condition="'$(UseBazisCoreSource)' != 'true'" />

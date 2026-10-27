@@ -6,6 +6,7 @@ hide empty members
 
 package "AvaloniaGUI. Навигатор" {
   class NavigatorControl {
+    - ConfigureTreeView() : void
     + SelectNode(node) : void
     + CreateRealNode(name) : TreeNode
     + CreateVirtualNode(name) : TreeNode
@@ -41,12 +42,19 @@ package "AvaloniaGUI. Навигатор" {
     + Clear() : void
     + Find(key, searchAllChildren) : TreeNode[]
   }
+  class NavigatorRow {
+    - UpdateView() : void
+    - UpdateActions() : void
+    - CreateActionIcon(imageIndex, position) : Image
+  }
 }
 package "AvaloniaGUI. Оболочка" {
   class "MainWindow (обработчики Navigator)" as MainWindow
 }
 
 NavigatorControl --> TreeNode
+NavigatorControl *-- NavigatorRow : шаблон строки AXAML
+NavigatorRow --> TreeNode : отображает
 TreeNode *-- TreeNodeCollection
 NavigatorControl --> MainWindow : пользовательские действия
 MainWindow --> NavigatorControl : обновление дерева

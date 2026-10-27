@@ -7,7 +7,7 @@ namespace AvaloniaGUI.Localization;
 internal static class Localization
 {
     // Аналог ComponentResourceManager(typeof(BaseForm)): ресурсы формы MainWindow.resx
-    private static readonly ResourceManager formResources = new("BazisAvaloniaGUI.Shell.MainWindow", typeof(MainWindow).Assembly);
+    private static readonly ResourceManager formResources = new(typeof(MainWindow));
 
     /// <summary>
     /// Получить подпись об отсутствии искомого файла на текущей языковой культуре

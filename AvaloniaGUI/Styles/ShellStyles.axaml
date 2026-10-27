@@ -25,6 +25,24 @@
     <Setter Property="Foreground" Value="#626262" />
     <Setter Property="BorderBrush" Value="#CBCBCB" />
   </Style>
+  <Style Selector="Button.shell-tab">
+    <Setter Property="Width" Value="27" />
+    <Setter Property="MinHeight" Value="130" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="Margin" Value="0,0,0,3" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="ContentTemplate">
+      <DataTemplate>
+        <LayoutTransformControl>
+          <LayoutTransformControl.LayoutTransform>
+            <RotateTransform Angle="-90" />
+          </LayoutTransformControl.LayoutTransform>
+          <TextBlock Text="{Binding}" TextAlignment="Center" />
+        </LayoutTransformControl>
+      </DataTemplate>
+    </Setter>
+  </Style>
   <!-- ComboBox: поле и пункты 20 px. Отступы Fluent рассчитаны на 32 px и обрезают текст. -->
   <Style Selector="ComboBox">
     <Setter Property="MinHeight" Value="20" />
