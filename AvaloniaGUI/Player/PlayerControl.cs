@@ -1,8 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Layout;
-using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Threading;
@@ -16,14 +14,9 @@ namespace AvaloniaGUI.Player
     /// Avalonia-аналог PlayerControl: пошаговый просмотр условий задачи или кадров результатов во времени.
     /// Кнопка запуска/паузы, кнопка остановки и ползунок текущего шага.
     /// </summary>
-    internal sealed class PlayerControl : UserControl, IDisposable
+    internal sealed partial class PlayerControl : UserControl, IDisposable
     {
         private readonly DispatcherTimer timer = new();
-        private readonly Button btnCheckDinamic;
-        private readonly Button btnStopCheck;
-        private readonly Slider colorSlider;
-        private readonly TextBlock valueText;
-        private readonly Image checkImage;
         private readonly Bitmap startIcon = LoadIcon("StartCheck");
         private readonly Bitmap pauseIcon = LoadIcon("Pause");
         private readonly Bitmap stopIcon = LoadIcon("Stop");
@@ -70,50 +63,16 @@ namespace AvaloniaGUI.Player
 
         public PlayerControl()
         {
-            checkImage = new Image { Width = 20, Height = 20, Source = startIcon };
-            btnCheckDinamic = new Button { Name = "btnCheckDinamic", Content = checkImage, Width = 31, Height = 31, Padding = new Thickness(2) };
+            InitializeComponent();
+            checkImage.Source = startIcon;
+            this.FindControl<Image>("stopImage").Source = stopIcon;
             btnCheckDinamic.Click += (_, _) => StartChecking_Click();
-
-            btnStopCheck = new Button
-            {
-                Name = "btnStopCheck",
-                Content = new Image { Width = 20, Height = 20, Source = stopIcon },
-                Width = 31,
-                Height = 31,
-                Padding = new Thickness(2)
-            };
             btnStopCheck.Click += (_, _) => StopChecking_Click();
-
-            colorSlider = new Slider
-            {
-                Name = "colorSlider",
-                Minimum = 0,
-                Maximum = 100,
-                SmallChange = 1,
-                LargeChange = 1,
-                IsSnapToTickEnabled = true,
-                TickFrequency = 1,
-                VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(4, 0)
-            };
-            valueText = new TextBlock { VerticalAlignment = VerticalAlignment.Center, MinWidth = 24, Foreground = Brushes.Black };
             colorSlider.PropertyChanged += (_, e) =>
             {
                 if (e.Property == RangeBase.ValueProperty)
                     valueText.Text = CurrentValue.ToString();
             };
-
-            var layout = new Grid { ColumnDefinitions = new ColumnDefinitions("Auto,Auto,*,Auto"), Margin = new Thickness(2) };
-            layout.Children.Add(btnCheckDinamic);
-            Grid.SetColumn(btnStopCheck, 1);
-            layout.Children.Add(btnStopCheck);
-            Grid.SetColumn(colorSlider, 2);
-            layout.Children.Add(colorSlider);
-            Grid.SetColumn(valueText, 3);
-            layout.Children.Add(valueText);
-
-            MinHeight = 35;
-            Content = new Border { BorderBrush = Brushes.Gray, BorderThickness = new Thickness(1), Child = layout };
 
             StartValue = 0;
             StopValue = 100;

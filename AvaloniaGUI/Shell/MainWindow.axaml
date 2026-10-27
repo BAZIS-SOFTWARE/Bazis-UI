@@ -97,7 +97,10 @@
         <ColumnDefinition Width="8"/>
         <ColumnDefinition Width="*" MinWidth="25"/>
       </Grid.ColumnDefinitions>
-      <Grid x:Name="splitContainer3Panel1"/>
+      <Grid x:Name="splitContainer3Panel1" ColumnDefinitions="30,*">
+        <StackPanel x:Name="tabButtonsPanel"/>
+        <Grid x:Name="tabPagesPanel" Grid.Column="1"/>
+      </Grid>
       <GridSplitter x:Name="splitContainer3Splitter" Grid.Column="1"
                     Width="8" ResizeDirection="Columns" Background="#F0F0F0"/>
       <Grid x:Name="splitContainer2" Grid.Column="2" MinWidth="0">

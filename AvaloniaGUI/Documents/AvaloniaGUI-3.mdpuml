@@ -25,6 +25,19 @@ package "AvaloniaGUI. Консоль" {
   }
   class ConsoleMessage <<record>>
 }
+package "AvaloniaGUI. Плеер" {
+  class PlayerControl {
+    + CurrentValue : int
+    + StartValue : int
+    + StopValue : int
+    + SpeedValue : int
+    + StopChecking() : void
+    + {event} CheckingEvent
+    + {event} StopCheckingEvent
+    + {event} StartCheckingEvent
+    + {event} PauseCheckingEvent
+  }
+}
 package "AvaloniaGUI. Оболочка" {
   class "MainWindow (обработчики панелей)" as MainWindow
 }
@@ -33,6 +46,7 @@ PropertiesPanelControl --> RowProperty : строки
 PropertiesPanelControl --> MainWindow : изменение данных
 ConsoleControl --> ConsoleMessage : сообщения
 ConsoleControl --> MainWindow : команды
+PlayerControl --> MainWindow : состояние и шаги
 
 note bottom of MainWindow
   [[AvaloniaGUI.mdpuml Назад к AvaloniaGUI]]

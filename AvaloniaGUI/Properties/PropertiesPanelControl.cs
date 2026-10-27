@@ -16,7 +16,7 @@ using Color = System.Drawing.Color;
 
 namespace AvaloniaGUI.Properties
 {
-    internal sealed class PropertiesPanelControl : UserControl
+    internal sealed partial class PropertiesPanelControl : UserControl
     {
         // Avalonia: перекрывает StyledElement.Resources, чтобы Resources.X ссылался на строковые ресурсы.
         private new class Resources : Localization.Resources { }
@@ -33,21 +33,11 @@ namespace AvaloniaGUI.Properties
         private int tag; // возможно костыль, хранит инфо об источнике, где были получены сво-ва объекта
 
         // Avalonia: таблица строится из Grid, строки хранятся как аналог DataGridViewRowEx.
-        private readonly Grid dataGridView1 = new() { ColumnDefinitions = new ColumnDefinitions("*,*") };
         private readonly List<DataGridViewRowEx> gridRows = new();
 
         public PropertiesPanelControl()
         {
-            Classes.Add("properties-table");
-            Background = Brush.Parse("#F0F0F0");
-            FontFamily = new FontFamily("Microsoft Sans Serif");
-            FontSize = 11;
-            Content = new ScrollViewer
-            {
-                HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
-                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                Content = dataGridView1
-            };
+            InitializeComponent();
         }
 
         public void ClearTable()

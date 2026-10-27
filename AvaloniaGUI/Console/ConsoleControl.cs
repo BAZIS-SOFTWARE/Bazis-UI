@@ -7,8 +7,6 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
-using Avalonia.Media.Imaging;
-using Avalonia.Platform;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using AvaloniaGUI.Localization;
@@ -24,7 +22,7 @@ using Color = System.Drawing.Color;
 
 namespace AvaloniaGUI.Console
 {
-    internal sealed class ConsoleControl : UserControl
+    internal sealed partial class ConsoleControl : UserControl
     {
         // Avalonia: перекрывает StyledElement.Resources, чтобы Resources.X ссылался на строковые ресурсы.
         private new class Resources : Localization.Resources { }
@@ -49,15 +47,26 @@ namespace AvaloniaGUI.Console
 
         // Avalonia: вместо RichTextBox — цветные строки вывода, последняя строка поля — ввод команды.
         internal ObservableCollection<ConsoleMessage> Messages { get; } = new();
-        private readonly TextBox rtxbInput = new() { AcceptsReturn = false };
-        private readonly ScrollViewer tlscOut;
-        private readonly Border rtxbField;
         private readonly Button link;
         private readonly ConsoleMessage sessionHeader;
 
         public ConsoleControl()
         {
-            InitializeComponent(out tlscOut, out rtxbField, out link);
+            InitializeComponent();
+            link = new Button { Classes = { "console-log" }, Cursor = new Cursor(StandardCursorType.Hand) };
+            link.Click += Link_LinkClicked;
+            this.FindControl<TextBlock>("headerText").Text = Resources.ConsoleControl_headerName_text;
+            this.FindControl<Button>("ControlCollapse").Click += (_, _) => ControlCollapseEvent?.Invoke();
+            var lines = this.FindControl<ItemsControl>("lines");
+            lines.ItemsSource = Messages;
+            lines.ItemTemplate = new FuncDataTemplate<ConsoleMessage>((message, _) => CreateLine(message));
+            rtxbInput.KeyDown += KeyDownEventHadler;
+            rtxbField.PointerPressed += (_, _) => rtxbInput.Focus();
+            var resources = new ResourceManager(typeof(ConsoleControl));
+            ConfigureAction(resources, "spbDictionary", btnDictionary_Click);
+            ConfigureAction(resources, "toolStripButton1", btnBackGroundInfo_Click);
+            ConfigureAction(resources, "toolStripButton2", ClearAll_Click);
+            ConfigureAction(resources, "btnStartMacro", btnStartMacro_Click);
 
             var path = $" > {Resources.CurrentSession} ";
 
@@ -267,74 +276,6 @@ namespace AvaloniaGUI.Console
             }
         }
 
-        // ---- Avalonia: визуальное дерево (аналог InitializeComponent из ConsoleControl.Designer.cs) ----
-
-        private void InitializeComponent(out ScrollViewer output, out Border field, out Button logLink)
-        {
-            FontFamily = new FontFamily("Microsoft Sans Serif");
-            FontSize = 11;
-
-            // PinnedPage: заголовок высотой Padding.Top (в BaseForm console.Padding = 0,15,0,0),
-            // название с x = 15 и крестик 8x8 в (Width - 15, Padding.Top / 2 - 4).
-            var root = new Grid { RowDefinitions = new RowDefinitions("15,*"), ColumnDefinitions = new ColumnDefinitions("*,Auto") };
-            var header = new Grid { Background = Brushes.Gainsboro };
-            header.Children.Add(new TextBlock { Text = Resources.ConsoleControl_headerName_text, Foreground = Brushes.Black, Margin = new Thickness(15, 0, 0, 0) });
-            var close = new Button
-            {
-                Name = "ControlCollapse",
-                Classes = { "console-close" },
-                HorizontalAlignment = HorizontalAlignment.Right,
-                VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(0, 3, 6, 0),
-                Content = new Avalonia.Controls.Shapes.Path
-                {
-                    Data = Avalonia.Media.Geometry.Parse("M0.5,0.5 H8.5 V8.5 H0.5 Z M1.5,1.5 L7.5,7.5 M1.5,7.5 L7.5,1.5"),
-                    Stroke = Brushes.Black,
-                    StrokeThickness = 1
-                }
-            };
-            close.Click += (_, _) => ControlCollapseEvent?.Invoke();
-            header.Children.Add(close);
-            Grid.SetColumnSpan(header, 2);
-            root.Children.Add(header);
-
-            // rtxbField: строки вывода и строка ввода в одном поле без рамки (BorderStyle.None, SystemColors.Control).
-            logLink = new Button { Classes = { "console-log" }, Cursor = new Cursor(StandardCursorType.Hand) };
-            logLink.Click += Link_LinkClicked;
-
-            var lines = new ItemsControl
-            {
-                ItemsSource = Messages,
-                ItemTemplate = new FuncDataTemplate<ConsoleMessage>((message, _) => CreateLine(message))
-            };
-            rtxbInput.Classes.Add("console-input");
-            AutomationProperties.SetName(rtxbInput, "Команда консоли");
-            rtxbInput.KeyDown += KeyDownEventHadler;
-            output = new ScrollViewer
-            {
-                Content = new StackPanel { Children = { lines, rtxbInput } },
-                HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto,
-                VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto
-            };
-            field = new Border { Background = Brush.Parse("#F0F0F0"), Cursor = new Cursor(StandardCursorType.Ibeam), Child = output };
-            // В RichTextBox щелчок в любом месте поля ставит каретку; здесь — переводит фокус на строку ввода.
-            field.PointerPressed += (_, _) => rtxbInput.Focus();
-            Grid.SetRow(field, 1);
-            root.Children.Add(field);
-
-            // toolStripEx1 в RightToolStripPanel: кнопки 25x25, картинки 16x16 из ConsoleControl.resx.
-            var resources = new ResourceManager(typeof(ConsoleControl));
-            var actions = new StackPanel { Background = Brush.Parse("#F0F0F0") };
-            actions.Children.Add(ActionButton(resources, "spbDictionary", "dictionary.png", btnDictionary_Click));
-            actions.Children.Add(ActionButton(resources, "toolStripButton1", "background.png", btnBackGroundInfo_Click));
-            actions.Children.Add(ActionButton(resources, "toolStripButton2", "clear.png", ClearAll_Click));
-            actions.Children.Add(ActionButton(resources, "btnStartMacro", "start-macro.png", btnStartMacro_Click));
-            Grid.SetRow(actions, 1);
-            Grid.SetColumn(actions, 1);
-            root.Children.Add(actions);
-            Content = new Border { BorderBrush = Brushes.DarkGray, BorderThickness = new Thickness(1), Child = root };
-        }
-
         // Аналог HighlightPhrase: заголовок сессии зелёный целиком, у PrintInfo цветом выделяется только сообщение.
         private Control CreateLine(ConsoleMessage message)
         {
@@ -360,20 +301,13 @@ namespace AvaloniaGUI.Console
             return new StackPanel { Orientation = Orientation.Horizontal, Children = { line, link } };
         }
 
-        private static Button ActionButton(ResourceManager resources, string name, string image, EventHandler<RoutedEventArgs> handler)
+        private void ConfigureAction(ResourceManager resources, string name, EventHandler<RoutedEventArgs> handler)
         {
-            using var stream = AssetLoader.Open(new Uri($"avares://AvaloniaGUI/Console/Assets/{image}"));
             var text = resources.GetString(name + ".Text");
-            var button = new Button
-            {
-                Name = name,
-                Classes = { "console-action" },
-                Content = new Image { Source = new Bitmap(stream), Width = 16, Height = 16, Stretch = Stretch.Fill }
-            };
+            var button = this.FindControl<Button>(name);
             AutomationProperties.SetName(button, text);
             ToolTip.SetTip(button, text);
             button.Click += handler;
-            return button;
         }
     }
 
