@@ -12,6 +12,7 @@ using SceneCore.Capture;
 using SceneCore.Input;
 using SceneCore.EventsArgs;
 using SceneCore.Interfaces;
+using SceneCore.Coordinates;
 using Geometry;
 using Model.Interfaces;
 using Model.Interfaces.ObjectsCollections;
@@ -466,7 +467,7 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
 
                 var camera = controller.GetCamera();
 
-                var candidates = new List<(Point3D Model, double Depth)>();
+                var candidates = new List<(ModelPoint3D Model, double Depth)>();
                 foreach (var vbo in controller.VboController.GetVBObjs())
                 {
                     var coords = vbo.PointsCoords;
@@ -477,9 +478,11 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
                         var y = coords[3 * i + 1];
                         var z = coords[3 * i + 2];
 
-                        var scene = camera.GetSceenCoord(x, y, z);
-                        if (selectionBox.IsPointInside(camera.GetScreenCoord(scene)))
-                            candidates.Add((new Point3D(x, y, z), scene._z));
+                        var modelPoint = new ModelPoint3D(x, y, z);
+                        var scene = camera.GetSceneCoord(modelPoint);
+                        var screenPoint = camera.GetScreenCoord(scene);
+                        if (selectionBox.IsPointInside(screenPoint))
+                            candidates.Add((modelPoint, scene.Z));
                     }
                 }
 

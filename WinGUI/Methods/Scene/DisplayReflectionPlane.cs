@@ -1,4 +1,4 @@
-﻿using SceneCore.Interfaces;
+using SceneCore.Interfaces;
 using SceneCore.VBO;
 using System;
 using Geometry;
@@ -22,7 +22,7 @@ namespace WinGUI
                 {
                     GL.PushMatrix();
 
-                    GL.Translate(-Position._x, -Position._y, -Position._z);
+                    GL.Translate(-Position.X, -Position.Y, -Position.Z);
 
                     GL.Scale(1 / ScaleFactor, 1 / ScaleFactor, 1 / ScaleFactor);
                     var normal = Vector.GetVectorNorm(plane.Normal);

@@ -1,4 +1,4 @@
-﻿using WinGUI.PropertiesPanel;
+using WinGUI.PropertiesPanel;
 using Model.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -85,7 +85,7 @@ namespace WinGUI
                 GL.PushMatrix();
                 GL.PolygonMode(TriangleFace.FrontAndBack, PolygonMode.Fill);
                 GL.Color3(1f, 0, 0);
-                GL.Translate(-Position._x, -Position._y, -Position._z);
+                GL.Translate(-Position.X, -Position.Y, -Position.Z);
 
                 GL.Translate(item._x, item._y, item._z);
 

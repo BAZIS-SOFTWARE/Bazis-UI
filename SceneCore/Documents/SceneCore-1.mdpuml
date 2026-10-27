@@ -10,15 +10,14 @@ package "SceneCore. Контракты" {
     + Width : int [get, set]
     + Height : int [get, set]
     + AngleOfProjection : float [get, set]
-    + Position : Point3D [get, set]
+    + Position : ModelPoint3D [get, set]
     + SetViewMatrix(matrix: Matrix<float>) : void
     + GetViewMatrix() : Matrix<float>
-    + GetSceneCoordOfScreenVector(x: float, y: float) : Point3D
+    + GetSceneVectorOfScreenVector(x: float, y: float) : ModelVector3D
     + Move(newMousePosition, mousePosition, scaleFactor) : void
-    + GetSceenCoord(x: double, y: double, z: double) : Point3D
-    + GetSceenCoord(point: Point3D) : Point3D
-    + GetSceenCoord(deltaX: int, deltaY: int, depth: float, scaleFactor: float) : Point3D
-    + GetScreenCoord(coord: Point3D) : ViewportPoint
+    + GetSceneCoord(point: ModelPoint3D) : CameraPoint3D
+    + GetSceneVector(deltaX: int, deltaY: int, depth: float, scaleFactor: float) : ModelVector3D
+    + GetScreenCoord(coord: CameraPoint3D) : ViewportPoint
     + Rotate(axis: ViewAxis, angle: float) : void
     + Rotate(dx: float, dy: float, axis: ViewAxis, angle: float) : void
     + SetOnPlane(plane: ViewPlane, scaleFactor: float) : void
@@ -30,30 +29,50 @@ package "SceneCore. Камера" {
     + Initialize(moveX: float, moveY: float, moveZ: float) : void
     + GetProjectionMatrix() : Matrix<float>
     + Scale(scaleFactor: float) : void
-    + SetRotationCentre(modelPoint: Point3D) : void
+    + SetRotationCentre(modelPoint: ModelPoint3D) : void
     + ResetPan() : void
   }
   class GlMatrix <<static>> {
     + Identity() : Matrix<float>
     + Translate(m: Matrix<float>, x: double, y: double, z: double) : Matrix<float>
+    + Scale(m: Matrix<float>, x: float, y: float, z: float) : Matrix<float>
     + Rotate(m: Matrix<float>, angle: float, x: double, y: double, z: double) : Matrix<float>
-    + Transform(m: Matrix<float>, x: double, y: double, z: double, w: float) : Point3D
+    + RotationMatrix(angle: float, x: float, y: float, z: float) : Matrix<float>
   }
 }
-package "Geometry. Координаты" {
-  class Point3D <<внешний>>
-}
 package "SceneCore. Координаты" {
+  class ModelPoint3D <<readonly struct>> {
+    + X : double [get]
+    + Y : double [get]
+    + Z : double [get]
+    + ModelPoint3D(x: double, y: double, z: double)
+  }
+  class CameraPoint3D <<readonly struct>> {
+    + X : double [get]
+    + Y : double [get]
+    + Z : double [get]
+    + CameraPoint3D(x: double, y: double, z: double)
+  }
+  class ModelVector3D <<readonly struct>> {
+    + X : double [get]
+    + Y : double [get]
+    + Z : double [get]
+    + ModelVector3D(x: double, y: double, z: double)
+  }
   class "ViewportPoint\nSceneCore-2" as ViewportPoint <<ссылка>> [[SceneCore-2.mdpuml SceneCore-2]]
 }
 
 SceneCamera ..|> ISceneCamera
 SceneCamera --> GlMatrix
-SceneCamera --> Point3D
+SceneCamera --> ModelPoint3D
+ISceneCamera --> ModelPoint3D
+ISceneCamera --> CameraPoint3D
+ISceneCamera --> ModelVector3D
 ISceneCamera --> ViewportPoint
 
 note bottom of GlMatrix
-  Входные координаты double; матрица OpenGL остаётся float.
+  Матрицы хранятся с элементами float.
+  Точки и направления преобразует SceneCamera.
   [[SceneCore.mdpuml Назад к SceneCore]]
   [[SceneCore-2.mdpuml Геометрия и буферы]]
 end note

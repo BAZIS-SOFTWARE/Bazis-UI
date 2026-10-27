@@ -45,14 +45,14 @@ namespace SceneCore.Layers
 
             // "Z line"
             GL.PushMatrix();
-            GL.Translate(-position._x, -position._y, -position._z);
+            GL.Translate(-position.X, -position.Y, -position.Z);
             GL.Scale(scale, scale, scale);
             axisZ.Load();
             GL.PopMatrix();
 
             // "Y line"
             GL.PushMatrix();
-            GL.Translate(-position._x, -position._y, -position._z);
+            GL.Translate(-position.X, -position.Y, -position.Z);
             GL.Scale(scale, scale, scale);
             GL.Rotate(-90, 1, 0, 0);
             axisY.Load();
@@ -60,7 +60,7 @@ namespace SceneCore.Layers
 
             // "X line"
             GL.PushMatrix();
-            GL.Translate(-position._x, -position._y, -position._z);
+            GL.Translate(-position.X, -position.Y, -position.Z);
             GL.Scale(scale, scale, scale);
             GL.Rotate(90, 0, 1, 0);
             axisX.Load();
@@ -68,7 +68,7 @@ namespace SceneCore.Layers
 
             // "X tip"
             GL.PushMatrix();
-            GL.Translate(-position._x, -position._y, -position._z);
+            GL.Translate(-position.X, -position.Y, -position.Z);
             GL.Scale(scale, scale, scale);
             GL.Translate(0.025f, 0, 0);
             GL.Rotate(90, 0, 1, 0);
@@ -77,7 +77,7 @@ namespace SceneCore.Layers
 
             // "Y tip"
             GL.PushMatrix();
-            GL.Translate(-position._x, -position._y, -position._z);
+            GL.Translate(-position.X, -position.Y, -position.Z);
             GL.Scale(scale, scale, scale);
             GL.Translate(0, 0.025f, 0);
             GL.Rotate(-90, 1, 0, 0);
@@ -86,7 +86,7 @@ namespace SceneCore.Layers
 
             // "Z tip"
             GL.PushMatrix();
-            GL.Translate(-position._x, -position._y, -position._z);
+            GL.Translate(-position.X, -position.Y, -position.Z);
             GL.Scale(scale, scale, scale);
             GL.Translate(0, 0, 0.025f);
             tipZ.Load();
@@ -94,7 +94,7 @@ namespace SceneCore.Layers
 
             // центр
             GL.PushMatrix();
-            GL.Translate(-position._x, -position._y, -position._z);
+            GL.Translate(-position.X, -position.Y, -position.Z);
             GL.Scale(scale, scale, scale);
             centre.Load();
             GL.PopMatrix();

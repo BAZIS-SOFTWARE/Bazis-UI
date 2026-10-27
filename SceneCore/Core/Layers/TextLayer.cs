@@ -32,7 +32,7 @@ namespace SceneCore.Layers
                     // на центр вращения (GL.Translate(-Position)), как и сама модель
                     var position = context.Camera.Position;
                     GL.PushMatrix();
-                    GL.Translate(-position._x, -position._y, -position._z);
+                    GL.Translate(-position.X, -position.Y, -position.Z);
                     textRenderer.DrawText3D(label, context);
                     GL.PopMatrix();
                 }

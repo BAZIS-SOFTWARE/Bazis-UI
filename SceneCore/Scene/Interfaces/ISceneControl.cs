@@ -1,5 +1,6 @@
 ﻿using SceneCore.VBO;
 using Geometry;
+using SceneCore.Coordinates;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -144,12 +145,12 @@ namespace SceneCore.Interfaces
         /// </summary>
         bool IsSmoothShadow { get; set; }
         /// <summary>
-        /// GetSceneCoordOfScreenVector
+        /// Преобразует вектор в плоскости камеры в вектор координат модели.
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        Point3D GetSceneCoordOfScreenVector(float x, float y);
+        ModelVector3D GetSceneCoordOfScreenVector(float x, float y);
         /// <summary>
         /// Projection
         /// </summary>
@@ -223,7 +224,7 @@ namespace SceneCore.Interfaces
         /// SetRotationCentre
         /// </summary>
         /// <param name="modelPoint"></param>
-        void SetRotationCentre(Point3D modelPoint);
+        void SetRotationCentre(ModelPoint3D modelPoint);
         /// <summary>
         /// IsVBObjectShown
         /// </summary>

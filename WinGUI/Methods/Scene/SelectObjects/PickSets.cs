@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using Model.Interfaces;
 using Model.Interfaces.ObjectsCollections;
+using SceneCore.Coordinates;
 using SceneCore.Picking;
 
 namespace WinGUI
@@ -33,7 +35,8 @@ namespace WinGUI
                     continue;
 
                 var points = sourceSet.GetCoords(number);
-                yield return new ScenePickObject(number, points);
+                var modelPoints = points.Select(point => new ModelPoint3D(point._x, point._y, point._z));
+                yield return new ScenePickObject(number, modelPoints);
             }
         }
     }

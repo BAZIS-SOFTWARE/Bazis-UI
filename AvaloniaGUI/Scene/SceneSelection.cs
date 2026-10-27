@@ -109,7 +109,8 @@ internal class SceneSelection
                 continue;
 
             var points = sourceSet.GetCoords(number);
-            yield return new ScenePickObject(number, points);
+            var modelPoints = points.Select(point => new ModelPoint3D(point._x, point._y, point._z));
+            yield return new ScenePickObject(number, modelPoints);
         }
     }
 }

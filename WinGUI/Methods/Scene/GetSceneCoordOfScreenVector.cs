@@ -1,10 +1,11 @@
-﻿using Geometry;
+using SceneCore.Coordinates;
 
 namespace WinGUI
 {
     public partial class BaseForm
     {
-        public Point3D GetSceneCoordOfScreenVector(float x, float y) =>
-            sceneController.GetCamera().GetSceneCoordOfScreenVector(x, y);
+        /// <summary>Преобразует вектор в плоскости камеры в вектор координат модели.</summary>
+        public ModelVector3D GetSceneCoordOfScreenVector(float x, float y) =>
+            sceneController.GetCamera().GetSceneVectorOfScreenVector(x, y);
     }
 }

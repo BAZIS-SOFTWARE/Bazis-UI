@@ -2,7 +2,6 @@ using SceneCore.Picking;
 using SceneCore.Camera;
 using SceneCore.Interfaces;
 using SceneCore.Coordinates;
-using Geometry;
 using System.Collections.Generic;
 
 using RectangleBox = SceneCore.Picking.RectangleBox;
@@ -22,8 +21,8 @@ namespace SceneCore.Tests
             picker.ObjectsHit += (name, numbers) => hits.AddRange(numbers);
             var objects = new[]
             {
-                new ScenePickObject(1, [new Point3D(0, 0, 0)]),
-                new ScenePickObject(2, [new Point3D(0, 0, 1)])
+                new ScenePickObject(1, [new ModelPoint3D(0, 0, 0)]),
+                new ScenePickObject(2, [new ModelPoint3D(0, 0, 1)])
             };
             var sets = new[] { new Set("nodes", ScenePickKind.Other, objects) };
 
@@ -44,8 +43,8 @@ namespace SceneCore.Tests
             picker.ObjectsHit += (name, numbers) => hits.AddRange(numbers);
             var objects = new[]
             {
-                new ScenePickObject(1, [new Point3D(0, 0, 0)]),
-                new ScenePickObject(2, [new Point3D(100, 0, 0)])
+                new ScenePickObject(1, [new ModelPoint3D(0, 0, 0)]),
+                new ScenePickObject(2, [new ModelPoint3D(100, 0, 0)])
             };
             var sets = new[] { new Set("nodes", ScenePickKind.Other, objects) };
             var selectionBox = new RectangleBox(-1, 1, -1, 1);

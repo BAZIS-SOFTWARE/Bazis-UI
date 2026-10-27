@@ -33,7 +33,7 @@ namespace SceneCore.Layers
             }
 
             GL.PushMatrix();
-            GL.Translate(-position._x, -position._y, -position._z);
+            GL.Translate(-position.X, -position.Y, -position.Z);
 
             GL.Enable(EnableCap.Normalize);
             GL.Enable(EnableCap.Light0);

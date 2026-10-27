@@ -108,7 +108,8 @@ namespace WinGUI
 
             var selectionBox = new RectangleBox(left, rigth, bottom, top);
 
-            var selection = new List<Point3D>();
+            Point3D nearestModelPoint = null;
+            var nearestDepth = double.NegativeInfinity;
 
 
 
@@ -127,14 +128,19 @@ namespace WinGUI
                     var scnCoord = GetSceenCoord(x, y, z);
                     var scrCoord = GetScreenCoord(scnCoord);
 
-                    if (selectionBox.IsPointInside(scrCoord))
-                        selection.Add(scnCoord);
+                    if (selectionBox.IsPointInside(scrCoord) && scnCoord.Z > nearestDepth)
+                    {
+                        nearestModelPoint = new Point3D(x, y, z);
+                        nearestDepth = scnCoord.Z;
+                    }
                 }
             }
 
-            selection = selection.OrderByDescending(x => x._z).ToList();
-            if (selection.Count > 0)
-                SetRotationCentre(selection.First());
+            if (nearestModelPoint is not null)
+            {
+                var modelPoint = new ModelPoint3D(nearestModelPoint._x, nearestModelPoint._y, nearestModelPoint._z);
+                SetRotationCentre(modelPoint);
+            }
 
             RequestRedraw();
         }
@@ -247,7 +253,9 @@ namespace WinGUI
                         var sortedSelection = distSelection.OrderByDescending(x => x._z);
                         if (sortedSelection.Count() > 0)
                         {
-                            SetRotationCentre(sortedSelection.First());
+                            var selectedPoint = sortedSelection.First();
+                            var modelPoint = new ModelPoint3D(selectedPoint._x, selectedPoint._y, selectedPoint._z);
+                            SetRotationCentre(modelPoint);
                             break;
                         }
                     }
@@ -261,9 +269,8 @@ namespace WinGUI
             }
         }
 
-        /// <inheritdoc/>
-        // Перенесено в SceneCamera.SetRotationCentre — см. GUI/Documents/scene.avalonia.md, раздел 6.
-        public void SetRotationCentre(Point3D modelPoint) => sceneController.SetRotationCentre(modelPoint);
+        /// <summary>Устанавливает центр вращения в координатах модели.</summary>
+        public void SetRotationCentre(ModelPoint3D modelPoint) => sceneController.SetRotationCentre(modelPoint);
 
         private void GlControl_Resize(object sender, EventArgs e) => sceneController.Resize(scene.Width, scene.Height);
 

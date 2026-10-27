@@ -38,11 +38,11 @@ namespace SceneCore.Picking
                 foreach (var item in set.Objects)
                 {
                     var scrPoints = new List<ViewportPoint>();
-                    var scnPoints = new List<Point3D>();
+                    var scnPoints = new List<CameraPoint3D>();
 
                     foreach (var point in item.Points)
                     {
-                        var scnPoint = camera.GetSceenCoord(point);
+                        var scnPoint = camera.GetSceneCoord(point);
                         scnPoints.Add(scnPoint);
                         scrPoints.Add(camera.GetScreenCoord(scnPoint));
                     }
@@ -52,8 +52,8 @@ namespace SceneCore.Picking
 
                     selFlag = true;
                     var tempZDepth = scnPoints.Count == 1
-                        ? scnPoints[0]._z
-                        : scnPoints.Sum(x => x._z) / scnPoints.Count;
+                        ? scnPoints[0].Z
+                        : scnPoints.Sum(x => x.Z) / scnPoints.Count;
 
                     var isObjectCloser = curZDepth == 0 || tempZDepth > curZDepth;
                     if (isObjectCloser)
@@ -87,7 +87,7 @@ namespace SceneCore.Picking
                     var scrPoints = new HashSet<ViewportPoint>();
                     foreach (var point in item.Points)
                     {
-                        var scenePoint = camera.GetSceenCoord(point);
+                        var scenePoint = camera.GetSceneCoord(point);
                         var screenPoint = camera.GetScreenCoord(scenePoint);
                         scrPoints.Add(screenPoint);
                     }

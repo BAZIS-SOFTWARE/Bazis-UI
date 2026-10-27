@@ -1,4 +1,4 @@
-﻿using SceneCore.Interfaces;
+using SceneCore.Interfaces;
 using SceneCore.VBO;
 using System;
 using Geometry;
@@ -19,7 +19,7 @@ namespace WinGUI
                 GL.MatrixMode(MatrixMode.Modelview);//видовая и модельная матрица
                 GL.PushMatrix();
                 //GL.LoadIdentity();
-                GL.Translate(-Position._x, -Position._y, -Position._z);
+                GL.Translate(-Position.X, -Position.Y, -Position.Z);
                 GL.MultMatrix(vbo.ModelMatrix);
                 //GL.LoadMatrix(vbo.ModelMatrix);
 

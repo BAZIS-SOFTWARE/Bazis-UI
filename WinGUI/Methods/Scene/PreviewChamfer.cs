@@ -1,4 +1,4 @@
-﻿using Geometry;
+using Geometry;
 using Model.Interfaces;
 using WinGUI.Properties;
 using System;
@@ -205,7 +205,7 @@ namespace WinGUI
                 return;
 
             GL.PushMatrix();
-            GL.Translate(-Position._x, -Position._y, -Position._z);
+            GL.Translate(-Position.X, -Position.Y, -Position.Z);
             GL.Color4(0.0f, 0.0f, 0.0f, 1.0f);
             GL.LineWidth(3.0f);
             GL.Begin(PrimitiveType.Lines);

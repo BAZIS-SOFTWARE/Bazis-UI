@@ -26,7 +26,7 @@ namespace SceneCore.Layers
             var scale = 1f / context.ScaleFactor;
 
             GL.PushMatrix();
-            GL.Translate(-position._x, -position._y, -position._z);
+            GL.Translate(-position.X, -position.Y, -position.Z);
             GL.Scale(scale, scale, scale);
 
             var normal = Vector.GetVectorNorm(plane.Normal);

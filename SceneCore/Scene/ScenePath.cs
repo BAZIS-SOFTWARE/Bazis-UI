@@ -1,6 +1,7 @@
 ﻿
 using Geometry;
 using OpenTK.Graphics.OpenGL;
+using SceneCore.Coordinates;
 
 namespace SceneCore
 {
@@ -30,10 +31,11 @@ namespace SceneCore
             }
             Length = path;
         }
-        public void Display(Point3D position)
+        /// <summary>Отображает путь относительно центра камеры в координатах модели.</summary>
+        public void Display(ModelPoint3D position)
         {
             GL.PushMatrix();
-            GL.Translate(-position._x, -position._y, -position._z);
+            GL.Translate(-position.X, -position.Y, -position.Z);
 
             GL.LineWidth(5.0f);
             GL.Begin(PrimitiveType.Lines);

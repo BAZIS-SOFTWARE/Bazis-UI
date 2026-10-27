@@ -208,7 +208,7 @@ namespace AvaloniaGUI.Shell
 
             var position = context.Camera.Position;
             GL.PushMatrix();
-            GL.Translate(-position._x, -position._y, -position._z);
+            GL.Translate(-position.X, -position.Y, -position.Z);
             GL.Color4(0.0f, 0.0f, 0.0f, 1.0f);
             GL.LineWidth(3.0f);
             GL.Begin(PrimitiveType.Lines);

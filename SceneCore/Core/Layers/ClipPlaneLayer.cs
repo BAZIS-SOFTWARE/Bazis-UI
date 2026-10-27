@@ -47,7 +47,7 @@ namespace SceneCore.Layers
             var model = SceneController.ComputeClipPlaneModelMatrix(plane, clipPlaneVbo.BoundingBox);
             // Как в старом DisplayModelObjects: сечение строилось уже после GL.Translate(-Position)
             var position = context.Camera.Position;
-            var view = GlMatrix.Translate(context.Camera.GetViewMatrix(), -position._x, -position._y, -position._z);
+            var view = GlMatrix.Translate(context.Camera.GetViewMatrix(), -position.X, -position.Y, -position.Z);
 
             clipPlaneVbo.ModelMatrix = model.AsColumnMajorArray();
             clipper.ClipMatrix = (view * model).AsColumnMajorArray();

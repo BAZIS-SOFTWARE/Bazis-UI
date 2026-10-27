@@ -16,8 +16,13 @@ package "SceneCore. Геометрия" {
 package "SceneCore. Выбор" {
   class ScenePicker <<SceneCore-2>>
   class RectangleBox <<SceneCore-2>> [[SceneCore-2.mdpuml SceneCore-2]]
+  class Set <<SceneCore-2>> [[SceneCore-2.mdpuml SceneCore-2]]
+  class ScenePickObject <<SceneCore-2>> [[SceneCore-2.mdpuml SceneCore-2]]
 }
 package "SceneCore. Координаты" {
+  class ModelPoint3D <<SceneCore-1>> [[SceneCore-1.mdpuml SceneCore-1]]
+  class CameraPoint3D <<SceneCore-1>> [[SceneCore-1.mdpuml SceneCore-1]]
+  class ModelVector3D <<SceneCore-1>> [[SceneCore-1.mdpuml SceneCore-1]]
   class ViewportPoint <<SceneCore-2>> [[SceneCore-2.mdpuml SceneCore-2]]
 }
 package "SceneCore. Буферы" {
@@ -29,10 +34,17 @@ package "Geometry. Координаты" {
 }
 
 SceneCamera --> GlMatrix
+SceneCamera --> ModelPoint3D
+SceneCamera --> CameraPoint3D
+SceneCamera --> ModelVector3D
 ScenePicker --> SceneCamera
+ScenePicker --> Set
+Set --> ScenePickObject
+ScenePickObject --> ModelPoint3D
 ScenePicker --> RectangleBox
 RectangleBox --> ViewportPoint
 ScenePath --> Point3D
+ScenePath --> ModelPoint3D
 BoundingBox --> Point3D
 ClipPlane --> BoundingBox
 QuadricMeshFactory --> Point3D

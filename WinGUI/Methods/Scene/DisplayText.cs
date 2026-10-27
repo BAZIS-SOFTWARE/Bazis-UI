@@ -1,4 +1,4 @@
-﻿using SceneCore.Interfaces;
+using SceneCore.Interfaces;
 using System;
 using Geometry;
 using System.Drawing;
@@ -23,7 +23,7 @@ namespace WinGUI
         public void DisplayText3DTemplate(string str, Color color, Point3D coord)
         {
             GL.PushMatrix();
-            GL.Translate(-Position._x, -Position._y, -Position._z);
+            GL.Translate(-Position.X, -Position.Y, -Position.Z);
             GL.Color3(color.R, color.G, color.B);
             GL.RasterPos3(coord._x, coord._y, coord._z);
             GL.PushAttrib(AttribMask.ListBit);//Избегаем пересечений списков, сохраняем старую базу

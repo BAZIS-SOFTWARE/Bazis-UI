@@ -1,4 +1,3 @@
-﻿using Geometry;
 using MathNet.Numerics.LinearAlgebra;
 using SceneCore.Coordinates;
 using System;
@@ -31,24 +30,24 @@ namespace SceneCore.Interfaces
         /// <summary>
         /// Camera position
         /// </summary>
-        Point3D Position { get; set; }
+        ModelPoint3D Position { get; set; }
         /// <summary>
-        /// SetViewMatrix
+        /// Устанавливает аффинную матрицу вида.
         /// </summary>
         /// <param name="matrix"></param>
         void SetViewMatrix(Matrix<float> matrix);
         /// <summary>
-        /// 
+        /// Возвращает копию матрицы вида.
         /// </summary>
         /// <returns></returns>
         Matrix<float> GetViewMatrix();
         /// <summary>
-        /// GetSceneCoordOfScreenVector
+        /// Преобразует вектор в плоскости камеры в вектор координат модели.
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        Point3D GetSceneCoordOfScreenVector(float x, float y);
+        ModelVector3D GetSceneVectorOfScreenVector(float x, float y);
         /// <summary>
         /// Move
         /// </summary>
@@ -58,19 +57,11 @@ namespace SceneCore.Interfaces
         void Move(Point new_mousePosition, Point mousePosition, float scaleFactor);
 
         /// <summary>
-        /// GetSceenCoord
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="z"></param>
-        /// <returns></returns>
-        Point3D GetSceenCoord(double x, double y, double z);
-        /// <summary>
-        /// GetSceenCoord
+        /// Преобразует точку модели в координаты камеры.
         /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>
-        Point3D GetSceenCoord(Point3D point);
+        CameraPoint3D GetSceneCoord(ModelPoint3D point);
         /// <summary>
         /// Преобразует смещение в физических пикселях окна просмотра в вектор сцены.
         /// </summary>
@@ -79,11 +70,11 @@ namespace SceneCore.Interfaces
         /// <param name="depth"></param>
         /// <param name="scaleFactor"></param>
         /// <returns></returns>
-        Point3D GetSceenCoord(int deltaX, int deltaY, float depth, float scaleFactor);
+        ModelVector3D GetSceneVector(int deltaX, int deltaY, float depth, float scaleFactor);
         /// <summary>Проецирует точку сцены в координаты окна просмотра с началом в центре.</summary>
         /// <param name="coord"></param>
         /// <returns></returns>
-        ViewportPoint GetScreenCoord(Point3D coord);
+        ViewportPoint GetScreenCoord(CameraPoint3D coord);
         /// <summary>
         /// Rotate
         /// </summary>

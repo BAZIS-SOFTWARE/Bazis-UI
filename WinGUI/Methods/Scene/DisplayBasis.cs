@@ -1,4 +1,4 @@
-﻿using SceneCore.Interfaces;
+using SceneCore.Interfaces;
 using System;
 //using Tao.OpenGl;
 using Geometry;
@@ -18,11 +18,12 @@ namespace WinGUI
             var met = new Action(() =>
             {
                 var quadObj = gluNewQuadric();
+                var position = Position;
 
                 // draw "Z line"
                 GL.PushMatrix();
                 GL.PolygonMode(TriangleFace.FrontAndBack, PolygonMode.Fill); // см. выше
-                GL.Translate(-Position._x, -Position._y, -Position._z);
+                GL.Translate(-position.X, -position.Y, -position.Z);
                 GL.Scale(1 / ScaleFactor, 1 / ScaleFactor, 1 / ScaleFactor);
                 GL.Color3(0, 0, 1f);
                 gluCylinder(quadObj, 0.0015, 0.0015, 0.025, 10, 10); // рисуем цилиндр
@@ -31,7 +32,7 @@ namespace WinGUI
                 //draw "Y line"
                 GL.PushMatrix();
                 GL.PolygonMode(TriangleFace.FrontAndBack, PolygonMode.Fill); // см. выше
-                GL.Translate(-Position._x, -Position._y, -Position._z);
+                GL.Translate(-position.X, -position.Y, -position.Z);
                 GL.Scale(1 / ScaleFactor, 1 / ScaleFactor, 1 / ScaleFactor);
                 GL.Color3(0, 1f, 0);
                 GL.Rotate(-90, 1, 0, 0);
@@ -40,7 +41,7 @@ namespace WinGUI
 
                 // draw "X line"
                 GL.PushMatrix();
-                GL.Translate(-Position._x, -Position._y, -Position._z);
+                GL.Translate(-position.X, -position.Y, -position.Z);
                 GL.Scale(1 / ScaleFactor, 1 / ScaleFactor, 1 / ScaleFactor);
                 GL.Rotate(90, 0, 1, 0);
                 GL.Color3(1, 0.5f, 0);
@@ -52,7 +53,7 @@ namespace WinGUI
                 //draw "X tip"
                 GL.PushMatrix();
                 GL.PolygonMode(TriangleFace.FrontAndBack, PolygonMode.Fill); // см. выше
-                GL.Translate(-Position._x, -Position._y, -Position._z);
+                GL.Translate(-position.X, -position.Y, -position.Z);
                 GL.Scale(1 / ScaleFactor, 1 / ScaleFactor, 1 / ScaleFactor);
                 GL.Color3(1, 0.5f, 0);
                 GL.Translate(0.025f, 0, 0);
@@ -63,7 +64,7 @@ namespace WinGUI
                 //draw "Y tip"
                 GL.PushMatrix();
                 GL.PolygonMode(TriangleFace.FrontAndBack, PolygonMode.Fill); // см. выше
-                GL.Translate(-Position._x, -Position._y, -Position._z);
+                GL.Translate(-position.X, -position.Y, -position.Z);
                 GL.Scale(1 / ScaleFactor, 1 / ScaleFactor, 1 / ScaleFactor);
                 GL.Color3(0, 1f, 0);
                 GL.Translate(0, 0.025f, 0);
@@ -74,7 +75,7 @@ namespace WinGUI
                 //draw "Z tip"
                 GL.PushMatrix();
                 GL.PolygonMode(TriangleFace.FrontAndBack, PolygonMode.Fill); // см. выше
-                GL.Translate(-Position._x, -Position._y, -Position._z);
+                GL.Translate(-position.X, -position.Y, -position.Z);
                 GL.Scale(1 / ScaleFactor, 1 / ScaleFactor, 1 / ScaleFactor);
                 GL.Color3(0, 0, 1f);
                 GL.Translate(0, 0, 0.025f);
@@ -83,7 +84,7 @@ namespace WinGUI
 
                 GL.PushMatrix();
                 GL.PolygonMode(TriangleFace.FrontAndBack, PolygonMode.Fill);
-                GL.Translate(-Position._x, -Position._y, -Position._z);
+                GL.Translate(-position.X, -position.Y, -position.Z);
                 GL.Color3(1f, 1, 0);
 
                 GL.Scale(1 / ScaleFactor, 1 / ScaleFactor, 1 / ScaleFactor);

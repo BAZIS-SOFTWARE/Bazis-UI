@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Geometry;
+using SceneCore.Coordinates;
 
 namespace SceneCore.Picking
 {
@@ -28,13 +28,13 @@ namespace SceneCore.Picking
     public sealed class ScenePickObject
     {
         /// <summary>Создаёт объект с номером и координатами для выбора на сцене.</summary>
-        public ScenePickObject(int number, IEnumerable<Point3D> points)
+        public ScenePickObject(int number, IEnumerable<ModelPoint3D> points)
         {
             Number = number;
             Points = points;
         }
 
         public int Number { get; }
-        public IEnumerable<Point3D> Points { get; }
+        public IEnumerable<ModelPoint3D> Points { get; }
     }
 }

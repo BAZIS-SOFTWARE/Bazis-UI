@@ -2,7 +2,6 @@ using System;
 using System.Drawing;
 using SceneCore.Interfaces;
 using SceneCore.Coordinates;
-using Geometry;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace SceneCore.Camera
@@ -42,7 +41,7 @@ namespace SceneCore.Camera
             set => projection.Projection = value;
         }
 
-        public Point3D Position { get; set; } = new Point3D();
+        public ModelPoint3D Position { get; set; } = new ModelPoint3D(0, 0, 0);
 
         public float ScaleFactor { get; private set; } = 1f;
 
@@ -59,9 +58,33 @@ namespace SceneCore.Camera
             viewMatrix = GlMatrix.Translate(GlMatrix.Identity(), moveX, moveY, moveZ);
         }
 
-        public void SetViewMatrix(Matrix<float> matrix) => viewMatrix = matrix;
+        /// <summary>Устанавливает аффинную матрицу вида.</summary>
+        public void SetViewMatrix(Matrix<float> matrix)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException(nameof(matrix), "View matrix cannot be null.");
 
-        public Matrix<float> GetViewMatrix() => viewMatrix;
+            if (matrix.RowCount != 4 || matrix.ColumnCount != 4)
+                throw new ArgumentException("View matrix must be 4x4.", nameof(matrix));
+
+            for (var row = 0; row < 4; row++)
+            {
+                for (var column = 0; column < 4; column++)
+                {
+                    if (!float.IsFinite(matrix[row, column]))
+                        throw new ArgumentException("View matrix must contain only finite values.", nameof(matrix));
+                }
+            }
+
+            if (matrix[3, 0] != 0f || matrix[3, 1] != 0f ||
+                matrix[3, 2] != 0f || matrix[3, 3] != 1f)
+                throw new ArgumentException("View matrix must be affine.", nameof(matrix));
+
+            viewMatrix = matrix.Clone();
+        }
+
+        /// <summary>Возвращает копию матрицы вида для защиты её аффинности.</summary>
+        public Matrix<float> GetViewMatrix() => viewMatrix.Clone();
 
         /// <summary>
         /// Матрица проекции, рассчитанная от текущей дистанции камеры до центра вращения
@@ -79,9 +102,13 @@ namespace SceneCore.Camera
         /// </summary>
         private float ComputeDistance() => Math.Abs(viewMatrix[2, 3]);
 
-        public Point3D GetSceneCoordOfScreenVector(float x, float y)
+        /// <summary>Преобразует вектор в плоскости камеры в вектор координат модели.</summary>
+        public ModelVector3D GetSceneVectorOfScreenVector(float x, float y)
         {
-            return GlMatrix.Transform(viewMatrix.Transpose(), x, y, 0, 0);
+            var modelX = viewMatrix[0, 0] * x + viewMatrix[1, 0] * y;
+            var modelY = viewMatrix[0, 1] * x + viewMatrix[1, 1] * y;
+            var modelZ = viewMatrix[0, 2] * x + viewMatrix[1, 2] * y;
+            return new ModelVector3D(modelX, modelY, modelZ);
         }
 
         public void Move(Point new_mousePosition, Point mousePosition, float scaleFactor)
@@ -91,9 +118,9 @@ namespace SceneCore.Camera
 
             var deltaX = -dx;
             var deltaY = -dy;
-            var crd = GetSceenCoord(deltaX, deltaY, -5, scaleFactor);
+            var crd = GetSceneVector(deltaX, deltaY, -5, scaleFactor);
 
-            viewMatrix = GlMatrix.Translate(viewMatrix, crd._x, crd._y, crd._z);
+            viewMatrix = GlMatrix.Translate(viewMatrix, crd.X, crd.Y, crd.Z);
         }
 
         /// <summary>
@@ -103,15 +130,15 @@ namespace SceneCore.Camera
         public void Scale(float scaleFactor)
         {
             viewMatrix = GlMatrix.Scale(viewMatrix, scaleFactor, scaleFactor, scaleFactor);
-            var crd = GetSceneCoordOfScreenVector(0, 1);
-            ScaleFactor = (float)Math.Sqrt(crd._x * crd._x + crd._y * crd._y + crd._z * crd._z);
+            var crd = GetSceneVectorOfScreenVector(0, 1);
+            ScaleFactor = (float)Math.Sqrt(crd.X * crd.X + crd.Y * crd.Y + crd.Z * crd.Z);
         }
 
         /// <summary>
         /// Перенос центра вращения в мировую точку без изменения расстояния до неё
         /// (аналог BaseForm.SetRotationCentre).
         /// </summary>
-        public void SetRotationCentre(Point3D modelPoint)
+        public void SetRotationCentre(ModelPoint3D modelPoint)
         {
             Position = modelPoint;
             viewMatrix[0, 3] = 0;
@@ -125,19 +152,22 @@ namespace SceneCore.Camera
             viewMatrix[1, 3] = 0;
         }
 
-        public Point3D GetSceenCoord(double x, double y, double z)
+        /// <summary>Преобразует точку модели в координаты камеры.</summary>
+        public CameraPoint3D GetSceneCoord(ModelPoint3D point)
         {
-            return GlMatrix.Transform(viewMatrix, x - Position._x, y - Position._y, z - Position._z, 1);
-        }
+            var position = Position;
+            var x = (float)(point.X - position.X);
+            var y = (float)(point.Y - position.Y);
+            var z = (float)(point.Z - position.Z);
 
-        public Point3D GetSceenCoord(Point3D point)
-        {
-            var shift = point.Sub(Position);
-            return GlMatrix.Transform(viewMatrix, shift._x, shift._y, shift._z, 1);
+            var cameraX = viewMatrix[0, 0] * x + viewMatrix[0, 1] * y + viewMatrix[0, 2] * z + viewMatrix[0, 3];
+            var cameraY = viewMatrix[1, 0] * x + viewMatrix[1, 1] * y + viewMatrix[1, 2] * z + viewMatrix[1, 3];
+            var cameraZ = viewMatrix[2, 0] * x + viewMatrix[2, 1] * y + viewMatrix[2, 2] * z + viewMatrix[2, 3];
+            return new CameraPoint3D(cameraX, cameraY, cameraZ);
         }
 
         /// <summary>Преобразует смещение в физических пикселях окна просмотра в вектор сцены.</summary>
-        public Point3D GetSceenCoord(int deltaX, int deltaY, float depth, float scaleFactor)
+        public ModelVector3D GetSceneVector(int deltaX, int deltaY, float depth, float scaleFactor)
         {
             var viewPortKoeff = (float)viewport.Height / viewport.Width;
             var tan = (float)Math.Tan(AngleOfProjection * 3.14f / 180);
@@ -148,16 +178,16 @@ namespace SceneCore.Camera
             xs = xs / scaleFactor / scaleFactor;
             ys = ys / scaleFactor / scaleFactor;
 
-            return GetSceneCoordOfScreenVector((float)xs, (float)ys);
+            return GetSceneVectorOfScreenVector((float)xs, (float)ys);
         }
 
         /// <summary>Проецирует точку сцены в физические пиксели относительно центра окна просмотра.</summary>
-        public ViewportPoint GetScreenCoord(Point3D coord)
+        public ViewportPoint GetScreenCoord(CameraPoint3D coord)
         {
             if (Projection == ViewProjection.Perspective)
             {
-                var xn = -(coord._x / coord._z);
-                var yn = -(coord._y / coord._z);
+                var xn = -(coord.X / coord.Z);
+                var yn = -(coord.Y / coord.Z);
                 var viewPortKoeff = (float)viewport.Height / viewport.Width;
                 var tan = (float)Math.Tan(AngleOfProjection * 3.14f / 180);
 
@@ -168,8 +198,9 @@ namespace SceneCore.Camera
             }
             else
             {
-                var v = Vector<float>.Build.DenseOfArray(new[] { (float)coord._x, (float)coord._y, (float)coord._z, 1f });
-                GetProjectionMatrix().Multiply(v, v);
+                var v = Vector<float>.Build.DenseOfArray(new[] { (float)coord.X, (float)coord.Y, (float)coord.Z, 1f });
+                var projectionMatrix = GetProjectionMatrix();
+                projectionMatrix.Multiply(v, v);
 
                 var screenX = v[0] * 0.5f * viewport.Width;
                 var screenY = v[1] * 0.5f * viewport.Height;
@@ -183,16 +214,16 @@ namespace SceneCore.Camera
             switch (axis)
             {
                 case ViewAxis.X:
-                    var crdx = GetSceneCoordOfScreenVector(-1, 0);
-                    viewMatrix = GlMatrix.Rotate(viewMatrix, angle, crdx._x, crdx._y, crdx._z);
+                    var crdx = GetSceneVectorOfScreenVector(-1, 0);
+                    viewMatrix = GlMatrix.Rotate(viewMatrix, angle, crdx.X, crdx.Y, crdx.Z);
                     break;
                 case ViewAxis.Y:
-                    var crdy = GetSceneCoordOfScreenVector(0, -1);
-                    viewMatrix = GlMatrix.Rotate(viewMatrix, angle, crdy._x, crdy._y, crdy._z);
+                    var crdy = GetSceneVectorOfScreenVector(0, -1);
+                    viewMatrix = GlMatrix.Rotate(viewMatrix, angle, crdy.X, crdy.Y, crdy.Z);
                     break;
                 case ViewAxis.Z:
-                    var vectorZ = GlMatrix.Transform(viewMatrix.Transpose(), 0, 0, 1, 0);
-                    viewMatrix = GlMatrix.Rotate(viewMatrix, angle, vectorZ._x, vectorZ._y, vectorZ._z);
+                    var vectorZ = new ModelVector3D(viewMatrix[2, 0], viewMatrix[2, 1], viewMatrix[2, 2]);
+                    viewMatrix = GlMatrix.Rotate(viewMatrix, angle, vectorZ.X, vectorZ.Y, vectorZ.Z);
                     break;
             }
         }
@@ -204,28 +235,28 @@ namespace SceneCore.Camera
                 case ViewAxis.X:
                     if (vector_dx == 0)
                     {
-                        var crdx = GetSceneCoordOfScreenVector(vector_dy > 0 ? 1 : -1, 0);
-                        viewMatrix = GlMatrix.Rotate(viewMatrix, angle, crdx._x, crdx._y, crdx._z);
+                        var crdx = GetSceneVectorOfScreenVector(vector_dy > 0 ? 1 : -1, 0);
+                        viewMatrix = GlMatrix.Rotate(viewMatrix, angle, crdx.X, crdx.Y, crdx.Z);
                     }
                     break;
                 case ViewAxis.Y:
                     if (vector_dy == 0)
                     {
-                        var crdy = GetSceneCoordOfScreenVector(0, vector_dx > 0 ? 1 : -1);
-                        viewMatrix = GlMatrix.Rotate(viewMatrix, angle, crdy._x, crdy._y, crdy._z);
+                        var crdy = GetSceneVectorOfScreenVector(0, vector_dx > 0 ? 1 : -1);
+                        viewMatrix = GlMatrix.Rotate(viewMatrix, angle, crdy.X, crdy.Y, crdy.Z);
                     }
                     break;
                 case ViewAxis.Z:
                     if (vector_dy == 0)
                     {
                         var z = vector_dx > 0 ? 1 : -1;
-                        var vectorZ = GlMatrix.Transform(viewMatrix.Transpose(), 0, 0, z, 0);
-                        viewMatrix = GlMatrix.Rotate(viewMatrix, angle, vectorZ._x, vectorZ._y, vectorZ._z);
+                        var vectorZ = new ModelVector3D(viewMatrix[2, 0] * z, viewMatrix[2, 1] * z, viewMatrix[2, 2] * z);
+                        viewMatrix = GlMatrix.Rotate(viewMatrix, angle, vectorZ.X, vectorZ.Y, vectorZ.Z);
                     }
                     break;
                 case ViewAxis.XYZ:
-                    var crdxyz = GetSceneCoordOfScreenVector(-vector_dy, vector_dx);
-                    viewMatrix = GlMatrix.Rotate(viewMatrix, angle, crdxyz._x, crdxyz._y, crdxyz._z);
+                    var crdxyz = GetSceneVectorOfScreenVector(-vector_dy, vector_dx);
+                    viewMatrix = GlMatrix.Rotate(viewMatrix, angle, crdxyz.X, crdxyz.Y, crdxyz.Z);
                     break;
             }
         }
