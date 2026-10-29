@@ -1,4 +1,4 @@
-using Geometry;
+using BazisGUI.SceneCore.Coordinates;
 using BazisGUI.Avalonia.Localization;
 using BazisGUI.Avalonia.Properties;
 using Model.Interfaces;
@@ -76,7 +76,7 @@ namespace BazisGUI.Avalonia.Shell
             HideAllGeometryObjects();
             foreach (var item in objs)
             {
-                var centre = new Point3D(item._x, item._y, item._z);
+                var centre = new ModelPoint3D(item._x, item._y, item._z);
                 scene.Surface.Invoke(sceneController => sceneController.DisplayMarker(centre, 1.5f, Color.Red));
             }
         }

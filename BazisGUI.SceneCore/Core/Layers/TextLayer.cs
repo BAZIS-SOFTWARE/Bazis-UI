@@ -11,7 +11,8 @@ namespace BazisGUI.SceneCore.Layers
         public int Order { get; set; } = 55;
         public bool IsVisible { get; set; } = true;
 
-        public TextLabelCollection Labels { get; } = new TextLabelCollection();
+        public TextLabelCollection<TextLabel3D> Labels3D { get; } = new TextLabelCollection<TextLabel3D>();
+        public TextLabelCollection<TextLabel2D> Labels2D { get; } = new TextLabelCollection<TextLabel2D>();
 
         private readonly ISceneTextRenderer textRenderer;
 
@@ -22,21 +23,19 @@ namespace BazisGUI.SceneCore.Layers
 
         public void Draw(IRenderContext context)
         {
-            foreach (var label in Labels)
+            foreach (var label in Labels3D)
             {
-                if (label.IsScreenSpace)
-                    textRenderer.DrawText2D(label, context);
-                else
-                {
-                    // Как в старом DisplayText3DTemplate: подписи в координатах модели сдвигаются
-                    // на центр вращения (GL.Translate(-Position)), как и сама модель
-                    var position = context.Camera.Position;
-                    GL.PushMatrix();
-                    GL.Translate(-position.X, -position.Y, -position.Z);
-                    textRenderer.DrawText3D(label, context);
-                    GL.PopMatrix();
-                }
+                // Как в старом DisplayText3DTemplate: подписи в координатах модели сдвигаются
+                // на центр вращения (GL.Translate(-Position)), как и сама модель.
+                var position = context.Camera.Position;
+                GL.PushMatrix();
+                GL.Translate(-position.X, -position.Y, -position.Z);
+                textRenderer.DrawText3D(label, context);
+                GL.PopMatrix();
             }
+
+            foreach (var label in Labels2D)
+                textRenderer.DrawText2D(label, context);
         }
     }
 }

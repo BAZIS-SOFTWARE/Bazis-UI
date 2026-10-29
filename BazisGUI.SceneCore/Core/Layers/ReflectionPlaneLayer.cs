@@ -1,4 +1,5 @@
 using BazisGUI.SceneCore.Rendering;
+using BazisGUI.SceneCore.Coordinates;
 using Geometry;
 using OpenTK.Graphics.OpenGL;
 
@@ -11,9 +12,9 @@ namespace BazisGUI.SceneCore.Layers
         public int Order { get; set; } = 25;
         public bool IsVisible { get; set; } = true;
 
-        private Plane plane;
+        private ModelPlane3D plane;
 
-        public void SetPlane(Plane plane) => this.plane = plane;
+        public void SetPlane(ModelPlane3D plane) => this.plane = plane;
 
         public void Clear() => plane = null;
 
@@ -29,8 +30,9 @@ namespace BazisGUI.SceneCore.Layers
             GL.Translate(-position.X, -position.Y, -position.Z);
             GL.Scale(scale, scale, scale);
 
-            var normal = Vector.GetVectorNorm(plane.Normal);
-            var centre = normal.Mult(plane.Shifting);
+            var planeNormal = new Point3D(plane.Normal.X, plane.Normal.Y, plane.Normal.Z);
+            var normal = Vector.GetVectorNorm(planeNormal);
+            var centre = normal.Mult(plane.D);
             GL.Translate(centre._x, centre._y, centre._z);
 
             var z = new Point3D(0, 0, -1);

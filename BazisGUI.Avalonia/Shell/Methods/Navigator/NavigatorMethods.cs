@@ -1,4 +1,5 @@
 using Geometry;
+using BazisGUI.SceneCore.Coordinates;
 using Model.Interfaces;
 using Project.Interfaces.Tasks;
 using Project.Tasks.Functions.FrameFunctions;
@@ -24,15 +25,21 @@ namespace BazisGUI.Avalonia.Shell
             }
 
             data.LocalFrame.CalcPosition();
-            DisplayLocalFrame(data.LocalFrame.Frame);
+            var frame = data.LocalFrame.Frame;
+            var centre = new ModelPoint3D(frame.Centre._x, frame.Centre._y, frame.Centre._z);
+            var directionX = new ModelVector3D(frame.Dir_X._x, frame.Dir_X._y, frame.Dir_X._z);
+            var directionY = new ModelVector3D(frame.Dir_Y._x, frame.Dir_Y._y, frame.Dir_Y._z);
+            var directionZ = new ModelVector3D(frame.Dir_Z._x, frame.Dir_Z._y, frame.Dir_Z._z);
+            var sceneFrame = new ModelFrame3D(centre, directionX, directionY, directionZ);
+            DisplayLocalFrame(sceneFrame);
 
             if (data.Function is SPH sphear)
             {
-                DisplaySphere((float)sphear.Width, data.LocalFrame.Frame);
+                DisplaySphere((float)sphear.Width, sceneFrame);
             }
             else if (data.Function is CIL cilinder)
             {
-                DisplayConus((float)cilinder.UpperDiam, (float)cilinder.BottomDiam, (float)cilinder.Length, data.LocalFrame.Frame);
+                DisplayConus((float)cilinder.UpperDiam, (float)cilinder.BottomDiam, (float)cilinder.Length, sceneFrame);
             }
         }
 

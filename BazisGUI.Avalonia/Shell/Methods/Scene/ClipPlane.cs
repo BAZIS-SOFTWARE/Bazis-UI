@@ -7,6 +7,7 @@ using BazisGUI.Avalonia.CrossSection;
 using BazisGUI.SceneCore;
 using BazisGUI.SceneCore;
 using BazisGUI.SceneCore.VBO;
+using BazisGUI.SceneCore.Coordinates;
 using Geometry;
 using Model.GeometryObjects;
 using Model.Interfaces;
@@ -73,7 +74,8 @@ namespace BazisGUI.Avalonia.Shell
                         scene.Surface.Invoke(sceneController => sceneController.Advanced3DClipper.LayerThickness = layerThickness);
                     clip.SetClipPlaneEvent += plane =>
                     {
-                        var scPlane = new Geometry.Plane(new Point3D(plane.X, plane.Y, plane.Z), plane.D);
+                        var normal = new ModelVector3D(plane.X, plane.Y, plane.Z);
+                        var scPlane = new ModelPlane3D(normal, plane.D);
                         DisplayClipPlane(scPlane);
                     };
                     clip.RedrawClipPlane += RequestRedraw;
@@ -164,7 +166,7 @@ namespace BazisGUI.Avalonia.Shell
 
         public void DeleteClipPlane() => scene.Surface.Invoke(sceneController => sceneController.DeleteClipPlane());
 
-        public void DisplayClipPlane(Geometry.Plane plane) => scene.Surface.Invoke(sceneController => sceneController.ChangeClipPlane(plane));
+        public void DisplayClipPlane(ModelPlane3D plane) => scene.Surface.Invoke(sceneController => sceneController.ChangeClipPlane(plane));
 
         /// <summary>
         /// Кнопка «Захват»: прогоняет видимые 3D-элементы через отсекатель с transform feedback и оставляет

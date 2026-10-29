@@ -1,0 +1,67 @@
+@startuml
+title BazisGUI.SceneCore-3 — подписи сцены
+left to right direction
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "BazisGUI.SceneCore. Текст" {
+  abstract class TextLabel {
+    + Text : string [get]
+    + Color : Color [get]
+  }
+  class TextLabel2D {
+    + X : double [get]
+    + Y : double [get]
+    + TextLabel2D(text: string, color: Color, x: double, y: double)
+  }
+  class TextLabel3D {
+    + X : double [get]
+    + Y : double [get]
+    + Z : double [get]
+    + WorldScale : float? [get]
+    + TextLabel3D(text: string, color: Color, x: double, y: double, z: double, worldScale: float?)
+  }
+  class "TextLabelCollection<TLabel>" as TextLabelCollection {
+    + Add(label: TLabel) : void
+    + Clear() : void
+    + Remove(label: TLabel) : bool
+    + RemoveWhere(predicate: Func<TLabel, bool>) : void
+    + GetEnumerator() : IEnumerator<TLabel>
+  }
+  class TextLayer {
+    + Name : string [get]
+    + Order : int [get, set]
+    + IsVisible : bool [get, set]
+    + Labels3D : TextLabelCollection<TextLabel3D> [get]
+    + Labels2D : TextLabelCollection<TextLabel2D> [get]
+    + Draw(context: IRenderContext) : void
+  }
+  interface ISceneTextRenderer {
+    + SetFont(family: string, size: float) : void
+    + DrawText3D(label: TextLabel3D, context: IRenderContext) : void
+    + DrawText2D(label: TextLabel2D, context: IRenderContext) : void
+  }
+  class SkiaGlyphAtlasTextRenderer {
+    + GlyphWorldScale : float [get, set]
+    + Bold : bool [get, set]
+    + Dispose() : void
+  }
+  class WglBitmapFontTextRenderer {
+    + Dispose() : void
+  }
+}
+TextLabel <|-- TextLabel2D
+TextLabel <|-- TextLabel3D
+TextLayer --> TextLabelCollection
+TextLayer --> ISceneTextRenderer
+TextLabelCollection --> TextLabel
+SkiaGlyphAtlasTextRenderer ..|> ISceneTextRenderer
+WglBitmapFontTextRenderer ..|> ISceneTextRenderer
+
+note bottom of TextLayer
+  Сначала отрисовывает подписи модели, затем экранные подписи.
+  [[BazisGUI.SceneCore.mdpuml Назад к BazisGUI.SceneCore]]
+  [[BazisGUI.SceneCore-1.mdpuml Координаты BazisGUI.SceneCore-1]]
+end note
+@enduml

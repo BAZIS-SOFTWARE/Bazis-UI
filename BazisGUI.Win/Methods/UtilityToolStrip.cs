@@ -468,7 +468,8 @@ namespace BazisGUI.Win
 
                     clip.SetClipPlaneEvent += (plane) =>
                     {
-                        var scPlane = new Geometry.Plane(new Point3D(plane.X, plane.Y, plane.Z), plane.D);
+                        var normal = new BazisGUI.SceneCore.Coordinates.ModelVector3D(plane.X, plane.Y, plane.Z);
+                        var scPlane = new BazisGUI.SceneCore.Coordinates.ModelPlane3D(normal, plane.D);
                         DisplayClipPlane(scPlane);
                     };
 

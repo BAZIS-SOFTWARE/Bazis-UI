@@ -1,9 +1,9 @@
 using BazisGUI.SceneCore.Rendering;
 using BazisGUI.SceneCore;
 using BazisGUI.SceneCore.VBO;
-using Geometry;
 using BazisGUI.SceneCore;
 using BazisGUI.SceneCore.Camera;
+using BazisGUI.SceneCore.Coordinates;
 
 namespace BazisGUI.SceneCore.Layers
 {
@@ -22,7 +22,7 @@ namespace BazisGUI.SceneCore.Layers
 
         private readonly VBOController vboController;
         private readonly Advanced3DClipper clipper;
-        private Plane plane;
+        private ModelPlane3D plane;
 
         public ClipPlaneLayer(VBOController vboController, Advanced3DClipper clipper)
         {
@@ -30,7 +30,7 @@ namespace BazisGUI.SceneCore.Layers
             this.clipper = clipper;
         }
 
-        public void SetPlane(Plane plane) => this.plane = plane;
+        public void SetPlane(ModelPlane3D plane) => this.plane = plane;
 
         public void Clear() => plane = null;
 

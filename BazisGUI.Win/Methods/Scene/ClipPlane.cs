@@ -1,7 +1,7 @@
 ﻿using System;
-using Geometry;
 using System.Linq;
 using BazisGUI.SceneCore;
+using BazisGUI.SceneCore.Coordinates;
 
 namespace BazisGUI.Win
 {
@@ -28,6 +28,6 @@ namespace BazisGUI.Win
 
         public void DeleteClipPlane() => sceneController.DeleteClipPlane();
 
-        public void DisplayClipPlane(Plane plane) => sceneController.ChangeClipPlane(plane);
+        public void DisplayClipPlane(ModelPlane3D plane) => sceneController.ChangeClipPlane(plane);
     }
 }

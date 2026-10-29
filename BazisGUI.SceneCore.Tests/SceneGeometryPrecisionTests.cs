@@ -1,4 +1,5 @@
 using Geometry;
+using BazisGUI.SceneCore.Coordinates;
 
 namespace BazisGUI.SceneCore.Tests
 {
@@ -13,7 +14,13 @@ namespace BazisGUI.SceneCore.Tests
             var second = new Point3D(1000000000.375, 0, 0);
             var third = new Point3D(1000000000.5, 0, 0);
             var bounds = new BoundingBox(first, third);
-            var path = new ScenePath(new[] { first, second, third });
+            var pathPoints = new[]
+            {
+                new ModelPoint3D(first._x, first._y, first._z),
+                new ModelPoint3D(second._x, second._y, second._z),
+                new ModelPoint3D(third._x, third._y, third._z)
+            };
+            var path = new ScenePath(pathPoints);
 
             Assert.That(bounds.GetSqrCoordsSum(), Is.EqualTo(0.140625).Within(1e-12));
             Assert.That(bounds.GetDiagonalLength(), Is.EqualTo(0.375).Within(1e-12));

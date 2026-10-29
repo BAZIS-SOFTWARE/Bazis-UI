@@ -24,11 +24,18 @@ package "BazisGUI.SceneCore. Координаты" {
   class ModelPoint3D <<BazisGUI.SceneCore-1>> [[BazisGUI.SceneCore-1.mdpuml BazisGUI.SceneCore-1]]
   class CameraPoint3D <<BazisGUI.SceneCore-1>> [[BazisGUI.SceneCore-1.mdpuml BazisGUI.SceneCore-1]]
   class ModelVector3D <<BazisGUI.SceneCore-1>> [[BazisGUI.SceneCore-1.mdpuml BazisGUI.SceneCore-1]]
+  class ModelPlane3D <<BazisGUI.SceneCore-1>> [[BazisGUI.SceneCore-1.mdpuml BazisGUI.SceneCore-1]]
+  class ModelFrame3D <<BazisGUI.SceneCore-1>> [[BazisGUI.SceneCore-1.mdpuml BazisGUI.SceneCore-1]]
   class ViewportPoint <<BazisGUI.SceneCore-2>> [[BazisGUI.SceneCore-2.mdpuml BazisGUI.SceneCore-2]]
 }
 package "BazisGUI.SceneCore. Буферы" {
   class ClipPlane <<BazisGUI.SceneCore-2>>
   class QuadricMeshFactory <<BazisGUI.SceneCore-2>>
+}
+package "BazisGUI.SceneCore. Текст" {
+  class TextLayer <<BazisGUI.SceneCore-3>> [[BazisGUI.SceneCore-3.mdpuml BazisGUI.SceneCore-3]]
+  class TextLabel2D <<BazisGUI.SceneCore-3>> [[BazisGUI.SceneCore-3.mdpuml BazisGUI.SceneCore-3]]
+  class TextLabel3D <<BazisGUI.SceneCore-3>> [[BazisGUI.SceneCore-3.mdpuml BazisGUI.SceneCore-3]]
 }
 package "Geometry. Координаты" {
   class Point3D <<внешний>>
@@ -38,6 +45,9 @@ SceneCamera --> GlMatrix
 SceneCamera --> ModelPoint3D
 SceneCamera --> CameraPoint3D
 SceneCamera --> ModelVector3D
+ModelPlane3D --> ModelVector3D
+ModelFrame3D --> ModelPoint3D
+ModelFrame3D --> ModelVector3D
 ScenePicker --> SceneCamera
 ScenePicker --> Set
 Set --> ScenePickObject
@@ -45,11 +55,12 @@ ScenePickObject --> ModelPoint3D
 ScenePicker --> RectangleBox
 ScenePicker --> ViewportTriangle
 RectangleBox --> ViewportPoint
-ScenePath --> Point3D
 ScenePath --> ModelPoint3D
 BoundingBox --> Point3D
 ClipPlane --> BoundingBox
 QuadricMeshFactory --> Point3D
+TextLayer --> TextLabel2D
+TextLayer --> TextLabel3D
 
 note bottom of SceneCamera
   Камера и преобразования: [[BazisGUI.SceneCore-1.mdpuml BazisGUI.SceneCore-1]].

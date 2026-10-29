@@ -1,6 +1,7 @@
 using BazisGUI.SceneCore;
 using BazisGUI.SceneCore;
 using BazisGUI.SceneCore.Camera;
+using BazisGUI.SceneCore.Coordinates;
 using Geometry;
 using MathNet.Numerics.LinearAlgebra;
 
@@ -68,7 +69,8 @@ namespace BazisGUI.SceneCore.Tests
         [Test]
         public void ComputeClipPlaneModelMatrix_VerticalPlane_MatchesHandDerivedMatrix()
         {
-            var plane = new Plane(new Point3D(1, 0, 0), 3f);
+            var normal = new ModelVector3D(1, 0, 0);
+            var plane = new ModelPlane3D(normal, 3f);
             var bounds = new BoundingBox(new Point3D(-1, 1, 1), new Point3D(1, -1, -1)); // центр в (0,0,0)
 
             var model = SceneController.ComputeClipPlaneModelMatrix(plane, bounds);
@@ -93,7 +95,8 @@ namespace BazisGUI.SceneCore.Tests
         {
             // normal (0,0,1) антипараллельна (0,0,-1): ось поворота вырождена (нулевой вектор),
             // GlMatrix.RotationMatrix в этом случае возвращает единичную матрицу — остаётся перенос.
-            var plane = new Plane(new Point3D(0, 0, 1), 5f);
+            var normal = new ModelVector3D(0, 0, 1);
+            var plane = new ModelPlane3D(normal, 5f);
             var bounds = new BoundingBox(new Point3D(-1, 1, 1), new Point3D(1, -1, -1));
 
             var model = SceneController.ComputeClipPlaneModelMatrix(plane, bounds);
@@ -109,7 +112,8 @@ namespace BazisGUI.SceneCore.Tests
         [Test]
         public void ComputeClipPlaneModelMatrix_OffsetBoundingBoxCentre_ShiftsTranslation()
         {
-            var plane = new Plane(new Point3D(0, 1, 0), 0f); // shifting=0 => origin вклада в перенос нет
+            var normal = new ModelVector3D(0, 1, 0);
+            var plane = new ModelPlane3D(normal, 0f); // shifting=0 => origin вклада в перенос нет
             var bounds = new BoundingBox(new Point3D(1, 5, 3), new Point3D(3, 1, -1)); // центр (2,3,1)
 
             var model = SceneController.ComputeClipPlaneModelMatrix(plane, bounds);

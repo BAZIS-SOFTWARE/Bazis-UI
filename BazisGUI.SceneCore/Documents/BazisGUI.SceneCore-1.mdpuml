@@ -59,6 +59,18 @@ package "BazisGUI.SceneCore. Координаты" {
     + Z : double [get]
     + ModelVector3D(x: double, y: double, z: double)
   }
+  class ModelPlane3D {
+    + Normal : ModelVector3D [get]
+    + D : double [get]
+    + ModelPlane3D(normal: ModelVector3D, d: double)
+  }
+  class ModelFrame3D {
+    + Centre : ModelPoint3D [get]
+    + DirectionX : ModelVector3D [get]
+    + DirectionY : ModelVector3D [get]
+    + DirectionZ : ModelVector3D [get]
+    + ModelFrame3D(centre: ModelPoint3D, directionX: ModelVector3D, directionY: ModelVector3D, directionZ: ModelVector3D)
+  }
   class "ViewportPoint\nSceneCore-2" as ViewportPoint <<ссылка>> [[BazisGUI.SceneCore-2.mdpuml BazisGUI.SceneCore-2]]
 }
 
@@ -69,6 +81,9 @@ ISceneCamera --> ModelPoint3D
 ISceneCamera --> CameraPoint3D
 ISceneCamera --> ModelVector3D
 ISceneCamera --> ViewportPoint
+ModelPlane3D --> ModelVector3D
+ModelFrame3D --> ModelPoint3D
+ModelFrame3D --> ModelVector3D
 
 note bottom of GlMatrix
   Матрицы хранятся с элементами float.

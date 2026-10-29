@@ -1,21 +1,18 @@
 using System.Drawing;
-using Geometry;
 
 namespace BazisGUI.SceneCore.Text
 {
-    public class TextLabel
+    /// <summary>Общие данные подписи сцены.</summary>
+    public abstract class TextLabel
     {
-        public string Text { get; set; }
-        public Color Color { get; set; }
-        public Point3D Position3D { get; set; }
-        public Point2D Position2D { get; set; }
-        public bool IsScreenSpace { get; set; }
+        public string Text { get; }
+        public Color Color { get; }
 
-        /// <summary>
-        /// Размер знакоместа в единицах той системы координат, в которой рисуется подпись
-        /// (1 — один пиксель атласа шрифта). null — масштаб рендера по умолчанию
-        /// (SkiaGlyphAtlasTextRenderer.GlyphWorldScale), пригодный для подписей в мировых координатах.
-        /// </summary>
-        public float? WorldScale { get; set; }
+        /// <summary>Создаёт подпись с текстом и цветом.</summary>
+        protected TextLabel(string text, Color color)
+        {
+            Text = text;
+            Color = color;
+        }
     }
 }

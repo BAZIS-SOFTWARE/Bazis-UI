@@ -1,5 +1,5 @@
 ﻿
-using Geometry;
+using System;
 using OpenTK.Graphics.OpenGL;
 using BazisGUI.SceneCore.Coordinates;
 
@@ -9,17 +9,18 @@ namespace BazisGUI.SceneCore
     {
         public double Length { get; }
 
-        Point3D [] coords { get; }
+        ModelPoint3D[] coords { get; }
 
-        public Point3D this[int ind]
+        public ModelPoint3D this[int ind]
         { get { return coords[ind]; } }
 
         public int PointsQuantity { get { return coords.Length; } }
 
-        public ScenePath(Point3D[] Coords)
+        /// <summary>Сохраняет точки пути и вычисляет его длину в координатах модели.</summary>
+        public ScenePath(ModelPoint3D[] Coords)
         {
             var path = 0.0;
-            coords = new Point3D[Coords.Length];
+            coords = new ModelPoint3D[Coords.Length];
             for (int i = 0; i < Coords.Length - 1; i++)
             {
                 coords[i] = Coords[i];
@@ -27,7 +28,10 @@ namespace BazisGUI.SceneCore
                 var p0 = Coords[i];
                 var p1 = Coords[i + 1];
 
-                path = path + new Segment3D(p0, p1).GetLength();
+                var dx = p1.X - p0.X;
+                var dy = p1.Y - p0.Y;
+                var dz = p1.Z - p0.Z;
+                path += Math.Sqrt(dx * dx + dy * dy + dz * dz);
             }
             Length = path;
         }
@@ -47,15 +51,15 @@ namespace BazisGUI.SceneCore
 
 
                 GL.Color3(1f, 0, 0);
-                GL.Vertex3(p0._x, p0._y, p0._z);
-                GL.Vertex3(p1._x, p1._y, p1._z);
+                GL.Vertex3(p0.X, p0.Y, p0.Z);
+                GL.Vertex3(p1.X, p1.Y, p1.Z);
             }
             GL.End();
 
             GL.PointSize(12.5f);
             GL.Begin(PrimitiveType.Points);
-            GL.Vertex3(coords[0]._x, coords[0]._y, coords[0]._z);
-            GL.Vertex3(coords[coords.Length - 1]._x, coords[coords.Length - 1]._y, coords[coords.Length - 1]._z);
+            GL.Vertex3(coords[0].X, coords[0].Y, coords[0].Z);
+            GL.Vertex3(coords[coords.Length - 1].X, coords[coords.Length - 1].Y, coords[coords.Length - 1].Z);
             GL.End();
             GL.PopMatrix();
         }

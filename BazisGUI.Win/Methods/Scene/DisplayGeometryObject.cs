@@ -3,6 +3,7 @@ using System;
 using Geometry;
 using System.Drawing;
 using BazisGUI.SceneCore;
+using BazisGUI.SceneCore.Coordinates;
 using System.Linq;
 using OpenTK.Graphics.OpenGL;
 using static BazisGUI.Win.Methods.PlatformSpecific.PlatformSpecific;
@@ -82,7 +83,8 @@ namespace BazisGUI.Win
             Action met;
             if (points.Length > 1)
             {
-                var path = new ScenePath(points);
+                var modelPoints = points.Select(point => new ModelPoint3D(point._x, point._y, point._z)).ToArray();
+                var path = new ScenePath(modelPoints);
                 var quantity = path.PointsQuantity;
                 met = new Action(() =>
                 {
@@ -90,7 +92,7 @@ namespace BazisGUI.Win
                     var p0 = path[quantity - 2];
                     var p1 = path[quantity - 1];
                     DisplayText3D(path.Length.ToString(), Color.FromArgb(0, 0, 0),
-                    new Point3D((p0._x + p1._x) / 2, (p0._y + p1._y) / 2, (p0._z + p1._z) / 2));
+                    new Point3D((p0.X + p1.X) / 2, (p0.Y + p1.Y) / 2, (p0.Z + p1.Z) / 2));
                 });
 
                 DisplayGeometryObjectEvent += met;

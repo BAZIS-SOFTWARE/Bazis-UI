@@ -16,6 +16,8 @@ package "BazisGUI.SceneCore. Геометрия" {
   }
   class ScenePath {
     + Length : double [get]
+    + PointsQuantity : int [get]
+    + ScenePath(points: ModelPoint3D[])
     + Display(position: ModelPoint3D) : void
   }
 }
@@ -89,7 +91,6 @@ package "Geometry. Координаты" {
 }
 
 BoundingBox --> Point3D
-ScenePath --> Point3D
 ScenePath --> ModelPoint3D
 Set --> ScenePickObject
 Set --> ScenePickKind

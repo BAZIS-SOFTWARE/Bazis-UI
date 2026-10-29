@@ -5,6 +5,18 @@ skinparam classAttributeIconSize 0
 hide empty members
 
 package "BazisGUI.Avalonia. Сцена" {
+  class "MainWindow (подключение сцены)" as SceneConnection {
+    + DisplayText3D(text: string, color: Color, coord: Point3D) : void
+    + DisplayText2D(text: string, color: Color, coord: Point2D) : void
+    + DisplayDistance(line: Segment3D) : void
+    + DisplayPath(points: Point3D[]) : void
+    + DisplayVector(length: Point3D, position: Point3D, color: Color) : void
+    + DisplaySpiral(p0: Point3D, p1: Point3D, color: Color) : void
+    + DisplayClipPlane(plane: ModelPlane3D) : void
+    + DisplayLocalFrame(frame: ModelFrame3D) : void
+    + DisplayConus(upperDiam: float, bottomDiam: float, length: float, frame: ModelFrame3D) : void
+    + DisplaySphere(width: float, frame: ModelFrame3D) : void
+  }
   class SceneView {
     + Surface : SceneSurface
     + UpdateSets(project, resetSelection) : void
@@ -54,6 +66,9 @@ package "BazisGUI.SceneCore. Выбор" {
 }
 package "BazisGUI.SceneCore. Координаты" {
   class ModelPoint3D <<внешний>>
+  class ModelVector3D <<внешний>>
+  class ModelPlane3D <<внешний>>
+  class ModelFrame3D <<внешний>>
   class CameraPoint3D <<внешний>>
   class ViewportPoint <<внешний>>
 }
@@ -65,6 +80,8 @@ package "Model. Поверхностные элементы" {
 }
 package "Geometry. Координаты" {
   class Point3D <<внешний>>
+  class Point2D <<внешний>>
+  class Segment3D <<внешний>>
 }
 
 SceneView *-- SceneSurface
@@ -73,6 +90,14 @@ SceneSurface *-- SceneSelection
 SceneSelection --> SceneSelectionResult
 SceneSurface --> SceneController
 SceneSurface --> ModelPoint3D : точка модели для камеры
+SceneConnection --> SceneController : передача геометрии сцены
+SceneConnection --> ModelPlane3D
+SceneConnection --> ModelFrame3D
+SceneConnection --> ModelPoint3D : точки для SceneCore
+SceneConnection --> ModelVector3D : направление вектора
+SceneConnection --> Segment3D : входной отрезок
+SceneConnection --> Point3D : преобразует координаты текста
+SceneConnection --> Point2D : преобразует координаты текста
 SceneSurface --> CameraPoint3D : глубина выбора
 SceneProjectPresenter --> SceneController
 SceneSelection --> SceneController

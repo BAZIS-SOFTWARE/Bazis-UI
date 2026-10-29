@@ -162,17 +162,17 @@ public partial class ResourceLifetimeTests
             var renderer = new SceneController();
             var text = new TextLayer(null);
             GetField(renderer, "textLayer").SetValue(renderer, text);
-            renderer.DisplayText3D("old label", System.Drawing.Color.Black, new Geometry.Point3D());
+            renderer.DisplayText3D("old label", System.Drawing.Color.Black, 0, 0, 0);
             Call(window, "ShowResults", result, "T");
             while (actions.TryDequeue(out var action))
                 action(renderer);
-            Assert.That(text.Labels.Select(label => label.Text), Is.EquivalentTo(new[] { "10", "20" }));
+            Assert.That(text.Labels3D.Select(label => label.Text), Is.EquivalentTo(new[] { "10", "20" }));
             settings.ShowNodeResultsValue = false;
             settings.ShowElementsResultsValue = false;
             Call(window, "ShowResults", result, "T");
             while (actions.TryDequeue(out var action))
                 action(renderer);
-            Assert.That(text.Labels, Is.Empty);
+            Assert.That(text.Labels3D, Is.Empty);
         }
         finally { window.Close(); }
     }

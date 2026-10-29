@@ -42,16 +42,16 @@ namespace BazisGUI.SceneCore.Text
                 throw new InvalidOperationException("Не удалось загрузить глифы шрифта (wglUseFontBitmapsW)");
         }
 
-        public void DrawText3D(TextLabel label, IRenderContext context)
+        public void DrawText3D(TextLabel3D label, IRenderContext context)
         {
             GL.PushMatrix();
             GL.Color3(label.Color.R, label.Color.G, label.Color.B);
-            GL.RasterPos3(label.Position3D._x, label.Position3D._y, label.Position3D._z);
+            GL.RasterPos3(label.X, label.Y, label.Z);
             CallLists(label.Text);
             GL.PopMatrix();
         }
 
-        public void DrawText2D(TextLabel label, IRenderContext context)
+        public void DrawText2D(TextLabel2D label, IRenderContext context)
         {
             GL.MatrixMode(MatrixMode.Projection);
             GL.PushMatrix();
@@ -63,7 +63,7 @@ namespace BazisGUI.SceneCore.Text
             GL.LoadIdentity();
 
             GL.Color3(label.Color.R, label.Color.G, label.Color.B);
-            GL.RasterPos3(label.Position2D._x, label.Position2D._y, -5);
+            GL.RasterPos3(label.X, label.Y, -5);
             CallLists(label.Text);
 
             GL.MatrixMode(MatrixMode.Projection);

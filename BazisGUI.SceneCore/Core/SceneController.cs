@@ -415,14 +415,18 @@ namespace BazisGUI.SceneCore
         private static string GeometryKey([System.Runtime.CompilerServices.CallerMemberName] string method = "") =>
             $"{method}:{Guid.NewGuid()}";
 
-        public void HideDisplayText3D() => textLayer.Labels.RemoveWhere(l => !l.IsScreenSpace);
-        public void HideDisplayText2D() => textLayer.Labels.RemoveWhere(l => l.IsScreenSpace);
+        public void HideDisplayText3D() => textLayer.Labels3D.Clear();
+        public void HideDisplayText2D() => textLayer.Labels2D.Clear();
 
-        public void DisplayText3D(string str, Color color, Point3D coord) =>
-            textLayer.Labels.Add(new TextLabel { Text = str, Color = color, Position3D = coord, IsScreenSpace = false });
+        /// <summary>Добавляет подпись в координатах модели.</summary>
+        public void DisplayText3D(string str, Color color, double x, double y, double z)
+        {
+            textLayer.Labels3D.Add(new TextLabel3D(str, color, x, y, z));
+        }
 
-        public void DisplayText2D(string str, Color color, Point2D coord) =>
-            textLayer.Labels.Add(new TextLabel { Text = str, Color = color, Position2D = coord, IsScreenSpace = true });
+        /// <summary>Добавляет экранную подпись в физических пикселях от левого нижнего угла окна.</summary>
+        public void DisplayText2D(string str, Color color, double x, double y) =>
+            textLayer.Labels2D.Add(new TextLabel2D(str, color, x, y));
 
         /// <summary>
         /// Разбиение диапазона [min, max] на ranges элементов SceneScaleRange не было реализовано
@@ -449,8 +453,13 @@ namespace BazisGUI.SceneCore
                 sceneScaleLayer.Show(concrete, items);
         }
 
-        public void DisplayLocalFrame(Frame frame)
+        /// <summary>Отображает оси локальной системы координат модели.</summary>
+        public void DisplayLocalFrame(ModelFrame3D frame)
         {
+            var centre = new Point3D(frame.Centre.X, frame.Centre.Y, frame.Centre.Z);
+            var endX = new Point3D(frame.Centre.X + frame.DirectionX.X, frame.Centre.Y + frame.DirectionX.Y, frame.Centre.Z + frame.DirectionX.Z);
+            var endY = new Point3D(frame.Centre.X + frame.DirectionY.X, frame.Centre.Y + frame.DirectionY.Y, frame.Centre.Z + frame.DirectionY.Z);
+            var endZ = new Point3D(frame.Centre.X + frame.DirectionZ.X, frame.Centre.Y + frame.DirectionZ.Y, frame.Centre.Z + frame.DirectionZ.Z);
             geometryObjectsLayer.Add(GeometryKey(), ctx =>
             {
                 var position = ctx.Camera.Position;
@@ -459,9 +468,9 @@ namespace BazisGUI.SceneCore
                 GL.LineWidth(1.5f);
                 GL.Begin(PrimitiveType.Lines);
 
-                DrawAxis(frame.Centre, frame.Centre.Sum(frame.Dir_Z), 0, 0, 1f);
-                DrawAxis(frame.Centre, frame.Centre.Sum(frame.Dir_Y), 0, 1f, 0);
-                DrawAxis(frame.Centre, frame.Centre.Sum(frame.Dir_X), 1, 0.5f, 0);
+                DrawAxis(centre, endZ, 0, 0, 1f);
+                DrawAxis(centre, endY, 0, 1f, 0);
+                DrawAxis(centre, endX, 1, 0.5f, 0);
 
                 GL.End();
                 GL.PopMatrix();
@@ -476,7 +485,8 @@ namespace BazisGUI.SceneCore
             GL.Vertex3(to._x, to._y, to._z);
         }
 
-        public void DisplayPath(Point3D[] points)
+        /// <summary>Отображает путь, заданный точками в координатах модели.</summary>
+        public void DisplayPath(ModelPoint3D[] points)
         {
             if (points.Length <= 1)
                 return;
@@ -486,18 +496,22 @@ namespace BazisGUI.SceneCore
 
             var p0 = path[path.PointsQuantity - 2];
             var p1 = path[path.PointsQuantity - 1];
-            DisplayText3D(path.Length.ToString(), Color.Black,
-                new Point3D((p0._x + p1._x) / 2, (p0._y + p1._y) / 2, (p0._z + p1._z) / 2));
+            var x = (p0.X + p1.X) / 2;
+            var y = (p0.Y + p1.Y) / 2;
+            var z = (p0.Z + p1.Z) / 2;
+            DisplayText3D(path.Length.ToString(), Color.Black, x, y, z);
         }
 
-        public void DisplayLine(Point3D p0, Point3D p1, Color objColor) => AddLine(p0, p1, objColor, GeometryKey());
-        public void DisplaySpiral(Point3D p0, Point3D p1, Color objColor) => AddLine(p0, p1, objColor, GeometryKey());
+        /// <summary>Отображает отрезок между точками модели.</summary>
+        public void DisplayLine(ModelPoint3D p0, ModelPoint3D p1, Color objColor) => AddLine(p0, p1, objColor, GeometryKey());
+        /// <summary>Отображает отрезок, обозначающий спираль.</summary>
+        public void DisplaySpiral(ModelPoint3D p0, ModelPoint3D p1, Color objColor) => AddLine(p0, p1, objColor, GeometryKey());
 
         /// <summary>
         /// Перенос BaseForm.DisplayVector: отрезок из точки posit длиной length, масштаб которого
         /// не зависит от приближения камеры (делится на ScaleFactor).
         /// </summary>
-        public void DisplayVector(Point3D length, Point3D posit, Color objColor)
+        public void DisplayVector(ModelVector3D length, ModelPoint3D posit, Color objColor)
         {
             geometryObjectsLayer.Add(GeometryKey(), ctx =>
             {
@@ -505,13 +519,13 @@ namespace BazisGUI.SceneCore
                 var scale = 1 / ctx.ScaleFactor;
                 GL.PushMatrix();
                 GL.Translate(-position.X, -position.Y, -position.Z);
-                GL.Translate(posit._x, posit._y, posit._z);
+                GL.Translate(posit.X, posit.Y, posit.Z);
                 GL.Scale(scale, scale, scale);
                 GL.Color3(objColor.R, objColor.G, objColor.B);
                 GL.LineWidth(5.0f);
                 GL.Begin(PrimitiveType.Lines);
                 GL.Vertex3(0, 0, 0);
-                GL.Vertex3(length._x, length._y, length._z);
+                GL.Vertex3(length.X, length.Y, length.Z);
                 GL.End();
                 GL.PopMatrix();
             });
@@ -524,7 +538,7 @@ namespace BazisGUI.SceneCore
         public void DisplayGeometryObject(string name, Action<IRenderContext> draw) =>
             geometryObjectsLayer.Add(GeometryKey(name), draw);
 
-        private void AddLine(Point3D p0, Point3D p1, Color objColor, string key)
+        private void AddLine(ModelPoint3D p0, ModelPoint3D p1, Color objColor, string key)
         {
             geometryObjectsLayer.Add(key, ctx =>
             {
@@ -534,8 +548,8 @@ namespace BazisGUI.SceneCore
                 GL.Color3(objColor.R, objColor.G, objColor.B);
                 GL.LineWidth(5.0f);
                 GL.Begin(PrimitiveType.Lines);
-                GL.Vertex3(p0._x, p0._y, p0._z);
-                GL.Vertex3(p1._x, p1._y, p1._z);
+                GL.Vertex3(p0.X, p0.Y, p0.Z);
+                GL.Vertex3(p1.X, p1.Y, p1.Z);
                 GL.End();
                 GL.PopMatrix();
             });
@@ -543,18 +557,22 @@ namespace BazisGUI.SceneCore
 
         // DisplayConus/DisplaySphere/DisplayMarker создают GL-буферы меша на каждый вызов: меш передаётся
         // слою как принадлежащий объекту и удаляется при HideGeometryObj/HideAllGeometryObjs/Dispose.
-        public void DisplayConus(float upperDiam, float bottomDiam, float length, Frame frame)
+        /// <summary>Отображает конус в локальной системе координат модели.</summary>
+        public void DisplayConus(float upperDiam, float bottomDiam, float length, ModelFrame3D frame)
         {
             var mesh = meshFactory.CreateCylinder(bottomDiam / 2, upperDiam / 2, length, Color.Red);
+            var directionZ = new Point3D(frame.DirectionZ.X, frame.DirectionZ.Y, frame.DirectionZ.Z);
+            var upAxis = new Point3D(0, 0, 1);
             geometryObjectsLayer.Add(GeometryKey(), ctx =>
             {
                 var position = ctx.Camera.Position;
                 GL.PushMatrix();
                 GL.Translate(-position.X, -position.Y, -position.Z);
-                GL.Translate(frame.Centre._x, frame.Centre._y, frame.Centre._z);
+                GL.Translate(frame.Centre.X, frame.Centre.Y, frame.Centre.Z);
 
-                var angle = (float)(Math.Acos(Vector.GetCosAngleVectors(new Point3D(0, 0, 1), frame.Dir_Z)) * 180 / Math.PI);
-                var axis = Vector.CrossProd(new Point3D(0, 0, 1), frame.Dir_Z);
+                var cosine = Vector.GetCosAngleVectors(upAxis, directionZ);
+                var angle = (float)(Math.Acos(cosine) * 180 / Math.PI);
+                var axis = Vector.CrossProd(upAxis, directionZ);
                 GL.Rotate(angle, axis._x, axis._y, axis._z);
                 GL.Translate(0, 0, -length);
 
@@ -563,18 +581,22 @@ namespace BazisGUI.SceneCore
             }, mesh);
         }
 
-        public void DisplaySphere(float width, Frame frame)
+        /// <summary>Отображает сферу в локальной системе координат модели.</summary>
+        public void DisplaySphere(float width, ModelFrame3D frame)
         {
             var mesh = meshFactory.CreateSphere(width / 2, Color.Red);
+            var directionZ = new Point3D(frame.DirectionZ.X, frame.DirectionZ.Y, frame.DirectionZ.Z);
+            var upAxis = new Point3D(0, 0, 1);
             geometryObjectsLayer.Add(GeometryKey(), ctx =>
             {
                 var position = ctx.Camera.Position;
                 GL.PushMatrix();
                 GL.Translate(-position.X, -position.Y, -position.Z);
-                GL.Translate(frame.Centre._x, frame.Centre._y, frame.Centre._z);
+                GL.Translate(frame.Centre.X, frame.Centre.Y, frame.Centre.Z);
 
-                var angle = (float)(Math.Acos(Vector.GetCosAngleVectors(new Point3D(0, 0, 1), frame.Dir_Z)) * 180 / Math.PI);
-                var axis = Vector.CrossProd(new Point3D(0, 0, 1), frame.Dir_Z);
+                var cosine = Vector.GetCosAngleVectors(upAxis, directionZ);
+                var angle = (float)(Math.Acos(cosine) * 180 / Math.PI);
+                var axis = Vector.CrossProd(upAxis, directionZ);
                 GL.Rotate(angle, axis._x, axis._y, axis._z);
 
                 mesh.Load();
@@ -586,7 +608,7 @@ namespace BazisGUI.SceneCore
         /// Сплошная сфера-маркер радиуса <paramref name="radius"/> в точке <paramref name="centre"/>
         /// (в BaseForm — gluSphere при показе направления группы).
         /// </summary>
-        public void DisplayMarker(Point3D centre, float radius, Color color)
+        public void DisplayMarker(ModelPoint3D centre, float radius, Color color)
         {
             var mesh = meshFactory.CreateSphere(radius, color);
             geometryObjectsLayer.Add(GeometryKey(), ctx =>
@@ -594,13 +616,14 @@ namespace BazisGUI.SceneCore
                 var position = ctx.Camera.Position;
                 GL.PushMatrix();
                 GL.Translate(-position.X, -position.Y, -position.Z);
-                GL.Translate(centre._x, centre._y, centre._z);
+                GL.Translate(centre.X, centre.Y, centre.Z);
                 mesh.Load();
                 GL.PopMatrix();
             }, mesh);
         }
 
-        public void DisplayDistance(Segment3D line)
+        /// <summary>Отображает отрезок измерения между точками модели.</summary>
+        public void DisplayDistance(ModelPoint3D p0, ModelPoint3D p1)
         {
             geometryObjectsLayer.Add(GeometryKey(), ctx =>
             {
@@ -610,8 +633,8 @@ namespace BazisGUI.SceneCore
                 GL.Color3(1f, 0, 0);
                 GL.LineWidth(5.0f);
                 GL.Begin(PrimitiveType.Lines);
-                GL.Vertex3(line.P0._x, line.P0._y, line.P0._z);
-                GL.Vertex3(line.P1._x, line.P1._y, line.P1._z);
+                GL.Vertex3(p0.X, p0.Y, p0.Z);
+                GL.Vertex3(p1.X, p1.Y, p1.Z);
                 GL.End();
                 GL.PopMatrix();
             });
@@ -641,8 +664,12 @@ namespace BazisGUI.SceneCore
 
         public void HideReflectionPlane() => reflectionPlaneLayer.Clear();
 
-        public void DisplayReflectionPlane(string objName, float[] coeff) =>
-            reflectionPlaneLayer.SetPlane(new Plane(new Point3D(coeff[0], coeff[1], coeff[2]), coeff[3]));
+        public void DisplayReflectionPlane(string objName, float[] coeff)
+        {
+            var normal = new ModelVector3D(coeff[0], coeff[1], coeff[2]);
+            var plane = new ModelPlane3D(normal, coeff[3]);
+            reflectionPlaneLayer.SetPlane(plane);
+        }
 
         public void CopyVBObjects(VBObject original, string copyName) => vboController.CopyVBObjects(original, copyName);
 
@@ -665,27 +692,30 @@ namespace BazisGUI.SceneCore
         /// ClipPlaneLayer.Draw (см. его комментарий) — плоскость не меняется от кадра к кадру,
         /// а вот матрица камеры меняется при вращении/панорамировании.
         /// </summary>
-        public void ChangeClipPlane(Plane clipPlane) => clipPlaneLayer.SetPlane(clipPlane);
+        public void ChangeClipPlane(ModelPlane3D clipPlane) => clipPlaneLayer.SetPlane(clipPlane);
 
         /// <summary>
         /// Матрица объекта (модельная матрица) для VBO сечения: чистая математика без обращения
         /// к GL/VBO, вынесена из ChangeClipPlane отдельно, чтобы её можно было проверить тестами
         /// без живого GL-контекста (см. scene.avalonia.md — то же соображение, что и для камеры).
         /// </summary>
-        public static Matrix<float> ComputeClipPlaneModelMatrix(Plane clipPlane, BoundingBox bounds)
+        public static Matrix<float> ComputeClipPlaneModelMatrix(ModelPlane3D clipPlane, BoundingBox bounds)
         {
             var model = GlMatrix.Identity();
-            var origin = clipPlane.Normal.Mult(clipPlane.Shifting);
-            var sx = Math.Sign(clipPlane.Normal._x);
-            var sy = Math.Sign(clipPlane.Normal._y);
-            var sz = Math.Sign(clipPlane.Normal._z);
+            var normal = new Point3D(clipPlane.Normal.X, clipPlane.Normal.Y, clipPlane.Normal.Z);
+            var origin = normal.Mult(clipPlane.D);
+            var sx = Math.Sign(clipPlane.Normal.X);
+            var sy = Math.Sign(clipPlane.Normal.Y);
+            var sz = Math.Sign(clipPlane.Normal.Z);
             var center = bounds.RightDownFar.Sum(bounds.LeftUpNear).Mult(0.5f);
 
             model = GlMatrix.Translate(model, center._x, center._y, center._z);
             model = GlMatrix.Translate(model, sx * origin._x, sy * origin._y, sz * origin._z);
 
-            var angle = (float)(Math.Acos(Vector.GetCosAngleVectors(new Point3D(0, 0, -1), clipPlane.Normal)) * 180 / Math.PI);
-            var axis = Vector.CrossProd(new Point3D(0, 0, -1), clipPlane.Normal);
+            var viewAxis = new Point3D(0, 0, -1);
+            var cosine = Vector.GetCosAngleVectors(viewAxis, normal);
+            var angle = (float)(Math.Acos(cosine) * 180 / Math.PI);
+            var axis = Vector.CrossProd(viewAxis, normal);
             model = GlMatrix.Rotate(model, angle, axis._x, axis._y, axis._z);
 
             return model;

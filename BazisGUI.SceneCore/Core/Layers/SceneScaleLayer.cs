@@ -98,7 +98,8 @@ namespace BazisGUI.SceneCore.Layers
 
         private void DrawLabel(string text, Point2D position, IRenderContext context)
         {
-            textRenderer.DrawText2D(new TextLabel { Text = text, Color = Color.Black, Position2D = position, IsScreenSpace = true }, context);
+            var label = new TextLabel2D(text, Color.Black, position._x, position._y);
+            textRenderer.DrawText2D(label, context);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace BazisGUI.SceneCore.Text
 
         public void SetFont(string family, float size) => atlas.Build(family, size, Bold);
 
-        public void DrawText3D(TextLabel label, IRenderContext context)
+        public void DrawText3D(TextLabel3D label, IRenderContext context)
         {
             var view = context.Camera.GetViewMatrix();
 
@@ -39,7 +39,8 @@ namespace BazisGUI.SceneCore.Text
             var right = Normalize(new Point3D(view[0, 0], view[0, 1], view[0, 2]), new Point3D(1, 0, 0));
             var up = Normalize(new Point3D(view[1, 0], view[1, 1], view[1, 2]), new Point3D(0, 1, 0));
 
-            DrawGlyphQuads(label.Text, label.Position3D, right, up, label.WorldScale ?? GlyphWorldScale, label.Color);
+            var origin = new Point3D(label.X, label.Y, label.Z);
+            DrawGlyphQuads(label.Text, origin, right, up, label.WorldScale ?? GlyphWorldScale, label.Color);
         }
 
         /// <summary>Приводит вектор к единичной длине; вырожденный вектор заменяется запасным направлением.</summary>
@@ -49,7 +50,7 @@ namespace BazisGUI.SceneCore.Text
             return length > 0 ? vector.Mult(1f / length) : fallback;
         }
 
-        public void DrawText2D(TextLabel label, IRenderContext context)
+        public void DrawText2D(TextLabel2D label, IRenderContext context)
         {
             GL.MatrixMode(MatrixMode.Projection);
             GL.PushMatrix();
@@ -60,7 +61,7 @@ namespace BazisGUI.SceneCore.Text
             GL.PushMatrix();
             GL.LoadIdentity();
 
-            var origin = new Point3D((float)label.Position2D._x, (float)label.Position2D._y, -5);
+            var origin = new Point3D(label.X, label.Y, -5);
             DrawGlyphQuads(label.Text, origin, new Point3D(1, 0, 0), new Point3D(0, 1, 0), 1f, label.Color);
 
             GL.MatrixMode(MatrixMode.Projection);

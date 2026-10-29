@@ -1,5 +1,4 @@
 ﻿using BazisGUI.SceneCore.VBO;
-using Geometry;
 using BazisGUI.SceneCore.Coordinates;
 using System;
 using System.Collections.Generic;
@@ -196,10 +195,10 @@ namespace BazisGUI.SceneCore.Interfaces
         /// </summary>
         bool IsClipPlane { get; set; }
         /// <summary>
-        /// CreateClipPlane
+        /// Задаёт плоскость сечения в координатах модели.
         /// </summary>
         /// <param name="clipPlane"></param>
-        void ChangeClipPlane(Plane clipPlane);
+        void ChangeClipPlane(ModelPlane3D clipPlane);
 
         /// <summary>
         /// IsBlending
@@ -304,19 +303,22 @@ namespace BazisGUI.SceneCore.Interfaces
         /// </summary>
         void HideDisplayText3D();
         /// <summary>
-        /// DisplayText3D
+        /// Добавляет подпись в координатах модели.
         /// </summary>
         /// <param name="str"></param>
         /// <param name="color"></param>
-        /// <param name="coord"></param>
-        void DisplayText3D(string str, Color color, Point3D coord);
+        /// <param name="x">Координата X модели.</param>
+        /// <param name="y">Координата Y модели.</param>
+        /// <param name="z">Координата Z модели.</param>
+        void DisplayText3D(string str, Color color, double x, double y, double z);
         /// <summary>
-        /// DisplayText2D
+        /// Добавляет экранную подпись в физических пикселях от левого нижнего угла окна.
         /// </summary>
         /// <param name="str"></param>
         /// <param name="color"></param>
-        /// <param name="coord"></param>
-        void DisplayText2D(string str, Color color, Point2D coord);
+        /// <param name="x">Горизонтальная координата.</param>
+        /// <param name="y">Вертикальная координата.</param>
+        void DisplayText2D(string str, Color color, double x, double y);
         /// <summary>
         /// HideDisplayText2D
         /// </summary>
@@ -336,48 +338,48 @@ namespace BazisGUI.SceneCore.Interfaces
         /// <param name="scale"></param>
         void DisplaySceneScale(ISceneScale scale);
         /// <summary>
-        /// Display local frame
+        /// Отображает локальную систему координат модели.
         /// </summary>
         /// <param name="frame"></param>
-        void DisplayLocalFrame(Frame frame);
+        void DisplayLocalFrame(ModelFrame3D frame);
         /// <summary>
         /// Display path
         /// </summary>
         /// <param name="points"></param>
-        void DisplayPath(Point3D[] points);
+        void DisplayPath(ModelPoint3D[] points);
         /// <summary>
         /// Display line
         /// </summary>
         /// <param name="p0"></param>
         /// <param name="p1"></param>
         /// <param name="objColor"></param>
-        void DisplayLine(Point3D p0, Point3D p1, Color objColor);
+        void DisplayLine(ModelPoint3D p0, ModelPoint3D p1, Color objColor);
         /// <summary>
         /// Display spiral
         /// </summary>
         /// <param name="p0"></param>
         /// <param name="p1"></param>
         /// <param name="objColor"></param>
-        void DisplaySpiral(Point3D p0, Point3D p1, Color objColor);
+        void DisplaySpiral(ModelPoint3D p0, ModelPoint3D p1, Color objColor);
         /// <summary>
-        /// DisplayConus
+        /// Отображает конус в локальной системе координат модели.
         /// </summary>
         /// <param name="UpperDiam"></param>
         /// <param name="BottomDiam"></param>
         /// <param name="length"></param>
         /// <param name="frame"></param>
-        void DisplayConus(float UpperDiam, float BottomDiam, float length, Frame frame);
+        void DisplayConus(float UpperDiam, float BottomDiam, float length, ModelFrame3D frame);
         /// <summary>
-        /// Display sphere
+        /// Отображает сферу в локальной системе координат модели.
         /// </summary>
         /// <param name="width"></param>
         /// <param name="frame"></param>
-        void DisplaySphere(float width, Frame frame);
+        void DisplaySphere(float width, ModelFrame3D frame);
         /// <summary>
         /// Display distance
         /// </summary>
         /// <param name="line"></param>
-        void DisplayDistance(Segment3D line);
+        void DisplayDistance(ModelPoint3D p0, ModelPoint3D p1);
         /// <summary>
         /// FindObj
         /// </summary>

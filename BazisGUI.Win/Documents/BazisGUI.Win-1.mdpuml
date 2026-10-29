@@ -16,6 +16,8 @@ package "BazisGUI.Win. Сцена" {
     + GetSceneCoordOfScreenVector(x: float, y: float) : ModelVector3D
     + GetScreenCoord(coord: CameraPoint3D) : ViewportPoint
     + SetRotationCentre(modelPoint: ModelPoint3D) : void
+    + DisplayClipPlane(plane: ModelPlane3D) : void
+    + DisplayPath(points: Point3D[]) : void
     + SelectByPoint(sets, point: ViewportPoint, isSelected) : bool
     - GetVisiblePickObjects(sourceSet, elementByNumber) : IEnumerable<ScenePickObject>
     - GetCadSurfacePoints(number: int) : IEnumerable<Point3D>
@@ -28,6 +30,9 @@ package "BazisGUI.Win. Сцена" {
   }
 }
 package "BazisGUI.SceneCore. Сцена" {
+  class ScenePath <<внешний>> {
+    + ScenePath(points: ModelPoint3D[])
+  }
   class SceneController <<внешний>> {
     + Initialization() : void
     + DisplayObjects() : void
@@ -41,6 +46,7 @@ package "BazisGUI.SceneCore. Координаты" {
   class ModelPoint3D <<внешний>>
   class CameraPoint3D <<внешний>>
   class ModelVector3D <<внешний>>
+  class ModelPlane3D <<внешний>>
   class ViewportPoint <<внешний>>
 }
 package "OperationalController. Проект" {
@@ -54,10 +60,12 @@ package "Geometry. Координаты" {
 }
 
 BaseForm --> SceneController : инициализация и кадр
+BaseForm --> ScenePath : преобразованный путь
 BaseForm --> ScenePickObject : точки ModelPoint3D
 BaseForm --> ModelPoint3D : центр вращения
 BaseForm --> CameraPoint3D : проекция и выбор
 BaseForm --> ModelVector3D : перенос камеры
+BaseForm --> ModelPlane3D : плоскость сечения
 BaseForm --> ViewportPoint : выбор с экрана
 BaseForm --> ProjectController : модель и представление
 BaseForm --> ISurfaceElement : триангуляция граней

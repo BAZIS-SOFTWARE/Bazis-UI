@@ -2,6 +2,7 @@ using BazisGUI.Avalonia.Extensions;
 using BazisGUI.Avalonia.Scene;
 using BazisGUI.Avalonia.Utilities;
 using BazisGUI.SceneCore;
+using BazisGUI.SceneCore.Coordinates;
 using BazisGUI.SceneCore.Rendering;
 using BazisGUI.SceneCore.Interfaces;
 using Geometry;
@@ -191,31 +192,61 @@ namespace BazisGUI.Avalonia.Shell
 
         public void FitObjectsToScreen() => scene.Surface.FitToScreen();
 
-        public void DisplayText3D(string str, Color color, Point3D coord) =>
-            scene.Surface.Invoke(sceneController => sceneController.DisplayText3D(str, color, coord));
+        /// <summary>Передаёт координаты подписи модели в SceneCore.</summary>
+        public void DisplayText3D(string str, Color color, Point3D coord)
+        {
+            var x = coord._x;
+            var y = coord._y;
+            var z = coord._z;
+            scene.Surface.Invoke(sceneController => sceneController.DisplayText3D(str, color, x, y, z));
+        }
 
-        public void DisplayText2D(string str, Color color, Point2D coord) =>
-            scene.Surface.Invoke(sceneController => sceneController.DisplayText2D(str, color, coord));
+        /// <summary>Передаёт экранные координаты подписи в SceneCore.</summary>
+        public void DisplayText2D(string str, Color color, Point2D coord)
+        {
+            var x = coord._x;
+            var y = coord._y;
+            scene.Surface.Invoke(sceneController => sceneController.DisplayText2D(str, color, x, y));
+        }
 
-        public void DisplayDistance(Segment3D line) =>
-            scene.Surface.Invoke(sceneController => sceneController.DisplayDistance(line));
+        /// <summary>Передаёт концы измеряемого отрезка в координатах модели.</summary>
+        public void DisplayDistance(Segment3D line)
+        {
+            var p0 = new ModelPoint3D(line.P0._x, line.P0._y, line.P0._z);
+            var p1 = new ModelPoint3D(line.P1._x, line.P1._y, line.P1._z);
+            scene.Surface.Invoke(sceneController => sceneController.DisplayDistance(p0, p1));
+        }
 
-        public void DisplayLocalFrame(Frame frame) =>
+        public void DisplayLocalFrame(ModelFrame3D frame) =>
             scene.Surface.Invoke(sceneController => sceneController.DisplayLocalFrame(frame));
 
-        public void DisplayPath(Point3D[] points) =>
-            scene.Surface.Invoke(sceneController => sceneController.DisplayPath(points));
+        /// <summary>Преобразует точки пути до передачи команды в очередь сцены.</summary>
+        public void DisplayPath(Point3D[] points)
+        {
+            var modelPoints = points.Select(point => new ModelPoint3D(point._x, point._y, point._z)).ToArray();
+            scene.Surface.Invoke(sceneController => sceneController.DisplayPath(modelPoints));
+        }
 
-        public void DisplayVector(Point3D length, Point3D posit, Color objColor) =>
-            scene.Surface.Invoke(sceneController => sceneController.DisplayVector(length, posit, objColor));
+        /// <summary>Передаёт положение и направление вектора в координатах модели.</summary>
+        public void DisplayVector(Point3D length, Point3D posit, Color objColor)
+        {
+            var modelLength = new ModelVector3D(length._x, length._y, length._z);
+            var modelPosition = new ModelPoint3D(posit._x, posit._y, posit._z);
+            scene.Surface.Invoke(sceneController => sceneController.DisplayVector(modelLength, modelPosition, objColor));
+        }
 
-        public void DisplaySpiral(Point3D p0, Point3D p1, Color objColor) =>
-            scene.Surface.Invoke(sceneController => sceneController.DisplaySpiral(p0, p1, objColor));
+        /// <summary>Передаёт концы обозначения спирали в координатах модели.</summary>
+        public void DisplaySpiral(Point3D p0, Point3D p1, Color objColor)
+        {
+            var modelP0 = new ModelPoint3D(p0._x, p0._y, p0._z);
+            var modelP1 = new ModelPoint3D(p1._x, p1._y, p1._z);
+            scene.Surface.Invoke(sceneController => sceneController.DisplaySpiral(modelP0, modelP1, objColor));
+        }
 
-        public void DisplayConus(float upperDiam, float bottomDiam, float length, Frame frame) =>
+        public void DisplayConus(float upperDiam, float bottomDiam, float length, ModelFrame3D frame) =>
             scene.Surface.Invoke(sceneController => sceneController.DisplayConus(upperDiam, bottomDiam, length, frame));
 
-        public void DisplaySphere(float width, Frame frame) =>
+        public void DisplaySphere(float width, ModelFrame3D frame) =>
             scene.Surface.Invoke(sceneController => sceneController.DisplaySphere(width, frame));
 
         /// <summary>

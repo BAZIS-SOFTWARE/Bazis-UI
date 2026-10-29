@@ -122,7 +122,8 @@ namespace BazisGUI.SceneCore.Layers
 
         private void DrawLabel(string text, Color color, Point3D position, IRenderContext context)
         {
-            textRenderer.DrawText3D(new TextLabel { Text = text, Color = color, Position3D = position, WorldScale = LabelScale }, context);
+            var label = new TextLabel3D(text, color, position._x, position._y, position._z, LabelScale);
+            textRenderer.DrawText3D(label, context);
         }
     }
 }
