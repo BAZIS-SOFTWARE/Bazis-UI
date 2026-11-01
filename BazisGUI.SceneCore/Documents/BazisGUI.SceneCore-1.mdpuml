@@ -59,6 +59,11 @@ package "BazisGUI.SceneCore. Координаты" {
     + Z : double [get]
     + ModelVector3D(x: double, y: double, z: double)
   }
+  class ScreenPoint <<readonly struct>> {
+    + X : double [get]
+    + Y : double [get]
+    + ScreenPoint(x: double, y: double)
+  }
   class ModelPlane3D {
     + Normal : ModelVector3D [get]
     + D : double [get]

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using BazisGUI.SceneCore.Interfaces;
+using BazisGUI.SceneCore.Coordinates;
 using BazisGUI.SceneCore.VBO;
-using Geometry;
 
 namespace BazisGUI.SceneCore.Primitives
 {
@@ -30,7 +30,7 @@ namespace BazisGUI.SceneCore.Primitives
 
         public VBObject CreateSphere(double radius, Color color)
         {
-            var triangles = new List<Point3D>();
+            var triangles = new List<ModelPoint3D>();
 
             for (var i = 0; i < Stacks; i++)
             {
@@ -55,27 +55,27 @@ namespace BazisGUI.SceneCore.Primitives
             return BuildTriangleMesh(triangles, color, "Sphere");
         }
 
-        private static Point3D SpherePoint(double radius, double phi, double theta)
+        private static ModelPoint3D SpherePoint(double radius, double phi, double theta)
         {
             var x = radius * Math.Cos(phi) * Math.Cos(theta);
             var y = radius * Math.Cos(phi) * Math.Sin(theta);
             var z = radius * Math.Sin(phi);
-            return new Point3D(x, y, z);
+            return new ModelPoint3D(x, y, z);
         }
 
         private static VBObject BuildCylinder(double baseR, double topR, double height, Color color, string name)
         {
-            var triangles = new List<Point3D>();
+            var triangles = new List<ModelPoint3D>();
 
             for (var i = 0; i < Slices; i++)
             {
                 var a0 = 2 * Math.PI * i / Slices;
                 var a1 = 2 * Math.PI * (i + 1) / Slices;
 
-                var b0 = new Point3D(baseR * Math.Cos(a0), baseR * Math.Sin(a0), 0);
-                var b1 = new Point3D(baseR * Math.Cos(a1), baseR * Math.Sin(a1), 0);
-                var t0 = new Point3D(topR * Math.Cos(a0), topR * Math.Sin(a0), height);
-                var t1 = new Point3D(topR * Math.Cos(a1), topR * Math.Sin(a1), height);
+                var b0 = new ModelPoint3D(baseR * Math.Cos(a0), baseR * Math.Sin(a0), 0);
+                var b1 = new ModelPoint3D(baseR * Math.Cos(a1), baseR * Math.Sin(a1), 0);
+                var t0 = new ModelPoint3D(topR * Math.Cos(a0), topR * Math.Sin(a0), height);
+                var t1 = new ModelPoint3D(topR * Math.Cos(a1), topR * Math.Sin(a1), height);
 
                 triangles.Add(b0); triangles.Add(b1); triangles.Add(t1);
                 triangles.Add(b0); triangles.Add(t1); triangles.Add(t0);
@@ -84,7 +84,7 @@ namespace BazisGUI.SceneCore.Primitives
             return BuildTriangleMesh(triangles, color, name);
         }
 
-        private static VBObject BuildTriangleMesh(List<Point3D> triangles, Color color, string name)
+        private static VBObject BuildTriangleMesh(List<ModelPoint3D> triangles, Color color, string name)
         {
             var vertexCount = triangles.Count;
             var coords = new float[vertexCount * 3];
@@ -104,21 +104,29 @@ namespace BazisGUI.SceneCore.Primitives
                 var p1 = triangles[i + 1];
                 var p2 = triangles[i + 2];
 
-                var normal = Vector.CrossProd(p1.Sub(p0), p2.Sub(p0));
-                var normNormal = Vector.GetVectorNorm(normal);
+                var firstX = p1.X - p0.X;
+                var firstY = p1.Y - p0.Y;
+                var firstZ = p1.Z - p0.Z;
+                var secondX = p2.X - p0.X;
+                var secondY = p2.Y - p0.Y;
+                var secondZ = p2.Z - p0.Z;
+                var normalX = firstY * secondZ - firstZ * secondY;
+                var normalY = firstZ * secondX - firstX * secondZ;
+                var normalZ = firstX * secondY - firstY * secondX;
+                var normalLength = Math.Sqrt(normalX * normalX + normalY * normalY + normalZ * normalZ);
 
                 for (var k = 0; k < 3; k++)
                 {
                     var v = triangles[i + k];
                     var vi = i + k;
 
-                    coords[vi * 3 + 0] = (float)v._x;
-                    coords[vi * 3 + 1] = (float)v._y;
-                    coords[vi * 3 + 2] = (float)v._z;
+                    coords[vi * 3 + 0] = (float)v.X;
+                    coords[vi * 3 + 1] = (float)v.Y;
+                    coords[vi * 3 + 2] = (float)v.Z;
 
-                    normals[vi * 3 + 0] = (float)normNormal._x;
-                    normals[vi * 3 + 1] = (float)normNormal._y;
-                    normals[vi * 3 + 2] = (float)normNormal._z;
+                    normals[vi * 3 + 0] = (float)(normalX / normalLength);
+                    normals[vi * 3 + 1] = (float)(normalY / normalLength);
+                    normals[vi * 3 + 2] = (float)(normalZ / normalLength);
 
                     colors[vi * 4 + 0] = r;
                     colors[vi * 4 + 1] = g;

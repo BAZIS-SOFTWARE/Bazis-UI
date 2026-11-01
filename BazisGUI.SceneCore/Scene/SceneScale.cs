@@ -1,6 +1,5 @@
 ﻿
 using BazisGUI.SceneCore.Interfaces;
-using Geometry;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,11 +42,11 @@ namespace BazisGUI.SceneCore
 
         
 
-        private void DisplayText(string str, Color color, Point3D coord)
+        private void DisplayText(string str, Color color, Coordinates.ModelPoint3D coord)
         {
             GL.PushMatrix();
             GL.Color3(color.R, color.G, color.B);
-            GL.RasterPos3(coord._x, coord._y, coord._z);
+            GL.RasterPos3(coord.X, coord.Y, coord.Z);
             GL.ListBase(FontBase);//Устанавливаем базу на FontBase!
             var handle = GCHandle.Alloc(str, GCHandleType.Pinned);
             var ptr = handle.AddrOfPinnedObject();
@@ -75,18 +74,18 @@ namespace BazisGUI.SceneCore
         //    {
         //        var incrY = pos_y + (step_Y / 2) - (step_Y / 2);
 
-        //        DisplayText(items[i].Min.ToString(), Color.FromArgb(0, 0, 0), new Point3D(Coord_X + 20, incrY, -5));
+        //        DisplayText(items[i].Min.ToString(), Color.FromArgb(0, 0, 0), new Coordinates.ModelPoint3D(Coord_X + 20, incrY, -5));
         //        incrY = incrY + step_Y;
-        //        DisplayText(items[i].Max.ToString(), Color.FromArgb(0, 0, 0), new Point3D(Coord_X + 20, incrY, -5));
+        //        DisplayText(items[i].Max.ToString(), Color.FromArgb(0, 0, 0), new Coordinates.ModelPoint3D(Coord_X + 20, incrY, -5));
 
         //        pos_y += step_Y;
         //    }
 
         //    SizeF messageSize = g.MeasureString(Title, font);
-        //    DisplayText(Title, Color.FromArgb(0, 0, 0), new Point3D(Coord_X - messageSize.Width / 2, pos_y + 30, -5));
+        //    DisplayText(Title, Color.FromArgb(0, 0, 0), new Coordinates.ModelPoint3D(Coord_X - messageSize.Width / 2, pos_y + 30, -5));
 
         //    messageSize = g.MeasureString(Info, font);
-        //    DisplayText(Info, Color.FromArgb(0, 0, 0), new Point3D(Coord_X - messageSize.Width / 2, pos_y + 15, -5));
+        //    DisplayText(Info, Color.FromArgb(0, 0, 0), new Coordinates.ModelPoint3D(Coord_X - messageSize.Width / 2, pos_y + 15, -5));
         //    Finish_GUI_Plane();
         //}
 

@@ -825,7 +825,7 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
             e.Pointer.Capture(this);
         if (pressedButton == SceneMouseButton.Left && project != null)
         {
-            var start = new System.Drawing.Point((int)args.Position._x, height - (int)args.Position._y);
+            var start = new System.Drawing.Point((int)args.Position.X, height - (int)args.Position.Y);
             controller.SelectionRectangle.winScrenePosit = start;
             controller.SelectionRectangle.winScreneCoord = start;
         }
@@ -843,7 +843,7 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
         args.Button = pressedButton;
         if (pressedButton == SceneMouseButton.Left && project != null)
         {
-            controller.SelectionRectangle.winScreneCoord = new System.Drawing.Point((int)args.Position._x, height - (int)args.Position._y);
+            controller.SelectionRectangle.winScreneCoord = new System.Drawing.Point((int)args.Position.X, height - (int)args.Position.Y);
             RequestNextFrameRendering();
         }
         controller.OnPointerMoved(args);
@@ -1006,7 +1006,7 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
         var scaling = TopLevel.GetTopLevel(this)?.RenderScaling ?? 1;
         return new SceneMouseEventArgs
         {
-            Position = new Point2D(position.X * scaling, position.Y * scaling),
+            Position = new ScreenPoint(position.X * scaling, position.Y * scaling),
             Modifiers = CreateModifiers(e.KeyModifiers)
         };
     }

@@ -1,5 +1,4 @@
 using System.Drawing;
-using Geometry;
 
 namespace BazisGUI.SceneCore.Rendering
 {
@@ -19,6 +18,6 @@ namespace BazisGUI.SceneCore.Rendering
         public bool DisplayBasis { get; set; } = true;
         public bool DisplayCompass { get; set; } = true;
         public bool Transparency { get; set; }
-        public Point2D LighterPosition { get; set; } = new Point2D(0, 0);
+        public Coordinates.ScreenPoint LighterPosition { get; set; } = new Coordinates.ScreenPoint(0, 0);
     }
 }

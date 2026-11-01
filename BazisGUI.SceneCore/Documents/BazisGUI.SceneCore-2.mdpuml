@@ -7,11 +7,12 @@ hide empty members
 
 package "BazisGUI.SceneCore. Геометрия" {
   class BoundingBox {
-    + LeftUpNear : Point3D [get]
-    + RightDownFar : Point3D [get]
+    + LeftUpNear : ModelPoint3D [get]
+    + RightDownFar : ModelPoint3D [get]
     + GetSqrCoordsSum() : double
     + GetDiagonalLength() : double
-    + GetCornerPoints() : IEnumerable<Point3D>
+    + GetCornerPoints() : IEnumerable<ModelPoint3D>
+    + GetSidesPoints() : IEnumerable<ModelPoint3D[]>
     + Merge(other: BoundingBox) : BoundingBox
   }
   class ScenePath {
@@ -86,11 +87,7 @@ package "BazisGUI.SceneCore. Буферы" {
     + CreateSphere(radius: double, color) : VBObject
   }
 }
-package "Geometry. Координаты" {
-  class Point3D <<внешний>>
-}
-
-BoundingBox --> Point3D
+BoundingBox --> ModelPoint3D
 ScenePath --> ModelPoint3D
 Set --> ScenePickObject
 Set --> ScenePickKind
@@ -104,7 +101,7 @@ RectangleBox --> ViewportPoint
 RectangleBox --> ViewportTriangle
 ViewportTriangle --> ViewportPoint
 ClipPlane --> BoundingBox
-QuadricMeshFactory --> Point3D
+QuadricMeshFactory --> ModelPoint3D
 
 note right of ViewportPoint
   Физические пиксели; начало в центре окна,
@@ -112,7 +109,7 @@ note right of ViewportPoint
 end note
 
 note bottom of ClipPlane
-  Координаты Point3D хранятся как double;
+  Координаты ModelPoint3D хранятся как double;
   в массивы вершин OpenGL записывается float.
   [[BazisGUI.SceneCore.mdpuml Назад к BazisGUI.SceneCore]]
   [[BazisGUI.SceneCore-1.mdpuml Камера BazisGUI.SceneCore-1]]

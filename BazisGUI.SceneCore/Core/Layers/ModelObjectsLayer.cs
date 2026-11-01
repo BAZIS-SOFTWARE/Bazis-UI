@@ -40,7 +40,7 @@ namespace BazisGUI.SceneCore.Layers
 
             GL.PushMatrix();
             GL.LoadIdentity();
-            GL.Translate(settings.LighterPosition._x, settings.LighterPosition._y, 0);
+            GL.Translate(settings.LighterPosition.X, settings.LighterPosition.Y, 0);
             GL.Light(LightName.Light0, LightParameter.Position, new float[] { 0f, 0f, 1f, 1f });
             GL.PopMatrix();
 

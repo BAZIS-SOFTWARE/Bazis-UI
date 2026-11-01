@@ -1,5 +1,5 @@
 ﻿using BazisGUI.SceneCore.Interfaces;
-using Geometry;
+using BazisGUI.SceneCore.Coordinates;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -25,7 +25,7 @@ namespace BazisGUI.SceneCore.VBO
             Gl_LineWidth = 2.5f;
             GL_ObjType = GLObjType.triangle;
 
-            normalSize = (float)(Vector.GetVectorLength(BoundingBox.LeftUpNear.Sub(BoundingBox.RightDownFar)) * 0.125);
+            normalSize = (float)(BoundingBox.GetDiagonalLength() * 0.125);
         }
         /// <summary>
         /// Создает VBO-массивы для 6 плоскостей из паралелепипеда
@@ -37,40 +37,40 @@ namespace BazisGUI.SceneCore.VBO
             var leftUp = box.LeftUpNear;
             var rightDown = box.RightDownFar;
 
-            var points = new Point3D[18];
+            var points = new ModelPoint3D[18];
             var indices = Enumerable.Range(0, 18).ToArray();
             var glCoords = new float[54];
             var glColors = new float[72];
 
             //Left Plane
             points[0] = leftUp;//Left up near
-            points[1] = new Point3D(leftUp._x, leftUp._y, rightDown._z);//Left up far
-            points[2] = new Point3D(leftUp._x, rightDown._y, rightDown._z);//Left down far
+            points[1] = new ModelPoint3D(leftUp.X, leftUp.Y, rightDown.Z);//Left up far
+            points[2] = new ModelPoint3D(leftUp.X, rightDown.Y, rightDown.Z);//Left down far
             //Right Plane
-            points[3] = new Point3D(rightDown._x, leftUp._y, rightDown._z);//Right up far
-            points[4] = new Point3D(rightDown._x, leftUp._y, leftUp._z);//Right up near
-            points[5] = new Point3D(rightDown._x, rightDown._y, leftUp._z);//Right down near
+            points[3] = new ModelPoint3D(rightDown.X, leftUp.Y, rightDown.Z);//Right up far
+            points[4] = new ModelPoint3D(rightDown.X, leftUp.Y, leftUp.Z);//Right up near
+            points[5] = new ModelPoint3D(rightDown.X, rightDown.Y, leftUp.Z);//Right down near
             //Back Plane
-            points[6] = new Point3D(leftUp._x, leftUp._y, rightDown._z);//Back left up
-            points[7] = new Point3D(rightDown._x, leftUp._y, rightDown._z);//Back right up
+            points[6] = new ModelPoint3D(leftUp.X, leftUp.Y, rightDown.Z);//Back left up
+            points[7] = new ModelPoint3D(rightDown.X, leftUp.Y, rightDown.Z);//Back right up
             points[8] = rightDown;//Back right down
             //Front Plane
-            points[9] = new Point3D(rightDown._x, leftUp._y, leftUp._z);//Front right up
+            points[9] = new ModelPoint3D(rightDown.X, leftUp.Y, leftUp.Z);//Front right up
             points[10] = leftUp;//Front left up
-            points[11] = new Point3D(leftUp._x, rightDown._y, leftUp._z);//Front left down
+            points[11] = new ModelPoint3D(leftUp.X, rightDown.Y, leftUp.Z);//Front left down
             //Down Plane
-            points[12] = new Point3D(rightDown._x, rightDown._y, leftUp._z);//Down right near
-            points[13] = new Point3D(leftUp._x, rightDown._y, leftUp._z);//Down left near
-            points[14] = new Point3D(leftUp._x, rightDown._y, rightDown._z);//Down left far
+            points[12] = new ModelPoint3D(rightDown.X, rightDown.Y, leftUp.Z);//Down right near
+            points[13] = new ModelPoint3D(leftUp.X, rightDown.Y, leftUp.Z);//Down left near
+            points[14] = new ModelPoint3D(leftUp.X, rightDown.Y, rightDown.Z);//Down left far
             //Up Plane
             points[15] = leftUp;//Up left near
-            points[16] = new Point3D(rightDown._x, leftUp._y, leftUp._z);//Up right near
-            points[17] = new Point3D(rightDown._x, leftUp._y, rightDown._z);//Up right far
+            points[16] = new ModelPoint3D(rightDown.X, leftUp.Y, leftUp.Z);//Up right near
+            points[17] = new ModelPoint3D(rightDown.X, leftUp.Y, rightDown.Z);//Up right far
             for (var i = 0; i < points.Length; ++i)
             {
-                glCoords[i * 3] = (float)points[i]._x;
-                glCoords[i * 3 + 1] = (float)points[i]._y;
-                glCoords[i * 3 + 2] = (float)points[i]._z;
+                glCoords[i * 3] = (float)points[i].X;
+                glCoords[i * 3 + 1] = (float)points[i].Y;
+                glCoords[i * 3 + 2] = (float)points[i].Z;
 
                 glColors[i * 4] = 0;
                 glColors[i * 4 + 1] = 1;

@@ -1,9 +1,9 @@
-﻿using Geometry;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BazisGUI.SceneCore.Coordinates;
 
 namespace BazisGUI.SceneCore
 {
@@ -12,23 +12,23 @@ namespace BazisGUI.SceneCore
     /// </summary>
     public class BoundingBox : IComparable<BoundingBox>
     {
-        List<Point3D[]> surfaces;
+        List<ModelPoint3D[]> surfaces;
 
-        Point3D[] corners; 
+        ModelPoint3D[] corners;
         /// <summary>
         /// Левая верхняя ближняя точка ограничивающего параллелепипеда
         /// </summary>
-        public Point3D LeftUpNear { get; private set; }
+        public ModelPoint3D LeftUpNear { get; private set; }
         /// <summary>
         /// Правая нижняя дальняя точка ограничивающего параллелепипеда
         /// </summary>
-        public Point3D RightDownFar { get; private set; }
+        public ModelPoint3D RightDownFar { get; private set; }
         /// <summary>
         /// Конструктор BoundingBoxCoords
         /// </summary>
         /// <param name="leftUpNear">Левая верхняя ближняя точка</param>
         /// <param name="rightDownNear">Правая нижняя дальняя точка</param>
-        public BoundingBox(Point3D leftUpNear, Point3D rightDownNear)
+        public BoundingBox(ModelPoint3D leftUpNear, ModelPoint3D rightDownNear)
         {
             LeftUpNear = leftUpNear;
             RightDownFar = rightDownNear;
@@ -63,27 +63,27 @@ namespace BazisGUI.SceneCore
 
         private void CreateCornerPoints(float xMin, float xMax, float yMin, float yMax, float zMin, float zMax)
         {
-            corners = new Point3D[8];
-            corners[0] = new Point3D(xMin, yMax, zMax);
-            corners[1] = new Point3D(xMin, yMax, zMin);
-            corners[2] = new Point3D(xMin, yMin, zMin);
-            corners[3] = new Point3D(xMin, yMin, zMax);
-            corners[4] = new Point3D(xMax, yMin, zMin);
-            corners[5] = new Point3D(xMax, yMin, zMax);
-            corners[6] = new Point3D(xMax, yMax, zMax);
-            corners[7] = new Point3D(xMax, yMax, zMin);
+            corners = new ModelPoint3D[8];
+            corners[0] = new ModelPoint3D(xMin, yMax, zMax);
+            corners[1] = new ModelPoint3D(xMin, yMax, zMin);
+            corners[2] = new ModelPoint3D(xMin, yMin, zMin);
+            corners[3] = new ModelPoint3D(xMin, yMin, zMax);
+            corners[4] = new ModelPoint3D(xMax, yMin, zMin);
+            corners[5] = new ModelPoint3D(xMax, yMin, zMax);
+            corners[6] = new ModelPoint3D(xMax, yMax, zMax);
+            corners[7] = new ModelPoint3D(xMax, yMax, zMin);
         }
 
         private void CreateSides()
         {
-            surfaces = new List<Point3D[]>()
+            surfaces = new List<ModelPoint3D[]>()
                 {
-                    new Point3D[]{ LeftUpNear, corners[1], corners[2], corners[3] },
-                    new Point3D[]{corners[2], RightDownFar, corners[7], corners[1] },
-                    new Point3D[]{corners[6], corners[5], RightDownFar, corners[7] },
-                    new Point3D[]{ LeftUpNear, corners[3], corners[5], corners[6] },
-                    new Point3D[]{ LeftUpNear, corners[6], corners[7], corners[1] },
-                    new Point3D[]{ corners[2], RightDownFar, corners[5], corners[3] },
+                    new ModelPoint3D[]{ LeftUpNear, corners[1], corners[2], corners[3] },
+                    new ModelPoint3D[]{corners[2], RightDownFar, corners[7], corners[1] },
+                    new ModelPoint3D[]{corners[6], corners[5], RightDownFar, corners[7] },
+                    new ModelPoint3D[]{ LeftUpNear, corners[3], corners[5], corners[6] },
+                    new ModelPoint3D[]{ LeftUpNear, corners[6], corners[7], corners[1] },
+                    new ModelPoint3D[]{ corners[2], RightDownFar, corners[5], corners[3] },
                 };
         }
 
@@ -91,7 +91,7 @@ namespace BazisGUI.SceneCore
         /// GetCornerPoints
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Point3D[]> GetSidesPoints()
+        public IEnumerable<ModelPoint3D[]> GetSidesPoints()
         {
             foreach (var surface in surfaces)
             {
@@ -103,7 +103,7 @@ namespace BazisGUI.SceneCore
         /// GetCornerPoints
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Point3D> GetCornerPoints()
+        public IEnumerable<ModelPoint3D> GetCornerPoints()
         {
             foreach (var item in corners)
             {
@@ -117,9 +117,9 @@ namespace BazisGUI.SceneCore
         /// <returns></returns>
         public double GetSqrCoordsSum()
         {
-            var dx = LeftUpNear._x - RightDownFar._x;
-            var dy = LeftUpNear._y - RightDownFar._y;
-            var dz = LeftUpNear._z - RightDownFar._z;
+            var dx = LeftUpNear.X - RightDownFar.X;
+            var dy = LeftUpNear.Y - RightDownFar.Y;
+            var dz = LeftUpNear.Z - RightDownFar.Z;
 
             return dx * dx + dy * dy + dz * dz;
         }
@@ -140,8 +140,8 @@ namespace BazisGUI.SceneCore
         /// <returns>Диагональ параллелепипеда</returns>
         public double GetDiagonalLength()
         {
-            var vec = LeftUpNear.Sub(RightDownFar);
-            return Vector.GetVectorLength(vec);
+            var squaredLength = GetSqrCoordsSum();
+            return Math.Sqrt(squaredLength);
         }
 
         /// <summary>
@@ -151,20 +151,12 @@ namespace BazisGUI.SceneCore
         /// <returns>Результат слияния двух BoundingBox</returns>
         public BoundingBox Merge(BoundingBox other)
         {
-            var merge = new BoundingBox(LeftUpNear, RightDownFar);
+            if (other == null)
+                return new BoundingBox(LeftUpNear, RightDownFar);
 
-            if (other != null)
-            {
-                merge.LeftUpNear._x = Math.Min(merge.LeftUpNear._x, other.LeftUpNear._x);
-                merge.LeftUpNear._y = Math.Max(merge.LeftUpNear._y, other.LeftUpNear._y);
-                merge.LeftUpNear._z = Math.Max(merge.LeftUpNear._z, other.LeftUpNear._z);
-
-                merge.RightDownFar._x = Math.Max(merge.RightDownFar._x, other.RightDownFar._x);
-                merge.RightDownFar._y = Math.Min(merge.RightDownFar._y, other.RightDownFar._y);
-                merge.RightDownFar._z = Math.Min(merge.RightDownFar._z, other.RightDownFar._z);
-            }
-
-            return merge;
+            var leftUpNear = new ModelPoint3D(Math.Min(LeftUpNear.X, other.LeftUpNear.X), Math.Max(LeftUpNear.Y, other.LeftUpNear.Y), Math.Max(LeftUpNear.Z, other.LeftUpNear.Z));
+            var rightDownFar = new ModelPoint3D(Math.Max(RightDownFar.X, other.RightDownFar.X), Math.Min(RightDownFar.Y, other.RightDownFar.Y), Math.Min(RightDownFar.Z, other.RightDownFar.Z));
+            return new BoundingBox(leftUpNear, rightDownFar);
         }
     }
 }

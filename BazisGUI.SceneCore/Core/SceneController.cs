@@ -14,7 +14,6 @@ using BazisGUI.SceneCore.EventsArgs;
 using BazisGUI.SceneCore.Interfaces;
 using BazisGUI.SceneCore.VBO;
 using BazisGUI.SceneCore; // AverageColorRenderer, Advanced3DClipper, ClipPlaneRenderer, SceneScale, ScenePath
-using Geometry;
 using BazisGUI.SceneCore.Coordinates;
 using MathNet.Numerics.LinearAlgebra;
 using OpenTK.Graphics.OpenGL;
@@ -310,14 +309,14 @@ namespace BazisGUI.SceneCore
 
         public float LightTranslateX
         {
-            get => (float)settings.LighterPosition._x;
-            set => settings.LighterPosition = new Point2D(value, settings.LighterPosition._y);
+            get => (float)settings.LighterPosition.X;
+            set => settings.LighterPosition = new ScreenPoint(value, settings.LighterPosition.Y);
         }
 
         public float LightTranslateY
         {
-            get => (float)settings.LighterPosition._y;
-            set => settings.LighterPosition = new Point2D(settings.LighterPosition._x, value);
+            get => (float)settings.LighterPosition.Y;
+            set => settings.LighterPosition = new ScreenPoint(settings.LighterPosition.X, value);
         }
 
         /// <summary>Не участвует в расчёте освещения — в исходном коде тоже не было реализации.</summary>
@@ -342,7 +341,7 @@ namespace BazisGUI.SceneCore
                 {
                     foreach (var corner in obj.BoundingBox.GetCornerPoints())
                     {
-                        var modelCorner = new ModelPoint3D(corner._x, corner._y, corner._z);
+                        var modelCorner = new ModelPoint3D(corner.X, corner.Y, corner.Z);
                         var sceneCorner = camera.GetSceneCoord(modelCorner);
                         var scr = camera.GetScreenCoord(sceneCorner);
                         var rad = (float)Math.Sqrt(scr.X * scr.X + scr.Y * scr.Y);
@@ -456,10 +455,10 @@ namespace BazisGUI.SceneCore
         /// <summary>Отображает оси локальной системы координат модели.</summary>
         public void DisplayLocalFrame(ModelFrame3D frame)
         {
-            var centre = new Point3D(frame.Centre.X, frame.Centre.Y, frame.Centre.Z);
-            var endX = new Point3D(frame.Centre.X + frame.DirectionX.X, frame.Centre.Y + frame.DirectionX.Y, frame.Centre.Z + frame.DirectionX.Z);
-            var endY = new Point3D(frame.Centre.X + frame.DirectionY.X, frame.Centre.Y + frame.DirectionY.Y, frame.Centre.Z + frame.DirectionY.Z);
-            var endZ = new Point3D(frame.Centre.X + frame.DirectionZ.X, frame.Centre.Y + frame.DirectionZ.Y, frame.Centre.Z + frame.DirectionZ.Z);
+            var centre = new ModelPoint3D(frame.Centre.X, frame.Centre.Y, frame.Centre.Z);
+            var endX = new ModelPoint3D(frame.Centre.X + frame.DirectionX.X, frame.Centre.Y + frame.DirectionX.Y, frame.Centre.Z + frame.DirectionX.Z);
+            var endY = new ModelPoint3D(frame.Centre.X + frame.DirectionY.X, frame.Centre.Y + frame.DirectionY.Y, frame.Centre.Z + frame.DirectionY.Z);
+            var endZ = new ModelPoint3D(frame.Centre.X + frame.DirectionZ.X, frame.Centre.Y + frame.DirectionZ.Y, frame.Centre.Z + frame.DirectionZ.Z);
             geometryObjectsLayer.Add(GeometryKey(), ctx =>
             {
                 var position = ctx.Camera.Position;
@@ -477,12 +476,12 @@ namespace BazisGUI.SceneCore
             });
         }
 
-        private static void DrawAxis(Point3D from, Point3D to, float r, float g, float b)
+        private static void DrawAxis(ModelPoint3D from, ModelPoint3D to, float r, float g, float b)
         {
             GL.Color3(r, g, b);
-            GL.Vertex3(from._x, from._y, from._z);
+            GL.Vertex3(from.X, from.Y, from.Z);
             GL.Color3(r, g, b);
-            GL.Vertex3(to._x, to._y, to._z);
+            GL.Vertex3(to.X, to.Y, to.Z);
         }
 
         /// <summary>Отображает путь, заданный точками в координатах модели.</summary>
@@ -561,8 +560,7 @@ namespace BazisGUI.SceneCore
         public void DisplayConus(float upperDiam, float bottomDiam, float length, ModelFrame3D frame)
         {
             var mesh = meshFactory.CreateCylinder(bottomDiam / 2, upperDiam / 2, length, Color.Red);
-            var directionZ = new Point3D(frame.DirectionZ.X, frame.DirectionZ.Y, frame.DirectionZ.Z);
-            var upAxis = new Point3D(0, 0, 1);
+            var directionZ = frame.DirectionZ;
             geometryObjectsLayer.Add(GeometryKey(), ctx =>
             {
                 var position = ctx.Camera.Position;
@@ -570,10 +568,10 @@ namespace BazisGUI.SceneCore
                 GL.Translate(-position.X, -position.Y, -position.Z);
                 GL.Translate(frame.Centre.X, frame.Centre.Y, frame.Centre.Z);
 
-                var cosine = Vector.GetCosAngleVectors(upAxis, directionZ);
+                var directionLength = Math.Sqrt(directionZ.X * directionZ.X + directionZ.Y * directionZ.Y + directionZ.Z * directionZ.Z);
+                var cosine = directionZ.Z / directionLength;
                 var angle = (float)(Math.Acos(cosine) * 180 / Math.PI);
-                var axis = Vector.CrossProd(upAxis, directionZ);
-                GL.Rotate(angle, axis._x, axis._y, axis._z);
+                GL.Rotate(angle, -directionZ.Y, directionZ.X, 0);
                 GL.Translate(0, 0, -length);
 
                 mesh.Load();
@@ -585,8 +583,7 @@ namespace BazisGUI.SceneCore
         public void DisplaySphere(float width, ModelFrame3D frame)
         {
             var mesh = meshFactory.CreateSphere(width / 2, Color.Red);
-            var directionZ = new Point3D(frame.DirectionZ.X, frame.DirectionZ.Y, frame.DirectionZ.Z);
-            var upAxis = new Point3D(0, 0, 1);
+            var directionZ = frame.DirectionZ;
             geometryObjectsLayer.Add(GeometryKey(), ctx =>
             {
                 var position = ctx.Camera.Position;
@@ -594,10 +591,10 @@ namespace BazisGUI.SceneCore
                 GL.Translate(-position.X, -position.Y, -position.Z);
                 GL.Translate(frame.Centre.X, frame.Centre.Y, frame.Centre.Z);
 
-                var cosine = Vector.GetCosAngleVectors(upAxis, directionZ);
+                var directionLength = Math.Sqrt(directionZ.X * directionZ.X + directionZ.Y * directionZ.Y + directionZ.Z * directionZ.Z);
+                var cosine = directionZ.Z / directionLength;
                 var angle = (float)(Math.Acos(cosine) * 180 / Math.PI);
-                var axis = Vector.CrossProd(upAxis, directionZ);
-                GL.Rotate(angle, axis._x, axis._y, axis._z);
+                GL.Rotate(angle, -directionZ.Y, directionZ.X, 0);
 
                 mesh.Load();
                 GL.PopMatrix();
@@ -702,21 +699,24 @@ namespace BazisGUI.SceneCore
         public static Matrix<float> ComputeClipPlaneModelMatrix(ModelPlane3D clipPlane, BoundingBox bounds)
         {
             var model = GlMatrix.Identity();
-            var normal = new Point3D(clipPlane.Normal.X, clipPlane.Normal.Y, clipPlane.Normal.Z);
-            var origin = normal.Mult(clipPlane.D);
+            var normal = clipPlane.Normal;
+            var originX = normal.X * clipPlane.D;
+            var originY = normal.Y * clipPlane.D;
+            var originZ = normal.Z * clipPlane.D;
             var sx = Math.Sign(clipPlane.Normal.X);
             var sy = Math.Sign(clipPlane.Normal.Y);
             var sz = Math.Sign(clipPlane.Normal.Z);
-            var center = bounds.RightDownFar.Sum(bounds.LeftUpNear).Mult(0.5f);
+            var centerX = (bounds.RightDownFar.X + bounds.LeftUpNear.X) * 0.5;
+            var centerY = (bounds.RightDownFar.Y + bounds.LeftUpNear.Y) * 0.5;
+            var centerZ = (bounds.RightDownFar.Z + bounds.LeftUpNear.Z) * 0.5;
 
-            model = GlMatrix.Translate(model, center._x, center._y, center._z);
-            model = GlMatrix.Translate(model, sx * origin._x, sy * origin._y, sz * origin._z);
+            model = GlMatrix.Translate(model, centerX, centerY, centerZ);
+            model = GlMatrix.Translate(model, sx * originX, sy * originY, sz * originZ);
 
-            var viewAxis = new Point3D(0, 0, -1);
-            var cosine = Vector.GetCosAngleVectors(viewAxis, normal);
+            var normalLength = Math.Sqrt(normal.X * normal.X + normal.Y * normal.Y + normal.Z * normal.Z);
+            var cosine = -normal.Z / normalLength;
             var angle = (float)(Math.Acos(cosine) * 180 / Math.PI);
-            var axis = Vector.CrossProd(viewAxis, normal);
-            model = GlMatrix.Rotate(model, angle, axis._x, axis._y, axis._z);
+            model = GlMatrix.Rotate(model, angle, normal.Y, -normal.X, 0);
 
             return model;
         }

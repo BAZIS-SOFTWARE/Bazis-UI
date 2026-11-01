@@ -225,7 +225,7 @@ namespace BazisGUI.Win
                 {
                     // добавление прямоугольника выбора по параллелограмму объекта
                     var scrPoints = glObj.BoundingBox.GetCornerPoints().
-                        Select(c => GetSceenCoord(c)).
+                        Select(c => GetSceenCoord(c.X, c.Y, c.Z)).
                         Select(s => GetScreenCoord(s));
 
                     var rect = new RectangleBox(scrPoints);

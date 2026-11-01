@@ -135,10 +135,10 @@ namespace BazisGUI.Avalonia.Shell
             foreach (var item in vbo.BoundingBox.GetSidesPoints())
             {
                 GL.Begin(PrimitiveType.LineStrip);
-                GL.Vertex3(item[0]._x, item[0]._y, item[0]._z);
-                GL.Vertex3(item[1]._x, item[1]._y, item[1]._z);
-                GL.Vertex3(item[2]._x, item[2]._y, item[2]._z);
-                GL.Vertex3(item[3]._x, item[3]._y, item[3]._z);
+                GL.Vertex3(item[0].X, item[0].Y, item[0].Z);
+                GL.Vertex3(item[1].X, item[1].Y, item[1].Z);
+                GL.Vertex3(item[2].X, item[2].Y, item[2].Z);
+                GL.Vertex3(item[3].X, item[3].Y, item[3].Z);
                 GL.End();
             }
 

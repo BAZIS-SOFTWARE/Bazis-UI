@@ -30,6 +30,10 @@ package "BazisGUI.Win. Сцена" {
   }
 }
 package "BazisGUI.SceneCore. Сцена" {
+  class BoundingBox <<внешний>> {
+    + GetCornerPoints() : IEnumerable<ModelPoint3D>
+    + GetSidesPoints() : IEnumerable<ModelPoint3D[]>
+  }
   class ScenePath <<внешний>> {
     + ScenePath(points: ModelPoint3D[])
   }
@@ -60,6 +64,7 @@ package "Geometry. Координаты" {
 }
 
 BaseForm --> SceneController : инициализация и кадр
+BaseForm --> BoundingBox : углы и стороны
 BaseForm --> ScenePath : преобразованный путь
 BaseForm --> ScenePickObject : точки ModelPoint3D
 BaseForm --> ModelPoint3D : центр вращения

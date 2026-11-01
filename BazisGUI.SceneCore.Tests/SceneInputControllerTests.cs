@@ -1,7 +1,7 @@
 using BazisGUI.SceneCore.Camera;
 using BazisGUI.SceneCore.Input;
 using BazisGUI.SceneCore.EventsArgs;
-using Geometry;
+using BazisGUI.SceneCore.Coordinates;
 
 namespace BazisGUI.SceneCore.Tests
 {
@@ -44,7 +44,7 @@ namespace BazisGUI.SceneCore.Tests
             SelectObjectsEventArgs selection = null;
             input.SelectionRequested += (_, e) => selection = e;
 
-            input.OnPointerReleased(new SceneMouseEventArgs { Button = SceneMouseButton.Left, Position = new Point2D(10, 10) });
+            input.OnPointerReleased(new SceneMouseEventArgs { Button = SceneMouseButton.Left, Position = new ScreenPoint(10, 10) });
 
             Assert.That(selection, Is.Null);
         }
@@ -56,9 +56,9 @@ namespace BazisGUI.SceneCore.Tests
             SelectObjectsEventArgs selection = null;
             input.SelectionRequested += (_, e) => selection = e;
 
-            input.OnPointerPressed(new SceneMouseEventArgs { Button = SceneMouseButton.Left, Position = new Point2D(10, 10) });
+            input.OnPointerPressed(new SceneMouseEventArgs { Button = SceneMouseButton.Left, Position = new ScreenPoint(10, 10) });
             input.CancelSelection();
-            input.OnPointerReleased(new SceneMouseEventArgs { Button = SceneMouseButton.Left, Position = new Point2D(10, 10) });
+            input.OnPointerReleased(new SceneMouseEventArgs { Button = SceneMouseButton.Left, Position = new ScreenPoint(10, 10) });
 
             Assert.That(selection, Is.Null);
         }
@@ -70,8 +70,8 @@ namespace BazisGUI.SceneCore.Tests
             SelectObjectsEventArgs selection = null;
             input.SelectionRequested += (_, e) => selection = e;
 
-            input.OnPointerPressed(new SceneMouseEventArgs { Button = SceneMouseButton.Left, Position = new Point2D(10, 10) });
-            input.OnPointerReleased(new SceneMouseEventArgs { Button = SceneMouseButton.Left, Position = new Point2D(10, 10) });
+            input.OnPointerPressed(new SceneMouseEventArgs { Button = SceneMouseButton.Left, Position = new ScreenPoint(10, 10) });
+            input.OnPointerReleased(new SceneMouseEventArgs { Button = SceneMouseButton.Left, Position = new ScreenPoint(10, 10) });
 
             Assert.That(selection, Is.Not.Null);
         }
@@ -84,7 +84,7 @@ namespace BazisGUI.SceneCore.Tests
             var (_, input) = Create();
             SelectObjectsEventArgs selection = null;
             input.SelectionRequested += (_, e) => selection = e;
-            var position = new Point2D(pointerX, pointerY);
+            var position = new ScreenPoint(pointerX, pointerY);
 
             input.OnPointerPressed(new SceneMouseEventArgs { Button = SceneMouseButton.Left, Position = position });
             input.OnPointerReleased(new SceneMouseEventArgs { Button = SceneMouseButton.Left, Position = position });

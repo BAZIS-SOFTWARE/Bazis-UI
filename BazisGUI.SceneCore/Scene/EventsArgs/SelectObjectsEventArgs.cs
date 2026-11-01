@@ -1,5 +1,4 @@
-﻿using Geometry;
-
+﻿
 using RectangleBox = BazisGUI.SceneCore.Picking.RectangleBox;
 
 namespace BazisGUI.SceneCore.EventsArgs

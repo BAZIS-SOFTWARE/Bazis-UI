@@ -4,7 +4,6 @@ using BazisGUI.SceneCore.Camera;
 using BazisGUI.SceneCore.EventsArgs;
 using BazisGUI.SceneCore.Interfaces;
 using BazisGUI.SceneCore.Coordinates;
-using Geometry;
 using RectangleBox = BazisGUI.SceneCore.Picking.RectangleBox;
 
 namespace BazisGUI.SceneCore.Input
@@ -22,7 +21,7 @@ namespace BazisGUI.SceneCore.Input
         private readonly SceneCamera camera;
         private readonly RubberBandSelection rubberBand = new RubberBandSelection();
 
-        private Point2D lastPosition;
+        private ScreenPoint lastPosition;
         private bool moved;
 
         public Viewport Viewport { get; set; }
@@ -40,7 +39,7 @@ namespace BazisGUI.SceneCore.Input
         }
 
         /// <summary>Переводит позицию указателя в координаты окна просмотра с началом в центре.</summary>
-        private ViewportPoint ToCentered(Point2D p) => new ViewportPoint(p._x - Viewport.Width / 2.0, Viewport.Height / 2.0 - p._y);
+        private ViewportPoint ToCentered(ScreenPoint p) => new ViewportPoint(p.X - Viewport.Width / 2.0, Viewport.Height / 2.0 - p.Y);
 
         public void OnPointerPressed(SceneMouseEventArgs args)
         {

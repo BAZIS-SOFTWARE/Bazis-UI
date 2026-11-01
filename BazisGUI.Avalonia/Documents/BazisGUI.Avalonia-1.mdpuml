@@ -66,6 +66,7 @@ package "BazisGUI.SceneCore. Выбор" {
 }
 package "BazisGUI.SceneCore. Координаты" {
   class ModelPoint3D <<внешний>>
+  class ScreenPoint <<внешний>>
   class ModelVector3D <<внешний>>
   class ModelPlane3D <<внешний>>
   class ModelFrame3D <<внешний>>
@@ -90,6 +91,7 @@ SceneSurface *-- SceneSelection
 SceneSelection --> SceneSelectionResult
 SceneSurface --> SceneController
 SceneSurface --> ModelPoint3D : точка модели для камеры
+SceneSurface --> ScreenPoint : позиция указателя
 SceneConnection --> SceneController : передача геометрии сцены
 SceneConnection --> ModelPlane3D
 SceneConnection --> ModelFrame3D

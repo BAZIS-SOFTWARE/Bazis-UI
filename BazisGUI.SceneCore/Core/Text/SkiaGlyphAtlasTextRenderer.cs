@@ -1,6 +1,6 @@
 using System;
 using BazisGUI.SceneCore.Rendering;
-using Geometry;
+using BazisGUI.SceneCore.Coordinates;
 using OpenTK.Graphics.OpenGL;
 
 namespace BazisGUI.SceneCore.Text
@@ -36,18 +36,18 @@ namespace BazisGUI.SceneCore.Text
             // Строки видовой матрицы не единичны: FitObjectsToScreen и зум колесом домножают её
             // линейную часть на масштаб. Без нормировки размер буквы умножался на этот масштаб —
             // на пустой сцене (масштаб 1) текст был виден, а после загрузки проекта пропадал.
-            var right = Normalize(new Point3D(view[0, 0], view[0, 1], view[0, 2]), new Point3D(1, 0, 0));
-            var up = Normalize(new Point3D(view[1, 0], view[1, 1], view[1, 2]), new Point3D(0, 1, 0));
+            var right = Normalize(new ModelVector3D(view[0, 0], view[0, 1], view[0, 2]), new ModelVector3D(1, 0, 0));
+            var up = Normalize(new ModelVector3D(view[1, 0], view[1, 1], view[1, 2]), new ModelVector3D(0, 1, 0));
 
-            var origin = new Point3D(label.X, label.Y, label.Z);
+            var origin = new ModelPoint3D(label.X, label.Y, label.Z);
             DrawGlyphQuads(label.Text, origin, right, up, label.WorldScale ?? GlyphWorldScale, label.Color);
         }
 
         /// <summary>Приводит вектор к единичной длине; вырожденный вектор заменяется запасным направлением.</summary>
-        private static Point3D Normalize(Point3D vector, Point3D fallback)
+        private static ModelVector3D Normalize(ModelVector3D vector, ModelVector3D fallback)
         {
-            var length = Vector.GetVectorLength(vector);
-            return length > 0 ? vector.Mult(1f / length) : fallback;
+            var length = Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y + vector.Z * vector.Z);
+            return length > 0 ? new ModelVector3D(vector.X / length, vector.Y / length, vector.Z / length) : fallback;
         }
 
         public void DrawText2D(TextLabel2D label, IRenderContext context)
@@ -61,8 +61,8 @@ namespace BazisGUI.SceneCore.Text
             GL.PushMatrix();
             GL.LoadIdentity();
 
-            var origin = new Point3D(label.X, label.Y, -5);
-            DrawGlyphQuads(label.Text, origin, new Point3D(1, 0, 0), new Point3D(0, 1, 0), 1f, label.Color);
+            var origin = new ModelPoint3D(label.X, label.Y, -5);
+            DrawGlyphQuads(label.Text, origin, new ModelVector3D(1, 0, 0), new ModelVector3D(0, 1, 0), 1f, label.Color);
 
             GL.MatrixMode(MatrixMode.Projection);
             GL.PopMatrix();
@@ -70,7 +70,7 @@ namespace BazisGUI.SceneCore.Text
             GL.PopMatrix();
         }
 
-        private void DrawGlyphQuads(string text, Point3D origin, Point3D right, Point3D up, float scale, System.Drawing.Color color)
+        private void DrawGlyphQuads(string text, ModelPoint3D origin, ModelVector3D right, ModelVector3D up, float scale, System.Drawing.Color color)
         {
             if (string.IsNullOrEmpty(text))
                 return;
@@ -99,16 +99,15 @@ namespace BazisGUI.SceneCore.Text
                 var w = glyph.Width * scale;
                 var h = glyph.Height * scale;
 
-                var baseP = origin.Sum(right.Mult(cursor));
-                var p00 = baseP;
-                var p10 = baseP.Sum(right.Mult(w));
-                var p11 = baseP.Sum(right.Mult(w)).Sum(up.Mult(h));
-                var p01 = baseP.Sum(up.Mult(h));
+                var p00 = new ModelPoint3D(origin.X + right.X * cursor, origin.Y + right.Y * cursor, origin.Z + right.Z * cursor);
+                var p10 = new ModelPoint3D(p00.X + right.X * w, p00.Y + right.Y * w, p00.Z + right.Z * w);
+                var p11 = new ModelPoint3D(p10.X + up.X * h, p10.Y + up.Y * h, p10.Z + up.Z * h);
+                var p01 = new ModelPoint3D(p00.X + up.X * h, p00.Y + up.Y * h, p00.Z + up.Z * h);
 
-                GL.TexCoord2(glyph.U0, glyph.V1); GL.Vertex3(p00._x, p00._y, p00._z);
-                GL.TexCoord2(glyph.U1, glyph.V1); GL.Vertex3(p10._x, p10._y, p10._z);
-                GL.TexCoord2(glyph.U1, glyph.V0); GL.Vertex3(p11._x, p11._y, p11._z);
-                GL.TexCoord2(glyph.U0, glyph.V0); GL.Vertex3(p01._x, p01._y, p01._z);
+                GL.TexCoord2(glyph.U0, glyph.V1); GL.Vertex3(p00.X, p00.Y, p00.Z);
+                GL.TexCoord2(glyph.U1, glyph.V1); GL.Vertex3(p10.X, p10.Y, p10.Z);
+                GL.TexCoord2(glyph.U1, glyph.V0); GL.Vertex3(p11.X, p11.Y, p11.Z);
+                GL.TexCoord2(glyph.U0, glyph.V0); GL.Vertex3(p01.X, p01.Y, p01.Z);
 
                 cursor += glyph.Advance * scale;
             }

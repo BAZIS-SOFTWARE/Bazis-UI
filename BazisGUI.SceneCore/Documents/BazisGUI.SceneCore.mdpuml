@@ -26,6 +26,7 @@ package "BazisGUI.SceneCore. Координаты" {
   class ModelVector3D <<BazisGUI.SceneCore-1>> [[BazisGUI.SceneCore-1.mdpuml BazisGUI.SceneCore-1]]
   class ModelPlane3D <<BazisGUI.SceneCore-1>> [[BazisGUI.SceneCore-1.mdpuml BazisGUI.SceneCore-1]]
   class ModelFrame3D <<BazisGUI.SceneCore-1>> [[BazisGUI.SceneCore-1.mdpuml BazisGUI.SceneCore-1]]
+  class ScreenPoint <<BazisGUI.SceneCore-1>> [[BazisGUI.SceneCore-1.mdpuml BazisGUI.SceneCore-1]]
   class ViewportPoint <<BazisGUI.SceneCore-2>> [[BazisGUI.SceneCore-2.mdpuml BazisGUI.SceneCore-2]]
 }
 package "BazisGUI.SceneCore. Буферы" {
@@ -37,10 +38,6 @@ package "BazisGUI.SceneCore. Текст" {
   class TextLabel2D <<BazisGUI.SceneCore-3>> [[BazisGUI.SceneCore-3.mdpuml BazisGUI.SceneCore-3]]
   class TextLabel3D <<BazisGUI.SceneCore-3>> [[BazisGUI.SceneCore-3.mdpuml BazisGUI.SceneCore-3]]
 }
-package "Geometry. Координаты" {
-  class Point3D <<внешний>>
-}
-
 SceneCamera --> GlMatrix
 SceneCamera --> ModelPoint3D
 SceneCamera --> CameraPoint3D
@@ -56,9 +53,9 @@ ScenePicker --> RectangleBox
 ScenePicker --> ViewportTriangle
 RectangleBox --> ViewportPoint
 ScenePath --> ModelPoint3D
-BoundingBox --> Point3D
+BoundingBox --> ModelPoint3D
 ClipPlane --> BoundingBox
-QuadricMeshFactory --> Point3D
+QuadricMeshFactory --> ModelPoint3D
 TextLayer --> TextLabel2D
 TextLayer --> TextLabel3D
 
@@ -67,8 +64,5 @@ note bottom of SceneCamera
 end note
 note bottom of BoundingBox
   Геометрия, выбор и буферы: [[BazisGUI.SceneCore-2.mdpuml BazisGUI.SceneCore-2]].
-end note
-note bottom of Point3D
-  Внешняя геометрия BazisCore: мировые координаты double.
 end note
 @enduml

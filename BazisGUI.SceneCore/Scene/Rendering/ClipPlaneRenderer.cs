@@ -1,6 +1,5 @@
 ﻿
 using BazisGUI.SceneCore.VBO;
-using Geometry;
 using OpenTK.Graphics.OpenGL;
 using System;
 

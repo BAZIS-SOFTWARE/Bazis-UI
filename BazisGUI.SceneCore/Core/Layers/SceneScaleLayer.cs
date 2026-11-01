@@ -4,7 +4,6 @@ using System.Linq;
 using BazisGUI.SceneCore; // SceneScale (существующий переиспользуемый класс)
 using BazisGUI.SceneCore.Rendering;
 using BazisGUI.SceneCore.Text;
-using Geometry;
 using OpenTK.Graphics.OpenGL;
 
 namespace BazisGUI.SceneCore.Layers
@@ -87,18 +86,18 @@ namespace BazisGUI.SceneCore.Layers
             var posY = scale.Coord_Y;
             foreach (var item in itemList)
             {
-                DrawLabel(item.Min.ToString(), new Point2D(scale.Coord_X + 20, posY), context);
-                DrawLabel(item.Max.ToString(), new Point2D(scale.Coord_X + 20, posY + stepY), context);
+                DrawLabel(item.Min.ToString(), scale.Coord_X + 20, posY, context);
+                DrawLabel(item.Max.ToString(), scale.Coord_X + 20, posY + stepY, context);
                 posY += stepY;
             }
 
-            DrawLabel(scale.Title, new Point2D(scale.Coord_X - (scale.Title?.Length ?? 0) * ApproxCharWidth / 2, posY + 30), context);
-            DrawLabel(scale.Info, new Point2D(scale.Coord_X - (scale.Info?.Length ?? 0) * ApproxCharWidth / 2, posY + 15), context);
+            DrawLabel(scale.Title, scale.Coord_X - (scale.Title?.Length ?? 0) * ApproxCharWidth / 2, posY + 30, context);
+            DrawLabel(scale.Info, scale.Coord_X - (scale.Info?.Length ?? 0) * ApproxCharWidth / 2, posY + 15, context);
         }
 
-        private void DrawLabel(string text, Point2D position, IRenderContext context)
+        private void DrawLabel(string text, double x, double y, IRenderContext context)
         {
-            var label = new TextLabel2D(text, Color.Black, position._x, position._y);
+            var label = new TextLabel2D(text, Color.Black, x, y);
             textRenderer.DrawText2D(label, context);
         }
     }

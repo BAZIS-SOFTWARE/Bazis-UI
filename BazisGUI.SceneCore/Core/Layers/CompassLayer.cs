@@ -1,9 +1,9 @@
 using System.Drawing;
 using BazisGUI.SceneCore.Primitives;
+using BazisGUI.SceneCore.Coordinates;
 using BazisGUI.SceneCore.Rendering;
 using BazisGUI.SceneCore.Text;
 using BazisGUI.SceneCore.VBO;
-using Geometry;
 using MathNet.Numerics.LinearAlgebra;
 using OpenTK.Graphics.OpenGL;
 
@@ -103,9 +103,9 @@ namespace BazisGUI.SceneCore.Layers
             GL.PopMatrix();
 
             var black = Color.Black;
-            DrawLabel("X", black, new Point3D(60, 0, 0), context);
-            DrawLabel("Y", black, new Point3D(0, 60, 0), context);
-            DrawLabel("Z", black, new Point3D(0, 0, 60), context);
+            DrawLabel("X", black, new ModelPoint3D(60, 0, 0), context);
+            DrawLabel("Y", black, new ModelPoint3D(0, 60, 0), context);
+            DrawLabel("Z", black, new ModelPoint3D(0, 0, 60), context);
 
             GL.MatrixMode(MatrixMode.Projection);
             GL.PopMatrix();
@@ -120,9 +120,9 @@ namespace BazisGUI.SceneCore.Layers
                 BazisGUI.SceneCore.VBO.VBO.DeleteAllBuffers(mesh);
         }
 
-        private void DrawLabel(string text, Color color, Point3D position, IRenderContext context)
+        private void DrawLabel(string text, Color color, ModelPoint3D position, IRenderContext context)
         {
-            var label = new TextLabel3D(text, color, position._x, position._y, position._z, LabelScale);
+            var label = new TextLabel3D(text, color, position.X, position.Y, position.Z, LabelScale);
             textRenderer.DrawText3D(label, context);
         }
     }
