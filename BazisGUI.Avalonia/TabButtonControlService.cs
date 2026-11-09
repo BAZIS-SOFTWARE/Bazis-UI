@@ -3,6 +3,7 @@ using global::Avalonia.Automation;
 using global::Avalonia.Controls;
 using global::Avalonia.Interactivity;
 using global::Avalonia.Media;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,6 +27,7 @@ namespace BazisGUI.Avalonia
 
             buttonsPanel = container.FindControl<StackPanel>("tabButtonsPanel");
             pagesPanel = container.FindControl<Grid>("tabPagesPanel");
+            buttonsPanel.SizeChanged += (sender, e) => UpdateButtonHeights();
         }
 
         public Button GetButton(string name) => buttons[name];
@@ -48,6 +50,7 @@ namespace BazisGUI.Avalonia
             buttons[name] = btn;
             controls[name] = control;
 
+            UpdateButtonHeights();
             BringToFront(name);
         }
 
@@ -61,6 +64,7 @@ namespace BazisGUI.Avalonia
 
             buttons.Remove(name);
             controls.Remove(name);
+            UpdateButtonHeights();
 
             var nav = controls.Keys.FirstOrDefault();
             if (nav != null)
@@ -78,6 +82,21 @@ namespace BazisGUI.Avalonia
             btn.Click += button_MouseDown;
 
             return btn;
+        }
+
+        private void UpdateButtonHeights()
+        {
+            if (buttons.Count == 0 || buttonsPanel.Bounds.Height <= 0)
+                return;
+
+            var spacePerButton = buttonsPanel.Bounds.Height / buttons.Count;
+            var gap = Math.Min(3, Math.Max(0, spacePerButton - 1));
+            var height = Math.Max(1, Math.Min(130, Math.Floor(spacePerButton - gap)));
+            foreach (var btn in buttons.Values)
+            {
+                btn.Height = height;
+                btn.Margin = new Thickness(0, 0, 0, gap);
+            }
         }
 
         private void button_MouseDown(object sender, RoutedEventArgs e)

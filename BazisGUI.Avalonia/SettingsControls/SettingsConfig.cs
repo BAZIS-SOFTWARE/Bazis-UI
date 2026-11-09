@@ -41,9 +41,9 @@ namespace BazisGUI.Avalonia.SettingsControls
         public int Scale_Y_Coord;
         public float Scale_MaxValue;
         public float Scale_MinValue;
-        public int Scale_Precision;
-        public int Scale_Intervals;
-        public int Scale_scale;
+        public int Scale_Precision = 2;
+        public int Scale_Intervals = 10;
+        public int Scale_scale = 1;
         internal bool ShowNodesOnCurves;
 
         public bool ShowAllMeshWhenGeneration;
@@ -52,6 +52,12 @@ namespace BazisGUI.Avalonia.SettingsControls
         public bool CheckCondValue;
 
         public string Language = "en";
+
+        /// <summary>Восстанавливает допустимое число интервалов для старых конфигураций.</summary>
+        public void NormalizeResultScaleSettings()
+        {
+            Scale_Intervals = Scale_Intervals == 0 ? 10 : Math.Clamp(Scale_Intervals, 2, 10);
+        }
 
         /// <summary>
         /// Приводит TransparencyValue к процентам: до перехода на ModelView значение хранилось в 0..255.

@@ -50,8 +50,8 @@
         <MenuItem x:Name="dToolStripMenuItem2"/>
       </MenuItem>
       <MenuItem x:Name="dataBasesMenuItem" IsEnabled="false">
-        <MenuItem x:Name="материалыMenuItem" ToggleType="CheckBox"/>
-        <MenuItem x:Name="функцииMenuItem" ToggleType="CheckBox"/>
+        <MenuItem x:Name="материалыMenuItem"/>
+        <MenuItem x:Name="функцииMenuItem"/>
       </MenuItem>
       <MenuItem x:Name="tasksMenuItem" IsEnabled="false">
         <MenuItem x:Name="создатьToolStripMenuItem1"/>
@@ -99,7 +99,7 @@
       </Grid.ColumnDefinitions>
       <Grid x:Name="splitContainer3Panel1" ColumnDefinitions="30,*">
         <StackPanel x:Name="tabButtonsPanel"/>
-        <Grid x:Name="tabPagesPanel" Grid.Column="1"/>
+        <Grid x:Name="tabPagesPanel" Grid.Column="1" Margin="0,0,2,0"/>
       </Grid>
       <GridSplitter x:Name="splitContainer3Splitter" Grid.Column="1"
                     Width="8" ResizeDirection="Columns" Background="#F0F0F0"/>

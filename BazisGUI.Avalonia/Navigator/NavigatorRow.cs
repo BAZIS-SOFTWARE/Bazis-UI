@@ -74,7 +74,8 @@ namespace BazisGUI.Avalonia.Navigator
             image.IsVisible = bitmap != null;
 
             text.Text = node.Text;
-            text.Foreground = node.ForeColor.IsEmpty ? Brushes.Black : Properties.PropertiesPanelControl.ColorBrush(node.ForeColor);
+            text.Foreground = node.IsSelected ? Brushes.Black :
+                node.ForeColor.IsEmpty ? Brushes.Black : Properties.PropertiesPanelControl.ColorBrush(node.ForeColor);
             AutomationProperties.SetName(this, node.Text);
 
             UpdateActions();

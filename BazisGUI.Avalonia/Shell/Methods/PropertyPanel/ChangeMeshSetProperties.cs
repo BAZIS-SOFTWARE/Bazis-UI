@@ -17,7 +17,9 @@ namespace BazisGUI.Avalonia.Shell
         {
             var setName = navigator.SelectedNode.Text.Split(' ')[1];
             ISetInfo _objectsSet;
-            if (dimm == 3)
+            if (dimm == 0)
+                _objectsSet = project.GetModelSetInfo(ObjType.Узел, setName);
+            else if (dimm == 3)
                 _objectsSet = project.GetModelSetInfo(ObjType.Элемент3D, setName);
             else if (dimm == 2)
                 _objectsSet = project.GetModelSetInfo(ObjType.Элемент2D, setName);

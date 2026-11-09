@@ -18,7 +18,7 @@ namespace BazisGUI.Avalonia.Shell
             ResultDbPath = string.Empty;
             resultTimes = Array.Empty<float>();
             resultsController = new PostProc.PostProcController();
-            var intervals = settingsConfig.Scale_Intervals == 0 ? 2 : settingsConfig.Scale_Intervals;
+            var intervals = settingsConfig.Scale_Intervals;
             resultsController.FillRange(settingsConfig.Scale_MinValue, settingsConfig.Scale_MaxValue, intervals, settingsConfig.Scale_Precision);
             if (navigator.TrySearchNodes(NodeName.Results, out List<TreeNode> nodes))
                 foreach (var node in nodes.ToArray())

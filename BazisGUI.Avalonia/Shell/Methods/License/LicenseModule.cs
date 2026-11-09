@@ -13,14 +13,12 @@ namespace BazisGUI.Avalonia.Shell
 
         private bool TryServerConnection()
         {
-            var net = Environment.GetEnvironmentVariable("BazisServerPath", EnvironmentVariableTarget.Machine);
+            var net = Environment.GetEnvironmentVariable("BazisServerPath");
 
-            if (net != null)
+            if (!string.IsNullOrWhiteSpace(net))
             {
-                var iPAddress = IPAddress.Parse(net.Split(':')[0]);
-                var port = int.Parse(net.Split(':')[1]);
-
-                serverConnection = new ClientController(iPAddress, port);
+                var endpoint = IPEndPoint.Parse(net);
+                serverConnection = new ClientController(endpoint.Address, endpoint.Port);
 
                 return true;
             }

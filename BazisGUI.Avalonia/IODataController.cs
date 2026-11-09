@@ -34,6 +34,7 @@ namespace BazisGUI.Avalonia
                 var settings = File.ReadAllText(fullPath);
                 var config = (SettingsConfig)JsonConvert.DeserializeObject(settings, typeof(SettingsConfig));
                 config?.NormalizeTransparencyValue();
+                config?.NormalizeResultScaleSettings();
                 return config;
             }
             else return null;

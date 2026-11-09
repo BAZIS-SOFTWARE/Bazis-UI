@@ -79,14 +79,17 @@
     <Setter Property="Data" Value="M 0,2 L 4,6 L 8,2" />
   </Style>
   <Style Selector="TreeView.database-tree TreeViewItem:selected">
-    <Setter Property="Foreground" Value="#FFFFFF" />
+    <Setter Property="Foreground" Value="#000000" />
   </Style>
   <Style Selector="TreeView.database-tree TreeViewItem:selected /template/ Border#DatabaseNodeHeader">
-    <Setter Property="Background" Value="#0078D7" />
+    <Setter Property="Background" Value="{DynamicResource RowSelectionBrush}" />
   </Style>
   <Style Selector="TextBox.database-cell, TextBox.database-cell:pointerover, TextBox.database-cell:focus">
     <Setter Property="BorderThickness" Value="0.5" />
     <Setter Property="BorderBrush" Value="#7A7A7A" />
+  </Style>
+  <Style Selector="TextBox.database-cell /template/ Border#PART_BorderElement, TextBox.database-cell:pointerover /template/ Border#PART_BorderElement, TextBox.database-cell:focus /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="{Binding $parent[TextBox].Background}" />
   </Style>
   <!-- The 16 px indicator is independent of its label, so text can follow system DPI. -->
   <Style Selector="CheckBox.database-toggle, RadioButton.database-toggle">

@@ -28,8 +28,11 @@ namespace BazisGUI.Avalonia.Shell
         {
             var btn = материалыMenuItem;
             var name = Resources.BaseForm_материалыMenuItem_Click_Materials;
-            // CheckOnClick: MenuItem с ToggleType = CheckBox переключает IsChecked до события Click.
-            if (btn.IsChecked)
+            // Галочка в заголовке не создаёт общую колонку Fluent, которая не сужается после снятия выбора.
+            var isChecked = !btn.IsChecked;
+            btn.IsChecked = isChecked;
+            btn.Header = isChecked ? $"✓  {name}" : name;
+            if (isChecked)
                 OpenMaterialsDB(name);
             else
                 TabButtonsService.RemoveControl(name);
@@ -76,8 +79,11 @@ namespace BazisGUI.Avalonia.Shell
             var btn = функцииMenuItem;
             var name = Resources.BaseForm_функцииMenuItem_Click_Functions;
 
-            // CheckOnClick: MenuItem с ToggleType = CheckBox переключает IsChecked до события Click.
-            if (btn.IsChecked)
+            // Галочка в заголовке не создаёт общую колонку Fluent, которая не сужается после снятия выбора.
+            var isChecked = !btn.IsChecked;
+            btn.IsChecked = isChecked;
+            btn.Header = isChecked ? $"✓  {name}" : name;
+            if (isChecked)
                 OpenFunctionsDB(name);
             else
                 TabButtonsService.RemoveControl(name);

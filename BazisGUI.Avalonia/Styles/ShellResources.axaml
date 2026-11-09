@@ -16,6 +16,15 @@
   <Color x:Key="SystemAccentColorLight2">#4BA0E1</Color>
   <Color x:Key="SystemAccentColorLight3">#7AB8E8</Color>
 
+  <!-- Акцент активных кнопок режимов сцены. -->
+  <SolidColorBrush x:Key="HighlightBrush" Color="{StaticResource SystemAccentColor}" />
+  <!-- Цвет выбранной строки в таблицах мастеров, навигаторе и редакторе баз данных. -->
+  <SolidColorBrush x:Key="RowSelectionBrush" Color="#D5D5D5" />
+
+  <!-- Узкая полоса прокрутки занимает отдельное место и не расширяется при наведении. -->
+  <x:Double x:Key="ScrollBarSize">8</x:Double>
+  <x:Double x:Key="ScrollBarButtonArrowIconFontSize">6</x:Double>
+
   <!-- Фон выпадающего меню, включая отступы вокруг разделителей. -->
   <SolidColorBrush x:Key="MenuFlyoutPresenterBackground" Color="#F0F0F0" />
 

@@ -66,19 +66,29 @@ internal sealed class DatabaseToolbar : UserControl
     private void UpdateOverflow()
     {
         if (Bounds.Width <= 0) return;
+        var widths = new List<double>(entries.Count);
         var total = 0d;
-        foreach (var entry in entries) total += entry.width;
+        foreach (var entry in entries)
+        {
+            entry.control.IsVisible = true;
+            entry.control.Measure(Size.Infinity);
+            var width = entry.control.DesiredSize.Width;
+            if (width <= 0) width = entry.width;
+            widths.Add(width);
+            total += width;
+        }
         overflow.IsVisible = total > Bounds.Width;
         var available = Bounds.Width - (overflow.IsVisible ? overflow.Width : 0);
         var contextMenu = new ContextMenu();
         var used = 0d;
         var overflowing = false;
-        foreach (var entry in entries)
+        for (var index = 0; index < entries.Count; index++)
         {
-            overflowing |= used + entry.width > available;
+            var entry = entries[index];
+            overflowing |= used + widths[index] > available;
             entry.control.IsVisible = !overflowing;
             if (overflowing) contextMenu.Items.Add(entry.menu());
-            else used += entry.width;
+            else used += widths[index];
         }
         overflow.ContextMenu = contextMenu;
     }

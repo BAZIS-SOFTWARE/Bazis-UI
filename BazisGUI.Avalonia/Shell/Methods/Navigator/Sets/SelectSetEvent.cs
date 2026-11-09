@@ -26,6 +26,13 @@ namespace BazisGUI.Avalonia.Shell
                         var set = project.GetModelSetInfo(objType, setName);
                         if (set != null)
                         {
+                            using (project.BeginViewUpdate())
+                            {
+                                project.ClearSelection();
+                                ApplySelectionColor();
+                                project.SetSelection(objType, set.GetNumbers());
+                            }
+
                             var rows = GetSetProperty(set);
 
                             if (objType != ObjType.Узел)
@@ -61,6 +68,14 @@ namespace BazisGUI.Avalonia.Shell
                     else if (objType == ObjType.Поверхность | objType == ObjType.Кривая | objType == ObjType.Точка)
                     {
                         var set = project.GetModelSetInfo(objType, setName);
+                        if (set == null)
+                            return;
+                        using (project.BeginViewUpdate())
+                        {
+                            project.ClearSelection();
+                            ApplySelectionColor();
+                            project.SetSelection(objType, set.GetNumbers());
+                        }
                         var rows = GetSetProperty(set);
                         propertiesPanel.DrawTable(rows);
                     }

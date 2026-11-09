@@ -20,6 +20,7 @@ package "BazisGUI.Avalonia. Сцена" {
   class SceneView {
     + Surface : SceneSurface
     + UpdateSets(project, resetSelection) : void
+    - UpdateToolbarLayout() : void
     + {event} ScreenShotRequested
     + {event} AdvancedSelectionRequested
   }
@@ -32,6 +33,9 @@ package "BazisGUI.Avalonia. Сцена" {
     + RefreshSets(sets) : void
     + SetViewMode(mode) : void
     + ClearSelection() : void
+    + HideInsideSurfaces : bool
+    + HideSelected() : void
+    + ShowHidden() : void
     - SetRotationPoint() : void
     + {event} ProjectShown
     + {event} ProjectDisplayFailed
