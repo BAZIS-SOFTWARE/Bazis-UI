@@ -5,6 +5,12 @@
     <Setter Property="CornerRadius" Value="0" />
     <Setter Property="Win32Properties.WindowCornerPreference" Value="DoNotRound" />
   </Style>
+  <Style Selector="ScrollViewer">
+    <Setter Property="AllowAutoHide" Value="False" />
+  </Style>
+  <Style Selector="ScrollBar">
+    <Setter Property="AllowAutoHide" Value="False" />
+  </Style>
   <Style Selector="Button">
     <Setter Property="Background" Value="#E1E1E1" />
     <Setter Property="Foreground" Value="#000000" />
@@ -27,18 +33,19 @@
   </Style>
   <Style Selector="Button.shell-tab">
     <Setter Property="Width" Value="27" />
-    <Setter Property="MinHeight" Value="130" />
+    <Setter Property="MinHeight" Value="0" />
     <Setter Property="Padding" Value="0" />
-    <Setter Property="Margin" Value="0,0,0,3" />
     <Setter Property="HorizontalContentAlignment" Value="Center" />
     <Setter Property="VerticalContentAlignment" Value="Center" />
+    <!-- Высоту кнопки задаёт TabButtonControlService; повёрнутый текст обрезается по ней с отступом 4 px. -->
     <Setter Property="ContentTemplate">
       <DataTemplate>
-        <LayoutTransformControl>
+        <LayoutTransformControl Margin="0,4">
           <LayoutTransformControl.LayoutTransform>
             <RotateTransform Angle="-90" />
           </LayoutTransformControl.LayoutTransform>
-          <TextBlock Text="{Binding}" TextAlignment="Center" />
+          <TextBlock Text="{Binding}" TextAlignment="Center"
+                     TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" />
         </LayoutTransformControl>
       </DataTemplate>
     </Setter>

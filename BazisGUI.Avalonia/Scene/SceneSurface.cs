@@ -15,6 +15,7 @@ using BazisGUI.SceneCore.Interfaces;
 using BazisGUI.SceneCore.Coordinates;
 using Geometry;
 using Model.Interfaces;
+using Model.Interfaces.MeshObjects;
 using Model.Interfaces.ObjectsCollections;
 using OpenTK.Graphics.OpenGL;
 using OperationalController;
@@ -124,8 +125,33 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
         get => project?.HideInsideSurfaces ?? false;
         set
         {
-            if (project != null)
+            if (project != null && project.HideInsideSurfaces != value)
+            {
+                var count = 0;
+                foreach (var element in project.GetAllModelElements().OfType<ISurfaceElement>())
+                {
+                    if (!project.GetVisible(element.ObjType, element.Number))
+                        continue;
+
+                    foreach (var surface in element.GetSurfaces())
+                    {
+                        if (!surface.IsInner)
+                            continue;
+
+                        if (element.ObjType == ObjType.Элемент3D && surface.GetElements().Any(neighbor =>
+                            neighbor.Number != element.Number && !project.GetVisible(neighbor.ObjType, neighbor.Number)))
+                            continue;
+
+                        count++;
+                    }
+                }
+
                 project.SetHideInsideSurfaces(value);
+                var message = value
+                    ? Localization.Resources.ShowInsideObjects_HideInnerObjects_Message
+                    : Localization.Resources.ShowInsideObjects_ShowAllObjects_Message;
+                MessageReported?.Invoke($"{message}: {count}", DrawingColor.Black);
+            }
         }
     }
 
@@ -386,7 +412,9 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
 
         try
         {
+            var count = project.GetSelection().Count(obj => project.GetVisible(obj.ObjType, obj.Number));
             project.HideSelected();
+            MessageReported?.Invoke($"{Localization.Resources.SceneView_HideSelected_Message}: {count}", DrawingColor.Black);
         }
         catch (Exception error)
         {
@@ -406,7 +434,14 @@ internal class SceneSurface : OpenGlControlBase, ICustomHitTest
 
         try
         {
+            var hidden = new HashSet<(ObjType Type, int Number)>();
+            foreach (var set in project.GetAllModelSetsInfo())
+                foreach (var number in set.GetNumbers())
+                    if (!project.GetVisible(set.ObjType, number))
+                        hidden.Add((set.ObjType, number));
+
             project.ShowAll();
+            MessageReported?.Invoke($"{Localization.Resources.SceneView_ShowHidden_Message}: {hidden.Count}", DrawingColor.Black);
         }
         catch (Exception error)
         {

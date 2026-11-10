@@ -96,9 +96,12 @@ namespace BazisGUI.Avalonia.Shell
             settings.SetNodeColorEvent += (ar) =>
             {
                 settingsConfig.NodeColor = ar;
-                var setInfo = project?.GetModelSetsInfo(ObjType.Узел).FirstOrDefault();
-                if (setInfo != null)
-                    project.SetColor(setInfo, ar);
+                if (project != null)
+                {
+                    using (project.BeginViewUpdate())
+                        foreach (var setInfo in project.GetModelSetsInfo(ObjType.Узел))
+                            project.SetColor(setInfo, ar);
+                }
             };
 
             // В BaseForm события цвета 2D/3D-элементов не обрабатывались: цвет задаётся наборам текущей модели,

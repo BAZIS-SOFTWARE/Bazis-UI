@@ -36,13 +36,16 @@ package "BazisGUI.Avalonia. Панели" {
   class PlayerControl <<BazisGUI.Avalonia-3>>
 }
 package "BazisGUI.Avalonia. Данные" {
-  class IODataController {
+  class IODataController <<BazisGUI.Avalonia-6>> {
     + LoadConfig() : SettingsConfig
     + OpenProject(path) : Task<ProjectController>
     + ImportMesh(path) : Task<ProjectController>
     + ExportMesh(project) : Task<string>
   }
-  class SettingsConfig
+  class SettingsConfig <<BazisGUI.Avalonia-6>>
+}
+package "BazisGUI.Avalonia. Вкладки" {
+  class TabButtonControlService <<BazisGUI.Avalonia-6>>
 }
 package "BazisGUI.Avalonia. Локализация" {
   class Localization <<BazisGUI.Avalonia-5>> {
@@ -62,6 +65,7 @@ MainWindow --> PlayerControl
 MainWindow --> IODataController
 MainWindow --> ProjectController
 IODataController --> SettingsConfig
+MainWindow --> TabButtonControlService
 IODataController --> ProjectController
 
 note bottom of MainWindow
@@ -70,6 +74,7 @@ note bottom of MainWindow
   Свойства, консоль и плеер: [[BazisGUI.Avalonia-3.mdpuml BazisGUI.Avalonia-3]]
   Действия навигатора: [[BazisGUI.Avalonia-4.mdpuml BazisGUI.Avalonia-4]]
   Локализация: [[BazisGUI.Avalonia-5.mdpuml BazisGUI.Avalonia-5]]
+  Настройки, вкладки и базы данных: [[BazisGUI.Avalonia-6.mdpuml BazisGUI.Avalonia-6]]
 end note
 note bottom of ProjectController
   Внешний проект: показана только точка входа.

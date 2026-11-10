@@ -1234,6 +1234,8 @@ internal class Resources
     internal static string SceneView_CreateGroup_NothingSelected_Message => ResourceManager.GetString("SceneView.CreateGroup.NothingSelected.Message", Culture);
 
     internal static string SceneView_RemoveSelected_Message => ResourceManager.GetString("SceneView.RemoveSelected.Message", Culture);
+    internal static string SceneView_HideSelected_Message => ResourceManager.GetString("SceneView.HideSelected.Message", Culture);
+    internal static string SceneView_ShowHidden_Message => ResourceManager.GetString("SceneView.ShowHidden.Message", Culture);
 
     internal static string SceneView_ToolTip_AdvSelect => ResourceManager.GetString("SceneView.ToolTip.AdvSelect", Culture);
 

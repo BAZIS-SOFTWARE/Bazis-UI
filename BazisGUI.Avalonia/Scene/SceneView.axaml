@@ -19,7 +19,7 @@
             Button        Default  фон FFFFFF, обводка 1px 969696
                           Hover    фон C5C5C5, обводка 1px 969696
                           Pressed  фон C5C5C5, обводка 2px 969696
-                          Checked  фон FFFFFF, обводка 2px FFA500 (кнопки режимов)
+                          Checked  фон FFFFFF, обводка 2px HighlightBrush (кнопки режимов)
                           Disabled фон F0F0F0, обводка 1px CBCBCB, текст 626262, иконка 50%
             ComboBox /    Default  фон FFFFFF, обводка 1px 7A7A7A, стрелка вниз
             ToggleButton  Hover    фон FFFFFF, обводка 2px 7A7A7A
@@ -138,10 +138,10 @@
 				<Setter Property="BorderThickness" Value="2"/>
 			</Style>
 
-			<!-- Selected (включённый режим) — активная кнопка: фон остаётся белым, активность — оранжевой рамкой -->
+			<!-- Selected (включённый режим) — активная кнопка: фон остаётся белым, активность — синей рамкой -->
 			<Style Selector="^:checked">
 				<Setter Property="Background" Value="#FFFFFFFF"/>
-				<Setter Property="BorderBrush" Value="#FFFFA500"/>
+				<Setter Property="BorderBrush" Value="{DynamicResource HighlightBrush}"/>
 				<Setter Property="BorderThickness" Value="2"/>
 			</Style>
 
@@ -491,7 +491,6 @@
         <Bitmap x:Key="showAllHidden">avares://BazisGUI.Avalonia/Scene/Assets/showAllHidden.png</Bitmap>
         <Bitmap x:Key="objectInfo">avares://BazisGUI.Avalonia/Scene/Assets/objectInfo.png</Bitmap>
         <Bitmap x:Key="setRotationPoint">avares://BazisGUI.Avalonia/Scene/Assets/setRotationPoint.png</Bitmap>
-        <Bitmap x:Key="showAdjacent">avares://BazisGUI.Avalonia/Scene/Assets/showAdjacent.png</Bitmap>
         <Bitmap x:Key="deleteSelected">avares://BazisGUI.Avalonia/Scene/Assets/deleteSelected.png</Bitmap>
 	</UserControl.Resources>
 
@@ -615,11 +614,7 @@
                     </MenuItem>
                     <MenuItem Theme="{StaticResource SceneMenuItemTheme}" 
 							  Header="{x:Static loc:SceneViewLocalization.ShowPaired}"
-							  Click="OnShowPaired">
-                        <MenuItem.Icon>
-                            <Image Source="{StaticResource showAdjacent}"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
+							  Click="OnShowPaired"/>
                     <MenuItem Theme="{StaticResource SceneMenuItemTheme}" 
 						      Header="{x:Static loc:SceneViewLocalization.RemoveSelected}"
 							  Click="OnRemoveSelected">
@@ -630,7 +625,7 @@
                 </ContextMenu>
             </scene:SceneSurface.ContextMenu>
         </scene:SceneSurface>
-        <StackPanel Spacing="4"
+        <StackPanel x:Name="SelectionToolbar" Spacing="4"
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Top">
             <!-- «Select» + кнопка дополнительного выбора — порядок и зазоры как в WinForms:
@@ -670,14 +665,19 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Spacing="3"
+        <StackPanel x:Name="RightToolbar" Spacing="3"
                     HorizontalAlignment="Right" 
                     VerticalAlignment="Top">
             <!-- Верхний ряд панели сцены — порядок и зазоры как в WinForms-раскладке:
                  5 кнопок механизма отображения, 9px, стрелка, 9px, «Снимок», 3px, «Вписать»,
-                 3px, «Внутренние объекты», 3px, «Вид». Панель механизмов раскрывается справа налево
+                 3px, «Внутренние объекты», 3px, «Вид». При нехватке места панель механизмов переносится вниз;
+                 при достаточной ширине раскрывается справа налево
                  (в WinForms: кнопки X=265…412, стрелка X=421, то есть 9px до стрелки). -->
-            <StackPanel Orientation="Horizontal" Spacing="0"
+            <ScrollViewer x:Name="ActionsScrollViewer"
+                          HorizontalAlignment="Right"
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Disabled">
+            <StackPanel x:Name="ActionsToolbar" Orientation="Horizontal" Spacing="0"
                         Margin="0,3,3,0"
                         HorizontalAlignment="Right">
                 <!-- Механизм отображения: 5 кнопок на одной линии слева от стрелки.
@@ -773,6 +773,16 @@
                               VerticalAlignment="Center"
                               Width="120"/>
             </StackPanel>
+            </ScrollViewer>
+
+            <ScrollViewer x:Name="WrappedModesScrollViewer"
+                          HorizontalAlignment="Right"
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Disabled">
+            <StackPanel x:Name="WrappedDisplayStatesHost"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"/>
+            </ScrollViewer>
 
             <Canvas x:Name="ViewButtonsPanel"
                         IsVisible="False"

@@ -38,6 +38,10 @@ namespace BazisGUI.Avalonia.Shell
 
         private void NavigatorSelection(PropertyChangedEventArgs obj)
         {
+            if (navigator.SelectedNode == null)
+                return;
+
+            // Обработчики могут перестроить дерево и сбросить SelectedNode, поэтому уровень проверяется один раз.
             if (navigator.SelectedNode.Level == 1)
             {
                 var nodeName = navigator.SelectedNode.Name.ToEnum<NodeName>();
@@ -55,8 +59,7 @@ namespace BazisGUI.Avalonia.Shell
                 }
 
             }
-
-            if (navigator.SelectedNode.Level == 2)
+            else if (navigator.SelectedNode.Level == 2)
             {
                 var index = navigator.SelectedNode.Index;
                 var parentName = navigator.SelectedNode.Parent.Name.ToEnum<NodeName>();
@@ -75,7 +78,9 @@ namespace BazisGUI.Avalonia.Shell
                 else if (parentName == NodeName.Mesh)
                 {
                     var objType = navigator.SelectedNode.Text.Split(' ')[0].ToEnum<ObjType>();
-                    if (nodeName == NodeName.Sets & objType == ObjType.Элемент3D)
+                    if (nodeName == NodeName.Sets & objType == ObjType.Узел)
+                        ChangeMeshSetProperties(obj, 0);
+                    else if (nodeName == NodeName.Sets & objType == ObjType.Элемент3D)
                         ChangeMeshSetProperties(obj, 3);
                     else if (nodeName == NodeName.Sets & objType == ObjType.Элемент2D)
                         ChangeMeshSetProperties(obj, 2);
@@ -160,8 +165,7 @@ namespace BazisGUI.Avalonia.Shell
                 }
 
             }
-
-            if (navigator.SelectedNode.Level == 3)
+            else if (navigator.SelectedNode.Level == 3)
             {
                 var number = int.Parse(navigator.SelectedNode.Text.Split(' ')[0]);
                 var objInfo = navigator.SelectedNode.Text.Split(' ')[1];

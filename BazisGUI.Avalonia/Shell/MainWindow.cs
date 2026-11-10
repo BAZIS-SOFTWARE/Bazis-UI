@@ -190,7 +190,7 @@ namespace BazisGUI.Avalonia.Shell
         {
             try
             {
-                var intervals = settingsConfig.Scale_Intervals == 0 ? 2 : settingsConfig.Scale_Intervals;
+                var intervals = settingsConfig.Scale_Intervals;
                 var min = settingsConfig.Scale_MinValue;
                 var max = settingsConfig.Scale_MaxValue;
                 var pre = settingsConfig.Scale_Precision;

@@ -124,8 +124,8 @@ internal sealed class DataTableEditor : UserControl
         SizeChanged += (_, _) => { if (scroll.Content is Grid grid) grid.MinWidth = Math.Max(0, Bounds.Width - 16); };
         AddHandler(KeyDownEvent, (_, e) =>
         {
-            // A selected cell or row header deletes its row; an active text edit keeps normal Delete behavior.
-            if (e.Key == Key.Delete && SelectedRow >= 0 && (e.Source is Button || e.Source is TextBox { IsReadOnly: true }))
+            // Delete on a row header removes the row; in a cell it edits the text.
+            if (e.Key == Key.Delete && SelectedRow >= 0 && e.Source is Button)
             { DeleteRow(SelectedRow); e.Handled = true; }
         }, global::Avalonia.Interactivity.RoutingStrategies.Tunnel);
     }
@@ -202,7 +202,7 @@ internal sealed class DataTableEditor : UserControl
             var indicator = new global::Avalonia.Controls.Shapes.Path { Data = global::Avalonia.Media.Geometry.Parse("M0,0 L5,5 L0,10 Z"), Fill = Brushes.Black, Width = 5, Height = 10 };
             rowIndicators.Add(indicator);
             var rowHeader = new Button { Content = indicator, Padding = new Thickness(2, 0), Name = "RowHeader", Height = 20, MinHeight = 20, MinWidth = 0 };
-            rowHeader.Click += (_, _) => { SelectedRow = rowIndex; UpdateSelection(); };
+            rowHeader.Click += (_, _) => { SelectedRow = rowIndex; SelectedColumn = -1; UpdateSelection(); };
             Grid.SetRow(rowHeader, row + 1); grid.Children.Add(rowHeader);
             for (var col = 0; col < displayColumns.Count; col++)
             {
@@ -233,8 +233,13 @@ internal sealed class DataTableEditor : UserControl
                     finally { committing = false; }
                 }
                 editor.GotFocus += (_, _) => { focusedCommit = Commit; SelectedRow = rowIndex; SelectedColumn = columnIndex; UpdateSelection(); };
+                editor.AddHandler(PointerPressedEvent, (_, _) => { SelectedRow = rowIndex; SelectedColumn = columnIndex; UpdateSelection(); }, global::Avalonia.Interactivity.RoutingStrategies.Tunnel);
                 editor.DoubleTapped += (_, _) => { editor.IsReadOnly = false; editor.SelectAll(); };
                 editor.AddHandler(TextInputEvent, (_, _) => { if (editor.IsReadOnly) { editor.IsReadOnly = false; editor.SelectAll(); } }, global::Avalonia.Interactivity.RoutingStrategies.Tunnel);
+                editor.AddHandler(KeyDownEvent, (_, e) =>
+                {
+                    if (e.Key == Key.Delete && editor.IsReadOnly) { editor.IsReadOnly = false; editor.Text = string.Empty; e.Handled = true; }
+                }, global::Avalonia.Interactivity.RoutingStrategies.Tunnel);
                 editor.LostFocus += (_, _) => { Commit(); editor.IsReadOnly = true; };
                 editor.KeyDown += (_, e) =>
                 {
@@ -252,9 +257,9 @@ internal sealed class DataTableEditor : UserControl
         for (var i = 0; i < rowIndicators.Count; i++) rowIndicators[i].IsVisible = i == SelectedRow;
         foreach (var (editor, row, column) in cells)
         {
-            var selected = row == SelectedRow && column == SelectedColumn;
-            editor.Background = selected ? Brush.Parse("#0078D7") : Brushes.White;
-            editor.Foreground = selected ? Brushes.White : Brushes.Black;
+            var selected = row == SelectedRow && (SelectedColumn < 0 || column == SelectedColumn);
+            editor.Background = selected && Application.Current?.FindResource("RowSelectionBrush") is IBrush selection ? selection : Brushes.White;
+            editor.Foreground = Brushes.Black;
         }
     }
 }

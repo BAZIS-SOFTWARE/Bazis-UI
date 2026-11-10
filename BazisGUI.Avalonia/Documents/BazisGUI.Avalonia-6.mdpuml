@@ -1,0 +1,55 @@
+@startuml
+title BazisGUI.Avalonia-6 — настройки, вкладки и базы данных
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "BazisGUI.Avalonia. Данные" {
+  class SettingsConfig {
+    + Scale_Precision : int
+    + Scale_Intervals : int
+    + Scale_scale : int
+    + NormalizeResultScaleSettings() : void
+  }
+  class IODataController {
+    + LoadConfig() : SettingsConfig
+  }
+}
+package "BazisGUI.Avalonia. Вкладки" {
+  class TabButtonControlService {
+    + AddControl(name, control) : void
+    + RemoveControl(name) : void
+    - UpdateButtonHeights() : void
+  }
+}
+package "BazisGUI.Avalonia. Базы данных" {
+  class DataTableEditor {
+    + EditValue(row, column, value) : void
+    + DeleteRow(row) : void
+    + Refresh() : void
+    - UpdateSelection() : void
+    + {event} CellBeginEdit
+    + {event} CellEndEdit
+    + {event} UserDeletingRow
+    + {event} ColumnHeaderClick
+  }
+  class DatabaseToolbar {
+    - UpdateOverflow() : void
+  }
+}
+package "BazisGUI.Avalonia. Оболочка" {
+  class MainWindow {
+    - TryServerConnection() : bool
+    - SetGeneralSettings() : void
+  }
+}
+
+IODataController --> SettingsConfig
+MainWindow --> SettingsConfig
+MainWindow --> TabButtonControlService
+
+note bottom of MainWindow
+  [[BazisGUI.Avalonia.mdpuml Назад к BazisGUI.Avalonia]]
+  [[BazisGUI.Avalonia-1.mdpuml Сцена BazisGUI.Avalonia-1]]
+end note
+@enduml

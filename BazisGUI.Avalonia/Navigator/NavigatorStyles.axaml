@@ -1,6 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <!-- Строка навигатора как в WinForms treeView: ItemHeight = 18, FullRowSelect, выделение #C4C4C4. -->
+  <!-- Строка навигатора как в WinForms treeView: ItemHeight = 18, FullRowSelect. -->
   <Style Selector="ListBox.navigator-tree">
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="Padding" Value="0" />
@@ -18,19 +18,19 @@
     <Setter Property="Background" Value="Transparent" />
   </Style>
   <Style Selector="ListBox.navigator-tree ListBoxItem:pressed /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="#C4C4C4" />
+    <Setter Property="Background" Value="{DynamicResource RowSelectionBrush}" />
   </Style>
   <Style Selector="ListBox.navigator-tree ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="#C4C4C4" />
+    <Setter Property="Background" Value="{DynamicResource RowSelectionBrush}" />
     <Setter Property="Foreground" Value="#000000" />
   </Style>
   <Style Selector="ListBox.navigator-tree ListBoxItem:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="#C4C4C4" />
+    <Setter Property="Background" Value="{DynamicResource RowSelectionBrush}" />
   </Style>
   <Style Selector="ListBox.navigator-tree ListBoxItem:selected:focus /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="#C4C4C4" />
+    <Setter Property="Background" Value="{DynamicResource RowSelectionBrush}" />
   </Style>
   <Style Selector="ListBox.navigator-tree ListBoxItem:selected:pressed /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="#C4C4C4" />
+    <Setter Property="Background" Value="{DynamicResource RowSelectionBrush}" />
   </Style>
 </Styles>

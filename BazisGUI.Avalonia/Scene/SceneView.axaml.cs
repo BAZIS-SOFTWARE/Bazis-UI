@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using Avalonia;
 using global::Avalonia.Controls;
 using global::Avalonia.Controls.Primitives;
 using global::Avalonia.Interactivity;
@@ -16,7 +17,7 @@ internal sealed record SetButton(ObjType? Type, string Title);
 
 /// <summary>
 /// Представление сцены: разметка — SceneView.axaml, содержимое — SceneSurface.
-/// Своей логики нет; работа со сценой идёт через <see cref="Surface"/>.
+/// Размещает кнопки панели; работа со сценой идёт через <see cref="Surface"/>.
 /// Пункты выпадающего списка наборов строятся по данным проекта.
 /// </summary>
 internal partial class SceneView : UserControl
@@ -43,7 +44,11 @@ internal partial class SceneView : UserControl
             ViewButtonsPanel.IsVisible = ViewToggle.IsChecked == true;
 
         DisplayStatesToggle.IsCheckedChanged += (_, _) =>
+        {
             DisplayStatesPanel.IsVisible = DisplayStatesToggle.IsChecked == true;
+            UpdateToolbarLayout();
+        };
+        SizeChanged += (_, _) => UpdateToolbarLayout();
 
         Surface.ProjectShown += project =>
         {
@@ -54,6 +59,40 @@ internal partial class SceneView : UserControl
     }
 
     public SceneSurface Surface { get => surface; }
+
+    private void UpdateToolbarLayout()
+    {
+        if (Bounds.Width <= 0)
+            return;
+
+        ActionsScrollViewer.MaxWidth = Bounds.Width;
+        WrappedModesScrollViewer.MaxWidth = Bounds.Width;
+        SelectionToolbar.Measure(Size.Infinity);
+        ActionsToolbar.Measure(Size.Infinity);
+        DisplayStatesPanel.Measure(Size.Infinity);
+
+        var modesWidth = DisplayStatesPanel.IsVisible ? DisplayStatesPanel.DesiredSize.Width : 0;
+        var modesInline = ReferenceEquals(DisplayStatesPanel.Parent, ActionsToolbar);
+        var actionsWidth = ActionsToolbar.DesiredSize.Width - (modesInline ? modesWidth : 0);
+        var selectionWidth = SelectionToolbar.DesiredSize.Width;
+        const double gap = 8;
+
+        var wrapModes = modesWidth > 0 &&
+            (selectionWidth + actionsWidth + modesWidth + gap > Bounds.Width || actionsWidth + modesWidth > Bounds.Width);
+        if (wrapModes && modesInline)
+        {
+            ActionsToolbar.Children.Remove(DisplayStatesPanel);
+            WrappedDisplayStatesHost.Children.Add(DisplayStatesPanel);
+        }
+        else if (!wrapModes && !modesInline)
+        {
+            WrappedDisplayStatesHost.Children.Remove(DisplayStatesPanel);
+            ActionsToolbar.Children.Insert(0, DisplayStatesPanel);
+        }
+
+        var moveActions = selectionWidth + actionsWidth + gap > Bounds.Width;
+        RightToolbar.Margin = new Thickness(0, moveActions ? SelectionToolbar.DesiredSize.Height + 4 : 0, 0, 0);
+    }
 
     /// <summary>Перечитывает наборы проекта и перестраивает пункты выпадающего списка.</summary>
     public void UpdateSets(ProjectController project, bool resetSelection = false)

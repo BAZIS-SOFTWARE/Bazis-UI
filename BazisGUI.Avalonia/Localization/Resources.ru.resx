@@ -162,6 +162,12 @@
   <data name="SelectByRect.Hidden.Message" xml:space="preserve">
     <value>Скрыто</value>
   </data>
+  <data name="SceneView.HideSelected.Message" xml:space="preserve">
+    <value>Скрыто объектов</value>
+  </data>
+  <data name="SceneView.ShowHidden.Message" xml:space="preserve">
+    <value>Показано объектов</value>
+  </data>
   <data name="Header.Color" xml:space="preserve">
     <value>Цвет</value>
   </data>
@@ -856,7 +862,7 @@
     <value>Кол-во итераций на шаге</value>
   </data>
   <data name="ShowInsideObjects.ShowAllObjects.Message" xml:space="preserve">
-    <value>Все объекты показаны</value>
+    <value>Показано внутренних граней</value>
   </data>
   <data name="AdvanceSelection3NodesWarning" xml:space="preserve">
     <value>Должно быть выбрано три узла</value>
@@ -1058,7 +1064,7 @@
     <value>Наборы</value>
   </data>
   <data name="ShowInsideObjects.HideInnerObjects.Message" xml:space="preserve">
-    <value>Скрыты внутренние объекты</value>
+    <value>Скрыто внутренних граней</value>
   </data>
   <data name="btnMeasure.Text" xml:space="preserve">
     <value>Измерить</value>

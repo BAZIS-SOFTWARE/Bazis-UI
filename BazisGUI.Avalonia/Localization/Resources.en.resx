@@ -162,6 +162,12 @@
   <data name="SelectByRect.Hidden.Message" xml:space="preserve">
     <value>Hidden</value>
   </data>
+  <data name="SceneView.HideSelected.Message" xml:space="preserve">
+    <value>Hidden objects</value>
+  </data>
+  <data name="SceneView.ShowHidden.Message" xml:space="preserve">
+    <value>Shown objects</value>
+  </data>
   <data name="Header.Color" xml:space="preserve">
     <value>Color</value>
   </data>
@@ -856,7 +862,7 @@
     <value>Iterations per step</value>
   </data>
   <data name="ShowInsideObjects.ShowAllObjects.Message" xml:space="preserve">
-    <value>All objects shown</value>
+    <value>Shown internal faces</value>
   </data>
   <data name="AdvanceSelection3NodesWarning" xml:space="preserve">
     <value>Three nodes must be selected</value>
@@ -1058,7 +1064,7 @@ Create variable?</value>
     <value>Sets</value>
   </data>
   <data name="ShowInsideObjects.HideInnerObjects.Message" xml:space="preserve">
-    <value>Hidden internal objects</value>
+    <value>Hidden internal faces</value>
   </data>
   <data name="btnMeasure.Text" xml:space="preserve">
     <value>Measure</value>

@@ -21,8 +21,12 @@ namespace BazisGUI.Avalonia.Shell
                 // пока заглушим обработку объема
                 if (objInfo.TryToEnum(out objType))
                 {
-                    ApplySelectionColor();
-                    project.SetSelection(objType, [number]);
+                    using (project.BeginViewUpdate())
+                    {
+                        project.ClearSelection();
+                        ApplySelectionColor();
+                        project.SetSelection(objType, [number]);
+                    }
 
                     CreateObjectProperties(objType, number);
                 }
@@ -30,8 +34,12 @@ namespace BazisGUI.Avalonia.Shell
                 {
                     var vol = project.GetModelVolumes().First(x => x.Number == number);
                     var numbers = vol.GetSurfaceFigures().Select(x => x.Number);
-                    ApplySelectionColor();
-                    project.SetSelection(ObjType.Поверхность, numbers);
+                    using (project.BeginViewUpdate())
+                    {
+                        project.ClearSelection();
+                        ApplySelectionColor();
+                        project.SetSelection(ObjType.Поверхность, numbers);
+                    }
 
                     CreateVolProperties(number);
                 }
